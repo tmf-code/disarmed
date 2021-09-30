@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1670564531549618590}
   - component: {fileID: 1632746335230104440}
   - component: {fileID: 1633100027705898648}
+  - component: {fileID: 2999528320566557185}
   m_Layer: 0
   m_Name: CustomArmPrefab_L
   m_TagString: Untagged
@@ -60,8 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skeletonType: 0
-  _updateRootPose: 0
-  _updateRootScale: 0
+  _updateRootPose: 1
+  _updateRootScale: 1
   _enablePhysicsCapsules: 0
   _applyBoneTranslations: 0
   _customBones_V2:
@@ -115,6 +116,25 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &2999528320566557185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673280072435804092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15922724788f9e7469388e382868f896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wrist: {fileID: 0}
+  shoulder: {fileID: 0}
+  target: {fileID: 0}
+  forearm: {fileID: 0}
+  humerus: {fileID: 0}
+  errorDistance: 0
+  handType: 0
 --- !u!1001 &3144949584062331564
 PrefabInstance:
   m_ObjectHideFlags: 0

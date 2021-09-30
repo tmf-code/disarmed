@@ -17,12 +17,14 @@ public class InverseKinematics : MonoBehaviour
   {
     // Attempt to automap bones
     var hand = handType == OVRHand.Hand.HandLeft ? "l" : "r";
-    wrist = transform.FindChildRecursive($"b_{hand}_wrist");
-    forearm = transform.FindChildRecursive($"b_{hand}_forearm_stub");
-    humerus = transform.FindChildRecursive($"b_{hand}_humerus");
-    shoulder = transform.FindChildRecursive($"b_{hand}_shoulder");
+    wrist = wrist == null ? transform.FindChildRecursive($"b_{hand}_wrist") : wrist;
+    forearm = forearm == null ? transform.FindChildRecursive($"b_{hand}_forearm_stub") : forearm;
+    humerus = humerus == null ? transform.FindChildRecursive($"b_{hand}_humerus") : humerus;
+    shoulder = shoulder == null ? transform.FindChildRecursive($"b_{hand}_shoulder") : shoulder;
 
-    Debug.LogWarning($"b_{hand}_wrist".ToString());
+    var targetName = handType == OVRHand.Hand.HandLeft ? "ShoulderLeft" : "ShoulderRight";
+    target = target == null ? GameObject.Find(targetName).transform : target;
+
   }
 
   void Update()
@@ -59,10 +61,6 @@ public class InverseKinematics : MonoBehaviour
 
     errorDistance = getErrorDistance();
     var pos = Solve3D.GetEndEffectorPosition(results, baseTransform);
-    // Debug.LogWarning(Vector3.Distance(pos, target.position));
-
-    // forwardKinematicTarget.position = pos;
-
 
     for (int resultIndex = 0; resultIndex < results.Length; resultIndex++)
     {

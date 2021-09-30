@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7616081211345186513}
   - component: {fileID: 7509560330664663705}
   - component: {fileID: 7509622780323205877}
+  - component: {fileID: 8331206532174982845}
   m_Layer: 0
   m_Name: CustomArmPrefab_R
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7612404611651155419}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -60,8 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skeletonType: 1
-  _updateRootPose: 0
-  _updateRootScale: 0
+  _updateRootPose: 1
+  _updateRootScale: 1
   _enablePhysicsCapsules: 0
   _applyBoneTranslations: 0
   _customBones_V2:
@@ -115,6 +116,25 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &8331206532174982845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612404611651155419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15922724788f9e7469388e382868f896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wrist: {fileID: 0}
+  shoulder: {fileID: 0}
+  target: {fileID: 0}
+  forearm: {fileID: 0}
+  humerus: {fileID: 0}
+  errorDistance: 0
+  handType: 1
 --- !u!1001 &7794568487982560734
 PrefabInstance:
   m_ObjectHideFlags: 0
