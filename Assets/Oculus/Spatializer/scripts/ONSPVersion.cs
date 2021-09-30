@@ -1,4 +1,4 @@
-/************************************************************************************
+﻿/************************************************************************************
 Filename    :   ONSPVersion.cs
 Content     :   Get version number of plug-in
 Copyright   :   Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
@@ -18,46 +18,46 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ************************************************************************************/
-using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
+using UnityEngine;
 
 public class ONSPVersion : MonoBehaviour
 {
-	   // Import functions
-    public const string strONSPS = "AudioPluginOculusSpatializer";
- 
-	[DllImport(strONSPS)]
-    private static extern void ONSP_GetVersion(ref int Major, ref int Minor, ref int Patch);
+  // Import functions
+  public const string strONSPS = "AudioPluginOculusSpatializer";
 
-	/// <summary>
-	/// Awake this instance.
-	/// </summary>
-	void Awake()
-	{
-        int major = 0;
-        int minor = 0; 
-        int patch = 0;
+  [DllImport(strONSPS)]
+  private static extern void ONSP_GetVersion(ref int Major, ref int Minor, ref int Patch);
 
-        ONSP_GetVersion(ref major, ref minor, ref patch);
+  /// <summary>
+  /// Awake this instance.
+  /// </summary>
+  void Awake()
+  {
+    int major = 0;
+    int minor = 0;
+    int patch = 0;
 
-        String version = System.String.Format
-        ("ONSP Version: {0:F0}.{1:F0}.{2:F0}", major, minor, patch);
-        
-        Debug.Log(version);
-	}
+    ONSP_GetVersion(ref major, ref minor, ref patch);
 
-	/// <summary>
-	/// Start this instance.
-	/// </summary>
-    void Start()
-    {
-    }
+    String version = System.String.Format(
+        "ONSP Version: {0:F0}.{1:F0}.{2:F0}",
+        major,
+        minor,
+        patch
+    );
 
-	/// <summary>
-	/// Update this instance.
-	/// </summary>
-    void Update()
-    {
-    }		
+    Debug.Log(version);
+  }
+
+  /// <summary>
+  /// Start this instance.
+  /// </summary>
+  void Start() { }
+
+  /// <summary>
+  /// Update this instance.
+  /// </summary>
+  void Update() { }
 }

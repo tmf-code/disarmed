@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 public abstract class Either<L, R>
 {
@@ -10,12 +10,19 @@ public abstract class Either<L, R>
   public void Match(Action<L> Left, Action<R> Right)
   {
     Match(
-        Left: x => { Left(x); return 0; },
-        Right: x => { Right(x); return 0; }
+        Left: x =>
+        {
+          Left(x);
+          return 0;
+        },
+        Right: x =>
+        {
+          Right(x);
+          return 0;
+        }
     );
   }
 }
-
 
 public class Left<L, R> : Either<L, R>
 {

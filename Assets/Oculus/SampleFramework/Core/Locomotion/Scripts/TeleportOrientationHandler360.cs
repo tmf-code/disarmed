@@ -1,4 +1,4 @@
-/************************************************************************************
+﻿/************************************************************************************
 
 See SampleFramework license.txt for license terms.  Unless required by applicable law 
 or agreed to in writing, the sample code is provided “AS IS” WITHOUT WARRANTIES OR 
@@ -7,8 +7,8 @@ language governing permissions and limitations under the license.
 
 ************************************************************************************/
 
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// This orientation handler doesn't actually do anything with the orientation at all; this is for users
@@ -17,12 +17,15 @@ using System.Collections;
 /// </summary>
 public class TeleportOrientationHandler360 : TeleportOrientationHandler
 {
-	protected override void InitializeTeleportDestination()
-	{
-	}
+  protected override void InitializeTeleportDestination() { }
 
-	protected override void UpdateTeleportDestination()
-	{
-		LocomotionTeleport.OnUpdateTeleportDestination(AimData.TargetValid, AimData.Destination, null, null);
-	}
+  protected override void UpdateTeleportDestination()
+  {
+    LocomotionTeleport.OnUpdateTeleportDestination(
+        AimData.TargetValid,
+        AimData.Destination,
+        null,
+        null
+    );
+  }
 }

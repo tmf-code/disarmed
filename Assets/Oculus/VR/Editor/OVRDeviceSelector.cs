@@ -1,4 +1,4 @@
-/************************************************************************************
+﻿/************************************************************************************
 
 Copyright   :   Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
@@ -29,41 +29,44 @@ using Unity.XR.Oculus;
 
 public class OVRDeviceSelector
 {
-	public static bool isTargetDeviceQuestFamily
-	{
-		get
-		{
-			return isTargetDeviceQuest || isTargetDeviceQuest2;
-		}
-	}
-	public static bool isTargetDeviceQuest
-	{
-		get
-		{
+  public static bool isTargetDeviceQuestFamily
+  {
+    get { return isTargetDeviceQuest || isTargetDeviceQuest2; }
+  }
+  public static bool isTargetDeviceQuest
+  {
+    get
+    {
 #if PRIORITIZE_OCULUS_XR_SETTINGS
-			OculusSettings settings;
-			UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>("Unity.XR.Oculus.Settings", out settings);
-			return settings.TargetQuest;
+      OculusSettings settings;
+      UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>(
+          "Unity.XR.Oculus.Settings",
+          out settings
+      );
+      return settings.TargetQuest;
 #else
-			OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
-			return projectConfig.targetDeviceTypes.Contains(OVRProjectConfig.DeviceType.Quest);
+            OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
+            return projectConfig.targetDeviceTypes.Contains(OVRProjectConfig.DeviceType.Quest);
 #endif
 
-		}
-	}
+    }
+  }
 
-	public static bool isTargetDeviceQuest2
-	{
-		get
-		{
+  public static bool isTargetDeviceQuest2
+  {
+    get
+    {
 #if PRIORITIZE_OCULUS_XR_SETTINGS
-			OculusSettings settings;
-			UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>("Unity.XR.Oculus.Settings", out settings);
-			return settings.TargetQuest2;
+      OculusSettings settings;
+      UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>(
+          "Unity.XR.Oculus.Settings",
+          out settings
+      );
+      return settings.TargetQuest2;
 #else
-			OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
-			return projectConfig.targetDeviceTypes.Contains(OVRProjectConfig.DeviceType.Quest2);
+            OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
+            return projectConfig.targetDeviceTypes.Contains(OVRProjectConfig.DeviceType.Quest2);
 #endif
-		}
-	}
+    }
+  }
 }

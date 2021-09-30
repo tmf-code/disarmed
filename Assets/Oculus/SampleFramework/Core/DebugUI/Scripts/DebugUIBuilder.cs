@@ -1,4 +1,4 @@
-/************************************************************************************
+﻿/************************************************************************************
 
 Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.  
 
@@ -23,7 +23,7 @@ public class DebugUIBuilder : MonoBehaviour
   // fix bug where it seems to appear at a random offset
   // support remove
 
-  // Convenience consts for clarity when using multiple debug panes. 
+  // Convenience consts for clarity when using multiple debug panes.
   // But note that you can an arbitrary number of panes if you add them in the inspector.
   public const int DEBUG_PANE_CENTER = 0;
   public const int DEBUG_PANE_RIGHT = 1;
@@ -109,7 +109,9 @@ public class DebugUIBuilder : MonoBehaviour
     lp = FindObjectOfType<LaserPointer>();
     if (!lp)
     {
-      Debug.LogError("Debug UI requires use of a LaserPointer and will not function without it. Add one to your scene, or assign the UIHelpers prefab to the DebugUIBuilder in the inspector.");
+      Debug.LogError(
+          "Debug UI requires use of a LaserPointer and will not function without it. Add one to your scene, or assign the UIHelpers prefab to the DebugUIBuilder in the inspector."
+      );
       return;
     }
     lp.laserBeamBehavior = laserBeamBehavior;
@@ -122,12 +124,16 @@ public class DebugUIBuilder : MonoBehaviour
     lp.gameObject.SetActive(false);
 #if UNITY_EDITOR
     string scene = SceneManager.GetActiveScene().name;
-    OVRPlugin.SendEvent("debug_ui_builder",
-      ((scene == "DebugUI") ||
-       (scene == "DistanceGrab") ||
-       (scene == "OVROverlay") ||
-       (scene == "Locomotion")).ToString(),
-      "sample_framework");
+    OVRPlugin.SendEvent(
+        "debug_ui_builder",
+        (
+            (scene == "DebugUI")
+            || (scene == "DistanceGrab")
+            || (scene == "OVROverlay")
+            || (scene == "Locomotion")
+        ).ToString(),
+        "sample_framework"
+    );
 #endif
   }
 
@@ -141,7 +147,8 @@ public class DebugUIBuilder : MonoBehaviour
     newEulerRot.z = 0.0f;
     transform.eulerAngles = newEulerRot;
 
-    if (reEnable == null || reEnable.Length < toDisable.Count) reEnable = new bool[toDisable.Count];
+    if (reEnable == null || reEnable.Length < toDisable.Count)
+      reEnable = new bool[toDisable.Count];
     reEnable.Initialize();
     int len = toDisable.Count;
     for (int i = 0; i < len; ++i)
@@ -184,7 +191,7 @@ public class DebugUIBuilder : MonoBehaviour
     }
   }
 
-  // Currently a slow brute-force method that lays out every element. 
+  // Currently a slow brute-force method that lays out every element.
   // As this is intended as a debug UI, it might be fine, but there are many simple optimizations we can make.
   private void Relayout()
   {
@@ -212,7 +219,13 @@ public class DebugUIBuilder : MonoBehaviour
   {
     if (targetCanvas > targetContentPanels.Length)
     {
-      Debug.LogError("Attempted to add debug panel to canvas " + targetCanvas + ", but only " + targetContentPanels.Length + " panels were provided. Fix in the inspector or pass a lower value for target canvas.");
+      Debug.LogError(
+          "Attempted to add debug panel to canvas "
+              + targetCanvas
+              + ", but only "
+              + targetContentPanels.Length
+              + " panels were provided. Fix in the inspector or pass a lower value for target canvas."
+      );
       return;
     }
 
@@ -228,7 +241,12 @@ public class DebugUIBuilder : MonoBehaviour
   {
     RectTransform buttonRT = GameObject.Instantiate(buttonPrefab).GetComponent<RectTransform>();
     Button button = buttonRT.GetComponentInChildren<Button>();
-    button.onClick.AddListener(delegate { handler(); });
+    button.onClick.AddListener(
+        delegate
+        {
+          handler();
+        }
+    );
     ((Text)(buttonRT.GetComponentsInChildren(typeof(Text), true)[0])).text = label;
     AddRect(buttonRT, targetCanvas);
     return buttonRT;
@@ -242,13 +260,25 @@ public class DebugUIBuilder : MonoBehaviour
     return rt;
   }
 
-  public RectTransform AddSlider(string label, float min, float max, OnSlider onValueChanged, bool wholeNumbersOnly = false, int targetCanvas = 0)
+  public RectTransform AddSlider(
+      string label,
+      float min,
+      float max,
+      OnSlider onValueChanged,
+      bool wholeNumbersOnly = false,
+      int targetCanvas = 0
+  )
   {
     RectTransform rt = (RectTransform)GameObject.Instantiate(sliderPrefab);
     Slider s = rt.GetComponentInChildren<Slider>();
     s.minValue = min;
     s.maxValue = max;
-    s.onValueChanged.AddListener(delegate (float f) { onValueChanged(f); });
+    s.onValueChanged.AddListener(
+        delegate (float f)
+        {
+          onValueChanged(f);
+        }
+    );
     s.wholeNumbers = wholeNumbersOnly;
     AddRect(rt, targetCanvas);
     return rt;
@@ -261,18 +291,32 @@ public class DebugUIBuilder : MonoBehaviour
     return rt;
   }
 
-  public RectTransform AddToggle(string label, OnToggleValueChange onValueChanged, int targetCanvas = 0)
+  public RectTransform AddToggle(
+      string label,
+      OnToggleValueChange onValueChanged,
+      int targetCanvas = 0
+  )
   {
     RectTransform rt = (RectTransform)GameObject.Instantiate(togglePrefab);
     AddRect(rt, targetCanvas);
     Text buttonText = rt.GetComponentInChildren<Text>();
     buttonText.text = label;
     Toggle t = rt.GetComponentInChildren<Toggle>();
-    t.onValueChanged.AddListener(delegate { onValueChanged(t); });
+    t.onValueChanged.AddListener(
+        delegate
+        {
+          onValueChanged(t);
+        }
+    );
     return rt;
   }
 
-  public RectTransform AddToggle(string label, OnToggleValueChange onValueChanged, bool defaultValue, int targetCanvas = 0)
+  public RectTransform AddToggle(
+      string label,
+      OnToggleValueChange onValueChanged,
+      bool defaultValue,
+      int targetCanvas = 0
+  )
   {
     RectTransform rt = (RectTransform)GameObject.Instantiate(togglePrefab);
     AddRect(rt, targetCanvas);
@@ -280,18 +324,29 @@ public class DebugUIBuilder : MonoBehaviour
     buttonText.text = label;
     Toggle t = rt.GetComponentInChildren<Toggle>();
     t.isOn = defaultValue;
-    t.onValueChanged.AddListener(delegate { onValueChanged(t); });
+    t.onValueChanged.AddListener(
+        delegate
+        {
+          onValueChanged(t);
+        }
+    );
     return rt;
   }
 
-  public RectTransform AddRadio(string label, string group, OnToggleValueChange handler, int targetCanvas = 0)
+  public RectTransform AddRadio(
+      string label,
+      string group,
+      OnToggleValueChange handler,
+      int targetCanvas = 0
+  )
   {
     RectTransform rt = (RectTransform)GameObject.Instantiate(radioPrefab);
     AddRect(rt, targetCanvas);
     Text buttonText = rt.GetComponentInChildren<Text>();
     buttonText.text = label;
     Toggle tb = rt.GetComponentInChildren<Toggle>();
-    if (group == null) group = "default";
+    if (group == null)
+      group = "default";
     ToggleGroup tg = null;
     bool isFirst = false;
     if (!radioGroups.ContainsKey(group))
@@ -306,17 +361,22 @@ public class DebugUIBuilder : MonoBehaviour
     }
     tb.group = tg;
     tb.isOn = isFirst;
-    tb.onValueChanged.AddListener(delegate { handler(tb); });
+    tb.onValueChanged.AddListener(
+        delegate
+        {
+          handler(tb);
+        }
+    );
     return rt;
   }
 
   public RectTransform AddTextField(string label, int targetCanvas = 0)
   {
-      RectTransform textRT = GameObject.Instantiate(textPrefab).GetComponent<RectTransform>();
-      InputField inputField = textRT.GetComponentInChildren<InputField>();
-      inputField.text = label;
-      AddRect(textRT, targetCanvas);
-      return textRT;
+    RectTransform textRT = GameObject.Instantiate(textPrefab).GetComponent<RectTransform>();
+    InputField inputField = textRT.GetComponentInChildren<InputField>();
+    inputField.text = label;
+    AddRect(textRT, targetCanvas);
+    return textRT;
   }
 
   public void ToggleLaserPointer(bool isOn)

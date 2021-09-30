@@ -1,24 +1,23 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 partial class Solve3D
 {
   public struct EulerConstraint
   {
     /**
-     * Rotation about X
-     */
+ * Rotation about X
+ */
     public readonly Range? pitch;
 
     /**
-     * Rotation about Y
-     */
+ * Rotation about Y
+ */
     public readonly Range? yaw;
 
     /**
-     * Rotation about Z
-     */
+ * Rotation about Z
+ */
     public readonly Range? roll;
-
 
     public EulerConstraint(Range? pitch)
     {
@@ -57,10 +56,10 @@ partial class Solve3D
     }
     public readonly Quaternion value;
     /**
-     * 'local': Relative to previous links direction vector
-     *
-     * 'global': Relative to the baseJoints world transform
-     */
+ * 'local': Relative to previous links direction vector
+ *
+ * 'global': Relative to the baseJoints world transform
+ */
     public readonly ExactRotationType type;
 
     public ExactRotation(Quaternion value, ExactRotationType type)
@@ -70,15 +69,19 @@ partial class Solve3D
     }
   }
 
-  public static Either<EulerConstraint, ExactRotation> CopyConstraints(Either<EulerConstraint, ExactRotation> constraints)
+  public static Either<EulerConstraint, ExactRotation> CopyConstraints(
+      Either<EulerConstraint, ExactRotation> constraints
+  )
   {
-
-
     return constraints.Match<Either<EulerConstraint, ExactRotation>>(
-    Left: constraint => new Left<EulerConstraint, ExactRotation>(
-        new EulerConstraint(constraint.pitch, constraint.yaw, constraint.roll)
-        ),
-    Right: constraint => new Right<EulerConstraint, ExactRotation>(new ExactRotation(constraint.value, constraint.type))
+        Left: constraint =>
+            new Left<EulerConstraint, ExactRotation>(
+                new EulerConstraint(constraint.pitch, constraint.yaw, constraint.roll)
+            ),
+        Right: constraint =>
+            new Right<EulerConstraint, ExactRotation>(
+                new ExactRotation(constraint.value, constraint.type)
+            )
     );
   }
 }

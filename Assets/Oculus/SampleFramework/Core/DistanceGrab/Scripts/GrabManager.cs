@@ -1,4 +1,4 @@
-/************************************************************************************
+﻿/************************************************************************************
 
 Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.  
 
@@ -45,31 +45,30 @@ using UnityEngine;
 
 namespace OculusSampleFramework
 {
-    public class GrabManager : MonoBehaviour
+  public class GrabManager : MonoBehaviour
+  {
+    Collider m_grabVolume;
+
+    public Color OutlineColorInRange;
+    public Color OutlineColorHighlighted;
+    public Color OutlineColorOutOfRange;
+
+    void OnTriggerEnter(Collider otherCollider)
     {
-        Collider m_grabVolume;
-
-        public Color OutlineColorInRange;
-        public Color OutlineColorHighlighted;
-        public Color OutlineColorOutOfRange;
-
-        void OnTriggerEnter(Collider otherCollider)
-        {
-            DistanceGrabbable dg = otherCollider.GetComponentInChildren<DistanceGrabbable>();
-            if(dg)
-            {
-                dg.InRange = true;
-            }
-
-        }
-        
-        void OnTriggerExit(Collider otherCollider)
-        {
-            DistanceGrabbable dg = otherCollider.GetComponentInChildren<DistanceGrabbable>();
-            if(dg)
-            {
-                dg.InRange = false;
-            }
-        }
+      DistanceGrabbable dg = otherCollider.GetComponentInChildren<DistanceGrabbable>();
+      if (dg)
+      {
+        dg.InRange = true;
+      }
     }
+
+    void OnTriggerExit(Collider otherCollider)
+    {
+      DistanceGrabbable dg = otherCollider.GetComponentInChildren<DistanceGrabbable>();
+      if (dg)
+      {
+        dg.InRange = false;
+      }
+    }
+  }
 }

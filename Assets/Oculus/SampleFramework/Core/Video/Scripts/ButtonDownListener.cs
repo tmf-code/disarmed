@@ -1,4 +1,4 @@
-/************************************************************************************
+﻿/************************************************************************************
 
 Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.  
 
@@ -10,13 +10,13 @@ using UnityEngine.EventSystems;
 
 public class ButtonDownListener : MonoBehaviour, UnityEngine.EventSystems.IPointerDownHandler
 {
-    public event System.Action onButtonDown;
+  public event System.Action onButtonDown;
 
-    public void OnPointerDown(PointerEventData eventData)
+  public void OnPointerDown(PointerEventData eventData)
+  {
+    if (onButtonDown != null)
     {
-        if (onButtonDown != null)
-        {
-            onButtonDown.Invoke();
-        }
+      onButtonDown.Invoke();
     }
+  }
 }

@@ -1,30 +1,33 @@
-using System;
+﻿using System;
 
 struct SolveOptions
 {
-
-  public static SolveOptions defaultFABRIKOptions = new SolveOptions(0.1F, new Func<float, float>((float _) => 100.1F), 0);
+  public static SolveOptions defaultFABRIKOptions = new SolveOptions(
+      0.1F,
+      new Func<float, float>((float _) => 100.1F),
+      0
+  );
 
   /**
-   * Angle gap taken to calculate the gradient of the error function
-   * Usually the default here will do.
-   */
+ * Angle gap taken to calculate the gradient of the error function
+ * Usually the default here will do.
+ */
 
   public float deltaAngle;
   /**
-   * Sets the 'speed' at which the algorithm converges on the target.
-   * Larger values will cause oscillations, or vibrations about the target
-   * Lower values may move too slowly. You should tune this manually
-   *
-   * Can either be a constant, or a function that returns a learning rate
-    ((errorDistance: number) => number)
-   */
+ * Sets the 'speed' at which the algorithm converges on the target.
+ * Larger values will cause oscillations, or vibrations about the target
+ * Lower values may move too slowly. You should tune this manually
+ *
+ * Can either be a constant, or a function that returns a learning rate
+  ((errorDistance: number) => number)
+ */
 
   public Func<float, float> learningRate;
   /**
-   * Useful if there is oscillations or vibration around the target
-   * @default 0
-   */
+ * Useful if there is oscillations or vibration around the target
+ * @default 0
+ */
   public float acceptedError;
 
   public SolveOptions(float deltaAngle, Func<float, float> learningRate, float acceptedError)
@@ -34,7 +37,11 @@ struct SolveOptions
     this.acceptedError = acceptedError;
   }
 
-  internal void Deconstruct(out float deltaAngle, out Func<float, float> learningRate, out float acceptedError)
+  internal void Deconstruct(
+      out float deltaAngle,
+      out Func<float, float> learningRate,
+      out float acceptedError
+  )
   {
     deltaAngle = this.deltaAngle;
     learningRate = this.learningRate;

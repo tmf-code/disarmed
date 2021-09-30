@@ -1,4 +1,4 @@
-partial class Solve3D
+﻿partial class Solve3D
 {
   public struct Range
   {
