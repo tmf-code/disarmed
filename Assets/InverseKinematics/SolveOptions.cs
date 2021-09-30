@@ -3,12 +3,11 @@ using System;
 struct SolveOptions
 {
 
-  public static SolveOptions defaultFABRIKOptions = new SolveOptions(0.1F, new Func<float, float>((float _) => 0.1F), 0);
+  public static SolveOptions defaultFABRIKOptions = new SolveOptions(0.1F, new Func<float, float>((float _) => 100.1F), 0);
 
   /**
    * Angle gap taken to calculate the gradient of the error function
    * Usually the default here will do.
-   * @default 0.00001
    */
 
   public float deltaAngle;
