@@ -52,6 +52,6 @@
     // "temp/":true,
     // "Temp/":true
   },
-
+  "editor.codeLens": false,
   "cSpell.words": ["Mathf"]
 }
