@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7509560330664663705}
   - component: {fileID: 7509622780323205877}
   - component: {fileID: 8331206532174982845}
+  - component: {fileID: 1020151319344561712}
   m_Layer: 0
   m_Name: CustomArmPrefab_R
   m_TagString: Untagged
@@ -134,6 +135,18 @@ MonoBehaviour:
   forearm: {fileID: 0}
   humerus: {fileID: 0}
   errorDistance: 0
+--- !u!114 &1020151319344561712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612404611651155419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 379eb144d1f640240ab8992e55071413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   handType: 1
 --- !u!1001 &7794568487982560734
 PrefabInstance:

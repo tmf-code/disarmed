@@ -11,20 +11,35 @@ public class InverseKinematics : MonoBehaviour
   // public Transform forwardKinematicTarget;
   public float errorDistance;
 
-  public OVRHand.Hand handType = OVRHand.Hand.None;
-
   void Start()
   {
     // Attempt to automap bones
+    var handType = gameObject.GetComponent<Handedness>().handType;
     var hand = handType == OVRHand.Hand.HandLeft ? "l" : "r";
-    wrist = wrist == null ? transform.FindChildRecursive($"b_{hand}_wrist") : wrist;
-    forearm =
-        forearm == null ? transform.FindChildRecursive($"b_{hand}_forearm_stub") : forearm;
-    humerus = humerus == null ? transform.FindChildRecursive($"b_{hand}_humerus") : humerus;
-    shoulder = shoulder == null ? transform.FindChildRecursive($"b_{hand}_shoulder") : shoulder;
 
-    var targetName = handType == OVRHand.Hand.HandLeft ? "ShoulderLeft" : "ShoulderRight";
-    target = target == null ? GameObject.Find(targetName).transform : target;
+    wrist = wrist == null
+      ? transform.FindChildRecursive($"b_{hand}_wrist")
+      : wrist;
+
+    forearm = forearm == null
+      ? transform.FindChildRecursive($"b_{hand}_forearm_stub")
+      : forearm;
+
+    humerus = humerus == null
+      ? transform.FindChildRecursive($"b_{hand}_humerus")
+      : humerus;
+
+    shoulder = shoulder == null
+      ? transform.FindChildRecursive($"b_{hand}_shoulder")
+      : shoulder;
+
+    var targetName = handType == OVRHand.Hand.HandLeft
+      ? "ShoulderLeft"
+      : "ShoulderRight";
+
+    target = target == null
+      ? GameObject.Find(targetName).transform
+      : target;
   }
 
   void Update()
@@ -41,11 +56,11 @@ public class InverseKinematics : MonoBehaviour
               var rotation = bone.localRotation;
               var boneName = bone.name;
 
-                  //  Solve3D.Con["constraints"] constraints:  =
-                  //     CONSTRAINTS[boneName][handedness];
+              //  Solve3D.Con["constraints"] constraints:  =
+              //     CONSTRAINTS[boneName][handedness];
 
 
-                  return new Solve3D.Link(rotation, null, nextBone.localPosition);
+              return new Solve3D.Link(rotation, null, nextBone.localPosition);
             }
         )
         .ToArray();
