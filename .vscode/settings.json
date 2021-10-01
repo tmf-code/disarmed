@@ -53,5 +53,8 @@
     // "Temp/":true
   },
   "editor.codeLens": false,
-  "cSpell.words": ["Mathf"]
+  "cSpell.words": [
+    "Dont",
+    "Mathf"
+  ]
 }
