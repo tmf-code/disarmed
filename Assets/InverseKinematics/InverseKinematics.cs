@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InverseKinematics : MonoBehaviour
@@ -15,6 +17,7 @@ public class InverseKinematics : MonoBehaviour
   {
     // Attempt to automap bones
     var handType = gameObject.GetComponent<Handedness>().handType;
+
     var hand = handType == OVRHand.Hand.HandLeft ? "l" : "r";
 
     wrist = wrist == null

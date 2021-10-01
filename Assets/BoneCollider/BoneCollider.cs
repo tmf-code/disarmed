@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class BoneCollider : MonoBehaviour
 {
@@ -8,30 +9,37 @@ public class BoneCollider : MonoBehaviour
     Y_AXIS = 1,
     Z_AXIS = 2,
   }
-  public Transform boneStart;
-  public Transform boneEnd;
+  public BoneName boneStart;
+  public BoneName boneEnd;
+
+  private Transform boneStartTransform;
+  private Transform boneEndTransform;
+
   public float radius = 0.1F;
 
   public GameObject colliderRoot;
-  new public CapsuleCollider collider;
-  // Start is called before the first frame update
-  void Start()
+  public new CapsuleCollider collider;
+
+  public void Start()
   {
-    colliderRoot = colliderRoot == null ? new GameObject("BoneCollider") : colliderRoot;
+    colliderRoot = colliderRoot == null ? new GameObject($"BoneCollider_{boneStart}_TO_{boneEnd}") : colliderRoot;
     collider =
         colliderRoot.GetComponent<CapsuleCollider>() == null
             ? colliderRoot.AddComponent(typeof(CapsuleCollider)) as CapsuleCollider
-            : collider;
+          : collider;
 
     collider.direction = (int)CapsuleColliderDirection.Y_AXIS;
+
+    boneStartTransform = transform.FindRecursiveOrThrow(boneStart.ToString());
+    boneEndTransform = transform.FindRecursiveOrThrow(boneEnd.ToString());
   }
 
-  // Update is called once per frame
   void Update()
   {
-    var center = (boneStart.position + boneEnd.position) / 2;
-    var start = boneStart.position;
-    var end = boneEnd.position;
+
+    var center = (boneStartTransform.position + boneEndTransform.position) / 2;
+    var start = boneStartTransform.position;
+    var end = boneEndTransform.position;
 
     var distance = end - start;
     var direction = distance.normalized;
@@ -42,5 +50,20 @@ public class BoneCollider : MonoBehaviour
 
     collider.radius = radius;
     collider.height = distance.magnitude + radius * 2;
+  }
+}
+
+public static class ExtensionMethods
+{
+  public static Transform FindRecursiveOrThrow(this Transform transform, string childName)
+  {
+    var maybeChild = transform.FindChildRecursive(childName);
+
+    if (maybeChild == null)
+    {
+      throw new Exception($"Could not find child: {childName}");
+    }
+
+    return maybeChild;
   }
 }
