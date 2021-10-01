@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Handedness : MonoBehaviour
 {
-  public OVRHand.Hand handType = OVRHand.Hand.None;
+  public CustomHand.HandTypes handType = CustomHand.HandTypes.None;
 
   void Start()
   {
-    if (handType == OVRHand.Hand.None) throw new Exception("Must set hand type");
+    if (handType == CustomHand.HandTypes.None) throw new Exception("Must set hand type");
   }
 }

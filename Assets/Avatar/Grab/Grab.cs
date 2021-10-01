@@ -25,6 +25,7 @@ public class Grab : MonoBehaviour
 
   void SetState(GrabState state, SetStateData data)
   {
+    if (enabled == false) return;
     switch (state)
     {
       case GrabState.IDLE:
@@ -77,9 +78,9 @@ public class Grab : MonoBehaviour
     {
       case GrabState.IDLE:
         if (source.CompareTag("Hand") && other.CompareTag("Forearm"))
-          SetState(GrabState.GRABBING, new SetStateData(other.gameObject.transform.parent.gameObject, null));
+          SetState(GrabState.GRABBING, new SetStateData(other.gameObject, null));
         if (source.CompareTag("Forearm") && other.CompareTag("Hand"))
-          SetState(GrabState.GRABBED, new SetStateData(null, other.gameObject.transform.parent.gameObject));
+          SetState(GrabState.GRABBED, new SetStateData(null, other.gameObject));
         break;
 
       case GrabState.GRABBING:

@@ -7,7 +7,9 @@ public class Grabbing : MonoBehaviour
   void Start()
   {
     transform.GetComponent<InverseKinematics>().enabled = true;
-    transform.GetComponent<OVRCustomSkeleton>().enabled = false;
+    var skeleton = transform.GetComponent<CustomSkeleton>();
+    skeleton.enabled = true;
+    skeleton.updateBones = false;
   }
 }
 

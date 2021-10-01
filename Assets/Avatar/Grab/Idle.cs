@@ -5,7 +5,7 @@ public class Idle : MonoBehaviour
   void Start()
   {
     transform.GetComponent<InverseKinematics>().enabled = true;
-    transform.GetComponent<OVRCustomSkeleton>().enabled = true;
+    transform.GetComponent<CustomSkeleton>().enabled = true;
   }
 }
 

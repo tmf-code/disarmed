@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7616081211345186513}
-  - component: {fileID: 7509560330664663705}
   - component: {fileID: 7509622780323205877}
   - component: {fileID: 8331206532174982845}
   - component: {fileID: 1020151319344561712}
@@ -17,6 +16,7 @@ GameObject:
   - component: {fileID: 7022830623473389542}
   - component: {fileID: 7022830623473389543}
   - component: {fileID: 1920128926}
+  - component: {fileID: 1402518295577808644}
   m_Layer: 0
   m_Name: CustomArmPrefab_R
   m_TagString: Untagged
@@ -39,20 +39,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7509560330664663705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7612404611651155419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb7623a8f0b49cf4dbaa40aea4d4be64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HandType: 1
-  _pointerPoseRoot: {fileID: 0}
 --- !u!114 &7509622780323205877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,11 +48,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7612404611651155419}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 674a40251fe8ad841b18517ac5209957, type: 3}
+  m_Script: {fileID: 11500000, guid: 57248f38a913cff4585d6ed2cccf5b03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _skeletonType: 1
   _updateRootPose: 1
+  updateBones: 1
   _updateRootScale: 1
   _enablePhysicsCapsules: 0
   _applyBoneTranslations: 0
@@ -164,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63691428e913294449427b04de7d975d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tag: 
   boneStart: 0
   boneEnd: 0
   radius: 0.1
@@ -183,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 724fe6bd27090c3438a28262b1239839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tag: 
   boneStart: 0
   boneEnd: 0
   radius: 0.1
@@ -202,6 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518578f69530ef14e8bd71466259cd0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tag: 
   boneStart: 0
   boneEnd: 0
   radius: 0.1
@@ -222,6 +212,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+--- !u!114 &1402518295577808644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612404611651155419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00a5b199abbb6440922cfc20f4ec330, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HandType: -1
+  _pointerPoseRoot: {fileID: 0}
 --- !u!1001 &7794568487982560734
 PrefabInstance:
   m_ObjectHideFlags: 0

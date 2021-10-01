@@ -4,8 +4,8 @@
   {
     tag = "Humerus";
     var handType = gameObject.GetComponent<Handedness>().handType;
-    boneStart = handType == OVRHand.Hand.HandLeft ? BoneName.b_l_humerus : BoneName.b_r_humerus;
-    boneEnd = handType == OVRHand.Hand.HandLeft ? BoneName.b_l_shoulder : BoneName.b_r_shoulder;
+    boneStart = handType == CustomHand.HandTypes.HandLeft ? BoneName.b_l_humerus : BoneName.b_r_humerus;
+    boneEnd = handType == CustomHand.HandTypes.HandLeft ? BoneName.b_l_shoulder : BoneName.b_r_shoulder;
     base.Start();
   }
 }
