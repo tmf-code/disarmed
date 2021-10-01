@@ -47,10 +47,31 @@ public class Grab : MonoBehaviour
 
   void OnTriggerEnter(Collider collider)
   {
+    if (collider.transform.parent == null)
+    {
+      Debug.Log("No parent");
+      return;
+    }
+    if (collider.transform.parent.gameObject == gameObject)
+    {
+      Debug.Log($"trigger enter with self");
+      return;
+    }
     Debug.Log($"trigger enter: {collider}");
   }
   void OnTriggerExit(Collider collider)
   {
+    if (collider.transform.parent == null)
+    {
+      Debug.Log("No parent");
+      return;
+    }
+
+    if (collider.transform.parent.gameObject)
+    {
+      Debug.Log($"trigger exit with self");
+      return;
+    }
     Debug.Log($"trigger exit: {collider}");
   }
 }

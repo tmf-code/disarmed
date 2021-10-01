@@ -3,6 +3,7 @@ using UnityEngine;
 public class SendCollisionToTarget : MonoBehaviour
 {
   public GameObject target;
+
   void OnCollisionEnter(Collision collision)
   {
     target.SendMessage("OnCollisionEnter", collision, SendMessageOptions.DontRequireReceiver);
