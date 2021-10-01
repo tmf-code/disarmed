@@ -14,7 +14,7 @@ public class Grab : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-
+    gameObject.AddIfNotExisting<Idle>();
   }
 
   // Update is called once per frame
@@ -77,6 +77,9 @@ public class Grab : MonoBehaviour
     switch (state)
     {
       case GrabState.IDLE:
+        var idle = GetComponent<Idle>();
+        if (!idle.canTransition) break;
+
         if (source.CompareTag("Hand") && other.CompareTag("Forearm"))
           SetState(GrabState.GRABBING, new SetStateData(other.gameObject, null));
         if (source.CompareTag("Forearm") && other.CompareTag("Hand"))
