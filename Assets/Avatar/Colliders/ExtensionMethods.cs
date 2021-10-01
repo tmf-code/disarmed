@@ -14,4 +14,28 @@ public static class ExtensionMethods
 
     return maybeChild;
   }
+
+  public static bool HasComponent<T>(this GameObject gameObject) where T : Component
+  {
+    return gameObject.GetComponent<T>() != null;
+  }
+
+  public static T AddIfNotExisting<T>(this GameObject gameObject) where T : Component
+  {
+    if (gameObject.HasComponent<T>())
+    {
+      return gameObject.GetComponent<T>();
+    }
+    else
+    {
+      return gameObject.AddComponent<T>();
+    }
+  }
+
+  public static void RemoveComponent<T>(this GameObject gameObject) where T : Component
+  {
+    var maybeComponent = gameObject.GetComponent<T>();
+    GameObject.Destroy(maybeComponent);
+  }
+
 }

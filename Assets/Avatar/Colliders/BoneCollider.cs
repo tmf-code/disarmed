@@ -2,6 +2,7 @@
 
 public class BoneCollider : MonoBehaviour
 {
+  public new string tag;
   public enum CapsuleColliderDirection
   {
     X_AXIS = 0,
@@ -32,6 +33,7 @@ public class BoneCollider : MonoBehaviour
 
     collider.direction = (int)CapsuleColliderDirection.Y_AXIS;
     collider.isTrigger = true;
+    collider.tag = tag;
 
     rigidbody =
         colliderRoot.GetComponent<Rigidbody>() == null
@@ -46,6 +48,7 @@ public class BoneCollider : MonoBehaviour
             ? colliderRoot.AddComponent<SendCollisionToTarget>()
           : eventSender;
     eventSender.target = gameObject;
+    eventSender.source = collider;
 
     boneStartTransform = transform.FindRecursiveOrThrow(boneStart.ToString());
     boneEndTransform = transform.FindRecursiveOrThrow(boneEnd.ToString());
