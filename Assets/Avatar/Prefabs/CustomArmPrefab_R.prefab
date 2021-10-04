@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 7022830623473389543}
   - component: {fileID: 1920128926}
   - component: {fileID: 1402518295577808644}
+  - component: {fileID: 1029276345}
+  - component: {fileID: 8886124215797538498}
   m_Layer: 0
   m_Name: CustomArmPrefab_R
   m_TagString: Untagged
@@ -226,6 +228,70 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HandType: -1
   _pointerPoseRoot: {fileID: 0}
+--- !u!114 &1029276345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612404611651155419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c0aa773911dc04bb17aa4c40da4363, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hand: {fileID: 0}
+  pinchState:
+    thumbActice: 0
+    thumbStrength: 0
+    indexActive: 0
+    indexStrength: 0
+    middleActive: 0
+    middleStrength: 0
+    ringActive: 0
+    ringStrength: 0
+    pinkyActive: 0
+    pinkyStrength: 0
+--- !u!114 &8886124215797538498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612404611651155419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4755e9f4e54c1ef4bb943576061ebe67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingers:
+    thumb:
+      bones: []
+    index:
+      bones: []
+    middle:
+      bones: []
+    ring:
+      bones: []
+    pinky:
+      bones: []
+  handedness: {fileID: 0}
+  gestureState:
+    thumbOpen: 0
+    indexOpen: 0
+    middleOpen: 0
+    ringOpen: 0
+    pinkyOpen: 0
+    thumbClosed: 0
+    indexClosed: 0
+    middleClosed: 0
+    ringClosed: 0
+    pinkyClosed: 0
+    thumbStraightness: 0
+    indexStraightness: 0
+    middleStraightness: 0
+    ringStraightness: 0
+    pinkyStraightness: 0
 --- !u!1001 &7794568487982560734
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -318,9 +384,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -472610330186063138, guid: 0241cbd3e12d1354ab2286773b341af2, type: 3}
   m_PrefabInstance: {fileID: 7794568487982560734}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5793329087523542838 stripped
+--- !u!4 &4665862396581382332 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -4878009027656670488, guid: 0241cbd3e12d1354ab2286773b341af2, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3236865058280668514, guid: 0241cbd3e12d1354ab2286773b341af2, type: 3}
   m_PrefabInstance: {fileID: 7794568487982560734}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8157569829884397843 stripped
@@ -403,8 +469,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6070745095596999440, guid: 0241cbd3e12d1354ab2286773b341af2, type: 3}
   m_PrefabInstance: {fileID: 7794568487982560734}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &4665862396581382332 stripped
+--- !u!4 &5793329087523542838 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3236865058280668514, guid: 0241cbd3e12d1354ab2286773b341af2, type: 3}
+  m_CorrespondingSourceObject: {fileID: -4878009027656670488, guid: 0241cbd3e12d1354ab2286773b341af2, type: 3}
   m_PrefabInstance: {fileID: 7794568487982560734}
   m_PrefabAsset: {fileID: 0}

@@ -187,18 +187,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -2154906951546501380, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510108586, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1633100027705898648, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
-      propertyPath: updateBones
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1670564531549618590, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -247,8 +235,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: -2154906951546501380, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
 --- !u!1 &389922703
 GameObject:
