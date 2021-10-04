@@ -7,7 +7,7 @@ partial class Solve3D
     public Vector3 position;
     public Quaternion rotation;
 
-    override public string ToString()
+    public override string ToString()
     {
       return $"{position} {rotation}";
     }
