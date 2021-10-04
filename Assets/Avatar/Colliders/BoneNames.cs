@@ -1,3 +1,5 @@
+using static Skeleton;
+
 public enum BoneName
 {
   None,
@@ -173,4 +175,41 @@ public enum BoneName
   r_ring_palm_knuckle_marker,
   r_thumb_cmc_aa_axis_marker,
   r_thumb_cmc_fe_axis_marker,
+}
+
+public class BoneNameToBoneId
+{
+  public static BoneId getBoneId(string boneName)
+  {
+    var result = boneName switch
+    {
+      "b_l_wrist" => 0,
+      "b_l_forearm_stub" => 1,
+      "b_l_thumb0" => 2,
+      "b_l_thumb1" => 3,
+      "b_l_thumb2" => 4,
+      "b_l_thumb3" => 5,
+      "b_l_index1" => 6,
+      "b_l_index2" => 7,
+      "b_l_index3" => 8,
+      "b_l_middle1" => 9,
+      "b_l_middle2" => 10,
+      "b_l_middle3" => 11,
+      "b_l_ring1" => 12,
+      "b_l_ring2" => 13,
+      "b_l_ring3" => 14,
+      "b_l_pinky0" => 15,
+      "b_l_pinky1" => 16,
+      "b_l_pinky2" => 17,
+      "b_l_pinky3" => 18,
+      "l_thumb_finger_tip_marker" => 19,
+      "l_index_finger_tip_marker" => 20,
+      "l_middle_finger_tip_marker" => 21,
+      "l_ring_finger_tip_marker" => 22,
+      "l_pinky_finger_tip_marker" => 23,
+      _ => throw new System.Exception($"Invalid boneName: {boneName}"),
+    };
+
+    return (BoneId)result;
+  }
 }
