@@ -172,6 +172,9 @@ public class GestureState : MonoBehaviour
     gestureState.ringStraightness = fingers.ring.Straightness();
     gestureState.pinkyStraightness = fingers.pinky.Straightness();
 
+
+    var boneA1 = customSkeleton.GetBoneFromBoneName(fingers.thumb.bones[0].transform.name);
+
     // Used with absoluteStraightness to emperically determine the min and max straightnesses
 
     // gestureState.thumbMax = Mathf.Max(gestureState.thumbStraightness, gestureState.thumbMax);

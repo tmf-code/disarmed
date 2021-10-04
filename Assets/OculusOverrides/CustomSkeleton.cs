@@ -95,6 +95,14 @@ public class CustomSkeleton : Skeleton
   }
 #endif
 
+  public Bone GetBoneFromBoneName(string name)
+  {
+    var boneId = BoneNameToBoneId.getBoneId(name);
+    var maybeBone = _bones.Find(bone => bone.Id == boneId);
+
+    return maybeBone;
+  }
+
   protected override void InitializeBones()
   {
     bool flipX = (
