@@ -1,16 +1,4 @@
-﻿/************************************************************************************
-Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
-
-Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
-https://developer.oculus.com/licenses/oculussdk/
-
-Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-ANY KIND, either express or implied. See the License for the specific language governing
-permissions and limitations under the License.
-************************************************************************************/
-
-using UnityEngine;
+﻿using UnityEngine;
 
 [DefaultExecutionOrder(-90)]
 public class CustomHand
@@ -152,16 +140,12 @@ public class CustomHand
 
   Skeleton.SkeletonType Skeleton.ISkeletonDataProvider.GetSkeletonType()
   {
-    switch (HandType)
+    return HandType switch
     {
-      case HandTypes.HandLeft:
-        return Skeleton.SkeletonType.HandLeft;
-      case HandTypes.HandRight:
-        return Skeleton.SkeletonType.HandRight;
-      case HandTypes.None:
-      default:
-        return Skeleton.SkeletonType.None;
-    }
+      HandTypes.HandLeft => Skeleton.SkeletonType.HandLeft,
+      HandTypes.HandRight => Skeleton.SkeletonType.HandRight,
+      _ => Skeleton.SkeletonType.None,
+    };
   }
 
   Skeleton.SkeletonPoseData Skeleton.ISkeletonDataProvider.GetSkeletonPoseData()
@@ -197,17 +181,13 @@ public class CustomHand
 
   OVRMesh.MeshType OVRMesh.IOVRMeshDataProvider.GetMeshType()
   {
-    switch (HandType)
+    return HandType switch
     {
-      case HandTypes.None:
-        return OVRMesh.MeshType.None;
-      case HandTypes.HandLeft:
-        return OVRMesh.MeshType.HandLeft;
-      case HandTypes.HandRight:
-        return OVRMesh.MeshType.HandRight;
-      default:
-        return OVRMesh.MeshType.None;
-    }
+      HandTypes.None => OVRMesh.MeshType.None,
+      HandTypes.HandLeft => OVRMesh.MeshType.HandLeft,
+      HandTypes.HandRight => OVRMesh.MeshType.HandRight,
+      _ => OVRMesh.MeshType.None,
+    };
   }
 
   OVRMeshRenderer.MeshRendererData OVRMeshRenderer.IOVRMeshRendererDataProvider.GetMeshRendererData()
