@@ -28,7 +28,16 @@ public class GestureState : MonoBehaviour
     public float ringStraightness = 0;
     public float pinkyStraightness = 0;
     public float handStraightness = 0;
-
+    //   public float thumbMax = float.MinValue;
+    //   public float indexMax = float.MinValue;
+    //   public float middleMax = float.MinValue;
+    //   public float ringMax = float.MinValue;
+    //   public float pinkyMax = float.MinValue;
+    //   public float thumbMin = float.MaxValue;
+    //   public float indexMin = float.MaxValue;
+    //   public float middleMin = float.MaxValue;
+    //   public float ringMin = float.MaxValue;
+    //   public float pinkyMin = float.MaxValue;
   }
 
   public enum FingerNames
@@ -113,12 +122,12 @@ public class GestureState : MonoBehaviour
 
   public Fingers fingers;
   public Handedness handedness;
-  public GestureStateDisplay gestureState = new GestureStateDisplay();
+  public GestureStateDisplay gestureState;
   public CustomSkeleton customSkeleton;
 
   void Start()
   {
-
+    gestureState = new GestureStateDisplay();
     customSkeleton = gameObject.GetComponentIfNull(customSkeleton);
     handedness = gameObject.GetComponentIfNull(handedness);
     var handSide = handedness.handType == CustomHand.HandTypes.HandLeft ? "l" : "r";
@@ -127,21 +136,18 @@ public class GestureState : MonoBehaviour
     // Empirically derived
     var fingerDimensions = new Dictionary<FingerNames, Range>(5)
     {
-      { FingerNames.thumb, new Range(0.43F, 0.79F) },
-      { FingerNames.index, new Range(0.12F, 0.46F) },
-      { FingerNames.middle, new Range(0.15F, 0.50F) },
-      { FingerNames.ring, new Range(0.13F, 0.49F) },
-      { FingerNames.pinky, new Range(0.13F, 0.57F) },
+      { FingerNames.thumb, new Range(0.64F, 0.76F) },
+      { FingerNames.index, new Range(0.24F, 0.40F) },
+      { FingerNames.middle, new Range(0.27F, 0.44F) },
+      { FingerNames.ring, new Range(0.26F, 0.44F) },
+      { FingerNames.pinky, new Range(0.34F, 0.55F) },
     };
 
     fingerNames.ToList().ForEach(name =>
     {
-      var boneId = BoneNameToBoneId.getBoneId(name);
       var bone1 = transform.FindRecursiveOrThrow($"b_{handSide}_{name}1");
       var bone2 = transform.FindRecursiveOrThrow($"b_{handSide}_{name}2");
       var bone3 = transform.FindRecursiveOrThrow($"b_{handSide}_{name}3");
-      var boneNull = transform.FindRecursiveOrThrow($"b_{handSide}_{name}_null");
-      var boneEnd = transform.FindRecursiveOrThrow($"b_{handSide}_{name}_null_end");
 
       Enum.TryParse<FingerNames>(name, false, out var fingerName);
       fingerDimensions.TryGetValue(fingerName, out var range);
@@ -150,8 +156,6 @@ public class GestureState : MonoBehaviour
           bone1,
           bone2,
           bone3,
-          boneNull,
-          boneEnd,
         },
         range.min,
         range.max
@@ -167,6 +171,21 @@ public class GestureState : MonoBehaviour
     gestureState.middleStraightness = fingers.middle.Straightness();
     gestureState.ringStraightness = fingers.ring.Straightness();
     gestureState.pinkyStraightness = fingers.pinky.Straightness();
+
+    // Used with absoluteStraightness to emperically determine the min and max straightnesses
+
+    // gestureState.thumbMax = Mathf.Max(gestureState.thumbStraightness, gestureState.thumbMax);
+    // gestureState.indexMax = Mathf.Max(gestureState.indexStraightness, gestureState.indexMax);
+    // gestureState.middleMax = Mathf.Max(gestureState.middleStraightness, gestureState.middleMax);
+    // gestureState.ringMax = Mathf.Max(gestureState.ringStraightness, gestureState.ringMax);
+    // gestureState.pinkyMax = Mathf.Max(gestureState.pinkyStraightness, gestureState.pinkyMax);
+
+    // gestureState.thumbMin = Mathf.Min(gestureState.thumbStraightness, gestureState.thumbMin);
+    // gestureState.indexMin = Mathf.Min(gestureState.indexStraightness, gestureState.indexMin);
+    // gestureState.middleMin = Mathf.Min(gestureState.middleStraightness, gestureState.middleMin);
+    // gestureState.ringMin = Mathf.Min(gestureState.ringStraightness, gestureState.ringMin);
+    // gestureState.pinkyMin = Mathf.Min(gestureState.pinkyStraightness, gestureState.pinkyMin);
+
     gestureState.handStraightness = (
       gestureState.thumbStraightness +
       gestureState.indexStraightness +
