@@ -31,7 +31,6 @@ public class CustomHand
     High = OVRPlugin.TrackingConfidence.High
   }
 
-  [SerializeField]
   private HandTypes HandType = HandTypes.None;
   [SerializeField]
   private Transform _pointerPoseRoot = null;
@@ -47,6 +46,11 @@ public class CustomHand
   public float HandScale { get; private set; }
   public TrackingConfidence HandConfidence { get; private set; }
   public bool IsDominantHand { get; private set; }
+
+  public void Start()
+  {
+    HandType = GetComponent<Handedness>().handType;
+  }
 
   private void Awake()
   {
