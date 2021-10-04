@@ -1,17 +1,4 @@
-﻿/************************************************************************************
-Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
-
-Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
-https://developer.oculus.com/licenses/oculussdk/
-
-Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-ANY KIND, either express or implied. See the License for the specific language governing
-permissions and limitations under the License.
-************************************************************************************/
-
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(-80)]
@@ -75,33 +62,34 @@ public class CustomSkeleton : Skeleton
     SkeletonType skeletonType = GetSkeletonType();
     if (start != BoneId.Invalid && end != BoneId.Invalid)
     {
-      for (int bi = (int)start; bi < (int)end; ++bi)
+      for (int boneId = (int)start; boneId < (int)end; ++boneId)
       {
-        string fbxBoneName = FbxBoneNameFromBoneId(skeletonType, (BoneId)bi);
+        string fbxBoneName = FbxBoneNameFromBoneId(skeletonType, (BoneId)boneId);
+
         Transform t = transform.FindChildRecursive(fbxBoneName);
 
         if (t != null)
         {
-          _customBones_V2[(int)bi] = t;
+          _customBones_V2[(int)boneId] = t;
         }
       }
     }
   }
 
-  private static string FbxBoneNameFromBoneId(SkeletonType skeletonType, BoneId bi)
+  private static string FbxBoneNameFromBoneId(SkeletonType skeletonType, BoneId boneId)
   {
     {
-      if (bi >= BoneId.Hand_ThumbTip && bi <= BoneId.Hand_PinkyTip)
+      if (boneId >= BoneId.Hand_ThumbTip && boneId <= BoneId.Hand_PinkyTip)
       {
         return _fbxHandSidePrefix[(int)skeletonType]
-            + _fbxHandFingerNames[(int)bi - (int)BoneId.Hand_ThumbTip]
+            + _fbxHandFingerNames[(int)boneId - (int)BoneId.Hand_ThumbTip]
             + "_finger_tip_marker";
       }
       else
       {
         return _fbxHandBonePrefix
             + _fbxHandSidePrefix[(int)skeletonType]
-            + _fbxHandBoneNames[(int)bi];
+            + _fbxHandBoneNames[(int)boneId];
       }
     }
   }
@@ -122,7 +110,7 @@ public class CustomSkeleton : Skeleton
     for (int i = 0; i < _bones.Count; ++i)
     {
       Bone bone = _bones[i] ?? (_bones[i] = new Bone());
-      bone.Id = (Skeleton.BoneId)_skeleton.Bones[i].Id;
+      bone.Id = (BoneId)_skeleton.Bones[i].Id;
       bone.ParentBoneIndex = _skeleton.Bones[i].ParentBoneIndex;
       bone.Transform = _customBones_V2[(int)bone.Id];
 

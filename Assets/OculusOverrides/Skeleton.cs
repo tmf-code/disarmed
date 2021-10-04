@@ -1,17 +1,4 @@
-﻿/************************************************************************************
-Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
-
-Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
-https://developer.oculus.com/licenses/oculussdk/
-
-Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-ANY KIND, either express or implied. See the License for the specific language governing
-permissions and limitations under the License.
-************************************************************************************/
-
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(-80)]
@@ -202,12 +189,13 @@ public class Skeleton : MonoBehaviour
     for (int i = 0; i < _bones.Count; ++i)
     {
       Bone bone = _bones[i] ?? (_bones[i] = new Bone());
-      bone.Id = (Skeleton.BoneId)_skeleton.Bones[i].Id;
+      bone.Id = (BoneId)_skeleton.Bones[i].Id;
       bone.ParentBoneIndex = _skeleton.Bones[i].ParentBoneIndex;
 
       Transform trans =
-          bone.Transform
-          ?? (
+          bone.Transform != null
+            ? bone.Transform
+            : (
               bone.Transform =
                   new GameObject(BoneLabelFromBoneId(_skeletonType, bone.Id)).transform
           );
@@ -257,12 +245,12 @@ public class Skeleton : MonoBehaviour
       bindPoseBone.ParentBoneIndex = bone.ParentBoneIndex;
 
       Transform trans =
-          bindPoseBone.Transform
-          ?? (
-              bindPoseBone.Transform =
-                  new GameObject(
-                      BoneLabelFromBoneId(_skeletonType, bindPoseBone.Id)
-                  ).transform
+          bindPoseBone.Transform != null
+            ? bindPoseBone.Transform
+            : (bindPoseBone.Transform =
+                new GameObject(
+                    BoneLabelFromBoneId(_skeletonType, bindPoseBone.Id)
+                ).transform
           );
       trans.localPosition = bone.Transform.localPosition;
       trans.localRotation = bone.Transform.localRotation;
@@ -326,8 +314,7 @@ public class Skeleton : MonoBehaviour
 
         GameObject rbGO = capsule.CapsuleRigidbody.gameObject;
         rbGO.transform.SetParent(_capsulesGO.transform, false);
-        rbGO.transform.position = bone.Transform.position;
-        rbGO.transform.rotation = bone.Transform.rotation;
+        rbGO.transform.SetPositionAndRotation(bone.Transform.position, bone.Transform.rotation);
 
         if (capsule.CapsuleCollider == null)
         {
@@ -337,24 +324,24 @@ public class Skeleton : MonoBehaviour
           capsule.CapsuleCollider.isTrigger = false;
         }
 
-        var p0 = flipX
+        var start = flipX
             ? _skeleton.BoneCapsules[i].StartPoint.FromFlippedXVector3f()
             : _skeleton.BoneCapsules[i].StartPoint.FromFlippedZVector3f();
-        var p1 = flipX
+        var end = flipX
             ? _skeleton.BoneCapsules[i].EndPoint.FromFlippedXVector3f()
             : _skeleton.BoneCapsules[i].EndPoint.FromFlippedZVector3f();
-        var delta = p1 - p0;
-        var mag = delta.magnitude;
-        var rot = Quaternion.FromToRotation(Vector3.right, delta);
+        var delta = end - start;
+        var magnitude = delta.magnitude;
+        var rotation = Quaternion.FromToRotation(Vector3.right, delta);
         capsule.CapsuleCollider.radius = _skeleton.BoneCapsules[i].Radius;
-        capsule.CapsuleCollider.height = mag + _skeleton.BoneCapsules[i].Radius * 2.0f;
+        capsule.CapsuleCollider.height = magnitude + _skeleton.BoneCapsules[i].Radius * 2.0f;
         capsule.CapsuleCollider.direction = 0;
-        capsule.CapsuleCollider.center = Vector3.right * mag * 0.5f;
+        capsule.CapsuleCollider.center = 0.5f * magnitude * Vector3.right;
 
         GameObject ccGO = capsule.CapsuleCollider.gameObject;
         ccGO.transform.SetParent(rbGO.transform, false);
-        ccGO.transform.localPosition = p0;
-        ccGO.transform.localRotation = rot;
+        ccGO.transform.localPosition = start;
+        ccGO.transform.localRotation = rotation;
       }
     }
   }
@@ -362,75 +349,65 @@ public class Skeleton : MonoBehaviour
   private void Update()
   {
 #if UNITY_EDITOR
-    if (ShouldInitialize())
-    {
-      Initialize();
-    }
+    if (ShouldInitialize()) Initialize();
 #endif
 
     if (!IsInitialized || _dataProvider == null)
     {
       IsDataValid = false;
       IsDataHighConfidence = false;
-
       return;
     }
+
 
     var data = _dataProvider.GetSkeletonPoseData();
 
     IsDataValid = data.IsDataValid;
-    if (data.IsDataValid)
+
+    if (!data.IsDataValid) return;
+
+    if (SkeletonChangedCount != data.SkeletonChangedCount)
     {
-      if (SkeletonChangedCount != data.SkeletonChangedCount)
+      SkeletonChangedCount = data.SkeletonChangedCount;
+      IsInitialized = false;
+      Initialize();
+    }
+
+    IsDataHighConfidence = data.IsDataHighConfidence;
+
+    if (_updateRootPose)
+    {
+      transform.localPosition = data.RootPose.Position.FromFlippedZVector3f();
+      transform.localRotation = data.RootPose.Orientation.FromFlippedZQuatf();
+    }
+
+    if (_updateRootScale)
+    {
+      transform.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
+    }
+
+
+    for (var i = 0; i < _bones.Count; ++i)
+    {
+      var bone = _bones[i];
+      if (bone.Transform == null) continue;
+
+      var isSkeletonTypeNone = _skeletonType == SkeletonType.None;
+      if (isSkeletonTypeNone)
       {
-        SkeletonChangedCount = data.SkeletonChangedCount;
-        IsInitialized = false;
-        Initialize();
+        bone.localRotation = data.BoneRotations[i].FromFlippedZQuatf();
+        continue;
       }
 
-      IsDataHighConfidence = data.IsDataHighConfidence;
-
-      if (_updateRootPose)
+      var quaternion = data.BoneRotations[i].FromFlippedXQuatf();
+      var isBoneWristRoot = bone.Id == BoneId.Hand_WristRoot;
+      if (isBoneWristRoot)
       {
-        transform.localPosition = data.RootPose.Position.FromFlippedZVector3f();
-        transform.localRotation = data.RootPose.Orientation.FromFlippedZQuatf();
+        quaternion *= wristFixupRotation;
       }
+      bone.localRotation = quaternion;
 
-      if (_updateRootScale)
-      {
-        transform.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
-      }
-
-      if (updateBones)
-      {
-        for (var i = 0; i < _bones.Count; ++i)
-        {
-          if (_bones[i].Transform != null)
-          {
-            if (
-                _skeletonType == SkeletonType.HandLeft
-                || _skeletonType == SkeletonType.HandRight
-            )
-            {
-              _bones[i].Transform.localRotation = data.BoneRotations[
-                  i
-              ].FromFlippedXQuatf();
-
-              if (_bones[i].Id == BoneId.Hand_WristRoot)
-              {
-                _bones[i].Transform.localRotation *= wristFixupRotation;
-              }
-            }
-            else
-            {
-              _bones[i].Transform.localRotation = data.BoneRotations[
-                  i
-              ].FromFlippedZQuatf();
-            }
-          }
-        }
-
-      }
+      if (updateBones) bone.Update();
     }
   }
 
@@ -485,137 +462,70 @@ public class Skeleton : MonoBehaviour
     }
   }
 
-  public BoneId GetCurrentStartBoneId()
+  public BoneId GetCurrentStartBoneId() => _skeletonType switch
   {
-    switch (_skeletonType)
-    {
-      case SkeletonType.HandLeft:
-      case SkeletonType.HandRight:
-        return BoneId.Hand_Start;
-      case SkeletonType.None:
-      default:
-        return BoneId.Invalid;
-    }
-  }
+    SkeletonType.None => BoneId.Invalid,
+    _ => BoneId.Hand_Start,
+  };
 
-  public BoneId GetCurrentEndBoneId()
+  public BoneId GetCurrentEndBoneId() => _skeletonType switch
   {
-    switch (_skeletonType)
-    {
-      case SkeletonType.HandLeft:
-      case SkeletonType.HandRight:
-        return BoneId.Hand_End;
-      case SkeletonType.None:
-      default:
-        return BoneId.Invalid;
-    }
-  }
+    SkeletonType.None => BoneId.Invalid,
+    _ => BoneId.Hand_End,
+  };
 
-  private BoneId GetCurrentMaxSkinnableBoneId()
+  private BoneId GetCurrentMaxSkinnableBoneId() => _skeletonType switch
   {
-    switch (_skeletonType)
-    {
-      case SkeletonType.HandLeft:
-      case SkeletonType.HandRight:
-        return BoneId.Hand_MaxSkinnable;
-      case SkeletonType.None:
-      default:
-        return BoneId.Invalid;
-    }
-  }
+    SkeletonType.None => BoneId.Invalid,
+    _ => BoneId.Hand_MaxSkinnable,
+  };
 
-  public int GetCurrentNumBones()
+  public int GetCurrentNumBones() => _skeletonType switch
   {
-    switch (_skeletonType)
-    {
-      case SkeletonType.HandLeft:
-      case SkeletonType.HandRight:
-        return GetCurrentEndBoneId() - GetCurrentStartBoneId();
-      case SkeletonType.None:
-      default:
-        return 0;
-    }
-  }
+    SkeletonType.None => 0,
+    _ => GetCurrentEndBoneId() - GetCurrentStartBoneId(),
+  };
 
-  public int GetCurrentNumSkinnableBones()
+  public int GetCurrentNumSkinnableBones() => _skeletonType switch
   {
-    switch (_skeletonType)
-    {
-      case SkeletonType.HandLeft:
-      case SkeletonType.HandRight:
-        return GetCurrentMaxSkinnableBoneId() - GetCurrentStartBoneId();
-      case SkeletonType.None:
-      default:
-        return 0;
-    }
-  }
+    SkeletonType.None => 0,
+    _ => GetCurrentMaxSkinnableBoneId() - GetCurrentStartBoneId(),
+  };
 
   // force aliased enum values to the more appropriate value
-  public static string BoneLabelFromBoneId(Skeleton.SkeletonType skeletonType, BoneId boneId)
+  public static string BoneLabelFromBoneId(SkeletonType skeletonType, BoneId boneId)
   {
-    if (
-        skeletonType == Skeleton.SkeletonType.HandLeft
-        || skeletonType == Skeleton.SkeletonType.HandRight
-    )
+    if (skeletonType == SkeletonType.None) return "Skeleton_Unknown";
+
+    return boneId switch
     {
-      switch (boneId)
-      {
-        case Skeleton.BoneId.Hand_WristRoot:
-          return "Hand_WristRoot";
-        case Skeleton.BoneId.Hand_ForearmStub:
-          return "Hand_ForearmStub";
-        case Skeleton.BoneId.Hand_Thumb0:
-          return "Hand_Thumb0";
-        case Skeleton.BoneId.Hand_Thumb1:
-          return "Hand_Thumb1";
-        case Skeleton.BoneId.Hand_Thumb2:
-          return "Hand_Thumb2";
-        case Skeleton.BoneId.Hand_Thumb3:
-          return "Hand_Thumb3";
-        case Skeleton.BoneId.Hand_Index1:
-          return "Hand_Index1";
-        case Skeleton.BoneId.Hand_Index2:
-          return "Hand_Index2";
-        case Skeleton.BoneId.Hand_Index3:
-          return "Hand_Index3";
-        case Skeleton.BoneId.Hand_Middle1:
-          return "Hand_Middle1";
-        case Skeleton.BoneId.Hand_Middle2:
-          return "Hand_Middle2";
-        case Skeleton.BoneId.Hand_Middle3:
-          return "Hand_Middle3";
-        case Skeleton.BoneId.Hand_Ring1:
-          return "Hand_Ring1";
-        case Skeleton.BoneId.Hand_Ring2:
-          return "Hand_Ring2";
-        case Skeleton.BoneId.Hand_Ring3:
-          return "Hand_Ring3";
-        case Skeleton.BoneId.Hand_Pinky0:
-          return "Hand_Pinky0";
-        case Skeleton.BoneId.Hand_Pinky1:
-          return "Hand_Pinky1";
-        case Skeleton.BoneId.Hand_Pinky2:
-          return "Hand_Pinky2";
-        case Skeleton.BoneId.Hand_Pinky3:
-          return "Hand_Pinky3";
-        case Skeleton.BoneId.Hand_ThumbTip:
-          return "Hand_ThumbTip";
-        case Skeleton.BoneId.Hand_IndexTip:
-          return "Hand_IndexTip";
-        case Skeleton.BoneId.Hand_MiddleTip:
-          return "Hand_MiddleTip";
-        case Skeleton.BoneId.Hand_RingTip:
-          return "Hand_RingTip";
-        case Skeleton.BoneId.Hand_PinkyTip:
-          return "Hand_PinkyTip";
-        default:
-          return "Hand_Unknown";
-      }
-    }
-    else
-    {
-      return "Skeleton_Unknown";
-    }
+      BoneId.Hand_WristRoot => "Hand_WristRoot",
+      BoneId.Hand_ForearmStub => "Hand_ForearmStub",
+      BoneId.Hand_Thumb0 => "Hand_Thumb0",
+      BoneId.Hand_Thumb1 => "Hand_Thumb1",
+      BoneId.Hand_Thumb2 => "Hand_Thumb2",
+      BoneId.Hand_Thumb3 => "Hand_Thumb3",
+      BoneId.Hand_Index1 => "Hand_Index1",
+      BoneId.Hand_Index2 => "Hand_Index2",
+      BoneId.Hand_Index3 => "Hand_Index3",
+      BoneId.Hand_Middle1 => "Hand_Middle1",
+      BoneId.Hand_Middle2 => "Hand_Middle2",
+      BoneId.Hand_Middle3 => "Hand_Middle3",
+      BoneId.Hand_Ring1 => "Hand_Ring1",
+      BoneId.Hand_Ring2 => "Hand_Ring2",
+      BoneId.Hand_Ring3 => "Hand_Ring3",
+      BoneId.Hand_Pinky0 => "Hand_Pinky0",
+      BoneId.Hand_Pinky1 => "Hand_Pinky1",
+      BoneId.Hand_Pinky2 => "Hand_Pinky2",
+      BoneId.Hand_Pinky3 => "Hand_Pinky3",
+      BoneId.Hand_ThumbTip => "Hand_ThumbTip",
+      BoneId.Hand_IndexTip => "Hand_IndexTip",
+      BoneId.Hand_MiddleTip => "Hand_MiddleTip",
+      BoneId.Hand_RingTip => "Hand_RingTip",
+      BoneId.Hand_PinkyTip => "Hand_PinkyTip",
+      _ => "Hand_Unknown",
+    };
+
   }
 }
 
@@ -624,14 +534,18 @@ public class Bone
   public Skeleton.BoneId Id { get; set; }
   public short ParentBoneIndex { get; set; }
   public Transform Transform { get; set; }
+  public Quaternion localRotation = Quaternion.identity;
 
   public Bone() { }
-
   public Bone(Skeleton.BoneId id, short parentBoneIndex, Transform trans)
   {
     Id = id;
     ParentBoneIndex = parentBoneIndex;
     Transform = trans;
+  }
+  public void Update()
+  {
+    Transform.localRotation = localRotation;
   }
 }
 
