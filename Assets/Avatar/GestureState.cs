@@ -13,18 +13,21 @@ public class GestureState : MonoBehaviour
     public bool middleOpen = false;
     public bool ringOpen = false;
     public bool pinkyOpen = false;
+    public bool handOpen = false;
 
     public bool thumbClosed = false;
     public bool indexClosed = false;
     public bool middleClosed = false;
     public bool ringClosed = false;
     public bool pinkyClosed = false;
+    public bool handClosed = false;
 
     public float thumbStraightness = 0;
     public float indexStraightness = 0;
     public float middleStraightness = 0;
     public float ringStraightness = 0;
     public float pinkyStraightness = 0;
+    public float handStraightness = 0;
 
   }
 
@@ -111,10 +114,12 @@ public class GestureState : MonoBehaviour
   public Fingers fingers;
   public Handedness handedness;
   public GestureStateDisplay gestureState = new GestureStateDisplay();
+  public CustomSkeleton customSkeleton;
 
   void Start()
   {
 
+    customSkeleton = gameObject.GetComponentIfNull(customSkeleton);
     handedness = gameObject.GetComponentIfNull(handedness);
     var handSide = handedness.handType == CustomHand.HandTypes.HandLeft ? "l" : "r";
     var fingerNames = Enum.GetNames(typeof(FingerNames));
@@ -131,6 +136,7 @@ public class GestureState : MonoBehaviour
 
     fingerNames.ToList().ForEach(name =>
     {
+      var boneId = BoneNameToBoneId.getBoneId(name);
       var bone1 = transform.FindRecursiveOrThrow($"b_{handSide}_{name}1");
       var bone2 = transform.FindRecursiveOrThrow($"b_{handSide}_{name}2");
       var bone3 = transform.FindRecursiveOrThrow($"b_{handSide}_{name}3");
@@ -161,17 +167,36 @@ public class GestureState : MonoBehaviour
     gestureState.middleStraightness = fingers.middle.Straightness();
     gestureState.ringStraightness = fingers.ring.Straightness();
     gestureState.pinkyStraightness = fingers.pinky.Straightness();
+    gestureState.handStraightness = (
+      gestureState.thumbStraightness +
+      gestureState.indexStraightness +
+      gestureState.middleStraightness +
+      gestureState.ringStraightness +
+      gestureState.pinkyStraightness
+      ) / 5;
 
     gestureState.thumbOpen = gestureState.thumbStraightness > 0.8;
     gestureState.indexOpen = gestureState.indexStraightness > 0.8;
     gestureState.middleOpen = gestureState.middleStraightness > 0.8;
     gestureState.ringOpen = gestureState.ringStraightness > 0.8;
     gestureState.pinkyOpen = gestureState.pinkyStraightness > 0.8;
+    var handOpen = gestureState.handStraightness > 0.8;
+    if (handOpen != gestureState.handOpen)
+    {
+      gameObject.SendMessage("OnHandOpen", SendMessageOptions.DontRequireReceiver);
+    }
+    gestureState.handOpen = handOpen;
 
     gestureState.thumbClosed = gestureState.thumbStraightness < 0.3;
     gestureState.indexClosed = gestureState.indexStraightness < 0.3;
     gestureState.middleClosed = gestureState.middleStraightness < 0.3;
     gestureState.ringClosed = gestureState.ringStraightness < 0.3;
     gestureState.pinkyClosed = gestureState.pinkyStraightness < 0.3;
+    gestureState.handClosed = gestureState.handStraightness < 0.3;
+    var handClosed = gestureState.handStraightness > 0.8;
+    if (handClosed != gestureState.handClosed)
+    {
+      gameObject.SendMessage("OnHandClosed", SendMessageOptions.DontRequireReceiver);
+    }
   }
 }
