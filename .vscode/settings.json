@@ -41,7 +41,7 @@
     // "**/*.mat":true,
     "**/*.meta": true,
     // "**/*.prefab":true,
-    "**/*.csproj": true,
+    "**/*.csproj": false,
     "**/*.unity": true,
     "UserSettings": true,
     "Packages": true,
@@ -63,6 +63,9 @@
   "cSpell.words": [
     "Dont",
     "IOVR",
-    "Mathf"
+    "Mathf",
+    "Posef",
+    "Quatf",
+    "Skinnable"
   ]
 }
