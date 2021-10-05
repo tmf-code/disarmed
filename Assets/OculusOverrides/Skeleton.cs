@@ -70,13 +70,11 @@ public class Skeleton : MonoBehaviour
   [SerializeField]
   private ISkeletonDataProvider _dataProvider;
 
-  [SerializeField]
-  private bool _updateRootPose = false;
-
+  public bool updateRootScale = false;
+  public bool updateRootPose = false;
   public bool updateBones = false;
 
-  [SerializeField]
-  private bool _updateRootScale = false;
+
 
   private GameObject _bonesGO;
   private GameObject _bindPosesGO;
@@ -292,13 +290,13 @@ public class Skeleton : MonoBehaviour
 
     IsDataHighConfidence = data.IsDataHighConfidence;
 
-    if (_updateRootPose)
+    if (updateRootPose)
     {
       transform.localPosition = data.RootPose.Position.FromFlippedZVector3f();
       transform.localRotation = data.RootPose.Orientation.FromFlippedZQuatf();
     }
 
-    if (_updateRootScale)
+    if (updateRootScale)
     {
       transform.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
     }
