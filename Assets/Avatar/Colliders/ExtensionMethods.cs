@@ -15,6 +15,17 @@ public static class ExtensionMethods
 
     return maybeChild;
   }
+  public static Transform FindOrThrow(this Transform transform, string childName)
+  {
+    var maybeChild = transform.Find(childName);
+
+    if (maybeChild == null)
+    {
+      throw new Exception($"Could not find child: {childName}");
+    }
+
+    return maybeChild;
+  }
 
   public static bool HasComponent<T>(this GameObject gameObject) where T : Component
   {
