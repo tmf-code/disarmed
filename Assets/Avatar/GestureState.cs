@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class GestureState : MonoBehaviour
 {
-  private Fingers fingers;
+  private Fingers fingers = new Fingers();
   private Handedness handedness;
   private CustomSkeleton customSkeleton;
+
+  public SendMessageDisplay sendMessageDisplay = new SendMessageDisplay();
 
   public bool thumbOpen = false;
   public bool indexOpen = false;
@@ -94,6 +96,7 @@ public class GestureState : MonoBehaviour
     if (handOpen != this.handOpen)
     {
       gameObject.SendMessage("OnHandOpen", SendMessageOptions.DontRequireReceiver);
+      sendMessageDisplay.AddMessage("OnHandOpen");
     }
     this.handOpen = handOpen;
 
@@ -106,6 +109,7 @@ public class GestureState : MonoBehaviour
     if (handClosed != this.handClosed)
     {
       gameObject.SendMessage("OnHandClosed", SendMessageOptions.DontRequireReceiver);
+      sendMessageDisplay.AddMessage("OnHandClosed");
     }
     this.handClosed = handClosed;
   }
@@ -197,4 +201,19 @@ public class GestureState : MonoBehaviour
       }
     }
   }
+}
+
+[Serializable]
+public class SendMessageDisplay
+{
+  [HideInInspector]
+  public int size = 5;
+  public string[] messages;
+
+  public void AddMessage(string message)
+  {
+    messages = messages.Prepend(message).ToArray();
+    messages = messages.Take(size).ToArray();
+  }
+
 }

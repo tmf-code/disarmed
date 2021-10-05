@@ -213,7 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 536263f620a9f3f4386d65f02287e2cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
 --- !u!114 &1402518295577808644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +225,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c00a5b199abbb6440922cfc20f4ec330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HandType: -1
   _pointerPoseRoot: {fileID: 0}
 --- !u!114 &1029276345
 MonoBehaviour:
@@ -264,34 +262,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4755e9f4e54c1ef4bb943576061ebe67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fingers:
-    thumb:
-      bones: []
-    index:
-      bones: []
-    middle:
-      bones: []
-    ring:
-      bones: []
-    pinky:
-      bones: []
-  handedness: {fileID: 0}
-  gestureState:
-    thumbOpen: 0
-    indexOpen: 0
-    middleOpen: 0
-    ringOpen: 0
-    pinkyOpen: 0
-    thumbClosed: 0
-    indexClosed: 0
-    middleClosed: 0
-    ringClosed: 0
-    pinkyClosed: 0
-    thumbStraightness: 0
-    indexStraightness: 0
-    middleStraightness: 0
-    ringStraightness: 0
-    pinkyStraightness: 0
+  sendMessageDisplay:
+    size: 5
+    messages: []
+  thumbOpen: 0
+  indexOpen: 0
+  middleOpen: 0
+  ringOpen: 0
+  pinkyOpen: 0
+  handOpen: 0
+  thumbClosed: 0
+  indexClosed: 0
+  middleClosed: 0
+  ringClosed: 0
+  pinkyClosed: 0
+  handClosed: 0
+  thumbStraightness: 0
+  indexStraightness: 0
+  middleStraightness: 0
+  ringStraightness: 0
+  pinkyStraightness: 0
+  handStraightness: 0
 --- !u!1001 &7794568487982560734
 PrefabInstance:
   m_ObjectHideFlags: 0
