@@ -96,7 +96,7 @@ public class GestureState : MonoBehaviour
     if (handOpen != this.handOpen)
     {
       gameObject.SendMessage("OnHandOpen", SendMessageOptions.DontRequireReceiver);
-      sendMessageDisplay.AddMessage("OnHandOpen");
+      sendMessageDisplay.AddMessage("OnHandOpen", customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2]).AlwaysUpdatesTransform);
     }
     this.handOpen = handOpen;
 
@@ -109,7 +109,7 @@ public class GestureState : MonoBehaviour
     if (handClosed != this.handClosed)
     {
       gameObject.SendMessage("OnHandClosed", SendMessageOptions.DontRequireReceiver);
-      sendMessageDisplay.AddMessage("OnHandClosed");
+      sendMessageDisplay.AddMessage("OnHandClosed", customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2]).AlwaysUpdatesTransform);
     }
     this.handClosed = handClosed;
   }
@@ -210,10 +210,15 @@ public class SendMessageDisplay
   public int size = 5;
   public string[] messages;
 
-  public void AddMessage(string message)
+  public void AddMessage(string message, Transform transform)
   {
     messages = messages.Prepend(message).ToArray();
     messages = messages.Take(size).ToArray();
-  }
 
+    var primitive = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+    primitive.transform.position = transform.position;
+    primitive.transform.localScale = new Vector3(0.01F, 0.01F, 0.01F);
+
+    GameObject.Destroy(primitive, 1);
+  }
 }
