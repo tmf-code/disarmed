@@ -133,5 +133,18 @@ public class CustomSkeleton : Skeleton
           ? _skeleton.Bones[i].Pose.Orientation.FromFlippedXQuatf()
           : _skeleton.Bones[i].Pose.Orientation.FromFlippedZQuatf();
     }
+
+    var armature = transform.FindRecursiveOrThrow("Armature");
+
+    var maybeCopyArmature = transform.FindChildRecursive("copy_Armature");
+    var copyArmature = maybeCopyArmature != null ? maybeCopyArmature : Instantiate(armature, armature.parent.transform);
+    copyArmature.name = "copy_Armature";
+
+    for (int i = 0; i < _bones.Count; ++i)
+    {
+      Bone bone = _bones[i];
+      var copy = copyArmature.FindRecursiveOrThrow(bone.Transform.name);
+      bone.AlwaysUpdatesTransform = copy;
+    }
   }
 }

@@ -406,7 +406,11 @@ public class Skeleton : MonoBehaviour
         quaternion *= wristFixupRotation;
       }
       bone.localRotation = quaternion;
+    }
 
+    for (var i = 0; i < _bones.Count; ++i)
+    {
+      var bone = _bones[i];
       bone.Update(updateBones);
     }
   }
@@ -533,25 +537,10 @@ public class Bone
 {
   public Skeleton.BoneId Id { get; set; }
   public short ParentBoneIndex { get; set; }
-  public Transform Transform
-  {
-    get => transform; set
-    {
-      transform = value;
-      Object.Destroy(copy);
-      if (transform == null && transform.parent.transform == null) return;
-      copy = Object.Instantiate(transform.gameObject, transform.parent.transform);
-      copy.name = $"always_updates_{transform.name}";
-      foreach (Transform child in copy.transform)
-      {
-        Object.DestroyImmediate(child.gameObject);
-      }
-    }
-  }
+  public Transform Transform { get; set; }
+  public Transform AlwaysUpdatesTransform { get; set; }
 
   public Quaternion localRotation = Quaternion.identity;
-  public GameObject copy;
-  private Transform transform;
 
   public Bone() { }
   public Bone(Skeleton.BoneId id, short parentBoneIndex, Transform trans)
@@ -566,9 +555,8 @@ public class Bone
     {
       Transform.localRotation = localRotation;
     }
-
-    copy.transform.localPosition = transform.localPosition;
-    copy.transform.localRotation = localRotation;
+    AlwaysUpdatesTransform.localPosition = Transform.localPosition;
+    AlwaysUpdatesTransform.localRotation = localRotation;
   }
 }
 
