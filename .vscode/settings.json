@@ -64,6 +64,8 @@
     "Dont",
     "IOVR",
     "Mathf",
+    "monoscopic",
+    "MSAA",
     "Posef",
     "Quatf",
     "Skinnable"
