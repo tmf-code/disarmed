@@ -37,9 +37,9 @@ public class CustomHand
   private GameObject _pointerPoseGO;
   private OVRPlugin.HandState _handState = new OVRPlugin.HandState();
 
-  public bool IsDataValid { get; private set; }
-  public bool IsDataHighConfidence { get; private set; }
-  public bool IsTracked { get; private set; }
+  public bool isDataValid;
+  public bool isDataHighConfidence;
+  public bool isTracked;
   public bool IsSystemGestureInProgress { get; private set; }
   public bool IsPointerPoseValid { get; private set; }
   public Transform PointerPose { get; private set; }
@@ -81,7 +81,7 @@ public class CustomHand
   {
     if (OVRPlugin.GetHandState(step, (OVRPlugin.Hand)HandType, ref _handState))
     {
-      IsTracked = (_handState.Status & OVRPlugin.HandStatus.HandTracked) != 0;
+      isTracked = (_handState.Status & OVRPlugin.HandStatus.HandTracked) != 0;
       IsSystemGestureInProgress =
           (_handState.Status & OVRPlugin.HandStatus.SystemGestureInProgress) != 0;
       IsPointerPoseValid = (_handState.Status & OVRPlugin.HandStatus.InputStateValid) != 0;
@@ -91,12 +91,12 @@ public class CustomHand
       HandScale = _handState.HandScale;
       HandConfidence = (TrackingConfidence)_handState.HandConfidence;
 
-      IsDataValid = true;
-      IsDataHighConfidence = IsTracked && HandConfidence == TrackingConfidence.High;
+      isDataValid = true;
+      isDataHighConfidence = isTracked && HandConfidence == TrackingConfidence.High;
     }
     else
     {
-      IsTracked = false;
+      isTracked = false;
       IsSystemGestureInProgress = false;
       IsPointerPoseValid = false;
       PointerPose.localPosition = Vector3.zero;
@@ -104,20 +104,20 @@ public class CustomHand
       HandScale = 1.0f;
       HandConfidence = TrackingConfidence.Low;
 
-      IsDataValid = false;
-      IsDataHighConfidence = false;
+      isDataValid = false;
+      isDataHighConfidence = false;
     }
   }
 
   public bool GetFingerIsPinching(HandFinger finger)
   {
-    return IsDataValid && (((int)_handState.Pinches & (1 << (int)finger)) != 0);
+    return isDataValid && (((int)_handState.Pinches & (1 << (int)finger)) != 0);
   }
 
   public float GetFingerPinchStrength(HandFinger finger)
   {
     if (
-        IsDataValid
+        isDataValid
         && _handState.PinchStrength != null
         && _handState.PinchStrength.Length == (int)OVRPlugin.HandFinger.Max
     )
@@ -131,7 +131,7 @@ public class CustomHand
   public TrackingConfidence GetFingerConfidence(HandFinger finger)
   {
     if (
-        IsDataValid
+        isDataValid
         && _handState.FingerConfidences != null
         && _handState.FingerConfidences.Length == (int)OVRPlugin.HandFinger.Max
     )
@@ -156,13 +156,13 @@ public class CustomHand
   {
     var data = new Skeleton.SkeletonPoseData();
 
-    data.IsDataValid = IsDataValid;
-    if (IsDataValid)
+    data.IsDataValid = isDataValid;
+    if (isDataValid)
     {
       data.RootPose = _handState.RootPose;
       data.RootScale = _handState.HandScale;
       data.BoneRotations = _handState.BoneRotations;
-      data.IsDataHighConfidence = IsTracked && HandConfidence == TrackingConfidence.High;
+      data.IsDataHighConfidence = isTracked && HandConfidence == TrackingConfidence.High;
     }
 
     return data;
@@ -172,11 +172,11 @@ public class CustomHand
   {
     var data = new OVRSkeletonRenderer.SkeletonRendererData();
 
-    data.IsDataValid = IsDataValid;
-    if (IsDataValid)
+    data.IsDataValid = isDataValid;
+    if (isDataValid)
     {
       data.RootScale = _handState.HandScale;
-      data.IsDataHighConfidence = IsTracked && HandConfidence == TrackingConfidence.High;
+      data.IsDataHighConfidence = isTracked && HandConfidence == TrackingConfidence.High;
       data.ShouldUseSystemGestureMaterial = IsSystemGestureInProgress;
     }
 
@@ -198,10 +198,10 @@ public class CustomHand
   {
     var data = new OVRMeshRenderer.MeshRendererData();
 
-    data.IsDataValid = IsDataValid;
-    if (IsDataValid)
+    data.IsDataValid = isDataValid;
+    if (isDataValid)
     {
-      data.IsDataHighConfidence = IsTracked && HandConfidence == TrackingConfidence.High;
+      data.IsDataHighConfidence = isTracked && HandConfidence == TrackingConfidence.High;
       data.ShouldUseSystemGestureMaterial = IsSystemGestureInProgress;
     }
 
