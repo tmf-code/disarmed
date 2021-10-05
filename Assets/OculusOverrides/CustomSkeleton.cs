@@ -4,8 +4,6 @@ using UnityEngine;
 [DefaultExecutionOrder(-80)]
 public class CustomSkeleton : Skeleton
 {
-  [SerializeField]
-  private bool _applyBoneTranslations = true;
 
   [HideInInspector]
   [SerializeField]
@@ -121,13 +119,6 @@ public class CustomSkeleton : Skeleton
       bone.Id = (BoneId)_skeleton.Bones[i].Id;
       bone.ParentBoneIndex = _skeleton.Bones[i].ParentBoneIndex;
       bone.Transform = _customBones_V2[(int)bone.Id];
-
-      if (_applyBoneTranslations)
-      {
-        bone.Transform.localPosition = flipX
-            ? _skeleton.Bones[i].Pose.Position.FromFlippedXVector3f()
-            : _skeleton.Bones[i].Pose.Position.FromFlippedZVector3f();
-      }
 
       bone.Transform.localRotation = flipX
           ? _skeleton.Bones[i].Pose.Orientation.FromFlippedXQuatf()

@@ -77,16 +77,12 @@ public class Skeleton : MonoBehaviour
 
   [SerializeField]
   private bool _updateRootScale = false;
-  [SerializeField]
-  private bool _enablePhysicsCapsules = false;
 
   private GameObject _bonesGO;
   private GameObject _bindPosesGO;
-  private GameObject _capsulesGO;
 
   protected List<Bone> _bones;
   private List<Bone> _bindPoses;
-  private List<BoneCapsule> _capsules;
 
   protected OVRPlugin.Skeleton2 _skeleton = new OVRPlugin.Skeleton2();
   private readonly Quaternion wristFixupRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
@@ -96,7 +92,6 @@ public class Skeleton : MonoBehaviour
   public bool IsDataHighConfidence { get; private set; }
   public IList<Bone> Bones { get; protected set; }
   public IList<Bone> BindPoses { get; private set; }
-  public IList<BoneCapsule> Capsules { get; private set; }
   public SkeletonType GetSkeletonType()
   {
     return _skeletonType;
@@ -115,9 +110,6 @@ public class Skeleton : MonoBehaviour
 
     _bindPoses = new List<Bone>();
     BindPoses = _bindPoses.AsReadOnly();
-
-    _capsules = new List<BoneCapsule>();
-    Capsules = _capsules.AsReadOnly();
   }
 
   private void Start()
@@ -159,7 +151,6 @@ public class Skeleton : MonoBehaviour
     {
       InitializeBones();
       InitializeBindPose();
-      InitializeCapsules();
 
       IsInitialized = true;
     }
@@ -272,80 +263,6 @@ public class Skeleton : MonoBehaviour
     }
   }
 
-  private void InitializeCapsules()
-  {
-    bool flipX = (
-        _skeletonType == SkeletonType.HandLeft || _skeletonType == SkeletonType.HandRight
-    );
-
-    if (_enablePhysicsCapsules)
-    {
-      if (!_capsulesGO)
-      {
-        _capsulesGO = new GameObject("Capsules");
-        _capsulesGO.transform.SetParent(transform, false);
-        _capsulesGO.transform.localPosition = Vector3.zero;
-        _capsulesGO.transform.localRotation = Quaternion.identity;
-      }
-
-      if (_capsules == null || _capsules.Count != _skeleton.NumBoneCapsules)
-      {
-        _capsules = new List<BoneCapsule>(new BoneCapsule[_skeleton.NumBoneCapsules]);
-        Capsules = _capsules.AsReadOnly();
-      }
-
-      for (int i = 0; i < _capsules.Count; ++i)
-      {
-        Bone bone = _bones[_skeleton.BoneCapsules[i].BoneIndex];
-        BoneCapsule capsule = _capsules[i] ?? (_capsules[i] = new BoneCapsule());
-        capsule.BoneIndex = _skeleton.BoneCapsules[i].BoneIndex;
-
-        if (capsule.CapsuleRigidbody == null)
-        {
-          capsule.CapsuleRigidbody = new GameObject(
-              BoneLabelFromBoneId(_skeletonType, bone.Id) + "_CapsuleRigidbody"
-          ).AddComponent<Rigidbody>();
-          capsule.CapsuleRigidbody.mass = 1.0f;
-          capsule.CapsuleRigidbody.isKinematic = true;
-          capsule.CapsuleRigidbody.useGravity = false;
-          capsule.CapsuleRigidbody.collisionDetectionMode =
-              CollisionDetectionMode.ContinuousSpeculative;
-        }
-
-        GameObject rbGO = capsule.CapsuleRigidbody.gameObject;
-        rbGO.transform.SetParent(_capsulesGO.transform, false);
-        rbGO.transform.SetPositionAndRotation(bone.Transform.position, bone.Transform.rotation);
-
-        if (capsule.CapsuleCollider == null)
-        {
-          capsule.CapsuleCollider = new GameObject(
-              BoneLabelFromBoneId(_skeletonType, bone.Id) + "_CapsuleCollider"
-          ).AddComponent<CapsuleCollider>();
-          capsule.CapsuleCollider.isTrigger = false;
-        }
-
-        var start = flipX
-            ? _skeleton.BoneCapsules[i].StartPoint.FromFlippedXVector3f()
-            : _skeleton.BoneCapsules[i].StartPoint.FromFlippedZVector3f();
-        var end = flipX
-            ? _skeleton.BoneCapsules[i].EndPoint.FromFlippedXVector3f()
-            : _skeleton.BoneCapsules[i].EndPoint.FromFlippedZVector3f();
-        var delta = end - start;
-        var magnitude = delta.magnitude;
-        var rotation = Quaternion.FromToRotation(Vector3.right, delta);
-        capsule.CapsuleCollider.radius = _skeleton.BoneCapsules[i].Radius;
-        capsule.CapsuleCollider.height = magnitude + _skeleton.BoneCapsules[i].Radius * 2.0f;
-        capsule.CapsuleCollider.direction = 0;
-        capsule.CapsuleCollider.center = 0.5f * magnitude * Vector3.right;
-
-        GameObject ccGO = capsule.CapsuleCollider.gameObject;
-        ccGO.transform.SetParent(rbGO.transform, false);
-        ccGO.transform.localPosition = start;
-        ccGO.transform.localRotation = rotation;
-      }
-    }
-  }
-
   private void Update()
   {
 #if UNITY_EDITOR
@@ -386,7 +303,6 @@ public class Skeleton : MonoBehaviour
       transform.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
     }
 
-
     for (var i = 0; i < _bones.Count; ++i)
     {
       var bone = _bones[i];
@@ -426,44 +342,6 @@ public class Skeleton : MonoBehaviour
     }
 
     Update();
-
-    if (_enablePhysicsCapsules)
-    {
-      var data = _dataProvider.GetSkeletonPoseData();
-
-      IsDataValid = data.IsDataValid;
-      IsDataHighConfidence = data.IsDataHighConfidence;
-
-      for (int i = 0; i < _capsules.Count; ++i)
-      {
-        BoneCapsule capsule = _capsules[i];
-        var capsuleGO = capsule.CapsuleRigidbody.gameObject;
-
-        if (data.IsDataValid && data.IsDataHighConfidence)
-        {
-          Transform bone = _bones[(int)capsule.BoneIndex].Transform;
-
-          if (capsuleGO.activeSelf)
-          {
-            capsule.CapsuleRigidbody.MovePosition(bone.position);
-            capsule.CapsuleRigidbody.MoveRotation(bone.rotation);
-          }
-          else
-          {
-            capsuleGO.SetActive(true);
-            capsule.CapsuleRigidbody.position = bone.position;
-            capsule.CapsuleRigidbody.rotation = bone.rotation;
-          }
-        }
-        else
-        {
-          if (capsuleGO.activeSelf)
-          {
-            capsuleGO.SetActive(false);
-          }
-        }
-      }
-    }
   }
 
   public BoneId GetCurrentStartBoneId() => _skeletonType switch
