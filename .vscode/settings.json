@@ -57,7 +57,7 @@
     "temp/": true,
     "Temp/": true,
     "Assets/XR": true,
-    "Assets/Resources": true
+    "Assets/Resources": false
   },
   "editor.codeLens": false,
   "cSpell.words": [
