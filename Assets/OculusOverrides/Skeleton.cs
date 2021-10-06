@@ -182,10 +182,10 @@ public class Skeleton : MonoBehaviour
       bone.ParentBoneIndex = _skeleton.Bones[i].ParentBoneIndex;
 
       Transform trans =
-          bone.Transform != null
-            ? bone.Transform
+          bone.transform != null
+            ? bone.transform
             : (
-              bone.Transform =
+              bone.transform =
                   new GameObject(BoneLabelFromBoneId(_skeletonType, bone.Id)).transform
           );
       trans.localPosition = flipX
@@ -200,11 +200,11 @@ public class Skeleton : MonoBehaviour
     {
       if ((BoneId)_bones[i].ParentBoneIndex == BoneId.Invalid)
       {
-        _bones[i].Transform.SetParent(_bonesGO.transform, false);
+        _bones[i].transform.SetParent(_bonesGO.transform, false);
       }
       else
       {
-        _bones[i].Transform.SetParent(_bones[_bones[i].ParentBoneIndex].Transform, false);
+        _bones[i].transform.SetParent(_bones[_bones[i].ParentBoneIndex].transform, false);
       }
     }
   }
@@ -234,27 +234,27 @@ public class Skeleton : MonoBehaviour
       bindPoseBone.ParentBoneIndex = bone.ParentBoneIndex;
 
       Transform trans =
-          bindPoseBone.Transform != null
-            ? bindPoseBone.Transform
-            : (bindPoseBone.Transform =
+          bindPoseBone.transform != null
+            ? bindPoseBone.transform
+            : (bindPoseBone.transform =
                 new GameObject(
                     BoneLabelFromBoneId(_skeletonType, bindPoseBone.Id)
                 ).transform
           );
-      trans.localPosition = bone.Transform.localPosition;
-      trans.localRotation = bone.Transform.localRotation;
+      trans.localPosition = bone.transform.localPosition;
+      trans.localRotation = bone.transform.localRotation;
     }
 
     for (int i = 0; i < _bindPoses.Count; ++i)
     {
       if ((BoneId)_bindPoses[i].ParentBoneIndex == BoneId.Invalid)
       {
-        _bindPoses[i].Transform.SetParent(_bindPosesGO.transform, false);
+        _bindPoses[i].transform.SetParent(_bindPosesGO.transform, false);
       }
       else
       {
-        _bindPoses[i].Transform.SetParent(
-            _bindPoses[_bindPoses[i].ParentBoneIndex].Transform,
+        _bindPoses[i].transform.SetParent(
+            _bindPoses[_bindPoses[i].ParentBoneIndex].transform,
             false
         );
       }
@@ -304,7 +304,7 @@ public class Skeleton : MonoBehaviour
     for (var i = 0; i < _bones.Count; ++i)
     {
       var bone = _bones[i];
-      if (bone.Transform == null) continue;
+      if (bone.transform == null) continue;
 
       var isSkeletonTypeNone = _skeletonType == SkeletonType.None;
       if (isSkeletonTypeNone)
@@ -413,8 +413,11 @@ public class Bone
 {
   public Skeleton.BoneId Id { get; set; }
   public short ParentBoneIndex { get; set; }
-  public Transform Transform { get; set; }
-  public Transform AlwaysUpdatesTransform { get; set; }
+
+#nullable enable
+  public Transform? transform;
+  public Transform? alwaysUpdatesTransform;
+#nullable disable
 
   public Quaternion localRotation = Quaternion.identity;
 
@@ -423,16 +426,16 @@ public class Bone
   {
     Id = id;
     ParentBoneIndex = parentBoneIndex;
-    Transform = trans;
+    transform = trans;
   }
   public void Update(bool updateMaster)
   {
     if (updateMaster)
     {
-      Transform.localRotation = localRotation;
+      transform.localRotation = localRotation;
     }
-    AlwaysUpdatesTransform.localPosition = Transform.localPosition;
-    AlwaysUpdatesTransform.localRotation = localRotation;
+    alwaysUpdatesTransform.localPosition = transform.localPosition;
+    alwaysUpdatesTransform.localRotation = localRotation;
   }
 }
 

@@ -118,9 +118,9 @@ public class CustomSkeleton : Skeleton
       Bone bone = _bones[i] ?? (_bones[i] = new Bone());
       bone.Id = (BoneId)_skeleton.Bones[i].Id;
       bone.ParentBoneIndex = _skeleton.Bones[i].ParentBoneIndex;
-      bone.Transform = _customBones_V2[(int)bone.Id];
+      bone.transform = _customBones_V2[(int)bone.Id];
 
-      bone.Transform.localRotation = flipX
+      bone.transform.localRotation = flipX
           ? _skeleton.Bones[i].Pose.Orientation.FromFlippedXQuatf()
           : _skeleton.Bones[i].Pose.Orientation.FromFlippedZQuatf();
     }
@@ -134,8 +134,8 @@ public class CustomSkeleton : Skeleton
     for (int i = 0; i < _bones.Count; ++i)
     {
       Bone bone = _bones[i];
-      var copy = copyArmature.FindRecursiveOrThrow(bone.Transform.name);
-      bone.AlwaysUpdatesTransform = copy;
+      var copy = copyArmature.FindRecursiveOrThrow(bone.transform.name);
+      bone.alwaysUpdatesTransform = copy;
     }
   }
 }
