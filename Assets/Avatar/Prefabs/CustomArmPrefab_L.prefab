@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 284514426}
   - component: {fileID: 284514435}
   - component: {fileID: 1466161512}
+  - component: {fileID: 1738984887411348115}
   m_Layer: 0
   m_Name: CustomArmPrefab_L
   m_TagString: Untagged
@@ -297,6 +298,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3aad284b8f07ef4b91886fbaf96300e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1738984887411348115
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673280072435804092}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 04ea293f217a7544d9b2eeb5bb9a5cfa, type: 3}
+  m_Controller: {fileID: 9100000, guid: b86766a1e9f315943986437d58ec356a, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &3144949584062331564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -352,7 +372,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: OculusArm_L
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 04ea293f217a7544d9b2eeb5bb9a5cfa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 04ea293f217a7544d9b2eeb5bb9a5cfa, type: 3}
 --- !u!4 &3183943259981438279 stripped
 Transform:
