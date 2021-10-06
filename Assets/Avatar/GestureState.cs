@@ -39,6 +39,7 @@ public class GestureState : MonoBehaviour
     var handSide = handedness.handType == CustomHand.HandTypes.HandLeft ? "l" : "r";
     var fingerNames = Enum.GetNames(typeof(FingerNames));
     fingers = new Fingers();
+    sendMessageDisplay = new SendMessageDisplay();
 
     // Empirically derived
     var fingerDimensions = new Dictionary<FingerNames, Range>(5)
@@ -96,7 +97,8 @@ public class GestureState : MonoBehaviour
     if (handOpen != this.handOpen)
     {
       gameObject.SendMessage("OnHandOpen", SendMessageOptions.DontRequireReceiver);
-      sendMessageDisplay.AddMessage("OnHandOpen", customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2]).AlwaysUpdatesTransform);
+      var gesturePosition = customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.alwaysUpdatesTransform;
+      if (gesturePosition != null) sendMessageDisplay.AddMessage("OnHandOpen", gesturePosition);
     }
     this.handOpen = handOpen;
 
@@ -109,11 +111,13 @@ public class GestureState : MonoBehaviour
     if (handClosed != this.handClosed)
     {
       gameObject.SendMessage("OnHandClosed", SendMessageOptions.DontRequireReceiver);
-      sendMessageDisplay.AddMessage("OnHandClosed", customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2]).AlwaysUpdatesTransform);
+      var gesturePosition = customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.alwaysUpdatesTransform;
+      if (gesturePosition != null) sendMessageDisplay.AddMessage("OnHandClosed", gesturePosition);
     }
     this.handClosed = handClosed;
   }
 
+  [Serializable]
   public class Finger
   {
     public string[] boneNames;
@@ -145,7 +149,7 @@ public class GestureState : MonoBehaviour
     private Transform[] BoneTransforms()
     {
       return boneNames.Select(name => customSkeleton.GetBoneFromBoneName(name))
-        .Where(bone => bone != null && bone.AlwaysUpdatesTransform != null).Select(bone => bone.AlwaysUpdatesTransform)
+        .Where(bone => bone != null && bone.alwaysUpdatesTransform != null).Select(bone => bone.alwaysUpdatesTransform)
         .ToArray();
     }
 
@@ -171,6 +175,7 @@ public class GestureState : MonoBehaviour
   }
 
 
+  [Serializable]
   public class Fingers
   {
     public Finger thumb;
@@ -208,7 +213,7 @@ public class SendMessageDisplay
 {
   [HideInInspector]
   public int size = 5;
-  public string[] messages;
+  public string[] messages = new string[] { };
 
   public void AddMessage(string message, Transform transform)
   {
