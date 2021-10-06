@@ -26,6 +26,24 @@ public static class ExtensionMethods
 
     return maybeChild;
   }
+  public static void TraverseChildren(this Transform parent, Action<Transform> action)
+  {
+    foreach (Transform child in parent)
+    {
+      action(child);
+
+      child.TraverseChildren(action);
+    }
+  }
+
+  public static T GetComponentOrThrow<T>(this GameObject gameObject) where T : Component
+  {
+    if (gameObject.TryGetComponent<T>(out T component))
+    {
+      return component;
+    }
+    throw new Exception($"Component {component.GetType()} not found");
+  }
 
   public static bool HasComponent<T>(this GameObject gameObject) where T : Component
   {
