@@ -12,9 +12,10 @@ public class Grabbing : MonoBehaviour
   {
     creationTime = Time.time;
 
-    transform.GetComponent<InverseKinematics>().enabled = true;
-    var skeleton = transform.GetComponent<CustomSkeleton>();
-    skeleton.enabled = true;
+    gameObject.GetComponentOrThrow<InverseKinematics>().strength = 1;
+    gameObject.GetComponentOrThrow<ApplyHandTracking>().strength = 0;
+    gameObject.GetComponentOrThrow<ApplyRootTracking>().strength = 1;
+    gameObject.GetComponentOrThrow<ApplyPose>().strength = 1;
 
     gameObject.RemoveComponent<Idle>();
     gameObject.RemoveComponent<Grabbed>();
@@ -38,8 +39,10 @@ public class Grabbing : MonoBehaviour
   {
     if (!canTransition) return;
 
-    var skeleton = transform.GetComponent<CustomSkeleton>();
-
+    gameObject.GetComponentOrThrow<InverseKinematics>().strength = 1;
+    gameObject.GetComponentOrThrow<ApplyHandTracking>().strength = 1;
+    gameObject.GetComponentOrThrow<ApplyRootTracking>().strength = 1;
+    gameObject.GetComponentOrThrow<ApplyPose>().strength = 0;
 
     gameObject.AddIfNotExisting<Idle>();
     grabbed.SendMessage("OnGrabReleased", SendMessageOptions.RequireReceiver);

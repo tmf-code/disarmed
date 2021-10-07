@@ -15,7 +15,7 @@ public class BoneCollider : MonoBehaviour
   private Transform boneStartTransform;
   private Transform boneEndTransform;
 
-  public float radius = 0.1F;
+  private readonly float radius = 0.05F;
 
   public GameObject colliderRoot;
   public new CapsuleCollider collider;
@@ -34,6 +34,7 @@ public class BoneCollider : MonoBehaviour
     collider.direction = (int)CapsuleColliderDirection.Y_AXIS;
     collider.isTrigger = true;
     collider.tag = tag;
+    collider.radius = radius;
 
     rigidbody =
         colliderRoot.GetComponent<Rigidbody>() == null

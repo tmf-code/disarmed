@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ApplyPose : MonoBehaviour
 {
-  public bool apply = false;
   [Range(0, 1)]
   public float strength = 0.0F;
 
@@ -14,12 +13,10 @@ public class ApplyPose : MonoBehaviour
   {
     poseSelector = gameObject.GetComponentOrThrow<PoseSelector>();
     model = transform.FindRecursiveOrThrow("Model");
-
   }
 
   public void Update()
   {
-    if (!apply) return;
     void ApplyTransform(Transform current)
     {
       if (!BoneNameToBoneId.IsTrackedBone(current.name)) return;

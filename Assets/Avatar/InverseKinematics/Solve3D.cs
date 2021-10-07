@@ -6,8 +6,6 @@ partial class Solve3D
 {
   /**
  * Changes joint angle to minimize distance of end effector to target
- *
- * If given no options, runs in FABRIK mode
  */
   public static SolveResult Solve(
       Link[] links,
@@ -37,57 +35,51 @@ partial class Solve3D
       );
     }
 
-    Link[] withAngleStep = links.Select(
-            (link, linkIndex) =>
-            {
-              var position = link.position;
-              var rotation = link.rotation;
-              var constraints = link.constraints;
+    Link[] withAngleStep = links.Select((link, linkIndex) =>
+    {
+      var position = link.position;
+      var rotation = link.rotation;
+      var constraints = link.constraints;
 
-                  // For each, calculate partial derivative, sum to give full numerical derivative
-                  var vectorComponents = new float[] { 0, 0, 0 }.Select(
-                          (_, v3Index) =>
-                          {
-                          var eulerAngle = new float[] { 0, 0, 0 };
-                          eulerAngle[v3Index] = deltaAngle;
-                          var angleDelta =
-                                  rotation
-                                  * Quaternion.Euler(eulerAngle[0], eulerAngle[1], eulerAngle[2]);
-                          var linkWithAngleDelta = new Link(angleDelta, null, position);
+      // For each, calculate partial derivative, sum to give full numerical derivative
+      var vectorComponents = new float[] { 0, 0, 0 }.Select(
+        (_, v3Index) =>
+        {
+          var eulerAngle = new float[] { 0, 0, 0 };
+          eulerAngle[v3Index] = deltaAngle;
+          var angleDelta =
+            rotation
+            * Quaternion.Euler(eulerAngle[0], eulerAngle[1], eulerAngle[2]);
+          var linkWithAngleDelta = new Link(angleDelta, null, position);
 
-                              // Get remaining links from this links joint
-                              Link[] projectedLinks = new Link[] { linkWithAngleDelta }.Concat(
-                                      links.ToList().Skip(linkIndex + 1)
-                                  )
-                                  .ToArray();
+          // Get remaining links from this links joint
+          Link[] projectedLinks = new Link[] { linkWithAngleDelta }.Concat(
+            links.ToList().Skip(linkIndex + 1)
+          ).ToArray();
 
-                          var joint = joints[linkIndex];
-                          var projectedError = GetErrorDistance(
-                                  projectedLinks,
-                                  joint,
-                                  target
-                              );
-                          var gradient = projectedError / deltaAngle - error / deltaAngle;
+          var joint = joints[linkIndex];
+          var projectedError = GetErrorDistance(
+            projectedLinks,
+            joint,
+            target
+          );
+          var gradient = projectedError / deltaAngle - error / deltaAngle;
 
-                          var angleStep = -gradient * learningRate(projectedError);
+          var angleStep = -gradient * learningRate(projectedError);
 
-                          return angleStep;
-                        }
-                      )
-                      .ToArray();
+          return angleStep;
+        }).ToArray();
 
-              var steppedRotation =
-                      rotation
-                      * Quaternion.Euler(
-                          vectorComponents[0],
-                          vectorComponents[1],
-                          vectorComponents[2]
-                      );
+      var steppedRotation =
+        rotation
+        * Quaternion.Euler(
+            vectorComponents[0],
+            vectorComponents[1],
+            vectorComponents[2]
+        );
 
-              return new Link(steppedRotation, constraints, position);
-            }
-        )
-        .ToArray();
+      return new Link(steppedRotation, constraints, position);
+    }).ToArray();
 
     var adjustedJoints = GetJointTransforms(withAngleStep, baseJoint).transforms;
     var withConstraints = ApplyConstraints(withAngleStep, adjustedJoints);

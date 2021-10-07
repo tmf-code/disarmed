@@ -8,8 +8,8 @@ public class CustomSkeleton : Skeleton
   private static BoneName FbxBoneNameFromBoneId(HandTypes handType, TrackedBones boneId)
   {
     {
-      var isFingerTipMarker = boneId >= TrackedBones.Hand_ThumbTip && boneId <= TrackedBones.Hand_PinkyTip;
       var handSideprefix = handType == HandTypes.HandLeft ? "l_" : "r_";
+      var isFingerTipMarker = boneId >= TrackedBones.Hand_ThumbTip && boneId <= TrackedBones.Hand_PinkyTip;
       if (isFingerTipMarker)
       {
         var fingerNameIndex = (int)boneId - (int)TrackedBones.Hand_ThumbTip;

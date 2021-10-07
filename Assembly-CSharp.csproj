@@ -183,7 +183,8 @@
      <Compile Include="Assets\OculusOverrides\Skeleton.cs" />
      <Compile Include="Assets\Avatar\Colliders\ForearmCollider.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrackSegment.cs" />
-     <Compile Include="Assets\Avatar\ApplyTracking.cs" />
+     <Compile Include="Assets\Avatar\ApplyHandTracking.cs" />
+     <Compile Include="Assets\Avatar\ApplyRootTracking.cs" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\XingLightShader.shader" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\ButtonGlow.shader" />
      <None Include="Assets\Oculus\SampleFramework\Usage\Passthrough\Materials\SelectivePassthrough.shader" />

@@ -9,8 +9,10 @@ public class Idle : MonoBehaviour
   void Start()
   {
     creationTime = Time.time;
-    transform.GetComponent<InverseKinematics>().enabled = true;
-    transform.GetComponent<CustomSkeleton>().enabled = true;
+    gameObject.GetComponentOrThrow<InverseKinematics>().strength = 1;
+    gameObject.GetComponentOrThrow<ApplyHandTracking>().strength = 1;
+    gameObject.GetComponentOrThrow<ApplyRootTracking>().strength = 1;
+    gameObject.GetComponentOrThrow<ApplyPose>().strength = 0;
 
     gameObject.RemoveComponent<Grabbed>();
     gameObject.RemoveComponent<Grabbing>();

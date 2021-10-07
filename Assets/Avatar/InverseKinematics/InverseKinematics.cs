@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class InverseKinematics : MonoBehaviour
 {
+  public float strength = 1.0F;
   public Transform wrist;
   public Transform shoulder;
   public Transform target;
@@ -49,32 +50,31 @@ public class InverseKinematics : MonoBehaviour
     Transform[] bones = new Transform[] { forearm, humerus, shoulder };
 
     Solve3D.Link[] links = bones.ToList()
-        .GetRange(0, bones.Length - 1)
-        .Select(
-            (bone, index) =>
-            {
-              var nextBone = bones[index + 1];
-              var rotation = bone.localRotation;
-              var boneName = bone.name;
+      .GetRange(0, bones.Length - 1)
+      .Select(
+          (bone, index) =>
+          {
+            var nextBone = bones[index + 1];
+            var rotation = bone.localRotation;
+            var boneName = bone.name;
 
-              //  Solve3D.Con["constraints"] constraints:  =
-              //     CONSTRAINTS[boneName][handedness];
+            //  Solve3D.Con["constraints"] constraints:  =
+            //     CONSTRAINTS[boneName][handedness];
 
 
-              return new Solve3D.Link(rotation, null, nextBone.localPosition);
-            }
-        )
-        .ToArray();
+            return new Solve3D.Link(rotation, null, nextBone.localPosition);
+          }
+      ).ToArray();
 
     for (var index = 0; index < 10; index++)
     {
       var intermediateResults =
-          Solve3D.Solve(
-              links,
-              baseTransform,
-              target.position,
-              SolveOptions.defaultFABRIKOptions
-          ).links;
+        Solve3D.Solve(
+            links,
+            baseTransform,
+            target.position,
+            SolveOptions.defaultOptions
+        ).links;
 
       for (int resultIndex = 0; resultIndex < intermediateResults.Length; resultIndex++)
       {
@@ -86,7 +86,7 @@ public class InverseKinematics : MonoBehaviour
         links,
         baseTransform,
         target.position,
-        SolveOptions.defaultFABRIKOptions
+        SolveOptions.defaultOptions
     );
 
     errorDistance = getErrorDistance();
@@ -96,7 +96,7 @@ public class InverseKinematics : MonoBehaviour
     {
       var bone = bones[resultIndex]!;
       var link = results[resultIndex];
-      bone.localRotation = link.rotation;
+      bone.localRotation = Quaternion.Slerp(bone.localRotation, link.rotation, strength);
     }
   }
 }

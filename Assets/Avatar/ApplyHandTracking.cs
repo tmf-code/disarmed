@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class ApplyTracking : MonoBehaviour
+public class ApplyHandTracking : MonoBehaviour
 {
-  public bool apply = false;
   [Range(0, 1)]
   public float strength = 0.0F;
   private Transform trackingData;
@@ -16,7 +15,6 @@ public class ApplyTracking : MonoBehaviour
 
   void Update()
   {
-    if (!apply) return;
     void CopyTransform(Transform target)
     {
       if (!BoneNameToBoneId.IsTrackedBone(target.name)) return;
@@ -27,10 +25,6 @@ public class ApplyTracking : MonoBehaviour
       current.localRotation = Quaternion.Slerp(current.localRotation, target.localRotation, strength);
       current.localScale = Vector3.Lerp(current.localScale, target.localScale, strength);
     }
-
-    model.localPosition = Vector3.Lerp(model.localPosition, trackingData.localPosition, strength);
-    model.localRotation = Quaternion.Slerp(model.localRotation, trackingData.localRotation, strength);
-    model.localScale = Vector3.Lerp(model.localScale, trackingData.localScale, strength);
     trackingData.TraverseChildren(CopyTransform);
   }
 }

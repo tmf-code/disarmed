@@ -2,7 +2,7 @@
 
 struct SolveOptions
 {
-  public static SolveOptions defaultFABRIKOptions = new SolveOptions(
+  public static SolveOptions defaultOptions = new SolveOptions(
       0.1F,
       new Func<float, float>((float _) => 100.1F),
       0
