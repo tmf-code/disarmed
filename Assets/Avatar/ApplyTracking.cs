@@ -17,7 +17,8 @@ public class ApplyTracking : MonoBehaviour
     if (!apply) return;
     void CopyTransform(Transform transform)
     {
-      var destination = model.FindRecursiveOrThrow(transform.name);
+      var destination = model.FindChildRecursive(transform.name);
+      if (!destination) return;
       destination.localPosition = transform.localPosition;
       destination.localRotation = transform.localRotation;
       destination.localScale = transform.localScale;

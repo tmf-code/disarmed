@@ -53,6 +53,7 @@ GameObject:
   - component: {fileID: 1223957952}
   - component: {fileID: 1223957953}
   - component: {fileID: 1223957954}
+  - component: {fileID: 1223957967}
   m_Layer: 0
   m_Name: CustomArmPrefab_L
   m_TagString: Untagged
@@ -88,8 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57248f38a913cff4585d6ed2cccf5b03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateRootScale: 0
-  updateRootPose: 0
+  updateRootScale: 1
+  updateRootPose: 1
 --- !u!114 &2999528320566557185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +321,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poseSelector: {fileID: 0}
+--- !u!114 &1223957967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673280072435804092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b77d9fd2fcf6c4da09b6f0c37d7ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apply: 0
 --- !u!1001 &3144949584062331564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -373,7 +387,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 04ea293f217a7544d9b2eeb5bb9a5cfa, type: 3}
       propertyPath: m_Name
-      value: OculusArm_L
+      value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879528566716807029, guid: 04ea293f217a7544d9b2eeb5bb9a5cfa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879528566716807029, guid: 04ea293f217a7544d9b2eeb5bb9a5cfa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879528566716807029, guid: 04ea293f217a7544d9b2eeb5bb9a5cfa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5866666021909216657, guid: 04ea293f217a7544d9b2eeb5bb9a5cfa, type: 3}
