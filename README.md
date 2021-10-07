@@ -56,3 +56,9 @@ A list is:
 var a = new List<String>() {"cat", "dog"};
 
 ```
+
+### Getting the language server to work
+
+You need to configure unity to use vscode as it's editor. https://code.visualstudio.com/docs/other/unity
+
+Then when you want to open the project for the first time in vscode, go to Unity -> Assets -> Open C# project
