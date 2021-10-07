@@ -28,3 +28,31 @@ var a = b?.method()?.cat;
 var a ??= dog;
 var a = cat ?? dog;
 ```
+
+### Serializing
+
+In order for the UI to save variables into the fields, and also resume execution on a hot-code swap, you must mark things as serialisable. This means that Unity can store them in it's asset database to be restored on load/unload of scenes etc.
+
+Examples
+
+```c#
+[Serializable]
+class Cat {
+  public string name = "cat";
+}
+
+
+class Cat {
+  [SerializeField]
+  private string privateNameButIsStillSerialized = "cat";
+}
+```
+
+No other data structures can be 'serialized' except primitives, arrays (ie: []), and Lists
+
+A list is:
+
+```C#
+var a = new List<String>() {"cat", "dog"};
+
+```
