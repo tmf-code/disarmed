@@ -8,58 +8,42 @@ public static class ExtensionMethods
   {
     var maybeChild = transform.FindChildRecursive(childName);
 
-    if (maybeChild == null)
-    {
-      throw new Exception($"Could not find child: {childName}");
-    }
+    if (maybeChild == null) throw new Exception($"Could not find child: {childName}");
 
     return maybeChild;
   }
+
   public static Transform FindOrThrow(this Transform transform, string childName)
   {
     var maybeChild = transform.Find(childName);
 
-    if (maybeChild == null)
-    {
-      throw new Exception($"Could not find child: {childName}");
-    }
+    if (maybeChild == null) throw new Exception($"Could not find child: {childName}");
 
     return maybeChild;
   }
+
   public static void TraverseChildren(this Transform parent, Action<Transform> action)
   {
     foreach (Transform child in parent)
     {
       action(child);
-
       child.TraverseChildren(action);
     }
   }
 
   public static T GetComponentOrThrow<T>(this GameObject gameObject) where T : Component
   {
-    if (gameObject.TryGetComponent<T>(out T component))
-    {
-      return component;
-    }
+    if (gameObject.TryGetComponent(out T component)) return component;
+
     throw new Exception($"Component {component.GetType()} not found");
   }
 
-  public static bool HasComponent<T>(this GameObject gameObject) where T : Component
-  {
-    return gameObject.GetComponent<T>() != null;
-  }
+  public static bool HasComponent<T>(this GameObject gameObject) where T : Component => gameObject.GetComponent<T>() != null;
 
   public static T AddIfNotExisting<T>(this GameObject gameObject) where T : Component
   {
-    if (gameObject.HasComponent<T>())
-    {
-      return gameObject.GetComponent<T>();
-    }
-    else
-    {
-      return gameObject.AddComponent<T>();
-    }
+    if (gameObject.HasComponent<T>()) return gameObject.GetComponent<T>();
+    else return gameObject.AddComponent<T>();
   }
 
   public static T GetComponentIfNull<T>(this GameObject gameObject, T component) where T : Component
