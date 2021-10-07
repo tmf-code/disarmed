@@ -49,7 +49,6 @@ GameObject:
   - component: {fileID: 1402518295577808644}
   - component: {fileID: 1029276345}
   - component: {fileID: 8886124215797538498}
-  - component: {fileID: 1244591879}
   - component: {fileID: 1403463826361260191}
   - component: {fileID: 6248832853331544106}
   - component: {fileID: 1220728358331878424}
@@ -267,18 +266,6 @@ MonoBehaviour:
   ringStraightness: 0
   pinkyStraightness: 0
   handStraightness: 0
---- !u!114 &1244591879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7612404611651155419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3aad284b8f07ef4b91886fbaf96300e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1403463826361260191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,7 +307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 455a83b31979cc44a94e2a1f87b91a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poseSelector: {fileID: 0}
+  apply: 0
+  strength: 0
 --- !u!114 &8192208649558170392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   apply: 0
+  strength: 0
 --- !u!1001 &7794568487982560734
 PrefabInstance:
   m_ObjectHideFlags: 0

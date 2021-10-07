@@ -5,14 +5,14 @@ using UnityEngine;
 [DefaultExecutionOrder(-80)]
 public class CustomSkeleton : Skeleton
 {
-  private static BoneName FbxBoneNameFromBoneId(HandTypes handType, BoneId boneId)
+  private static BoneName FbxBoneNameFromBoneId(HandTypes handType, TrackedBones boneId)
   {
     {
-      var isFingerTipMarker = boneId >= BoneId.Hand_ThumbTip && boneId <= BoneId.Hand_PinkyTip;
+      var isFingerTipMarker = boneId >= TrackedBones.Hand_ThumbTip && boneId <= TrackedBones.Hand_PinkyTip;
       var handSideprefix = handType == HandTypes.HandLeft ? "l_" : "r_";
       if (isFingerTipMarker)
       {
-        var fingerNameIndex = (int)boneId - (int)BoneId.Hand_ThumbTip;
+        var fingerNameIndex = (int)boneId - (int)TrackedBones.Hand_ThumbTip;
         var fingerName = HandFingerNames[fingerNameIndex];
         return (BoneName)Enum.Parse(
           typeof(BoneName),
@@ -30,7 +30,7 @@ public class CustomSkeleton : Skeleton
 
   public Bone GetBoneFromBoneName(BoneName name)
   {
-    var boneId = BoneNameToBoneId.getBoneId(name);
+    var boneId = BoneNameToBoneId.GetTrackedBone(name);
     var maybeBone = bones.Find(bone => bone.id == boneId);
 
     return maybeBone;
@@ -53,12 +53,11 @@ public class CustomSkeleton : Skeleton
     for (int i = 0; i < bones.Count; ++i)
     {
       Bone bone = bones[i] ?? (bones[i] = new Bone());
-      bone.id = (BoneId)i;
+      bone.id = (TrackedBones)i;
 
       BoneName fbxBoneName = FbxBoneNameFromBoneId(HandType, bone.id);
       Transform boneTransform = copyArmature.FindRecursiveOrThrow(fbxBoneName.ToString());
 
-      bone.name = fbxBoneName;
       bone.transform = boneTransform;
       bone.transform.localRotation = skeleton.Bones[i].Pose.Orientation.FromFlippedXQuatf();
     }

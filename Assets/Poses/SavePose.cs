@@ -12,13 +12,24 @@ public class SavePose : MonoBehaviour
   [SerializeField]
   private string json;
 
+  void Start()
+  {
+    start = transform.FindChildRecursive("VRTrackingData");
+  }
+
   public void Save()
   {
+    start = transform.FindChildRecursive("VRTrackingData");
     var transforms = new List<SerializedTransform>();
 
-    void Serialize(Transform transform) => transforms.Add(new SerializedTransform(transform));
+    void Serialize(Transform transform)
+    {
+      if (!BoneNameToBoneId.IsTrackedBone(transform.name)) return;
+      transforms.Add(new SerializedTransform(transform));
+    }
 
     Serialize(start);
+
     start.TraverseChildren(Serialize);
 
     var serializedTransforms = new SerializedTransforms(transforms.ToArray());

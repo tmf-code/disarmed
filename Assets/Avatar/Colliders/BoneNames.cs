@@ -1,4 +1,4 @@
-using static Skeleton;
+using System;
 
 public enum BoneName
 {
@@ -177,63 +177,116 @@ public enum BoneName
   r_thumb_cmc_fe_axis_marker,
 }
 
+public enum TrackedBones
+{
+  // hand bones
+  Hand_WristRoot, // root frame of the hand, where the wrist is located
+  Hand_ForearmStub, // frame for user's forearm
+  Hand_Thumb0, // thumb trapezium bone
+  Hand_Thumb1, // thumb metacarpal bone
+  Hand_Thumb2, // thumb proximal phalange bone
+  Hand_Thumb3, // thumb distal phalange bone
+  Hand_Index1, // index proximal phalange bone
+  Hand_Index2, // index intermediate phalange bone
+  Hand_Index3, // index distal phalange bone
+  Hand_Middle1, // middle proximal phalange bone
+  Hand_Middle2, // middle intermediate phalange bone
+  Hand_Middle3, // middle distal phalange bone
+  Hand_Ring1, // ring proximal phalange bone
+  Hand_Ring2, // ring intermediate phalange bone
+  Hand_Ring3, // ring distal phalange bone
+  Hand_Pinky0, // pinky metacarpal bone
+  Hand_Pinky1, // pinky proximal phalange bone
+  Hand_Pinky2, // pinky intermediate phalange bone
+  Hand_Pinky3, // pinky distal phalange bone
+
+  // Bone tips are position only. They are not used for skinning but are useful for hit-testing.
+  Hand_ThumbTip, // tip of the thumb
+  Hand_IndexTip, // tip of the index finger
+  Hand_MiddleTip, // tip of the middle finger
+  Hand_RingTip, // tip of the ring finger
+  Hand_PinkyTip, // tip of the pinky
+  Hand_End,
+}
+
+
 public class BoneNameToBoneId
 {
-  public static BoneId getBoneId(BoneName boneName)
+  public static TrackedBones GetTrackedBone(BoneName boneName)
   {
     var result = boneName switch
     {
-      BoneName.b_l_wrist => BoneId.Hand_WristRoot,
-      BoneName.b_l_forearm_stub => BoneId.Hand_ForearmStub,
-      BoneName.b_l_thumb0 => BoneId.Hand_Thumb0,
-      BoneName.b_l_thumb1 => BoneId.Hand_Thumb1,
-      BoneName.b_l_thumb2 => BoneId.Hand_Thumb2,
-      BoneName.b_l_thumb3 => BoneId.Hand_Thumb3,
-      BoneName.b_l_index1 => BoneId.Hand_Index1,
-      BoneName.b_l_index2 => BoneId.Hand_Index2,
-      BoneName.b_l_index3 => BoneId.Hand_Index3,
-      BoneName.b_l_middle1 => BoneId.Hand_Middle1,
-      BoneName.b_l_middle2 => BoneId.Hand_Middle2,
-      BoneName.b_l_middle3 => BoneId.Hand_Middle3,
-      BoneName.b_l_ring1 => BoneId.Hand_Ring1,
-      BoneName.b_l_ring2 => BoneId.Hand_Ring2,
-      BoneName.b_l_ring3 => BoneId.Hand_Ring3,
-      BoneName.b_l_pinky0 => BoneId.Hand_Pinky0,
-      BoneName.b_l_pinky1 => BoneId.Hand_Pinky1,
-      BoneName.b_l_pinky2 => BoneId.Hand_Pinky2,
-      BoneName.b_l_pinky3 => BoneId.Hand_Pinky3,
-      BoneName.l_thumb_finger_tip_marker => BoneId.Hand_ThumbTip,
-      BoneName.l_index_finger_tip_marker => BoneId.Hand_IndexTip,
-      BoneName.l_middle_finger_tip_marker => BoneId.Hand_MiddleTip,
-      BoneName.l_ring_finger_tip_marker => BoneId.Hand_RingTip,
-      BoneName.l_pinky_finger_tip_marker => BoneId.Hand_PinkyTip,
-      BoneName.b_r_wrist => BoneId.Hand_WristRoot,
-      BoneName.b_r_forearm_stub => BoneId.Hand_ForearmStub,
-      BoneName.b_r_thumb0 => BoneId.Hand_Thumb0,
-      BoneName.b_r_thumb1 => BoneId.Hand_Thumb1,
-      BoneName.b_r_thumb2 => BoneId.Hand_Thumb2,
-      BoneName.b_r_thumb3 => BoneId.Hand_Thumb3,
-      BoneName.b_r_index1 => BoneId.Hand_Index1,
-      BoneName.b_r_index2 => BoneId.Hand_Index2,
-      BoneName.b_r_index3 => BoneId.Hand_Index3,
-      BoneName.b_r_middle1 => BoneId.Hand_Middle1,
-      BoneName.b_r_middle2 => BoneId.Hand_Middle2,
-      BoneName.b_r_middle3 => BoneId.Hand_Middle3,
-      BoneName.b_r_ring1 => BoneId.Hand_Ring1,
-      BoneName.b_r_ring2 => BoneId.Hand_Ring2,
-      BoneName.b_r_ring3 => BoneId.Hand_Ring3,
-      BoneName.b_r_pinky0 => BoneId.Hand_Pinky0,
-      BoneName.b_r_pinky1 => BoneId.Hand_Pinky1,
-      BoneName.b_r_pinky2 => BoneId.Hand_Pinky2,
-      BoneName.b_r_pinky3 => BoneId.Hand_Pinky3,
-      BoneName.r_thumb_finger_tip_marker => BoneId.Hand_ThumbTip,
-      BoneName.r_index_finger_tip_marker => BoneId.Hand_IndexTip,
-      BoneName.r_middle_finger_tip_marker => BoneId.Hand_MiddleTip,
-      BoneName.r_ring_finger_tip_marker => BoneId.Hand_RingTip,
-      BoneName.r_pinky_finger_tip_marker => BoneId.Hand_PinkyTip,
+      BoneName.b_l_wrist => TrackedBones.Hand_WristRoot,
+      BoneName.b_l_forearm_stub => TrackedBones.Hand_ForearmStub,
+      BoneName.b_l_thumb0 => TrackedBones.Hand_Thumb0,
+      BoneName.b_l_thumb1 => TrackedBones.Hand_Thumb1,
+      BoneName.b_l_thumb2 => TrackedBones.Hand_Thumb2,
+      BoneName.b_l_thumb3 => TrackedBones.Hand_Thumb3,
+      BoneName.b_l_index1 => TrackedBones.Hand_Index1,
+      BoneName.b_l_index2 => TrackedBones.Hand_Index2,
+      BoneName.b_l_index3 => TrackedBones.Hand_Index3,
+      BoneName.b_l_middle1 => TrackedBones.Hand_Middle1,
+      BoneName.b_l_middle2 => TrackedBones.Hand_Middle2,
+      BoneName.b_l_middle3 => TrackedBones.Hand_Middle3,
+      BoneName.b_l_ring1 => TrackedBones.Hand_Ring1,
+      BoneName.b_l_ring2 => TrackedBones.Hand_Ring2,
+      BoneName.b_l_ring3 => TrackedBones.Hand_Ring3,
+      BoneName.b_l_pinky0 => TrackedBones.Hand_Pinky0,
+      BoneName.b_l_pinky1 => TrackedBones.Hand_Pinky1,
+      BoneName.b_l_pinky2 => TrackedBones.Hand_Pinky2,
+      BoneName.b_l_pinky3 => TrackedBones.Hand_Pinky3,
+      BoneName.l_thumb_finger_tip_marker => TrackedBones.Hand_ThumbTip,
+      BoneName.l_index_finger_tip_marker => TrackedBones.Hand_IndexTip,
+      BoneName.l_middle_finger_tip_marker => TrackedBones.Hand_MiddleTip,
+      BoneName.l_ring_finger_tip_marker => TrackedBones.Hand_RingTip,
+      BoneName.l_pinky_finger_tip_marker => TrackedBones.Hand_PinkyTip,
+      BoneName.b_r_wrist => TrackedBones.Hand_WristRoot,
+      BoneName.b_r_forearm_stub => TrackedBones.Hand_ForearmStub,
+      BoneName.b_r_thumb0 => TrackedBones.Hand_Thumb0,
+      BoneName.b_r_thumb1 => TrackedBones.Hand_Thumb1,
+      BoneName.b_r_thumb2 => TrackedBones.Hand_Thumb2,
+      BoneName.b_r_thumb3 => TrackedBones.Hand_Thumb3,
+      BoneName.b_r_index1 => TrackedBones.Hand_Index1,
+      BoneName.b_r_index2 => TrackedBones.Hand_Index2,
+      BoneName.b_r_index3 => TrackedBones.Hand_Index3,
+      BoneName.b_r_middle1 => TrackedBones.Hand_Middle1,
+      BoneName.b_r_middle2 => TrackedBones.Hand_Middle2,
+      BoneName.b_r_middle3 => TrackedBones.Hand_Middle3,
+      BoneName.b_r_ring1 => TrackedBones.Hand_Ring1,
+      BoneName.b_r_ring2 => TrackedBones.Hand_Ring2,
+      BoneName.b_r_ring3 => TrackedBones.Hand_Ring3,
+      BoneName.b_r_pinky0 => TrackedBones.Hand_Pinky0,
+      BoneName.b_r_pinky1 => TrackedBones.Hand_Pinky1,
+      BoneName.b_r_pinky2 => TrackedBones.Hand_Pinky2,
+      BoneName.b_r_pinky3 => TrackedBones.Hand_Pinky3,
+      BoneName.r_thumb_finger_tip_marker => TrackedBones.Hand_ThumbTip,
+      BoneName.r_index_finger_tip_marker => TrackedBones.Hand_IndexTip,
+      BoneName.r_middle_finger_tip_marker => TrackedBones.Hand_MiddleTip,
+      BoneName.r_ring_finger_tip_marker => TrackedBones.Hand_RingTip,
+      BoneName.r_pinky_finger_tip_marker => TrackedBones.Hand_PinkyTip,
       _ => throw new System.Exception($"Invalid boneName: {boneName}"),
     };
 
     return result;
+  }
+  public static bool IsTrackedBone(BoneName boneName)
+  {
+    try
+    {
+      GetTrackedBone(boneName);
+      return true;
+    }
+    catch
+    {
+      return false;
+    }
+  }
+
+  public static bool IsTrackedBone(string name)
+  {
+    if (!Enum.TryParse<BoneName>(name, out var boneName)) return false;
+    if (!IsTrackedBone(boneName)) return false;
+
+    return true;
   }
 }
