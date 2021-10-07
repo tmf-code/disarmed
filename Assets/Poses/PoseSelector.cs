@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class PoseSelector : MonoBehaviour
 {
-  // Start is called before the first frame update 
-
   public string posePath = "Poses";
   public Pose[] poses = new Pose[] { };
 
@@ -17,6 +16,8 @@ public class PoseSelector : MonoBehaviour
 
   public void Load()
   {
+    AssetDatabase.Refresh();
+
     poses = new Pose[] { };
     var textAssets = Resources.LoadAll(posePath);
     foreach (var item in textAssets)

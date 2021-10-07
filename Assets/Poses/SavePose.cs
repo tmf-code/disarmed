@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class SavePose : MonoBehaviour
@@ -25,6 +26,7 @@ public class SavePose : MonoBehaviour
     var filepath = $"{Application.dataPath}/Resources/Poses/{filename}.json";
     Debug.Log($"Writing to {filepath}");
     System.IO.File.WriteAllText(filepath, json);
+    AssetDatabase.Refresh();
   }
 }
 
