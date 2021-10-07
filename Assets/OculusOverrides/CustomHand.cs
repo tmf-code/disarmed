@@ -1,14 +1,9 @@
 ﻿using UnityEngine;
 
 [DefaultExecutionOrder(-90)]
-public class CustomHand
-    : MonoBehaviour,
-      Skeleton.ISkeletonDataProvider,
-      OVRSkeletonRenderer.IOVRSkeletonRendererDataProvider,
-      OVRMesh.IOVRMeshDataProvider,
-      OVRMeshRenderer.IOVRMeshRendererDataProvider
+public class CustomHand : MonoBehaviour
 {
-  private HandTypes HandType = HandTypes.None;
+  private HandTypes handType = HandTypes.HandLeft;
   [SerializeField]
   private Transform _pointerPoseRoot = null;
   private GameObject _pointerPoseGO;
@@ -26,7 +21,7 @@ public class CustomHand
 
   public void Start()
   {
-    HandType = GetComponent<Handedness>().handType;
+    handType = GetComponent<Handedness>().handType;
   }
 
   private void Awake()
@@ -52,7 +47,7 @@ public class CustomHand
 
   private void GetHandState(OVRPlugin.Step step)
   {
-    if (OVRPlugin.GetHandState(step, (OVRPlugin.Hand)HandType, ref _handState))
+    if (OVRPlugin.GetHandState(step, (OVRPlugin.Hand)handType, ref _handState))
     {
       isTracked = (_handState.Status & OVRPlugin.HandStatus.HandTracked) != 0;
       IsSystemGestureInProgress =
@@ -106,16 +101,9 @@ public class CustomHand
     return (TrackingConfidence)_handState.FingerConfidences[(int)finger];
   }
 
-  Skeleton.SkeletonType Skeleton.ISkeletonDataProvider.GetSkeletonType() => HandType switch
+  public SkeletonPoseData GetSkeletonPoseData()
   {
-    HandTypes.HandLeft => Skeleton.SkeletonType.HandLeft,
-    HandTypes.HandRight => Skeleton.SkeletonType.HandRight,
-    _ => Skeleton.SkeletonType.None,
-  };
-
-  Skeleton.SkeletonPoseData Skeleton.ISkeletonDataProvider.GetSkeletonPoseData()
-  {
-    var data = new Skeleton.SkeletonPoseData();
+    var data = new SkeletonPoseData();
 
     data.IsDataValid = isDataValid;
     if (!isDataValid) return data;
@@ -128,48 +116,6 @@ public class CustomHand
     return data;
   }
 
-  OVRSkeletonRenderer.SkeletonRendererData OVRSkeletonRenderer.IOVRSkeletonRendererDataProvider.GetSkeletonRendererData()
-  {
-    var data = new OVRSkeletonRenderer.SkeletonRendererData();
-
-    data.IsDataValid = isDataValid;
-    if (!isDataValid) return data;
-
-    data.RootScale = _handState.HandScale;
-    data.IsDataHighConfidence = isTracked && HandConfidence == TrackingConfidence.High;
-    data.ShouldUseSystemGestureMaterial = IsSystemGestureInProgress;
-
-    return data;
-  }
-
-  OVRMesh.MeshType OVRMesh.IOVRMeshDataProvider.GetMeshType() => HandType switch
-  {
-    HandTypes.None => OVRMesh.MeshType.None,
-    HandTypes.HandLeft => OVRMesh.MeshType.HandLeft,
-    HandTypes.HandRight => OVRMesh.MeshType.HandRight,
-    _ => OVRMesh.MeshType.None,
-  };
-
-  OVRMeshRenderer.MeshRendererData OVRMeshRenderer.IOVRMeshRendererDataProvider.GetMeshRendererData()
-  {
-    var data = new OVRMeshRenderer.MeshRendererData();
-
-    data.IsDataValid = isDataValid;
-    if (!isDataValid) return data;
-
-    data.IsDataHighConfidence = isTracked && HandConfidence == TrackingConfidence.High;
-    data.ShouldUseSystemGestureMaterial = IsSystemGestureInProgress;
-
-    return data;
-  }
-
-  public enum HandTypes
-  {
-    None = OVRPlugin.Hand.None,
-    HandLeft = OVRPlugin.Hand.HandLeft,
-    HandRight = OVRPlugin.Hand.HandRight,
-  }
-
   public enum HandFinger
   {
     Thumb = OVRPlugin.HandFinger.Thumb,
@@ -177,12 +123,22 @@ public class CustomHand
     Middle = OVRPlugin.HandFinger.Middle,
     Ring = OVRPlugin.HandFinger.Ring,
     Pinky = OVRPlugin.HandFinger.Pinky,
-    Max = OVRPlugin.HandFinger.Max,
   }
 
   public enum TrackingConfidence
   {
     Low = OVRPlugin.TrackingConfidence.Low,
     High = OVRPlugin.TrackingConfidence.High
+  }
+
+
+  public struct SkeletonPoseData
+  {
+    public OVRPlugin.Posef RootPose { get; set; }
+    public float RootScale { get; set; }
+    public OVRPlugin.Quatf[] BoneRotations { get; set; }
+    public bool IsDataValid { get; set; }
+    public bool IsDataHighConfidence { get; set; }
+    public int SkeletonChangedCount { get; set; }
   }
 }

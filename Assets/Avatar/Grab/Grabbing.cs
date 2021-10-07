@@ -7,7 +7,6 @@ public class Grabbing : MonoBehaviour
   public float creationTime;
   public float minimumIdleTimeSeconds = 3;
   public bool canTransition = false;
-  private Animator animator;
 
   void Start()
   {
@@ -21,8 +20,6 @@ public class Grabbing : MonoBehaviour
     gameObject.RemoveComponent<Idle>();
     gameObject.RemoveComponent<Grabbed>();
 
-    animator = GetComponent<Animator>();
-    animator.SetBool("Grabbing", true);
   }
 
   void Update()
@@ -47,7 +44,7 @@ public class Grabbing : MonoBehaviour
 
     gameObject.AddIfNotExisting<Idle>();
     grabbed.SendMessage("OnGrabReleased", SendMessageOptions.RequireReceiver);
-    animator.SetBool("Grabbing", false);
+
     Destroy(this);
   }
 }

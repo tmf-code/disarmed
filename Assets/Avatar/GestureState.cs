@@ -36,7 +36,7 @@ public class GestureState : MonoBehaviour
   {
     customSkeleton = gameObject.GetComponentIfNull(customSkeleton);
     handedness = gameObject.GetComponentIfNull(handedness);
-    var handSide = handedness.handType == CustomHand.HandTypes.HandLeft ? "l" : "r";
+    var handSide = handedness.handType == HandTypes.HandLeft ? "l" : "r";
     var fingerNames = Enum.GetNames(typeof(FingerNames));
     fingers = new Fingers();
     sendMessageDisplay = new SendMessageDisplay();

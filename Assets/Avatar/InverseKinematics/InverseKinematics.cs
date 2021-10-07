@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public class InverseKinematics : MonoBehaviour
@@ -18,7 +16,7 @@ public class InverseKinematics : MonoBehaviour
     // Attempt to automap bones
     var handType = gameObject.GetComponent<Handedness>().handType;
 
-    var hand = handType == CustomHand.HandTypes.HandLeft ? "l" : "r";
+    var hand = handType == HandTypes.HandLeft ? "l" : "r";
 
     wrist = wrist == null
       ? transform.FindChildRecursive($"b_{hand}_wrist")
@@ -36,7 +34,7 @@ public class InverseKinematics : MonoBehaviour
       ? transform.FindChildRecursive($"b_{hand}_shoulder")
       : shoulder;
 
-    var targetName = handType == CustomHand.HandTypes.HandLeft
+    var targetName = handType == HandTypes.HandLeft
       ? "ShoulderLeft"
       : "ShoulderRight";
 
