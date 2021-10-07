@@ -15,7 +15,6 @@ public class Grabbing : MonoBehaviour
     transform.GetComponent<InverseKinematics>().enabled = true;
     var skeleton = transform.GetComponent<CustomSkeleton>();
     skeleton.enabled = true;
-    skeleton.updateBones = false;
 
     gameObject.RemoveComponent<Idle>();
     gameObject.RemoveComponent<Grabbed>();
@@ -40,7 +39,7 @@ public class Grabbing : MonoBehaviour
     if (!canTransition) return;
 
     var skeleton = transform.GetComponent<CustomSkeleton>();
-    skeleton.updateBones = true;
+
 
     gameObject.AddIfNotExisting<Idle>();
     grabbed.SendMessage("OnGrabReleased", SendMessageOptions.RequireReceiver);

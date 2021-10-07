@@ -4,17 +4,13 @@
 public class CustomHand : MonoBehaviour
 {
   private HandTypes handType = HandTypes.HandLeft;
-  [SerializeField]
-  private Transform _pointerPoseRoot = null;
-  private GameObject _pointerPoseGO;
   private OVRPlugin.HandState _handState = new OVRPlugin.HandState();
 
   public bool isDataValid;
   public bool isDataHighConfidence;
   public bool isTracked;
-  public bool IsSystemGestureInProgress { get; private set; }
-  public bool IsPointerPoseValid { get; private set; }
-  public Transform PointerPose { get; private set; }
+  public bool isSystemGestureInProgress;
+
   public float HandScale { get; private set; }
   public TrackingConfidence HandConfidence { get; private set; }
   public bool IsDominantHand { get; private set; }
@@ -26,13 +22,6 @@ public class CustomHand : MonoBehaviour
 
   private void Awake()
   {
-    _pointerPoseGO = new GameObject();
-    PointerPose = _pointerPoseGO.transform;
-    if (_pointerPoseRoot != null)
-    {
-      PointerPose.SetParent(_pointerPoseRoot, false);
-    }
-
     GetHandState(OVRPlugin.Step.Render);
   }
 
@@ -50,25 +39,18 @@ public class CustomHand : MonoBehaviour
     if (OVRPlugin.GetHandState(step, (OVRPlugin.Hand)handType, ref _handState))
     {
       isTracked = (_handState.Status & OVRPlugin.HandStatus.HandTracked) != 0;
-      IsSystemGestureInProgress =
+      isSystemGestureInProgress =
           (_handState.Status & OVRPlugin.HandStatus.SystemGestureInProgress) != 0;
-      IsPointerPoseValid = (_handState.Status & OVRPlugin.HandStatus.InputStateValid) != 0;
       IsDominantHand = (_handState.Status & OVRPlugin.HandStatus.DominantHand) != 0;
-      PointerPose.localPosition = _handState.PointerPose.Position.FromFlippedZVector3f();
-      PointerPose.localRotation = _handState.PointerPose.Orientation.FromFlippedZQuatf();
       HandScale = _handState.HandScale;
       HandConfidence = (TrackingConfidence)_handState.HandConfidence;
-
       isDataValid = true;
       isDataHighConfidence = isTracked && HandConfidence == TrackingConfidence.High;
     }
     else
     {
       isTracked = false;
-      IsSystemGestureInProgress = false;
-      IsPointerPoseValid = false;
-      PointerPose.localPosition = Vector3.zero;
-      PointerPose.localRotation = Quaternion.identity;
+      isSystemGestureInProgress = false;
       HandScale = 1.0f;
       HandConfidence = TrackingConfidence.Low;
 
@@ -130,7 +112,6 @@ public class CustomHand : MonoBehaviour
     Low = OVRPlugin.TrackingConfidence.Low,
     High = OVRPlugin.TrackingConfidence.High
   }
-
 
   public struct SkeletonPoseData
   {

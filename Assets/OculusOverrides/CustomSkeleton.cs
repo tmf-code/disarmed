@@ -1,33 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(-80)]
 public class CustomSkeleton : Skeleton
 {
-
-  [HideInInspector]
-  [SerializeField]
-  private List<Transform> boneTransforms = new List<Transform>(new Transform[(int)BoneId.Max]);
-  public List<Transform> BoneTransforms
-  {
-    get { return boneTransforms; }
-  }
-
-#if UNITY_EDITOR
-  public void TryAutoMapBonesByName()
-  {
-    BoneId start = BoneId.Hand_Start;
-    BoneId end = BoneId.Hand_End;
-
-    for (int boneId = (int)start; boneId < (int)end; ++boneId)
-    {
-      string fbxBoneName = FbxBoneNameFromBoneId(HandType, (BoneId)boneId);
-      Transform boneTransform = transform.FindRecursiveOrThrow(fbxBoneName);
-      boneTransforms[boneId] = boneTransform;
-    }
-  }
-
-  private static string FbxBoneNameFromBoneId(HandTypes handType, BoneId boneId)
+  private static BoneName FbxBoneNameFromBoneId(HandTypes handType, BoneId boneId)
   {
     {
       var isFingerTipMarker = boneId >= BoneId.Hand_ThumbTip && boneId <= BoneId.Hand_PinkyTip;
@@ -36,21 +14,24 @@ public class CustomSkeleton : Skeleton
       {
         var fingerNameIndex = (int)boneId - (int)BoneId.Hand_ThumbTip;
         var fingerName = HandFingerNames[fingerNameIndex];
-        return $"{handSideprefix}{fingerName}_finger_tip_marker";
+        return (BoneName)Enum.Parse(
+          typeof(BoneName),
+          $"{handSideprefix}{fingerName}_finger_tip_marker");
       }
       else
       {
         var boneName = HandBoneNames[(int)boneId];
-        return $"b_{handSideprefix}{boneName}";
+        return (BoneName)Enum.Parse(
+          typeof(BoneName),
+          $"b_{handSideprefix}{boneName}");
       }
     }
   }
-#endif
 
-  public Bone GetBoneFromBoneName(string name)
+  public Bone GetBoneFromBoneName(BoneName name)
   {
     var boneId = BoneNameToBoneId.getBoneId(name);
-    var maybeBone = bones.Find(bone => bone.Id == boneId);
+    var maybeBone = bones.Find(bone => bone.id == boneId);
 
     return maybeBone;
   }
@@ -63,29 +44,26 @@ public class CustomSkeleton : Skeleton
       Bones = bones.AsReadOnly();
     }
 
+    var armature = transform.FindRecursiveOrThrow("Armature");
+    var vrTrackingData = transform.FindRecursiveOrThrow("VRTrackingData");
+    var maybeCopyArmature = vrTrackingData.Find("Armature");
+    var copyArmature = maybeCopyArmature != null ? maybeCopyArmature : Instantiate(armature, vrTrackingData);
+    copyArmature.name = "Armature";
+
     for (int i = 0; i < bones.Count; ++i)
     {
       Bone bone = bones[i] ?? (bones[i] = new Bone());
-      bone.Id = (BoneId)skeleton.Bones[i].Id;
-      bone.ParentBoneIndex = skeleton.Bones[i].ParentBoneIndex;
-      bone.transform = boneTransforms[(int)bone.Id];
+      bone.id = (BoneId)i;
+
+      BoneName fbxBoneName = FbxBoneNameFromBoneId(HandType, bone.id);
+      Transform boneTransform = copyArmature.FindRecursiveOrThrow(fbxBoneName.ToString());
+
+      bone.name = fbxBoneName;
+      bone.transform = boneTransform;
       bone.transform.localRotation = skeleton.Bones[i].Pose.Orientation.FromFlippedXQuatf();
-    }
-
-    var armature = transform.FindRecursiveOrThrow("Armature");
-
-    var maybeCopyArmature = transform.FindChildRecursive("copy_Armature");
-    var copyArmature = maybeCopyArmature != null ? maybeCopyArmature : Instantiate(armature, armature.parent.transform);
-    copyArmature.name = "copy_Armature";
-
-    for (int i = 0; i < bones.Count; ++i)
-    {
-      Bone bone = bones[i];
-      bone.alwaysUpdatesTransform = copyArmature.FindRecursiveOrThrow(bone.transform.name);
     }
   }
 
-#if UNITY_EDITOR
   private static readonly string[] HandBoneNames =
   {
         "wrist",
@@ -117,5 +95,4 @@ public class CustomSkeleton : Skeleton
         "ring",
         "pinky"
     };
-#endif
 }

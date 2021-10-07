@@ -10,8 +10,9 @@ public class Skeleton : MonoBehaviour
 
   public bool updateRootScale = false;
   public bool updateRootPose = false;
-  public bool updateBones = false;
 
+  [HideInInspector]
+  [SerializeField]
   protected List<Bone> bones;
 
   protected OVRPlugin.Skeleton2 skeleton = new OVRPlugin.Skeleton2();
@@ -104,10 +105,7 @@ public class Skeleton : MonoBehaviour
       transform.localRotation = data.RootPose.Orientation.FromFlippedZQuatf();
     }
 
-    if (updateRootScale)
-    {
-      transform.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
-    }
+    if (updateRootScale) transform.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
 
     for (var i = 0; i < bones.Count; ++i)
     {
@@ -115,7 +113,7 @@ public class Skeleton : MonoBehaviour
       if (bone.transform == null) continue;
 
       var quaternion = data.BoneRotations[i].FromFlippedXQuatf();
-      var isBoneWristRoot = bone.Id == BoneId.Hand_WristRoot;
+      var isBoneWristRoot = bone.id == BoneId.Hand_WristRoot;
       if (isBoneWristRoot)
       {
         quaternion *= wristFixupRotation;
@@ -126,7 +124,7 @@ public class Skeleton : MonoBehaviour
     for (var i = 0; i < bones.Count; ++i)
     {
       var bone = bones[i];
-      bone.Update(updateBones);
+      bone.Update();
     }
   }
 
@@ -182,23 +180,14 @@ public class Skeleton : MonoBehaviour
 
 public class Bone
 {
-  public Skeleton.BoneId Id { get; set; }
+  public Skeleton.BoneId id;
+  public BoneName name;
   public short ParentBoneIndex { get; set; }
-
-#nullable enable
-  public Transform? transform;
-  public Transform? alwaysUpdatesTransform;
-#nullable disable
-
+  public Transform transform;
   public Quaternion localRotation = Quaternion.identity;
 
-  public void Update(bool updateMaster)
+  public void Update()
   {
-    if (updateMaster)
-    {
-      transform.localRotation = localRotation;
-    }
-    alwaysUpdatesTransform.localPosition = transform.localPosition;
-    alwaysUpdatesTransform.localRotation = localRotation;
+    transform.localRotation = localRotation;
   }
 }

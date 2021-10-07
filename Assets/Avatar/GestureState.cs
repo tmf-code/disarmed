@@ -57,13 +57,17 @@ public class GestureState : MonoBehaviour
       var bone2 = $"b_{handSide}_{name}2";
       var bone3 = $"b_{handSide}_{name}3";
 
+      Enum.TryParse<BoneName>(bone1, out var boneName1);
+      Enum.TryParse<BoneName>(bone2, out var boneName2);
+      Enum.TryParse<BoneName>(bone3, out var boneName3);
+
       Enum.TryParse<FingerNames>(name, false, out var fingerName);
       fingerDimensions.TryGetValue(fingerName, out var range);
       fingers.SetFinger(fingerName,
-        new Finger(customSkeleton, new string[]{
-          bone1,
-          bone2,
-          bone3,
+        new Finger(customSkeleton, new BoneName[]{
+          boneName1,
+          boneName2,
+          boneName3,
         },
         range.min,
         range.max
@@ -97,7 +101,7 @@ public class GestureState : MonoBehaviour
     if (handOpen != this.handOpen)
     {
       gameObject.SendMessage("OnHandOpen", SendMessageOptions.DontRequireReceiver);
-      var gesturePosition = customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.alwaysUpdatesTransform;
+      var gesturePosition = customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
       if (gesturePosition != null) sendMessageDisplay.AddMessage("OnHandOpen", gesturePosition);
     }
     this.handOpen = handOpen;
@@ -111,7 +115,7 @@ public class GestureState : MonoBehaviour
     if (handClosed != this.handClosed)
     {
       gameObject.SendMessage("OnHandClosed", SendMessageOptions.DontRequireReceiver);
-      var gesturePosition = customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.alwaysUpdatesTransform;
+      var gesturePosition = customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
       if (gesturePosition != null) sendMessageDisplay.AddMessage("OnHandClosed", gesturePosition);
     }
     this.handClosed = handClosed;
@@ -120,12 +124,12 @@ public class GestureState : MonoBehaviour
   [Serializable]
   public class Finger
   {
-    public string[] boneNames;
+    public BoneName[] boneNames;
     public CustomSkeleton customSkeleton;
     private readonly float minStraightness;
     private readonly float maxStraightness;
 
-    public Finger(CustomSkeleton customSkeleton, string[] boneNames, float minStraightness, float maxStraightness)
+    public Finger(CustomSkeleton customSkeleton, BoneName[] boneNames, float minStraightness, float maxStraightness)
     {
       this.customSkeleton = customSkeleton;
       this.boneNames = boneNames;
@@ -149,7 +153,7 @@ public class GestureState : MonoBehaviour
     private Transform[] BoneTransforms()
     {
       return boneNames.Select(name => customSkeleton.GetBoneFromBoneName(name))
-        .Where(bone => bone != null && bone.alwaysUpdatesTransform != null).Select(bone => bone.alwaysUpdatesTransform)
+        .Where(bone => bone != null && bone.transform != null).Select(bone => bone.transform)
         .ToArray();
     }
 

@@ -23,7 +23,6 @@ public class DisableArmOnUntracked : MonoBehaviour
       gameObject.GetComponent<GestureState>().enabled = true;
       gameObject.GetComponent<PinchState>().enabled = true;
 
-      skeleton.updateBones = true;
       skeleton.updateRootPose = true;
       skeleton.updateRootScale = true;
 
@@ -41,7 +40,6 @@ public class DisableArmOnUntracked : MonoBehaviour
       gameObject.GetComponent<GestureState>().enabled = false;
       gameObject.GetComponent<PinchState>().enabled = false;
 
-      skeleton.updateBones = false;
       skeleton.updateRootPose = false;
       skeleton.updateRootScale = false;
 
