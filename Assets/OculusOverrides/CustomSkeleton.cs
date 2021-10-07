@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(-80)]
@@ -58,29 +59,28 @@ public class CustomSkeleton : Skeleton
     BoneId start = GetCurrentStartBoneId();
     BoneId end = GetCurrentEndBoneId();
     SkeletonType skeletonType = GetSkeletonType();
-    if (start != BoneId.Invalid && end != BoneId.Invalid)
+
+    var boneIdsAreInvalid = start == BoneId.Invalid || end == BoneId.Invalid;
+    if (boneIdsAreInvalid) return;
+
+    for (int boneId = (int)start; boneId < (int)end; ++boneId)
     {
-      for (int boneId = (int)start; boneId < (int)end; ++boneId)
-      {
-        string fbxBoneName = FbxBoneNameFromBoneId(skeletonType, (BoneId)boneId);
+      string fbxBoneName = FbxBoneNameFromBoneId(skeletonType, (BoneId)boneId);
+      Transform boneTransform = transform.FindRecursiveOrThrow(fbxBoneName);
 
-        Transform t = transform.FindChildRecursive(fbxBoneName);
-
-        if (t != null)
-        {
-          _customBones_V2[(int)boneId] = t;
-        }
-      }
+      _customBones_V2[boneId] = boneTransform;
     }
   }
 
   private static string FbxBoneNameFromBoneId(SkeletonType skeletonType, BoneId boneId)
   {
     {
-      if (boneId >= BoneId.Hand_ThumbTip && boneId <= BoneId.Hand_PinkyTip)
+      var isFingerTipMarker = boneId >= BoneId.Hand_ThumbTip && boneId <= BoneId.Hand_PinkyTip;
+      if (isFingerTipMarker)
       {
+        var fingerNameIndex = (int)boneId - (int)BoneId.Hand_ThumbTip;
         return _fbxHandSidePrefix[(int)skeletonType]
-            + _fbxHandFingerNames[(int)boneId - (int)BoneId.Hand_ThumbTip]
+            + _fbxHandFingerNames[fingerNameIndex]
             + "_finger_tip_marker";
       }
       else
