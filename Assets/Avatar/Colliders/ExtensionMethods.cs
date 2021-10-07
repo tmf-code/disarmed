@@ -31,6 +31,19 @@ public static class ExtensionMethods
     }
   }
 
+  public static List<Transform> AllChildren(this Transform parent)
+  {
+    var result = new List<Transform>();
+    void AddToResult(Transform transform)
+    {
+      result.Add(transform);
+    }
+
+    parent.TraverseChildren(AddToResult);
+
+    return result;
+  }
+
   public static T GetComponentOrThrow<T>(this GameObject gameObject) where T : Component
   {
     if (gameObject.TryGetComponent(out T component)) return component;

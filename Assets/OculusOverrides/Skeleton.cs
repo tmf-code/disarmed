@@ -7,6 +7,7 @@ public class Skeleton : MonoBehaviour
 {
   private Handedness handedness;
   private CustomHand handDataProvider;
+  private Transform vrTrackingDataTransform;
 
   public bool updateRootScale = false;
   public bool updateRootPose = false;
@@ -37,6 +38,7 @@ public class Skeleton : MonoBehaviour
   {
     handDataProvider = gameObject.GetComponentIfNull(handDataProvider);
     handedness = gameObject.GetComponentIfNull(handedness);
+    vrTrackingDataTransform = transform.FindOrThrow("VRTrackingData");
     bones = new List<Bone>();
     Bones = bones.AsReadOnly();
   }
@@ -101,11 +103,11 @@ public class Skeleton : MonoBehaviour
 
     if (updateRootPose)
     {
-      transform.localPosition = data.RootPose.Position.FromFlippedZVector3f();
-      transform.localRotation = data.RootPose.Orientation.FromFlippedZQuatf();
+      vrTrackingDataTransform.localPosition = data.RootPose.Position.FromFlippedZVector3f();
+      vrTrackingDataTransform.localRotation = data.RootPose.Orientation.FromFlippedZQuatf();
     }
 
-    if (updateRootScale) transform.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
+    if (updateRootScale) vrTrackingDataTransform.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
 
     for (var i = 0; i < bones.Count; ++i)
     {
