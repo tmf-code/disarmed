@@ -7,3 +7,7 @@ There's a bug with importing animations that doesn't allow multiple animations t
 bake_anim_use_all_actions=True,
 
 In file C:\Program Files\2020.3.18f1\Editor\Data\Tools
+
+# Unity Version
+
+2020.3.18f1
