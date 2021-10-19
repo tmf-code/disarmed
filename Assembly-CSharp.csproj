@@ -123,6 +123,7 @@
      <Compile Include="Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\ButtonController.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\CustomHands\Scripts\Hand.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportOrientationHandler.cs" />
+     <Compile Include="Assets\Avatar\ApplyRootTracking.cs" />
      <Compile Include="Assets\Avatar\Colliders\HumerusCollider.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportTransitionInstant.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\Locomotion\Scripts\LocomotionSampleSupport.cs" />
@@ -163,6 +164,7 @@
      <Compile Include="Assets\Avatar\TrackObject.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrainCarBase.cs" />
      <Compile Include="Assets\Avatar\DisableArmOnUntracked.cs" />
+     <Compile Include="Assets\Avatar\ApplyHandTracking.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\RayTool.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\FingerTipPokeToolView.cs" />
      <Compile Include="Assets\Oculus\Spatializer\scenes\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
@@ -183,8 +185,6 @@
      <Compile Include="Assets\OculusOverrides\Skeleton.cs" />
      <Compile Include="Assets\Avatar\Colliders\ForearmCollider.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrackSegment.cs" />
-     <Compile Include="Assets\Avatar\ApplyHandTracking.cs" />
-     <Compile Include="Assets\Avatar\ApplyRootTracking.cs" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\XingLightShader.shader" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\ButtonGlow.shader" />
      <None Include="Assets\Oculus\SampleFramework\Usage\Passthrough\Materials\SelectivePassthrough.shader" />

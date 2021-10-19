@@ -45,7 +45,9 @@ partial class Solve3D
 
     internal void Deconstruct(
         out Quaternion rotation,
+#nullable enable
         out Either<EulerConstraint, ExactRotation>? constraints,
+#nullable disable
         out Vector3 position
     )
     {
