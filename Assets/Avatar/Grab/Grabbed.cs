@@ -20,7 +20,6 @@ public class Grabbed : MonoBehaviour
     var quarterTurnY = Quaternion.AngleAxis(90, new Vector3(0, 1, 0));
     var antiQuarterTurnY = Quaternion.AngleAxis(-90, new Vector3(0, 1, 0));
     var halfTurnZ = Quaternion.AngleAxis(180, new Vector3(0, 0, 1));
-    // var antiHalfTurnZ = Quaternion.AngleAxis(-180, new Vector3(0, 0, 1));
 
     strategies = new List<Quaternion> {
       quarterTurnY,
@@ -43,7 +42,7 @@ public class Grabbed : MonoBehaviour
 
     animation = new SimpleAnimation(3);
 
-    var grabRotation = grabbing.transform.FindRecursiveOrThrow("Model").rotation;
+    var grabRotation = GetTargetTransform().rotation;
     var grabRotations = strategies.ConvertAll((rotation) =>
       grabRotation * rotation);
 
@@ -61,8 +60,7 @@ public class Grabbed : MonoBehaviour
   void Update()
   {
     animation.Update();
-
-    var targetTransform = grabbing.transform.FindRecursiveOrThrow("Model");
+    var targetTransform = GetTargetTransform();
     var currentTransform = transform.FindRecursiveOrThrow("Model");
 
     currentTransform.SetPositionAndRotation(
@@ -82,6 +80,14 @@ public class Grabbed : MonoBehaviour
     var currentTime = Time.time - creationTime;
     if (currentTime > minimumIdleTimeSeconds) canTransition = true;
     else canTransition = false;
+  }
+
+  private Transform GetTargetTransform()
+  {
+    var grabbingHand = grabbing.gameObject.GetComponentOrThrow<Handedness>().handType;
+    var grabbingHandPrefix = grabbingHand == HandTypes.HandLeft ? "l" : "r";
+    var targetTransform = grabbing.transform.FindRecursiveOrThrow($"{grabbingHandPrefix}_palm_center_marker");
+    return targetTransform;
   }
 
   public void OnGrabReleased()
