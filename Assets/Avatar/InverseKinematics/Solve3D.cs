@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ partial class Solve3D
  * Changes joint angle to minimize distance of end effector to target
  */
   public static SolveResult Solve(
-      Link[] links,
+      List<Link> links,
       JointTransform baseJoint,
       Vector3 target,
       SolveOptions options
@@ -23,39 +24,39 @@ partial class Solve3D
 
     if (error < acceptedError)
       return new SolveResult(
-          links.Select((link) => Link.CopyLink(link)).ToArray(),
+          links.ConvertAll(Link.CopyLink),
           () => error,
           true
       );
 
-    if (joints.Length != links.Length + 1)
+    if (joints.Count != links.Count + 1)
     {
       throw new Exception(
-          $"Joint transforms should have the same length as links + 1.Got {joints.Length}, expected {links.Length}"
+          $"Joint transforms should have the same length as links + 1.Got {joints.Count}, expected {links.Count}"
       );
     }
 
-    Link[] withAngleStep = links.Select((link, linkIndex) =>
+    var withAngleStep = links.Select((link, linkIndex) =>
     {
       var position = link.position;
       var rotation = link.rotation;
       var constraints = link.constraints;
 
       // For each, calculate partial derivative, sum to give full numerical derivative
-      var vectorComponents = new float[] { 0, 0, 0 }.Select(
+      var vectorComponents = new List<float>() { 0, 0, 0 }.Select(
         (_, v3Index) =>
         {
-          var eulerAngle = new float[] { 0, 0, 0 };
+          var eulerAngle = new List<float>() { 0, 0, 0 };
           eulerAngle[v3Index] = deltaAngle;
           var angleDelta =
             rotation
             * Quaternion.Euler(eulerAngle[0], eulerAngle[1], eulerAngle[2]);
-          var linkWithAngleDelta = new Link(angleDelta, null, position);
+          var linkWithAngleDelta = new Link(angleDelta, link.constraints, position);
 
           // Get remaining links from this links joint
-          Link[] projectedLinks = new Link[] { linkWithAngleDelta }.Concat(
+          var projectedLinks = new List<Link>() { linkWithAngleDelta }.Concat(
             links.ToList().Skip(linkIndex + 1)
-          ).ToArray();
+          ).ToList();
 
           var joint = joints[linkIndex];
           var projectedError = GetErrorDistance(
@@ -79,13 +80,12 @@ partial class Solve3D
         );
 
       return new Link(steppedRotation, constraints, position);
-    }).ToArray();
+    }).ToList();
 
-    var adjustedJoints = GetJointTransforms(withAngleStep, baseJoint).transforms;
-    var withConstraints = ApplyConstraints(withAngleStep, adjustedJoints);
+    var withConstraints = ApplyConstraints(withAngleStep);
 
     return new SolveResult(
-        withAngleStep,
+        withConstraints,
         () => GetErrorDistance(withAngleStep, baseJoint, target),
         null
     );
@@ -93,12 +93,12 @@ partial class Solve3D
   /**
  * Returns the absolute position and rotation of each link
  */
-  public static JointTransformResult GetJointTransforms(Link[] links, JointTransform joint)
+  public static JointTransformResult GetJointTransforms(List<Link> links, JointTransform joint)
   {
     JointTransform jointCopy = joint;
-    var transforms = new JointTransform[] { jointCopy }.ToList();
+    var transforms = new List<JointTransform>() { jointCopy };
 
-    for (var index = 0; index < links.Length; index++)
+    for (var index = 0; index < links.Count; index++)
     {
       var currentLink = links[index]!;
       var parentTransform = transforms[index]!;
@@ -112,113 +112,46 @@ partial class Solve3D
 
     var effectorPosition = transforms.Last().position;
 
-    return new JointTransformResult(transforms.ToArray(), effectorPosition);
+    return new JointTransformResult(transforms, effectorPosition);
   }
 
-  static Link ApplyConstraint(Link link, JointTransform joint)
+  static Link ApplyConstraint(Link link)
   {
     var (rotation, constraints, position) = link;
-    if (constraints == null)
-      return new Link(rotation, null, position);
 
-    return constraints.Match(
-        Right: new Func<ExactRotation, Link>(
-            constraint =>
-            {
-              if (constraint.type == ExactRotation.ExactRotationType.GLOBAL)
-              {
-                var targetRotation = constraint.value;
-                var currentRotation = joint.rotation;
-                var adjustedRotation =
-                        rotation * Quaternion.Inverse(currentRotation) * targetRotation;
-
-                return new Link(adjustedRotation, constraints, position);
-              }
-              else
-              {
-                return new Link(constraint.value, constraints, position);
-              }
-            }
-        ),
-        Left: constraint =>
-        {
-          var (pitch, yaw, roll) = constraint;
-
-          float pitchMin;
-          float pitchMax;
-          if (pitch != null)
-          {
-            pitchMin = pitch.Value.min;
-            pitchMax = pitch.Value.max;
-          }
-          else
-          {
-            pitchMin = float.NegativeInfinity;
-            pitchMax = float.PositiveInfinity;
-          }
-
-          float yawMin;
-          float yawMax;
-          if (yaw != null)
-          {
-            yawMin = yaw.Value.min;
-            yawMax = yaw.Value.max;
-          }
-          else
-          {
-            yawMin = float.NegativeInfinity;
-            yawMax = float.PositiveInfinity;
-          }
-
-          float rollMin;
-          float rollMax;
-          if (roll != null)
-          {
-            rollMin = roll.Value.min;
-            rollMax = roll.Value.max;
-          }
-          else
-          {
-            rollMin = float.NegativeInfinity;
-            rollMax = float.PositiveInfinity;
-          }
-
-          var lowerBound = new Vector3(pitchMin, yawMin, rollMin);
-          var upperBound = new Vector3(pitchMax, yawMax, rollMax);
-          var clampedRotation = QuaternionExtensions.Clamp(rotation, lowerBound, upperBound);
-          return new Link(rotation, CopyConstraints(constraints), position);
-        }
-    );
+    var (pitch, yaw, roll) = constraints;
+    var lowerBound = new Vector3(pitch.min, yaw.min, roll.min);
+    var upperBound = new Vector3(pitch.max, yaw.max, roll.max);
+    var clampedRotation = QuaternionExtensions.Clamp(rotation, lowerBound, upperBound);
+    return new Link(clampedRotation, CopyConstraints(constraints), position);
   }
 
-  static Link[] ApplyConstraints(Link[] links, JointTransform[] joints)
-  {
-    return links.Select((link, index) => ApplyConstraint(link, joints[index + 1]!)).ToArray();
-  }
+
+  static List<Link> ApplyConstraints(List<Link> links) => links.ConvertAll(ApplyConstraint);
 
   /**
- * Distance from end effector to the target
- */
-  static float GetErrorDistance(Link[] links, JointTransform baseTransform, Vector3 target)
+  * Distance from end effector to the target
+*/
+  static float GetErrorDistance(List<Link> links, JointTransform baseTransform, Vector3 target)
   {
     var effectorPosition = GetEndEffectorPosition(links, baseTransform);
     return Vector3.Distance(target, effectorPosition);
   }
 
   /**
-* Absolute position of the end effector (last links tip)
+  * Absolute position of the end effector (last links tip)
 */
-  public static Vector3 GetEndEffectorPosition(Link[] links, JointTransform joint)
+  public static Vector3 GetEndEffectorPosition(List<Link> links, JointTransform joint)
   {
     return GetJointTransforms(links, joint).effectorPosition;
   }
 
   public struct JointTransformResult
   {
-    public readonly JointTransform[] transforms;
+    public readonly List<JointTransform> transforms;
     public readonly Vector3 effectorPosition;
 
-    public JointTransformResult(JointTransform[] transforms, Vector3 effectorPosition)
+    public JointTransformResult(List<JointTransform> transforms, Vector3 effectorPosition)
     {
       this.transforms = transforms;
       this.effectorPosition = effectorPosition;

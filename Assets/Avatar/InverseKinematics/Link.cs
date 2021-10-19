@@ -8,30 +8,13 @@ partial class Solve3D
  * The rotation at the base of the link
  */
     public readonly Quaternion rotation;
-
-    /**
- * null: No constraint
- *
- * {pitch, yaw, roll}: Range | Number
- *
- * Range: minimum angle, maximum angle (radians), positive is anticlockwise from previous Link's direction vector
- *
- * number: the range of rotation (radian) about the previous links direction vector. A rotation of 90 deg would be 45 deg either direction
- *
- * ExactRotation: Either a global, or local rotation which the Link is locked to
- */
-#nullable enable
-    public readonly Either<EulerConstraint, ExactRotation>? constraints;
-#nullable disable
+    public readonly EulerConstraint constraints;
     public readonly Vector3 position;
-#nullable enable
     public Link(
         Quaternion rotation,
-        Either<EulerConstraint, ExactRotation>? constraints,
+        EulerConstraint constraints,
         Vector3 position
     )
-#nullable disable
-
     {
       this.rotation = rotation;
       this.constraints = constraints;
@@ -45,9 +28,7 @@ partial class Solve3D
 
     internal void Deconstruct(
         out Quaternion rotation,
-#nullable enable
-        out Either<EulerConstraint, ExactRotation>? constraints,
-#nullable disable
+        out EulerConstraint constraints,
         out Vector3 position
     )
     {
@@ -61,7 +42,7 @@ partial class Solve3D
       var (rotation, constraints, position) = link;
       return new Link(
           rotation,
-          constraints == null ? null : CopyConstraints(constraints),
+          CopyConstraints(constraints),
           position
       );
     }
