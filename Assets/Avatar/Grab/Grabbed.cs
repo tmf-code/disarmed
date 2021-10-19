@@ -12,7 +12,6 @@ public class Grabbed : MonoBehaviour
   public bool canTransition = false;
 
   private new SimpleAnimation animation;
-  private Quaternion startRotation;
   private Quaternion selectedStrategy;
   static readonly List<Quaternion> strategies;
 
@@ -21,6 +20,7 @@ public class Grabbed : MonoBehaviour
     var quarterTurnY = Quaternion.AngleAxis(90, new Vector3(0, 1, 0));
     var antiQuarterTurnY = Quaternion.AngleAxis(-90, new Vector3(0, 1, 0));
     var halfTurnZ = Quaternion.AngleAxis(180, new Vector3(0, 0, 1));
+    // var antiHalfTurnZ = Quaternion.AngleAxis(-180, new Vector3(0, 0, 1));
 
     strategies = new List<Quaternion> {
       quarterTurnY,
@@ -42,21 +42,19 @@ public class Grabbed : MonoBehaviour
     gameObject.RemoveComponent<Grabbing>();
 
     animation = new SimpleAnimation(3);
-    startRotation = transform.rotation;
-
 
     var grabRotation = grabbing.transform.FindRecursiveOrThrow("Model").rotation;
     var grabRotations = strategies.ConvertAll((rotation) =>
       grabRotation * rotation);
 
-    var distances = grabRotations.ConvertAll((rotation) =>
-      Quaternion.Angle(rotation, startRotation)
+    var angularDistances = grabRotations.ConvertAll((targetRotation) =>
+      Quaternion.Angle(transform.FindRecursiveOrThrow("Model").rotation, targetRotation)
     );
 
-    var sortedDistances = distances
+    var sortedDistances = angularDistances
       .Select((value, index) => new Tuple<float, int>(value, index))
       .OrderBy((item) => item.Item1);
-    var selectedStrategyIndex = sortedDistances.Select((tuple) => tuple.Item2).First();
+    var selectedStrategyIndex = sortedDistances.First().Item2;
     selectedStrategy = strategies[selectedStrategyIndex];
   }
 
@@ -67,10 +65,6 @@ public class Grabbed : MonoBehaviour
     var targetTransform = grabbing.transform.FindRecursiveOrThrow("Model");
     var currentTransform = transform.FindRecursiveOrThrow("Model");
 
-    var grabRotation = targetTransform.rotation;
-    var selectedGrabRotation = grabRotation * selectedStrategy;
-    var rotation = Quaternion.Inverse(startRotation) * selectedGrabRotation;
-
     currentTransform.SetPositionAndRotation(
       Vector3.Lerp(
         currentTransform.position,
@@ -80,7 +74,7 @@ public class Grabbed : MonoBehaviour
 
       Quaternion.Slerp(
         currentTransform.rotation,
-        rotation,
+        targetTransform.rotation * selectedStrategy,
         animation.progression
       )
     );
