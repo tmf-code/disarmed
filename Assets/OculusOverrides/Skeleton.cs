@@ -9,30 +9,16 @@ public class Skeleton : MonoBehaviour
   private CustomHand handDataProvider;
   private Transform vrTrackingDataTransform;
 
-  public bool updateRootScale = false;
-  public bool updateRootPose = false;
+  public bool updateRootScale = true;
+  public bool updateRootPose = true;
 
   [HideInInspector]
   [SerializeField]
-  protected List<Bone> bones = new List<Bone>();
-
-  protected OVRPlugin.Skeleton2 skeleton = new OVRPlugin.Skeleton2();
+  private List<Bone> bones = new List<Bone>();
+  private OVRPlugin.Skeleton2 skeleton = new OVRPlugin.Skeleton2();
+  private int skeletonChangedCount;
+  private bool isInitialized = false;
   private readonly Quaternion wristFixupRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
-
-  public bool IsInitialized { get; private set; }
-  public bool IsDataValid { get; private set; }
-  public bool IsDataHighConfidence { get; private set; }
-  public IList<Bone> Bones { get; protected set; }
-  public IList<Bone> BindPoses { get; private set; }
-  public int SkeletonChangedCount { get; private set; }
-  public HandTypes HandType
-  {
-    get
-    {
-      handedness = gameObject.GetComponentIfNull(handedness);
-      return handedness.handType;
-    }
-  }
 
   private void Awake()
   {
@@ -40,7 +26,6 @@ public class Skeleton : MonoBehaviour
     handedness = gameObject.GetComponentIfNull(handedness);
     vrTrackingDataTransform = transform.FindOrThrow("VRTrackingData");
     bones = new List<Bone>();
-    Bones = bones.AsReadOnly();
   }
 
   private void Start()
@@ -50,7 +35,7 @@ public class Skeleton : MonoBehaviour
 
   private bool ShouldInitialize()
   {
-    if (IsInitialized) return false;
+    if (isInitialized) return false;
 
 #if UNITY_EDITOR
     return OVRInput.IsControllerConnected(OVRInput.Controller.Hands);
@@ -61,26 +46,19 @@ public class Skeleton : MonoBehaviour
 
   private void Initialize()
   {
-    if (!OVRPlugin.GetSkeleton2((OVRPlugin.SkeletonType)HandType, ref skeleton)) return;
+    if (!OVRPlugin.GetSkeleton2((OVRPlugin.SkeletonType)GetHandType(), ref skeleton)) return;
 
     InitializeBones();
-    IsInitialized = true;
+    isInitialized = true;
   }
 
-  public Bone GetBoneFromBoneName(BoneName name)
-  {
-    var boneId = BoneNameToBoneId.GetTrackedBone(name);
-    var maybeBone = bones.Find(bone => bone.id == boneId);
-
-    return maybeBone;
-  }
+  private HandTypes GetHandType() => gameObject.GetComponentIfNull(handedness).handType;
 
   private void InitializeBones()
   {
     if (bones == null || bones.Count != skeleton.NumBones)
     {
       bones = new List<Bone>(new Bone[skeleton.NumBones]);
-      Bones = bones.AsReadOnly();
     }
 
     var armature = transform.FindRecursiveOrThrow("Armature");
@@ -94,7 +72,7 @@ public class Skeleton : MonoBehaviour
       Bone bone = bones[i] ?? (bones[i] = new Bone());
       bone.id = (TrackedBones)i;
 
-      BoneName fbxBoneName = FbxBoneNameFromBoneId(HandType, bone.id);
+      BoneName fbxBoneName = FbxBoneNameFromBoneId(GetHandType(), bone.id);
       Transform boneTransform = copyArmature.FindRecursiveOrThrow(fbxBoneName.ToString());
 
       bone.transform = boneTransform;
@@ -108,27 +86,21 @@ public class Skeleton : MonoBehaviour
     if (ShouldInitialize()) Initialize();
 #endif
 
-    if (!IsInitialized || handDataProvider == null)
+    if (!isInitialized || handDataProvider == null)
     {
-      IsDataValid = false;
-      IsDataHighConfidence = false;
       return;
     }
 
     var data = handDataProvider.GetSkeletonPoseData();
 
-    IsDataValid = data.IsDataValid;
-
     if (!data.IsDataValid) return;
 
-    if (SkeletonChangedCount != data.SkeletonChangedCount)
+    if (skeletonChangedCount != data.SkeletonChangedCount)
     {
-      SkeletonChangedCount = data.SkeletonChangedCount;
-      IsInitialized = false;
+      skeletonChangedCount = data.SkeletonChangedCount;
+      isInitialized = false;
       Initialize();
     }
-
-    IsDataHighConfidence = data.IsDataHighConfidence;
 
     if (updateRootPose)
     {
@@ -159,12 +131,18 @@ public class Skeleton : MonoBehaviour
     }
   }
 
+  public Bone GetBoneFromBoneName(BoneName name)
+  {
+    var boneId = BoneNameToBoneId.GetTrackedBone(name);
+    var maybeBone = bones.Find(bone => bone.id == boneId);
+
+    return maybeBone;
+  }
+
   private void FixedUpdate()
   {
-    if (!IsInitialized || handDataProvider == null)
+    if (!isInitialized || handDataProvider == null)
     {
-      IsDataValid = false;
-      IsDataHighConfidence = false;
       return;
     }
 
@@ -173,35 +151,18 @@ public class Skeleton : MonoBehaviour
 
   private static readonly string[] HandBoneNames =
   {
-        "wrist",
-        "forearm_stub",
-        "thumb0",
-        "thumb1",
-        "thumb2",
-        "thumb3",
-        "index1",
-        "index2",
-        "index3",
-        "middle1",
-        "middle2",
-        "middle3",
-        "ring1",
-        "ring2",
-        "ring3",
-        "pinky0",
-        "pinky1",
-        "pinky2",
-        "pinky3"
-    };
+    "wrist", "forearm_stub",
+    "thumb0", "thumb1", "thumb2", "thumb3",
+    "index1", "index2", "index3",
+    "middle1", "middle2", "middle3",
+    "ring1", "ring2", "ring3",
+    "pinky0", "pinky1", "pinky2", "pinky3"
+  };
 
   private static readonly string[] HandFingerNames =
   {
-        "thumb",
-        "index",
-        "middle",
-        "ring",
-        "pinky"
-    };
+    "thumb", "index", "middle", "ring", "pinky"
+  };
 
   private static BoneName FbxBoneNameFromBoneId(HandTypes handType, TrackedBones boneId)
   {
