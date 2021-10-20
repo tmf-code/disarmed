@@ -20,16 +20,13 @@ public class Skeleton : MonoBehaviour
   private bool isInitialized = false;
   private readonly Quaternion wristFixupRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
-  private void Awake()
+  private void Start()
   {
     handDataProvider = gameObject.GetComponentIfNull(handDataProvider);
     handedness = gameObject.GetComponentIfNull(handedness);
     vrTrackingDataTransform = transform.FindOrThrow("VRTrackingData");
     bones = new List<Bone>();
-  }
 
-  private void Start()
-  {
     if (!ShouldInitialize()) Initialize();
   }
 
