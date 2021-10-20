@@ -84,8 +84,7 @@ public class Grabbed : MonoBehaviour
 
   private Transform GetTargetTransform()
   {
-    var grabbingHand = grabbing.gameObject.GetComponentOrThrow<Handedness>().handType;
-    var grabbingHandPrefix = grabbingHand == HandTypes.HandLeft ? "l" : "r";
+    var grabbingHandPrefix = grabbing.gameObject.GetComponentOrThrow<Handedness>().HandPrefix();
     var targetTransform = grabbing.transform.FindRecursiveOrThrow($"{grabbingHandPrefix}_palm_center_marker");
     return targetTransform;
   }

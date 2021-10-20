@@ -3,9 +3,9 @@
   new void Start()
   {
     tag = "Hand";
-    var handType = gameObject.GetComponent<Handedness>().handType;
-    boneStart = handType == HandTypes.HandLeft ? BoneName.b_l_wrist : BoneName.b_r_wrist;
-    boneEnd = handType == HandTypes.HandLeft ? BoneName.b_l_middle_null : BoneName.b_r_middle_null;
+    var isLeft = gameObject.GetComponent<Handedness>().IsLeft();
+    boneStart = isLeft ? BoneName.b_l_wrist : BoneName.b_r_wrist;
+    boneEnd = isLeft ? BoneName.b_l_middle_null : BoneName.b_r_middle_null;
     base.Start();
   }
 }

@@ -3,7 +3,7 @@
 [DefaultExecutionOrder(-90)]
 public class CustomHand : MonoBehaviour
 {
-  private HandTypes handType = HandTypes.HandLeft;
+  private Handedness handedness;
   private OVRPlugin.HandState _handState = new OVRPlugin.HandState();
 
   public bool isDataValid;
@@ -17,11 +17,13 @@ public class CustomHand : MonoBehaviour
 
   public void Start()
   {
-    handType = GetComponent<Handedness>().handType;
+    handedness = gameObject.GetComponentIfNull(handedness);
   }
 
   private void Awake()
   {
+    handedness = gameObject.GetComponentIfNull(handedness);
+
     GetHandState(OVRPlugin.Step.Render);
   }
 
@@ -36,7 +38,7 @@ public class CustomHand : MonoBehaviour
 
   private void GetHandState(OVRPlugin.Step step)
   {
-    if (OVRPlugin.GetHandState(step, (OVRPlugin.Hand)handType, ref _handState))
+    if (OVRPlugin.GetHandState(step, (OVRPlugin.Hand)handedness.handType, ref _handState))
     {
       isTracked = (_handState.Status & OVRPlugin.HandStatus.HandTracked) != 0;
       isSystemGestureInProgress =

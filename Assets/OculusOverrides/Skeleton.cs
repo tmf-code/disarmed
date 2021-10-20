@@ -46,13 +46,13 @@ public class Skeleton : MonoBehaviour
 
   private void Initialize()
   {
-    if (!OVRPlugin.GetSkeleton2((OVRPlugin.SkeletonType)GetHandType(), ref skeleton)) return;
+    if (!OVRPlugin.GetSkeleton2((OVRPlugin.SkeletonType)GetHandedness().handType, ref skeleton)) return;
 
     InitializeBones();
     isInitialized = true;
   }
 
-  private HandTypes GetHandType() => gameObject.GetComponentIfNull(handedness).handType;
+  private Handedness GetHandedness() => gameObject.GetComponentIfNull(handedness);
 
   private void InitializeBones()
   {
@@ -72,7 +72,7 @@ public class Skeleton : MonoBehaviour
       Bone bone = bones[i] ?? (bones[i] = new Bone());
       bone.id = (TrackedBones)i;
 
-      BoneName fbxBoneName = FbxBoneNameFromBoneId(GetHandType(), bone.id);
+      BoneName fbxBoneName = FbxBoneNameFromBoneId(GetHandedness(), bone.id);
       Transform boneTransform = copyArmature.FindRecursiveOrThrow(fbxBoneName.ToString());
 
       bone.transform = boneTransform;
@@ -164,28 +164,27 @@ public class Skeleton : MonoBehaviour
     "thumb", "index", "middle", "ring", "pinky"
   };
 
-  private static BoneName FbxBoneNameFromBoneId(HandTypes handType, TrackedBones boneId)
+  private static BoneName FbxBoneNameFromBoneId(Handedness handedness, TrackedBones boneId)
   {
+    var handSideprefix = handedness.HandPrefix() + "_";
+    var isFingerTipMarker = boneId >= TrackedBones.Hand_ThumbTip && boneId <= TrackedBones.Hand_PinkyTip;
+    if (isFingerTipMarker)
     {
-      var handSideprefix = handType == HandTypes.HandLeft ? "l_" : "r_";
-      var isFingerTipMarker = boneId >= TrackedBones.Hand_ThumbTip && boneId <= TrackedBones.Hand_PinkyTip;
-      if (isFingerTipMarker)
-      {
-        var fingerNameIndex = (int)boneId - (int)TrackedBones.Hand_ThumbTip;
-        var fingerName = HandFingerNames[fingerNameIndex];
-        return (BoneName)Enum.Parse(
-          typeof(BoneName),
-          $"{handSideprefix}{fingerName}_finger_tip_marker");
-      }
-      else
-      {
-        var boneName = HandBoneNames[(int)boneId];
-        return (BoneName)Enum.Parse(
-          typeof(BoneName),
-          $"b_{handSideprefix}{boneName}");
-      }
+      var fingerNameIndex = (int)boneId - (int)TrackedBones.Hand_ThumbTip;
+      var fingerName = HandFingerNames[fingerNameIndex];
+      return (BoneName)Enum.Parse(
+        typeof(BoneName),
+        $"{handSideprefix}{fingerName}_finger_tip_marker");
+    }
+    else
+    {
+      var boneName = HandBoneNames[(int)boneId];
+      return (BoneName)Enum.Parse(
+        typeof(BoneName),
+        $"b_{handSideprefix}{boneName}");
     }
   }
+
   public class Bone
   {
     public TrackedBones id;
