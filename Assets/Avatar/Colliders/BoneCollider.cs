@@ -73,4 +73,9 @@ public class BoneCollider : MonoBehaviour
     collider.radius = radius;
     collider.height = distance.magnitude + radius * 2;
   }
+
+  void OnDestroy()
+  {
+    Destroy(colliderRoot);
+  }
 }

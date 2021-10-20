@@ -12,10 +12,10 @@ public class Grabbing : MonoBehaviour
   {
     creationTime = Time.time;
 
-    gameObject.GetComponentOrThrow<InverseKinematics>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyHandTracking>().strength = 0;
-    gameObject.GetComponentOrThrow<ApplyRootTracking>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyPose>().strength = 1;
+    gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 0);
+    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 1);
 
     gameObject.RemoveComponent<Idle>();
     gameObject.RemoveComponent<Grabbed>();
@@ -39,13 +39,13 @@ public class Grabbing : MonoBehaviour
   {
     if (!canTransition) return;
 
-    gameObject.GetComponentOrThrow<InverseKinematics>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyHandTracking>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyRootTracking>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyPose>().strength = 0;
+    gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
 
     gameObject.AddIfNotExisting<Idle>();
-    grabbed.SendMessage("OnGrabReleased", SendMessageOptions.RequireReceiver);
+    Option<Grabbed>.of(grabbed).End(grabbed => SendMessage("OnGrabReleased", SendMessageOptions.RequireReceiver));
 
     Destroy(this);
   }

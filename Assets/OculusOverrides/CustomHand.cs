@@ -18,13 +18,8 @@ public class CustomHand : MonoBehaviour
   public void Start()
   {
     handedness = gameObject.GetComponentIfNull(handedness);
-  }
-
-  private void Awake()
-  {
-    handedness = gameObject.GetComponentIfNull(handedness);
-
     GetHandState(OVRPlugin.Step.Render);
+
   }
 
   private void Update() => GetHandState(OVRPlugin.Step.Render);

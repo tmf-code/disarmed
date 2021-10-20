@@ -31,18 +31,17 @@ public class Grabbed : MonoBehaviour
 
   void Start()
   {
-    gameObject.GetComponentOrThrow<InverseKinematics>().strength = 0;
-    gameObject.GetComponentOrThrow<ApplyHandTracking>().strength = 0;
-    gameObject.GetComponentOrThrow<ApplyRootTracking>().strength = 0;
-    gameObject.GetComponentOrThrow<ApplyPose>().strength = 0;
-
+    gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 0);
+    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 0);
+    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 0);
+    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
 
     gameObject.RemoveComponent<Idle>();
     gameObject.RemoveComponent<Grabbing>();
 
     animation = new SimpleAnimation(3);
 
-    var grabRotation = GetTargetTransform().rotation;
+    var grabRotation = GetTargetTransform().Unwrap().rotation;
     var grabRotations = strategies.ConvertAll((rotation) =>
       grabRotation * rotation);
 
@@ -63,42 +62,57 @@ public class Grabbed : MonoBehaviour
     var targetTransform = GetTargetTransform();
     var currentTransform = transform.FindRecursiveOrThrow("Model");
 
-    currentTransform.SetPositionAndRotation(
-      Vector3.Lerp(
-        currentTransform.position,
-        targetTransform.position,
-        animation.progression
-      ),
+    targetTransform.Match(
+      targetTransform =>
+      {
+        currentTransform.SetPositionAndRotation(
+          Vector3.Lerp(
+            currentTransform.position,
+            targetTransform.position,
+            animation.progression
+          ),
 
-      Quaternion.Slerp(
-        currentTransform.rotation,
-        targetTransform.rotation * selectedStrategy,
-        animation.progression
-      )
-    );
+          Quaternion.Slerp(
+            currentTransform.rotation,
+            targetTransform.rotation * selectedStrategy,
+            animation.progression
+          )
+        );
 
-    var currentTime = Time.time - creationTime;
-    if (currentTime > minimumIdleTimeSeconds) canTransition = true;
-    else canTransition = false;
+        var currentTime = Time.time - creationTime;
+        if (currentTime > minimumIdleTimeSeconds) canTransition = true;
+        else canTransition = false;
+      },
+    () => OnGrabReleased());
   }
 
-  private Transform GetTargetTransform()
+  private Option<Transform> GetTargetTransform()
   {
+    if (grabbing == null) return new None<Transform>();
     var grabbingHandPrefix = grabbing.gameObject.GetComponentOrThrow<Handedness>().HandPrefix();
-    var targetTransform = grabbing.transform.FindRecursiveOrThrow($"{grabbingHandPrefix}_palm_center_marker");
-    return targetTransform;
+    var targetTransform = grabbing.transform.FindChildRecursive($"{grabbingHandPrefix}_palm_center_marker");
+    return Option<Transform>.of(targetTransform);
   }
 
   public void OnGrabReleased()
   {
     if (!canTransition) return;
 
-    gameObject.GetComponentOrThrow<InverseKinematics>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyHandTracking>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyRootTracking>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyPose>().strength = 0;
+    gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 1);
 
     gameObject.AddIfNotExisting<Idle>();
+
+    var isUserArm = gameObject.GetComponentOrThrow<ArmBehavior>().behavior == ArmBehavior.ArmBehaviorType.User;
+    Debug.Log($"isUserArm: {isUserArm}");
+    if (isUserArm)
+    {
+      var clone = Instantiate(gameObject);
+      var armBehavior = clone.GetComponent<ArmBehavior>();
+      armBehavior.behavior = ArmBehavior.ArmBehaviorType.Static;
+    }
 
     Destroy(this);
   }

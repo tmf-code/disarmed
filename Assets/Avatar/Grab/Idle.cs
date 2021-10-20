@@ -5,17 +5,21 @@ public class Idle : MonoBehaviour
   public float creationTime;
   public float minimumIdleTimeSeconds = 3;
   public bool canTransition = false;
+  private ArmBehavior armBehavior;
 
   void Start()
   {
     creationTime = Time.time;
-    gameObject.GetComponentOrThrow<InverseKinematics>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyHandTracking>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyRootTracking>().strength = 1;
-    gameObject.GetComponentOrThrow<ApplyPose>().strength = 0;
+    gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
 
     gameObject.RemoveComponent<Grabbed>();
     gameObject.RemoveComponent<Grabbing>();
+
+    armBehavior = gameObject.GetComponentOrThrow<ArmBehavior>();
+
   }
 
   void Update()
@@ -51,8 +55,10 @@ public class Idle : MonoBehaviour
     var source = colliders.source;
     var other = colliders.other;
 
+    var isUserArm = armBehavior.behavior == ArmBehavior.ArmBehaviorType.User;
 
-    if (source.CompareTag("Hand") && other.CompareTag("Forearm"))
+    var shouldGrab = source.CompareTag("Hand") && other.CompareTag("Forearm") && isUserArm;
+    if (shouldGrab)
     {
       var grabbing = gameObject.AddIfNotExisting<Grabbing>();
       var grabbed = otherParent.AddIfNotExisting<Grabbed>();
@@ -62,7 +68,8 @@ public class Idle : MonoBehaviour
       return;
     }
 
-    if (source.CompareTag("Forearm") && other.CompareTag("Hand"))
+    var shouldBeGrabbed = source.CompareTag("Forearm") && other.CompareTag("Hand");
+    if (shouldBeGrabbed)
     {
       var grabbing = otherParent.AddIfNotExisting<Grabbing>();
       var grabbed = gameObject.AddIfNotExisting<Grabbed>();
