@@ -48,7 +48,13 @@ public static class ExtensionMethods
   {
     if (gameObject.TryGetComponent(out T component)) return component;
 
-    throw new Exception($"Component {component.GetType()} not found");
+    throw new Exception($"Component {typeof(T)} not found");
+  }
+
+  public static Option<T> GetOptionComponent<T>(this GameObject gameObject) where T : Component
+  {
+    if (gameObject.TryGetComponent(out T component)) return new Some<T>(component);
+    return new None<T>();
   }
 
   public static bool HasComponent<T>(this GameObject gameObject) where T : Component => gameObject.GetComponent<T>() != null;
