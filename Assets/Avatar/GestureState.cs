@@ -7,7 +7,7 @@ public class GestureState : MonoBehaviour
 {
   private Fingers fingers = new Fingers();
   private Handedness handedness;
-  private CustomSkeleton customSkeleton;
+  private Skeleton skeleton;
 
   public SendMessageDisplay sendMessageDisplay = new SendMessageDisplay();
 
@@ -34,7 +34,7 @@ public class GestureState : MonoBehaviour
 
   void Start()
   {
-    customSkeleton = gameObject.GetComponentIfNull(customSkeleton);
+    skeleton = gameObject.GetComponentIfNull(skeleton);
     handedness = gameObject.GetComponentIfNull(handedness);
     var handSide = handedness.handType == HandTypes.HandLeft ? "l" : "r";
     var fingerNames = Enum.GetNames(typeof(FingerNames));
@@ -64,7 +64,7 @@ public class GestureState : MonoBehaviour
       Enum.TryParse<FingerNames>(name, false, out var fingerName);
       fingerDimensions.TryGetValue(fingerName, out var range);
       fingers.SetFinger(fingerName,
-        new Finger(customSkeleton, new BoneName[]{
+        new Finger(skeleton, new BoneName[]{
           boneName1,
           boneName2,
           boneName3,
@@ -101,7 +101,7 @@ public class GestureState : MonoBehaviour
     if (handOpen != this.handOpen)
     {
       gameObject.SendMessage("OnHandOpen", SendMessageOptions.DontRequireReceiver);
-      var gesturePosition = customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
+      var gesturePosition = skeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
       if (gesturePosition != null) sendMessageDisplay.AddMessage("OnHandOpen", gesturePosition);
     }
     this.handOpen = handOpen;
@@ -115,7 +115,7 @@ public class GestureState : MonoBehaviour
     if (handClosed != this.handClosed)
     {
       gameObject.SendMessage("OnHandClosed", SendMessageOptions.DontRequireReceiver);
-      var gesturePosition = customSkeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
+      var gesturePosition = skeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
       if (gesturePosition != null) sendMessageDisplay.AddMessage("OnHandClosed", gesturePosition);
     }
     this.handClosed = handClosed;
@@ -125,13 +125,13 @@ public class GestureState : MonoBehaviour
   public class Finger
   {
     public BoneName[] boneNames;
-    public CustomSkeleton customSkeleton;
+    public Skeleton skeleton;
     private readonly float minStraightness;
     private readonly float maxStraightness;
 
-    public Finger(CustomSkeleton customSkeleton, BoneName[] boneNames, float minStraightness, float maxStraightness)
+    public Finger(Skeleton skeleton, BoneName[] boneNames, float minStraightness, float maxStraightness)
     {
-      this.customSkeleton = customSkeleton;
+      this.skeleton = skeleton;
       this.boneNames = boneNames;
       this.minStraightness = minStraightness;
       this.maxStraightness = maxStraightness;
@@ -152,7 +152,7 @@ public class GestureState : MonoBehaviour
 
     private Transform[] BoneTransforms()
     {
-      return boneNames.Select(name => customSkeleton.GetBoneFromBoneName(name))
+      return boneNames.Select(name => skeleton.GetBoneFromBoneName(name))
         .Where(bone => bone != null && bone.transform != null).Select(bone => bone.transform)
         .ToArray();
     }

@@ -45,7 +45,7 @@ public class Skeleton : MonoBehaviour
 
   private void Start()
   {
-    if (ShouldInitialize()) Initialize();
+    if (!ShouldInitialize()) Initialize();
   }
 
   private bool ShouldInitialize()
@@ -59,7 +59,6 @@ public class Skeleton : MonoBehaviour
 #endif
   }
 
-
   private void Initialize()
   {
     if (!OVRPlugin.GetSkeleton2((OVRPlugin.SkeletonType)HandType, ref skeleton)) return;
@@ -68,9 +67,39 @@ public class Skeleton : MonoBehaviour
     IsInitialized = true;
   }
 
-  protected virtual void InitializeBones()
+  public Bone GetBoneFromBoneName(BoneName name)
   {
-    throw new NotImplementedException("Should not create base class Skeleton. If you need this look under the oculus package");
+    var boneId = BoneNameToBoneId.GetTrackedBone(name);
+    var maybeBone = bones.Find(bone => bone.id == boneId);
+
+    return maybeBone;
+  }
+
+  private void InitializeBones()
+  {
+    if (bones == null || bones.Count != skeleton.NumBones)
+    {
+      bones = new List<Bone>(new Bone[skeleton.NumBones]);
+      Bones = bones.AsReadOnly();
+    }
+
+    var armature = transform.FindRecursiveOrThrow("Armature");
+    var vrTrackingData = transform.FindRecursiveOrThrow("VRTrackingData");
+    var maybeCopyArmature = vrTrackingData.Find("Armature");
+    var copyArmature = maybeCopyArmature != null ? maybeCopyArmature : Instantiate(armature, vrTrackingData);
+    copyArmature.name = "Armature";
+
+    for (int i = 0; i < bones.Count; ++i)
+    {
+      Bone bone = bones[i] ?? (bones[i] = new Bone());
+      bone.id = (TrackedBones)i;
+
+      BoneName fbxBoneName = FbxBoneNameFromBoneId(HandType, bone.id);
+      Transform boneTransform = copyArmature.FindRecursiveOrThrow(fbxBoneName.ToString());
+
+      bone.transform = boneTransform;
+      bone.transform.localRotation = skeleton.Bones[i].Pose.Orientation.FromFlippedXQuatf();
+    }
   }
 
   private void Update()
@@ -141,16 +170,71 @@ public class Skeleton : MonoBehaviour
 
     Update();
   }
-}
 
-public class Bone
-{
-  public TrackedBones id;
-  public Transform transform;
-  public Quaternion localRotation = Quaternion.identity;
-
-  public void Update()
+  private static readonly string[] HandBoneNames =
   {
-    transform.localRotation = localRotation;
+        "wrist",
+        "forearm_stub",
+        "thumb0",
+        "thumb1",
+        "thumb2",
+        "thumb3",
+        "index1",
+        "index2",
+        "index3",
+        "middle1",
+        "middle2",
+        "middle3",
+        "ring1",
+        "ring2",
+        "ring3",
+        "pinky0",
+        "pinky1",
+        "pinky2",
+        "pinky3"
+    };
+
+  private static readonly string[] HandFingerNames =
+  {
+        "thumb",
+        "index",
+        "middle",
+        "ring",
+        "pinky"
+    };
+
+  private static BoneName FbxBoneNameFromBoneId(HandTypes handType, TrackedBones boneId)
+  {
+    {
+      var handSideprefix = handType == HandTypes.HandLeft ? "l_" : "r_";
+      var isFingerTipMarker = boneId >= TrackedBones.Hand_ThumbTip && boneId <= TrackedBones.Hand_PinkyTip;
+      if (isFingerTipMarker)
+      {
+        var fingerNameIndex = (int)boneId - (int)TrackedBones.Hand_ThumbTip;
+        var fingerName = HandFingerNames[fingerNameIndex];
+        return (BoneName)Enum.Parse(
+          typeof(BoneName),
+          $"{handSideprefix}{fingerName}_finger_tip_marker");
+      }
+      else
+      {
+        var boneName = HandBoneNames[(int)boneId];
+        return (BoneName)Enum.Parse(
+          typeof(BoneName),
+          $"b_{handSideprefix}{boneName}");
+      }
+    }
+  }
+  public class Bone
+  {
+    public TrackedBones id;
+    public Transform transform;
+    public Quaternion localRotation = Quaternion.identity;
+
+    public void Update()
+    {
+      transform.localRotation = localRotation;
+    }
   }
 }
+

@@ -53,7 +53,6 @@
      <Compile Include="Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\PassthroughProjectionSurface.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\SelectionCylinder.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\PanelHMDFollower.cs" />
-     <Compile Include="Assets\OculusOverrides\CustomSkeleton.cs" />
      <Compile Include="Assets\Avatar\Colliders\BoneNames.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\CowController.cs" />
      <Compile Include="Assets\Avatar\Colliders\SendCollisionToTarget.cs" />
