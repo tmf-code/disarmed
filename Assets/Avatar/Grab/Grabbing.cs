@@ -45,7 +45,7 @@ public class Grabbing : MonoBehaviour
     gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
 
     gameObject.AddIfNotExisting<Idle>();
-    Option<Grabbed>.of(grabbed).End(grabbed => SendMessage("OnGrabReleased", SendMessageOptions.RequireReceiver));
+    Option<Grabbed>.of(grabbed).End(grabbed => SendMessage("OnGrabReleased", SendMessageOptions.DontRequireReceiver));
 
     Destroy(this);
   }
