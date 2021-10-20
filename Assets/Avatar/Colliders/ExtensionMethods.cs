@@ -52,11 +52,17 @@ public static class ExtensionMethods
   }
 
   public static bool HasComponent<T>(this GameObject gameObject) where T : Component => gameObject.GetComponent<T>() != null;
+  public static bool HasComponent(this GameObject gameObject, Type componentType) => gameObject.GetComponent(componentType) != null;
 
   public static T AddIfNotExisting<T>(this GameObject gameObject) where T : Component
   {
     if (gameObject.HasComponent<T>()) return gameObject.GetComponent<T>();
     else return gameObject.AddComponent<T>();
+  }
+  public static Component AddIfNotExisting(this GameObject gameObject, Type componentType)
+  {
+    if (gameObject.HasComponent(componentType)) return gameObject.GetComponent(componentType);
+    else return gameObject.AddComponent(componentType);
   }
 
   public static T GetComponentIfNull<T>(this GameObject gameObject, T component) where T : Component
