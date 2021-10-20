@@ -26,28 +26,20 @@ public class BoneCollider : MonoBehaviour
   {
     colliderRoot = colliderRoot == null ? new GameObject($"BoneCollider_{boneStart}_TO_{boneEnd}") : colliderRoot;
     colliderRoot.transform.parent = transform;
-    collider =
-        colliderRoot.GetComponent<CapsuleCollider>() == null
-            ? colliderRoot.AddComponent<CapsuleCollider>()
-          : collider;
 
+    collider = colliderRoot.AddIfNotExisting<CapsuleCollider>();
     collider.direction = (int)CapsuleColliderDirection.Y_AXIS;
     collider.isTrigger = true;
     collider.tag = tag;
     collider.radius = radius;
 
-    rigidbody =
-        colliderRoot.GetComponent<Rigidbody>() == null
-            ? colliderRoot.AddComponent<Rigidbody>()
-          : rigidbody;
+    rigidbody = colliderRoot.AddIfNotExisting<Rigidbody>();
 
     rigidbody.useGravity = false;
     rigidbody.isKinematic = true;
 
-    eventSender =
-        colliderRoot.GetComponent<SendCollisionToTarget>() == null
-            ? colliderRoot.AddComponent<SendCollisionToTarget>()
-          : eventSender;
+    eventSender = colliderRoot.AddIfNotExisting<SendCollisionToTarget>();
+
     eventSender.target = gameObject;
     eventSender.source = collider;
 

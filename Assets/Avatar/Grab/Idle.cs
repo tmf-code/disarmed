@@ -39,25 +39,20 @@ public class Idle : MonoBehaviour
   {
     if (!canTransition) return;
 
-    if (colliders.other.transform.parent == null)
-    {
-      // Debug.Log("No parent");
-      return;
-    }
-
     var otherParent = colliders.other.transform.parent.gameObject;
-    if (otherParent == gameObject)
+    var isCollidingWithSelf = otherParent == gameObject;
+    if (isCollidingWithSelf) { return; }
+
+    if (otherParent.HasComponent<Grabbed>() || otherParent.HasComponent<Grabbing>())
     {
-      // Debug.Log($"trigger enter with self");
       return;
     }
 
     var source = colliders.source;
     var other = colliders.other;
 
-    var isUserArm = armBehavior.behavior == ArmBehavior.ArmBehaviorType.User;
-
-    var shouldGrab = source.CompareTag("Hand") && other.CompareTag("Forearm") && isUserArm;
+    var sourceIsUserArm = armBehavior.behavior == ArmBehavior.ArmBehaviorType.User;
+    var shouldGrab = source.CompareTag("Hand") && other.CompareTag("Forearm") && sourceIsUserArm;
     if (shouldGrab)
     {
       var grabbing = gameObject.AddIfNotExisting<Grabbing>();
@@ -68,7 +63,8 @@ public class Idle : MonoBehaviour
       return;
     }
 
-    var shouldBeGrabbed = source.CompareTag("Forearm") && other.CompareTag("Hand");
+    var otherIsUserArm = otherParent.GetComponentOrThrow<ArmBehavior>().behavior == ArmBehavior.ArmBehaviorType.User;
+    var shouldBeGrabbed = source.CompareTag("Forearm") && other.CompareTag("Hand") && !otherIsUserArm;
     if (shouldBeGrabbed)
     {
       var grabbing = otherParent.AddIfNotExisting<Grabbing>();
