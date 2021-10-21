@@ -93,7 +93,7 @@ public class InverseKinematics : MonoBehaviour
 
     for (int resultIndex = 0; resultIndex < results.Count; resultIndex++)
     {
-      var bone = bones[resultIndex]!;
+      var bone = bones[resultIndex];
       var link = results[resultIndex];
       bone.localRotation = Quaternion.Slerp(bone.localRotation, link.rotation, strength);
     }
@@ -101,30 +101,39 @@ public class InverseKinematics : MonoBehaviour
 
   class ArmConstraints
   {
+    //Z axis is swapped with x for all (ie x axis points forward) (pitch with roll)
     static readonly EulerConstraint b_l_forearm_stub = new EulerConstraint(
-      pitch: new Range(170F),
+      pitch: new Range(20F),
       yaw: new Range(30F),
-      roll: new Range(20F));
+      roll: new Range(170F)
+    );
     static readonly EulerConstraint b_r_forearm_stub = new EulerConstraint(
-      pitch: new Range(170F),
+      pitch: new Range(20F),
       yaw: new Range(30F),
-      roll: new Range(20F));
+      roll: new Range(170F)
+    );
     static readonly EulerConstraint b_l_humerus = new EulerConstraint(
-      pitch: new Range(min: 0, max: 100F),
-      yaw: new Range(min: 0, max: 80F),
-      roll: new Range(min: -15F, max: 15F));
+      pitch: new Range(30F),
+      yaw: new Range(min: 0F, max: 80F),
+      roll: new Range(min: 0F, max: 100F)
+    );
     static readonly EulerConstraint b_r_humerus = new EulerConstraint(
-      pitch: new Range(min: 0, max: 100F),
-      yaw: new Range(min: -80F, max: 0),
-      roll: new Range(min: -15F, max: 15F));
+      pitch: new Range(30F),
+      yaw: new Range(min: 0F, max: 80F),
+      roll: new Range(min: 0F, max: 100F)
+    );
+
+    // Not currently used - Would be if we retarget the IK towards the chest. Have had mixed results.
     static readonly EulerConstraint b_l_shoulder = new EulerConstraint(
-      pitch: new Range(min: 0, max: 100F),
+      pitch: new Range(min: 0F, max: 30F),
       yaw: new Range(min: 20F, max: 80F),
-      roll: new Range(min: 0, max: 30F));
+      roll: new Range(min: 0F, max: 100F)
+    );
     static readonly EulerConstraint b_r_shoulder = new EulerConstraint(
-      pitch: new Range(min: 0, max: 100F),
+      pitch: new Range(min: -30F, max: 0F),
       yaw: new Range(min: -80F, max: 20F),
-      roll: new Range(min: -30F, max: 0));
+      roll: new Range(min: 0F, max: 100F)
+    );
 
     public static EulerConstraint get(string boneName) => boneName switch
     {
