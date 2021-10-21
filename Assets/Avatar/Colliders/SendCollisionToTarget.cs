@@ -3,8 +3,6 @@ using UnityEngine;
 public class SendCollisionToTarget : MonoBehaviour
 {
   public GameObject target;
-  public Collider source;
-
   void OnCollisionEnter(Collision collision)
   {
     target.SendMessage("OnCollisionEnter", collision, SendMessageOptions.DontRequireReceiver);
@@ -19,19 +17,19 @@ public class SendCollisionToTarget : MonoBehaviour
   }
   void OnTriggerEnter(Collider collider)
   {
-    var colliders = new TwoPartyCollider(gameObject.GetComponent<CapsuleCollider>(), collider);
+    var colliders = new TwoPartyCollider(GetComponent<CapsuleCollider>(), collider);
     target.SendMessage("OnTriggerEnter", collider, SendMessageOptions.DontRequireReceiver);
     target.SendMessage("OnTriggersEnter", colliders, SendMessageOptions.DontRequireReceiver);
   }
   void OnTriggerExit(Collider collider)
   {
-    var colliders = new TwoPartyCollider(gameObject.GetComponent<CapsuleCollider>(), collider);
+    var colliders = new TwoPartyCollider(GetComponent<CapsuleCollider>(), collider);
     target.SendMessage("OnTriggerExit", collider, SendMessageOptions.DontRequireReceiver);
     target.SendMessage("OnTriggersExit", colliders, SendMessageOptions.DontRequireReceiver);
   }
   void OnTriggerStay(Collider collider)
   {
-    var colliders = new TwoPartyCollider(gameObject.GetComponent<CapsuleCollider>(), collider);
+    var colliders = new TwoPartyCollider(GetComponent<CapsuleCollider>(), collider);
     target.SendMessage("OnTriggersStay", collider, SendMessageOptions.DontRequireReceiver);
     target.SendMessage("OnTriggersStay", colliders, SendMessageOptions.DontRequireReceiver);
   }

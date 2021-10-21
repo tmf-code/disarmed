@@ -35,7 +35,6 @@ public class RemoteBoneCollider : MonoBehaviour
     eventSender = colliderRoot.AddIfNotExisting<SendCollisionToTarget>();
 
     eventSender.target = gameObject;
-    eventSender.source = collider;
 
     boneStartTransform = transform.FindRecursiveOrThrow(boneStart.ToString());
     boneEndTransform = transform.FindRecursiveOrThrow(boneEnd.ToString());

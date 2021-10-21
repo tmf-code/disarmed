@@ -46,9 +46,7 @@ public class Idle : MonoBehaviour
       return;
     }
 
-    var otherParent = colliders.other.transform.parent.gameObject;
-
-
+    var otherParent = colliders.other.transform.root.gameObject;
     var isCollidingWithSelf = otherParent == gameObject;
     if (isCollidingWithSelf) { return; }
 
