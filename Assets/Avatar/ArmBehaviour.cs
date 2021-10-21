@@ -44,9 +44,9 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<PinchState>();
 
           // Colliders
-          gameObject.RemoveComponent<HandCollider>();
-          gameObject.RemoveComponent<ForearmCollider>();
-          gameObject.RemoveComponent<HumerusCollider>();
+          // gameObject.RemoveComponent<HandCollider>();
+          // gameObject.RemoveComponent<ForearmCollider>();
+          // gameObject.RemoveComponent<HumerusCollider>();
 
           // Mixers for different sources of movement
           gameObject.RemoveComponent<ApplyPose>();
@@ -72,9 +72,9 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<PinchState>();
 
           // Colliders
-          gameObject.AddIfNotExisting<HandCollider>();
-          gameObject.AddIfNotExisting<ForearmCollider>();
-          gameObject.AddIfNotExisting<HumerusCollider>();
+          // gameObject.AddIfNotExisting<HandCollider>();
+          // gameObject.AddIfNotExisting<ForearmCollider>();
+          // gameObject.AddIfNotExisting<HumerusCollider>();
 
           // Mixers for different sources of movement
           gameObject.RemoveComponent<ApplyPose>();
@@ -101,9 +101,9 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<PinchState>();
 
           // Colliders
-          gameObject.RemoveComponent<HandCollider>();
-          gameObject.RemoveComponent<ForearmCollider>();
-          gameObject.RemoveComponent<HumerusCollider>();
+          // gameObject.RemoveComponent<HandCollider>();
+          // gameObject.RemoveComponent<ForearmCollider>();
+          // gameObject.RemoveComponent<HumerusCollider>();
 
           gameObject.AddIfNotExisting<RagDollArm>();
 
@@ -132,9 +132,9 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.AddIfNotExisting<PinchState>();
 
           // Colliders
-          gameObject.AddIfNotExisting<HandCollider>();
-          gameObject.AddIfNotExisting<ForearmCollider>();
-          gameObject.AddIfNotExisting<HumerusCollider>();
+          // gameObject.AddIfNotExisting<HandCollider>();
+          // gameObject.AddIfNotExisting<ForearmCollider>();
+          // gameObject.AddIfNotExisting<HumerusCollider>();
 
           // Mixers for different sources of movement
           gameObject.AddIfNotExisting<ApplyPose>();

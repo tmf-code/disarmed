@@ -97,7 +97,7 @@ public class GestureState : MonoBehaviour
     middleOpen = middleStraightness > 0.8;
     ringOpen = ringStraightness > 0.8;
     pinkyOpen = pinkyStraightness > 0.8;
-    var handOpen = handStraightness > 0.8;
+    var handOpen = handStraightness > 0.7;
     if (handOpen != this.handOpen)
     {
       gameObject.SendMessage("OnHandOpen", SendMessageOptions.DontRequireReceiver);

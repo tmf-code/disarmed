@@ -9,51 +9,46 @@ class RagDollArm : MonoBehaviour
     var wrist = transform.FindRecursiveOrThrow($"b_{handPrefix}_wrist").gameObject;
     var forearm = transform.FindRecursiveOrThrow($"b_{handPrefix}_forearm_stub").gameObject;
     var humerus = transform.FindRecursiveOrThrow($"b_{handPrefix}_humerus").gameObject;
-    var shoulder = transform.FindRecursiveOrThrow($"b_{handPrefix}_shoulder").gameObject;
 
     var forearmJoint = forearm.AddIfNotExisting<CharacterJoint>();
-    AddBoneCollider(wrist, forearm, 0.05F);
-    wrist.AddIfNotExisting<Rigidbody>();
-
-    AddBoneCollider(forearm, humerus, 0.05F);
-    forearm.AddIfNotExisting<Rigidbody>();
     forearmJoint.connectedBody = wrist.GetComponent<Rigidbody>();
-
-    AddBoneCollider(humerus, shoulder, 0.05F);
-    humerus.AddIfNotExisting<Rigidbody>();
     var humerusJoint = humerus.AddIfNotExisting<CharacterJoint>();
     humerusJoint.connectedBody = forearm.GetComponent<Rigidbody>();
+
+    wrist.GetComponent<Rigidbody>().isKinematic = false;
+    wrist.GetComponent<Rigidbody>().useGravity = true;
+    wrist.GetComponent<CapsuleCollider>().isTrigger = false;
+
+    forearm.GetComponent<Rigidbody>().isKinematic = false;
+    forearm.GetComponent<Rigidbody>().useGravity = true;
+    forearm.GetComponent<CapsuleCollider>().isTrigger = false;
+
+    humerus.GetComponent<Rigidbody>().isKinematic = false;
+    humerus.GetComponent<Rigidbody>().useGravity = true;
+    humerus.GetComponent<CapsuleCollider>().isTrigger = false;
   }
 
   void OnDestroy()
   {
-    var handPrefix = gameObject.GetComponentOrThrow<Handedness>().HandPrefix();
 
+    var handPrefix = gameObject.GetComponentOrThrow<Handedness>().HandPrefix();
     var wrist = transform.FindRecursiveOrThrow($"b_{handPrefix}_wrist").gameObject;
-    wrist.RemoveComponent<CapsuleCollider>();
-    wrist.RemoveComponent<Rigidbody>();
+    wrist.GetComponentOrThrow<Rigidbody>().isKinematic = true;
+    wrist.GetComponentOrThrow<Rigidbody>().useGravity = false;
+    wrist.GetComponent<CapsuleCollider>().isTrigger = true;
 
     var forearm = transform.FindRecursiveOrThrow($"b_{handPrefix}_forearm_stub").gameObject;
-    forearm.RemoveComponent<CapsuleCollider>();
-    forearm.RemoveComponent<Rigidbody>();
     forearm.RemoveComponent<CharacterJoint>();
+    forearm.GetComponent<Rigidbody>().isKinematic = true;
+    forearm.GetComponent<Rigidbody>().useGravity = false;
+    forearm.GetComponent<CapsuleCollider>().isTrigger = true;
 
     var humerus = transform.FindRecursiveOrThrow($"b_{handPrefix}_humerus").gameObject;
-    humerus.RemoveComponent<CapsuleCollider>();
-    humerus.RemoveComponent<Rigidbody>();
     humerus.RemoveComponent<CharacterJoint>();
-  }
+    humerus.GetComponent<Rigidbody>().isKinematic = true;
+    humerus.GetComponent<Rigidbody>().useGravity = false;
+    humerus.GetComponent<CapsuleCollider>().isTrigger = true;
 
-  public static CapsuleCollider AddBoneCollider(GameObject rootBone, GameObject childBone, float radius)
-  {
-    var result = rootBone.AddComponent<CapsuleCollider>();
-    result.direction = (int)CapsuleColliderDirection.Y_AXIS;
 
-    var end = childBone.transform.localPosition;
-    result.radius = radius;
-    result.height = end.magnitude;
-    result.center = new Vector3(-end.magnitude / 2F, 0, 0);
-
-    return result;
   }
 }
