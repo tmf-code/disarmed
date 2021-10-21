@@ -18,6 +18,11 @@ public class ApplyHandTracking : MonoBehaviour
     void CopyTransform(Transform target)
     {
       if (!BoneNameToBoneId.IsTrackedBone(target.name)) return;
+      if (target.name == "b_l_forearm_stub" || target.name == "b_r_forearm_stub")
+      {
+        // Bone shouldn't be controlled by tracking. Conflicts with IK
+        return;
+      }
 
       var current = model.FindChildRecursive(target.name);
       if (current == null) return;
