@@ -1,4 +1,4 @@
-﻿public class ForearmCollider : BoneCollider
+﻿public class ForearmCollider : RemoteBoneCollider
 {
   new void Start()
   {

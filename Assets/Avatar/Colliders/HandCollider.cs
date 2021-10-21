@@ -1,4 +1,4 @@
-﻿public class HandCollider : BoneCollider
+﻿public class HandCollider : RemoteBoneCollider
 {
   new void Start()
   {

@@ -105,13 +105,13 @@ public class Grabbed : MonoBehaviour
 
     gameObject.AddIfNotExisting<Idle>();
 
-    var isUserArm = gameObject.GetComponentOrThrow<ArmBehavior>().behavior == ArmBehavior.ArmBehaviorType.User;
+    var isUserArm = gameObject.GetComponentOrThrow<ArmBehaviour>().behavior == ArmBehaviour.ArmBehaviorType.User;
     Debug.Log($"isUserArm: {isUserArm}");
     if (isUserArm)
     {
       var clone = Instantiate(gameObject);
-      var armBehavior = clone.GetComponent<ArmBehavior>();
-      armBehavior.behavior = ArmBehavior.ArmBehaviorType.Static;
+      var armBehavior = clone.GetComponent<ArmBehaviour>();
+      armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Physics;
     }
 
     Destroy(this);

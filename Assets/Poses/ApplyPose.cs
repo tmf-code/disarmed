@@ -28,6 +28,8 @@ public class ApplyPose : MonoBehaviour
 
       var maybePose = poses.First();
       if (maybePose == null) return;
+      // Ideally Pose.transforms should be serialized (ie: not a dictionary) so that we can ignore the following check
+      if (maybePose.transforms == null) return;
 
       if (!maybePose.transforms.TryGetValue(current.name, out var target)) return;
 

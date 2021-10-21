@@ -1,14 +1,8 @@
 ﻿using UnityEngine;
 
-public class BoneCollider : MonoBehaviour
+public class RemoteBoneCollider : MonoBehaviour
 {
   public new string tag;
-  public enum CapsuleColliderDirection
-  {
-    X_AXIS = 0,
-    Y_AXIS = 1,
-    Z_AXIS = 2,
-  }
   public BoneName boneStart;
   public BoneName boneEnd;
 

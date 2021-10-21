@@ -5,7 +5,7 @@ public class Idle : MonoBehaviour
   public float creationTime;
   public float minimumIdleTimeSeconds = 3;
   public bool canTransition = false;
-  private ArmBehavior armBehavior;
+  private ArmBehaviour armBehavior;
 
   void Start()
   {
@@ -18,7 +18,7 @@ public class Idle : MonoBehaviour
     gameObject.RemoveComponent<Grabbed>();
     gameObject.RemoveComponent<Grabbing>();
 
-    armBehavior = gameObject.GetComponentOrThrow<ArmBehavior>();
+    armBehavior = gameObject.GetComponentOrThrow<ArmBehaviour>();
 
   }
 
@@ -38,8 +38,17 @@ public class Idle : MonoBehaviour
   public void OnTriggersEnter(TwoPartyCollider colliders)
   {
     if (!canTransition) return;
+    var isSourceAnArm = colliders.source.CompareTag("Hand") || colliders.source.CompareTag("Forearm");
+    var isOtherAnArm = colliders.other.CompareTag("Hand") || colliders.other.CompareTag("Forearm");
+    if (!isSourceAnArm || !isOtherAnArm)
+    {
+      // Is some other object in the scene that we don't care about here
+      return;
+    }
 
     var otherParent = colliders.other.transform.parent.gameObject;
+
+
     var isCollidingWithSelf = otherParent == gameObject;
     if (isCollidingWithSelf) { return; }
 
@@ -51,7 +60,7 @@ public class Idle : MonoBehaviour
     var source = colliders.source;
     var other = colliders.other;
 
-    var sourceIsUserArm = armBehavior.behavior == ArmBehavior.ArmBehaviorType.User;
+    var sourceIsUserArm = armBehavior.behavior == ArmBehaviour.ArmBehaviorType.User;
     var shouldGrab = source.CompareTag("Hand") && other.CompareTag("Forearm") && sourceIsUserArm;
     if (shouldGrab)
     {
@@ -63,7 +72,7 @@ public class Idle : MonoBehaviour
       return;
     }
 
-    var otherIsUserArm = otherParent.GetComponentOrThrow<ArmBehavior>().behavior == ArmBehavior.ArmBehaviorType.User;
+    var otherIsUserArm = otherParent.GetComponentOrThrow<ArmBehaviour>().behavior == ArmBehaviour.ArmBehaviorType.User;
     var shouldBeGrabbed = source.CompareTag("Forearm") && other.CompareTag("Hand") && !otherIsUserArm;
     if (shouldBeGrabbed)
     {

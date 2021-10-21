@@ -141,8 +141,6 @@
      <Compile Include="Assets\Oculus\SampleFramework\Core\DistanceGrab\Scripts\DistanceGrabber.cs" />
      <Compile Include="Assets\Oculus\Spatializer\scripts\helpers\ONSPReflectionZone.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\OverlayPassthrough.cs" />
-     <Compile Include="Assets\Avatar\ArmBehavior.cs" />
-     <Compile Include="Assets\Avatar\Colliders\Option.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\LocomotionTeleport.cs" />
      <Compile Include="Assets\Oculus\Spatializer\scripts\ONSPProfiler.cs" />
      <Compile Include="Assets\Avatar\InverseKinematics\EulerConstraint.cs" />
@@ -159,7 +157,6 @@
      <Compile Include="Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\FlashlightController.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\Locomotion\Scripts\TeleportPoint.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\FingerTipPokeTool.cs" />
-     <Compile Include="Assets\Avatar\Colliders\BoneCollider.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\Tools\RayToolView.cs" />
      <Compile Include="Assets\Avatar\TrackObject.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrainCarBase.cs" />
@@ -185,6 +182,11 @@
      <Compile Include="Assets\OculusOverrides\Skeleton.cs" />
      <Compile Include="Assets\Avatar\Colliders\ForearmCollider.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrackSegment.cs" />
+     <Compile Include="Assets\Avatar\RagDollArm.cs" />
+     <Compile Include="Assets\Avatar\ArmBehaviour.cs" />
+     <Compile Include="Assets\Avatar\Colliders\CapsuleColliderDirection.cs" />
+     <Compile Include="Assets\Avatar\Colliders\RemoteBoneCollider.cs" />
+     <Compile Include="Assets\Option.cs" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\XingLightShader.shader" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\ButtonGlow.shader" />
      <None Include="Assets\Oculus\SampleFramework\Usage\Passthrough\Materials\SelectivePassthrough.shader" />
