@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -38,33 +37,5 @@ public class SavePose : MonoBehaviour
     Debug.Log($"Writing to {filepath}");
     System.IO.File.WriteAllText(filepath, json);
     AssetDatabase.Refresh();
-  }
-}
-
-[Serializable]
-public class SerializedTransforms
-{
-  public SerializedTransform[] transforms;
-
-  public SerializedTransforms(SerializedTransform[] transforms)
-  {
-    this.transforms = transforms;
-  }
-}
-
-[Serializable]
-public class SerializedTransform
-{
-  public Vector3 localPosition;
-  public Quaternion localRotation;
-  public Vector3 localScale;
-  public string name;
-
-  public SerializedTransform(Transform transform)
-  {
-    localPosition = transform.localPosition;
-    localRotation = transform.localRotation;
-    localScale = transform.localScale;
-    name = transform.name;
   }
 }
