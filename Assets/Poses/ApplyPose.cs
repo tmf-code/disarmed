@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -25,7 +23,10 @@ public class ApplyPose : MonoBehaviour
     void ApplyTransform(Transform current)
     {
       if (!BoneNameToBoneId.IsTrackedBone(current.name)) return;
-
+      if (poses.Length == 0)
+      {
+        return;
+      }
       var maybePose = poses.First();
       if (maybePose == null) return;
       // Ideally Pose.transforms should be serialized (ie: not a dictionary) so that we can ignore the following check
@@ -33,9 +34,9 @@ public class ApplyPose : MonoBehaviour
 
       if (!maybePose.transforms.TryGetValue(current.name, out var target)) return;
 
-      current.localPosition = Vector3.Lerp(current.localPosition, target.localPosition, strength);
-      current.localRotation = Quaternion.Slerp(current.localRotation, target.localRotation, strength);
-      current.localScale = Vector3.Lerp(current.localScale, target.localScale, strength);
+      current.localPosition = Vector3.Lerp(current.localPosition, target.unSerialized.localPosition, strength);
+      current.localRotation = Quaternion.Slerp(current.localRotation, target.unSerialized.localRotation, strength);
+      current.localScale = Vector3.Lerp(current.localScale, target.unSerialized.localScale, strength);
 
     }
     ApplyTransform(model);
@@ -58,28 +59,5 @@ public class ApplyPose : MonoBehaviour
         poses = poses.Append(pose).ToArray();
       }
     }
-  }
-}
-[Serializable]
-public class Pose
-{
-  public string name;
-  public Dictionary<string, SerializedTransform> transforms;
-
-  private static Dictionary<string, SerializedTransform> FromSerializedTransforms(SerializedTransforms transforms)
-  {
-    Dictionary<string, SerializedTransform> dictionary = new Dictionary<string, SerializedTransform>();
-    foreach (SerializedTransform transform in transforms.transforms)
-    {
-      dictionary.Add(transform.name, transform);
-    }
-
-    return dictionary;
-  }
-
-  public Pose(string name, SerializedTransforms transforms)
-  {
-    this.name = name;
-    this.transforms = FromSerializedTransforms(transforms);
   }
 }
