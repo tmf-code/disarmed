@@ -7,6 +7,7 @@ public class Grabbing : MonoBehaviour
   public float creationTime;
   public float minimumIdleTimeSeconds = 3;
   public bool canTransition = false;
+  public bool fakeHandOpen = false;
 
   void Start()
   {
@@ -48,6 +49,15 @@ public class Grabbing : MonoBehaviour
     Option<Grabbed>.of(grabbed).End(grabbed => SendMessage("OnGrabReleased", SendMessageOptions.DontRequireReceiver));
 
     Destroy(this);
+  }
+
+  void OnValidate()
+  {
+    if (fakeHandOpen)
+    {
+      this.OnHandOpen();
+      fakeHandOpen = false;
+    }
   }
 }
 

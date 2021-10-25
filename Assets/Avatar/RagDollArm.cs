@@ -6,18 +6,18 @@ class RagDollArm : MonoBehaviour
   {
     var handPrefix = gameObject.GetComponentOrThrow<Handedness>().HandPrefix();
 
-    var wrist = transform.FindRecursiveOrThrow($"b_{handPrefix}_wrist").gameObject;
+    var model = transform.FindRecursiveOrThrow($"Model").gameObject;
     var forearm = transform.FindRecursiveOrThrow($"b_{handPrefix}_forearm_stub").gameObject;
     var humerus = transform.FindRecursiveOrThrow($"b_{handPrefix}_humerus").gameObject;
 
     var forearmJoint = forearm.AddIfNotExisting<CharacterJoint>();
-    forearmJoint.connectedBody = wrist.GetComponent<Rigidbody>();
+    forearmJoint.connectedBody = model.GetComponent<Rigidbody>();
     var humerusJoint = humerus.AddIfNotExisting<CharacterJoint>();
     humerusJoint.connectedBody = forearm.GetComponent<Rigidbody>();
 
-    wrist.GetComponent<Rigidbody>().isKinematic = false;
-    wrist.GetComponent<Rigidbody>().useGravity = true;
-    wrist.GetComponent<CapsuleCollider>().isTrigger = false;
+    model.GetComponent<Rigidbody>().isKinematic = false;
+    model.GetComponent<Rigidbody>().useGravity = true;
+    model.GetComponent<CapsuleCollider>().isTrigger = false;
 
     forearm.GetComponent<Rigidbody>().isKinematic = false;
     forearm.GetComponent<Rigidbody>().useGravity = true;
@@ -30,12 +30,11 @@ class RagDollArm : MonoBehaviour
 
   void OnDestroy()
   {
-
     var handPrefix = gameObject.GetComponentOrThrow<Handedness>().HandPrefix();
-    var wrist = transform.FindRecursiveOrThrow($"b_{handPrefix}_wrist").gameObject;
-    wrist.GetComponentOrThrow<Rigidbody>().isKinematic = true;
-    wrist.GetComponentOrThrow<Rigidbody>().useGravity = false;
-    wrist.GetComponent<CapsuleCollider>().isTrigger = true;
+    var model = transform.FindRecursiveOrThrow("Model").gameObject;
+    model.GetComponentOrThrow<Rigidbody>().isKinematic = true;
+    model.GetComponentOrThrow<Rigidbody>().useGravity = false;
+    model.GetComponent<CapsuleCollider>().isTrigger = true;
 
     var forearm = transform.FindRecursiveOrThrow($"b_{handPrefix}_forearm_stub").gameObject;
     forearm.RemoveComponent<CharacterJoint>();
@@ -48,7 +47,5 @@ class RagDollArm : MonoBehaviour
     humerus.GetComponent<Rigidbody>().isKinematic = true;
     humerus.GetComponent<Rigidbody>().useGravity = false;
     humerus.GetComponent<CapsuleCollider>().isTrigger = true;
-
-
   }
 }

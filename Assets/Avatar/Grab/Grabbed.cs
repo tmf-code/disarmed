@@ -31,6 +31,7 @@ public class Grabbed : MonoBehaviour
 
   void Start()
   {
+    gameObject.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Static;
     gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 0);
     gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 0);
     gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 0);
@@ -110,9 +111,13 @@ public class Grabbed : MonoBehaviour
     if (isUserArm)
     {
       var clone = Instantiate(gameObject);
-      var armBehavior = clone.GetComponent<ArmBehaviour>();
+    }
+    else
+    {
+      var armBehavior = gameObject.GetComponent<ArmBehaviour>();
       armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Physics;
     }
+
 
     Destroy(this);
   }

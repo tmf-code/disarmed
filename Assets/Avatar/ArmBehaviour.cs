@@ -43,10 +43,7 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<GestureState>();
           gameObject.RemoveComponent<PinchState>();
 
-          // Colliders
-          // gameObject.RemoveComponent<HandCollider>();
-          // gameObject.RemoveComponent<ForearmCollider>();
-          // gameObject.RemoveComponent<HumerusCollider>();
+          gameObject.RemoveComponent<RagDollArm>();
 
           // Mixers for different sources of movement
           gameObject.RemoveComponent<ApplyPose>();
@@ -63,18 +60,19 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<DisableArmOnUntracked>();
 
           // Grabbing state machine
-          gameObject.AddIfNotExisting<Idle>();
-          gameObject.RemoveComponent<Grabbed>();
-          gameObject.RemoveComponent<Grabbing>();
+          if (!HasAnyGrabbingState())
+          {
+            gameObject.AddIfNotExisting<Idle>();
+            gameObject.RemoveComponent<Grabbed>();
+            gameObject.RemoveComponent<Grabbing>();
+          }
 
           // Hand gestures
           gameObject.RemoveComponent<GestureState>();
           gameObject.RemoveComponent<PinchState>();
 
-          // Colliders
-          // gameObject.AddIfNotExisting<HandCollider>();
-          // gameObject.AddIfNotExisting<ForearmCollider>();
-          // gameObject.AddIfNotExisting<HumerusCollider>();
+          gameObject.RemoveComponent<RagDollArm>();
+
 
           // Mixers for different sources of movement
           gameObject.RemoveComponent<ApplyPose>();
@@ -92,18 +90,16 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<DisableArmOnUntracked>();
 
           // Grabbing state machine
-          gameObject.AddIfNotExisting<Idle>();
-          gameObject.RemoveComponent<Grabbed>();
-          gameObject.RemoveComponent<Grabbing>();
+          if (!HasAnyGrabbingState())
+          {
+            gameObject.AddIfNotExisting<Idle>();
+            gameObject.RemoveComponent<Grabbed>();
+            gameObject.RemoveComponent<Grabbing>();
+          }
 
           // Hand gestures
           gameObject.RemoveComponent<GestureState>();
           gameObject.RemoveComponent<PinchState>();
-
-          // Colliders
-          // gameObject.RemoveComponent<HandCollider>();
-          // gameObject.RemoveComponent<ForearmCollider>();
-          // gameObject.RemoveComponent<HumerusCollider>();
 
           gameObject.AddIfNotExisting<RagDollArm>();
 
@@ -123,18 +119,18 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.AddIfNotExisting<DisableArmOnUntracked>();
 
           // Grabbing state machine
-          gameObject.AddIfNotExisting<Idle>();
-          gameObject.RemoveComponent<Grabbed>();
-          gameObject.RemoveComponent<Grabbing>();
+          if (!HasAnyGrabbingState())
+          {
+            gameObject.AddIfNotExisting<Idle>();
+            gameObject.RemoveComponent<Grabbed>();
+            gameObject.RemoveComponent<Grabbing>();
+          }
 
           // Hand gestures
           gameObject.AddIfNotExisting<GestureState>();
           gameObject.AddIfNotExisting<PinchState>();
 
-          // Colliders
-          // gameObject.AddIfNotExisting<HandCollider>();
-          // gameObject.AddIfNotExisting<ForearmCollider>();
-          // gameObject.AddIfNotExisting<HumerusCollider>();
+          gameObject.RemoveComponent<RagDollArm>();
 
           // Mixers for different sources of movement
           gameObject.AddIfNotExisting<ApplyPose>();
@@ -146,6 +142,13 @@ public class ArmBehaviour : MonoBehaviour
         break;
 
     }
+  }
+
+  private bool HasAnyGrabbingState()
+  {
+    return gameObject.HasComponent<Idle>()
+      || gameObject.HasComponent<Grabbed>()
+      || gameObject.HasComponent<Grabbing>();
   }
 
   private void Update()
