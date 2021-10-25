@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -26,14 +25,13 @@ public class ArmRecorder : MonoBehaviour
 
     void Serialize(Transform transform)
     {
-      if (!BoneNameToBoneId.IsTrackedBone(transform.name)) return;
       transforms.Add(new SerializedTransform(transform));
     }
 
     Serialize(start);
     start.TraverseChildren(Serialize);
-    var serializedTransforms = new SerializedTransforms(transforms.ToArray());
-    recording.frameTransforms.Add(serializedTransforms);
+    var serializedTransforms = new SerializedTransforms(transforms);
+    recording.serializedFrameTransforms.Add(serializedTransforms);
   }
 
   void SaveRecording()
@@ -57,7 +55,7 @@ public class ArmRecorder : MonoBehaviour
     }
     if (startRecording == true && !isRecording)
     {
-      recording = new ArmRecording();
+      recording = new ArmRecording(recordingFrameRate);
       framesSaved = 0;
       InvokeRepeating(nameof(AppendFrame), 0f, 1F / recordingFrameRate);
       startRecording = false;
@@ -67,10 +65,4 @@ public class ArmRecorder : MonoBehaviour
     startRecording = false;
     stopRecording = false;
   }
-}
-
-[Serializable]
-public class ArmRecording
-{
-  public List<SerializedTransforms> frameTransforms = new List<SerializedTransforms>();
 }

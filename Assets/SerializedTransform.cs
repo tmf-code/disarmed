@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class SerializedTransform
+public class SerializedTransform : ISerializationCallbackReceiver
 {
   /// <summary>
   /// Ordered elements, localPosition, localRotation, localScale
@@ -36,17 +36,31 @@ public class SerializedTransform
   }
   public void OnAfterDeserialize() => unSerialized = new UnSerializedTransform(this);
 
-  public Vector3 localPosition => new Vector3((float)data[0], (float)data[1], (float)data[2]);
-  public Quaternion localRotation => new Quaternion((float)data[3], (float)data[4], (float)data[5], (float)data[6]);
-  public Vector3 localScale => new Vector3((float)data[7], (float)data[8], (float)data[9]);
+  public void OnBeforeSerialize()
+  {
+  }
+
+  public Vector3 localPosition => new Vector3(
+    (float)data[0],
+    (float)data[1],
+    (float)data[2]);
+  public Quaternion localRotation => new Quaternion(
+    (float)data[3],
+    (float)data[4],
+    (float)data[5],
+    (float)data[6]);
+  public Vector3 localScale => new Vector3(
+    (float)data[7],
+    (float)data[8],
+    (float)data[9]);
 }
 
 [Serializable]
 public class SerializedTransforms
 {
-  public SerializedTransform[] transforms;
+  public List<SerializedTransform> transforms;
 
-  public SerializedTransforms(SerializedTransform[] transforms)
+  public SerializedTransforms(List<SerializedTransform> transforms)
   {
     this.transforms = transforms;
   }

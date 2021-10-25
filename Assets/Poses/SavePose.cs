@@ -31,7 +31,7 @@ public class SavePose : MonoBehaviour
 
     start.TraverseChildren(Serialize);
 
-    var serializedTransforms = new SerializedTransforms(transforms.ToArray());
+    var serializedTransforms = new SerializedTransforms(transforms);
     json = JsonUtility.ToJson(serializedTransforms);
     var filepath = $"{Application.dataPath}/Resources/Poses/{filename}.json";
     Debug.Log($"Writing to {filepath}");

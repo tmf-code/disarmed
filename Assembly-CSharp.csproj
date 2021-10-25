@@ -190,6 +190,9 @@
      <Compile Include="Assets\ArmRecorder.cs" />
      <Compile Include="Assets\ShowOnlyAttribute.cs" />
      <Compile Include="Assets\SerializedTransform.cs" />
+     <Compile Include="Assets\ArmPlayback.cs" />
+     <Compile Include="Assets\ArmRecording.cs" />
+     <Compile Include="Assets\Poses\Pose.cs" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\XingLightShader.shader" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\ButtonGlow.shader" />
      <None Include="Assets\Oculus\SampleFramework\Usage\Passthrough\Materials\SelectivePassthrough.shader" />
