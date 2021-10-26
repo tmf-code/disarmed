@@ -37,7 +37,6 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Oculus\Spatializer\scripts\OculusSpatializerUnity.cs" />
-     <Compile Include="Assets\Avatar\Colliders\RemoteBoneCollider.cs" />
      <Compile Include="Assets\ArmRecorder.cs" />
      <Compile Include="Assets\Avatar\ArmBehaviour.cs" />
      <Compile Include="Assets\Oculus\Spatializer\scripts\ONSPAudioSource.cs" />
@@ -61,13 +60,11 @@
      <Compile Include="Assets\ArmRecording.cs" />
      <Compile Include="Assets\Avatar\InverseKinematics\JointTransform.cs" />
      <Compile Include="Assets\Avatar\Colliders\CapsuleColliderDirection.cs" />
-     <Compile Include="Assets\Avatar\InverseKinematics\Either.cs" />
      <Compile Include="Assets\Avatar\RagDollArm.cs" />
      <Compile Include="Assets\Avatar\InverseKinematics\Link.cs" />
      <Compile Include="Assets\Oculus\Spatializer\scripts\ONSPPropagationMaterial.cs" />
      <Compile Include="Assets\ShowOnlyAttribute.cs" />
      <Compile Include="Assets\Avatar\ApplyRootTracking.cs" />
-     <Compile Include="Assets\Avatar\Colliders\HumerusCollider.cs" />
      <Compile Include="Assets\Poses\PoseSelectorEditor.cs" />
      <Compile Include="Assets\Avatar\Grab\Idle.cs" />
      <Compile Include="Assets\Poses\ApplyPose.cs" />
@@ -78,7 +75,6 @@
      <Compile Include="Assets\Oculus\Spatializer\scripts\ONSPProfiler.cs" />
      <Compile Include="Assets\Avatar\InverseKinematics\EulerConstraint.cs" />
      <Compile Include="Assets\Avatar\InverseKinematics\Range.cs" />
-     <Compile Include="Assets\Avatar\Colliders\HandCollider.cs" />
      <Compile Include="Assets\Oculus\Spatializer\scripts\ONSPPropagationInterface.cs" />
      <Compile Include="Assets\Avatar\TrackObject.cs" />
      <Compile Include="Assets\Avatar\DisableArmOnUntracked.cs" />
@@ -92,7 +88,6 @@
      <Compile Include="Assets\Avatar\PinchState.cs" />
      <Compile Include="Assets\Avatar\Grab\Grabbing.cs" />
      <Compile Include="Assets\OculusOverrides\Skeleton.cs" />
-     <Compile Include="Assets\Avatar\Colliders\ForearmCollider.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\2020.3.20f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
