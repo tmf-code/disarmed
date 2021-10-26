@@ -1,6 +1,6 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
-
 [CustomEditor(typeof(SavePose))]
 public class SavePoseEditor : Editor
 {
@@ -30,3 +30,5 @@ public class SavePoseEditor : Editor
     }
   }
 }
+
+#endif

@@ -29,7 +29,9 @@ public class ArmPlayback : MonoBehaviour
 
   public void LoadRecording()
   {
+#if UNITY_EDITOR
     AssetDatabase.Refresh();
+#endif
     var textAsset = Resources.Load<TextAsset>($"{recordingsPath}/{recordingName}");
     recording = JsonUtility.FromJson<ArmRecording>(textAsset.text);
   }

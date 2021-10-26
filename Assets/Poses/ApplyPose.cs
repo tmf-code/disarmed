@@ -45,8 +45,9 @@ public class ApplyPose : MonoBehaviour
 
   public void Load()
   {
+#if UNITY_EDITOR
     AssetDatabase.Refresh();
-
+#endif
     poses = new Pose[] { };
     var textAssets = Resources.LoadAll(posePath);
     foreach (var item in textAssets)

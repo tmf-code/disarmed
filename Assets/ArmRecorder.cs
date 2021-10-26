@@ -40,7 +40,9 @@ public class ArmRecorder : MonoBehaviour
     var filepath = $"{Application.dataPath}/Resources/Recordings/{recordingName}.json";
     Debug.Log($"Writing to {filepath}");
     System.IO.File.WriteAllText(filepath, json);
+#if UNITY_EDITOR
     AssetDatabase.Refresh();
+#endif
   }
 
   // Update is called once per frame

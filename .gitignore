@@ -81,3 +81,6 @@ crashlytics-build.properties
 Icon?
 ehthumbs.db
 Thumbs.db
+Assets/Resources/OVRBuildConfig.asset
+Assets/Resources/OVRBuildConfig.asset.meta
+Assets/Resources/OVRPlatformToolSettings.asset

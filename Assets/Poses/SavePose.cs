@@ -36,6 +36,9 @@ public class SavePose : MonoBehaviour
     var filepath = $"{Application.dataPath}/Resources/Poses/{filename}.json";
     Debug.Log($"Writing to {filepath}");
     System.IO.File.WriteAllText(filepath, json);
+
+#if UNITY_EDITOR
     AssetDatabase.Refresh();
+#endif
   }
 }
