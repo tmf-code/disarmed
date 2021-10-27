@@ -70,7 +70,7 @@ public class Idle : MonoBehaviour
     }
 
     var otherIsUserArm = otherParent.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
-    var shouldBeGrabbed = source.CompareTag("Forearm") && other.CompareTag("Hand") && !otherIsUserArm;
+    var shouldBeGrabbed = source.CompareTag("Forearm") && other.CompareTag("Hand") && otherIsUserArm;
     if (shouldBeGrabbed)
     {
       var grabbing = otherParent.AddIfNotExisting<Grabbing>();

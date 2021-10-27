@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [DefaultExecutionOrder(-80)]
@@ -63,6 +64,15 @@ public class Skeleton : MonoBehaviour
     var maybeCopyArmature = vrTrackingData.Find("Armature");
     var copyArmature = maybeCopyArmature != null ? maybeCopyArmature : Instantiate(armature, vrTrackingData);
     copyArmature.name = "Armature";
+
+    copyArmature.transform.TraverseChildren(child =>
+    {
+      var components = child.gameObject.GetComponents<Component>();
+      components.ToList().Where(component => component.GetType() != typeof(Transform)).ToList().ForEach(component =>
+      {
+        Destroy(component);
+      });
+    });
 
     for (int i = 0; i < bones.Count; ++i)
     {
