@@ -277,11 +277,11 @@
     <Reference Include="log4netPlastic">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\PackageCache\com.unity.collab-proxy@1.11.2\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
     </Reference>
-    <Reference Include="unityplastic">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\PackageCache\com.unity.collab-proxy@1.11.2\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
-    </Reference>
     <Reference Include="ReportGeneratorMerged">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\PackageCache\com.unity.testtools.codecoverage@1.1.0\lib\ReportGenerator\ReportGeneratorMerged.dll</HintPath>
+    </Reference>
+    <Reference Include="unityplastic">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\PackageCache\com.unity.collab-proxy@1.11.2\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
@@ -643,20 +643,17 @@
     <Reference Include="Unity.VSCode.Editor">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.XR.Management.Editor">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.XR.Management.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
@@ -664,14 +661,8 @@
     <Reference Include="Unity.TextMeshPro">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.Management">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.XR.Management.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.Oculus.Editor">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.XR.Oculus.Editor.dll</HintPath>
+    <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Subsystem.Registration">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.Subsystem.Registration.dll</HintPath>
@@ -682,26 +673,35 @@
     <Reference Include="Unity.PlasticSCM.Editor">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.SpatialTracking">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Rider.Editor">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.Oculus">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.XR.Oculus.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SpatialTracking">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
+    <Reference Include="UnityEngine.SpatialTracking">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
-        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
+    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline.Editor">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.XR.LegacyInputHelpers">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.Management">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.XR.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.Oculus.Editor">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.XR.Oculus.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.Oculus">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.XR.Oculus.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SpatialTracking">
+        <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor">
         <HintPath>C:\Users\jaepe\art\disarmed\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
