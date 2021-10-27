@@ -79,9 +79,7 @@ public class Skeleton : MonoBehaviour
 
   private void Update()
   {
-#if UNITY_EDITOR
     if (ShouldInitialize()) Initialize();
-#endif
 
     if (!isInitialized || handDataProvider == null)
     {
