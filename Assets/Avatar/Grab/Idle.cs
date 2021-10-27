@@ -19,7 +19,6 @@ public class Idle : MonoBehaviour
     gameObject.RemoveComponent<Grabbing>();
 
     armBehavior = gameObject.GetComponentOrThrow<ArmBehaviour>();
-
   }
 
   void Update()
@@ -58,7 +57,7 @@ public class Idle : MonoBehaviour
     var source = colliders.source;
     var other = colliders.other;
 
-    var sourceIsUserArm = armBehavior.behavior == ArmBehaviour.ArmBehaviorType.User;
+    var sourceIsUserArm = armBehavior.owner == ArmBehaviour.ArmOwnerType.User;
     var shouldGrab = source.CompareTag("Hand") && other.CompareTag("Forearm") && sourceIsUserArm;
     if (shouldGrab)
     {
@@ -70,7 +69,7 @@ public class Idle : MonoBehaviour
       return;
     }
 
-    var otherIsUserArm = otherParent.GetComponentOrThrow<ArmBehaviour>().behavior == ArmBehaviour.ArmBehaviorType.User;
+    var otherIsUserArm = otherParent.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
     var shouldBeGrabbed = source.CompareTag("Forearm") && other.CompareTag("Hand") && !otherIsUserArm;
     if (shouldBeGrabbed)
     {

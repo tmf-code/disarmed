@@ -99,18 +99,20 @@ public class Grabbed : MonoBehaviour
   {
     if (!canTransition) return;
 
-    gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 1);
-    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
-    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
-    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 1);
-
-    gameObject.AddIfNotExisting<Idle>();
-
-    var isUserArm = gameObject.GetComponentOrThrow<ArmBehaviour>().behavior == ArmBehaviour.ArmBehaviorType.User;
+    var isUserArm = gameObject.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
     Debug.Log($"isUserArm: {isUserArm}");
+
     if (isUserArm)
     {
+      gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 1);
+      gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
+      gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
+      gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
+      gameObject.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.User;
+
       var clone = Instantiate(gameObject);
+      clone.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Physics;
+      clone.GetComponent<ArmBehaviour>().owner = ArmBehaviour.ArmOwnerType.World;
     }
     else
     {
@@ -118,8 +120,8 @@ public class Grabbed : MonoBehaviour
       armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Physics;
     }
 
-
     Destroy(this);
+    gameObject.AddIfNotExisting<Idle>();
   }
 
   [Serializable]

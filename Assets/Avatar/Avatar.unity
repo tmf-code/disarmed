@@ -134,6 +134,14 @@ PrefabInstance:
       propertyPath: behavior
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4354481699705463518, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6983595863514433679, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: m_TagString
+      value: Hand
+      objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
       value: CustomArmPrefab_R
@@ -186,7 +194,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 816752922, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+    - {fileID: 816752923, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+    - {fileID: 816752921, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
 --- !u!1001 &88397954
 PrefabInstance:
@@ -246,6 +257,14 @@ PrefabInstance:
     - target: {fileID: 1673280072435804092, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2838520289619412989, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: m_TagString
+      value: Hand
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580854332889340402, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}

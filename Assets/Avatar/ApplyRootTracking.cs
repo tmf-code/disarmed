@@ -3,7 +3,7 @@ using UnityEngine;
 public class ApplyRootTracking : MonoBehaviour
 {
   [Range(0, 1)]
-  public float strength = 0.0F;
+  public float strength = 1.0F;
   private Transform trackingData;
   private Transform model;
 

@@ -1,9 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ArmBehaviour : MonoBehaviour
 {
   public ArmBehaviorType behavior = ArmBehaviorType.None;
   public Handedness.HandTypes handType = Handedness.HandTypes.HandLeft;
+  public ArmOwnerType owner = ArmOwnerType.User;
 
   private ArmBehaviorType _behavior = ArmBehaviorType.None;
 
@@ -15,6 +16,12 @@ public class ArmBehaviour : MonoBehaviour
     Physics,
   }
 
+  public enum ArmOwnerType
+  {
+    User,
+    World,
+  }
+
   private void Start()
   {
     UpdateBehavior();
@@ -24,6 +31,7 @@ public class ArmBehaviour : MonoBehaviour
   {
     var handedness = gameObject.AddIfNotExisting<Handedness>();
     handedness.handType = handType;
+
     switch (_behavior)
     {
       case ArmBehaviorType.None:
