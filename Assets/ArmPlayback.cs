@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -19,7 +17,8 @@ public class ArmPlayback : MonoBehaviour
   [ShowOnly] public bool isPlaying = false;
   public bool stopPlaying = false;
   public int framesPlayed = 0;
-  public ArmRecording recording;
+
+  private ArmRecording recording;
 
   public void Start()
   {

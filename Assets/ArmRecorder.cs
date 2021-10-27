@@ -14,7 +14,7 @@ public class ArmRecorder : MonoBehaviour
   [ShowOnly] public bool isRecording = false;
   public bool stopRecording = false;
   public int framesSaved = 0;
-  public ArmRecording recording;
+  private ArmRecording recording;
 
   void AppendFrame()
   {
