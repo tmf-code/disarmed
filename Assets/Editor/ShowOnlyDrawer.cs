@@ -12,6 +12,7 @@ public class ShowOnlyDrawer : PropertyDrawer
       SerializedPropertyType.Boolean => prop.boolValue.ToString(),
       SerializedPropertyType.Float => prop.floatValue.ToString("0.00000"),
       SerializedPropertyType.String => prop.stringValue,
+      SerializedPropertyType.Enum => prop.enumDisplayNames[prop.enumValueIndex],
       _ => "(not supported)",
     };
     EditorGUI.LabelField(position, label.text, valueStr);
