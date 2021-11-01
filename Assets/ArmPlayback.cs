@@ -31,7 +31,12 @@ public class ArmPlayback : MonoBehaviour
 #if UNITY_EDITOR
     AssetDatabase.Refresh();
 #endif
-    var textAsset = Resources.Load<TextAsset>($"{recordingsPath}/{recordingName}");
+    var recordingPath = $"{recordingsPath}/{recordingName}";
+    var textAsset = Resources.Load<TextAsset>(recordingPath);
+    if (textAsset == null)
+    {
+      throw new System.Exception($"Could not load text asset {recordingPath}");
+    }
     recording = JsonUtility.FromJson<ArmRecording>(textAsset.text);
   }
 
@@ -72,6 +77,14 @@ public class ArmPlayback : MonoBehaviour
     stopPlaying = false;
 
     if (!isPlaying) return;
+
+    var isFrameAvaliable = framesPlayed >= recording.frameTransforms.Count;
+    if (isFrameAvaliable)
+    {
+      stopPlaying = true;
+      return;
+    }
+
 
     ApplyTransforms();
   }
