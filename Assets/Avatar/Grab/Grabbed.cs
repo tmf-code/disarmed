@@ -11,7 +11,7 @@ public class Grabbed : MonoBehaviour
   public float minimumIdleTimeSeconds = 3;
   public bool canTransition = false;
 
-  private new SimpleAnimation animation;
+  [SerializeField] private new SimpleAnimation animation;
   private Quaternion selectedStrategy;
   static readonly List<Quaternion> strategies;
 
