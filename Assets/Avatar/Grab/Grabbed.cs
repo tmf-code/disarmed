@@ -64,7 +64,8 @@ public class Grabbed : MonoBehaviour
     var currentTransform = transform.FindRecursiveOrThrow("Model");
 
     targetTransform.Match(
-      targetTransform =>
+      none: () => OnGrabReleased(),
+      some: targetTransform =>
       {
         currentTransform.SetPositionAndRotation(
           Vector3.Lerp(
@@ -83,8 +84,8 @@ public class Grabbed : MonoBehaviour
         var currentTime = Time.time - creationTime;
         if (currentTime > minimumIdleTimeSeconds) canTransition = true;
         else canTransition = false;
-      },
-    () => OnGrabReleased());
+      }
+    );
   }
 
   private Option<Transform> GetTargetTransform()
