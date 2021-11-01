@@ -3,7 +3,17 @@ guid: 71ac39ad620bd4942984616ea0196ae0
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BlueWall
+    second: {fileID: 2100000, guid: b94b289535d155d4a8211192e6d47fea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stairs
+    second: {fileID: 2100000, guid: 49920318885fbb746b5b24821124b0d3, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
