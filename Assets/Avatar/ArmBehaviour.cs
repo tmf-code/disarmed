@@ -11,9 +11,10 @@ public class ArmBehaviour : MonoBehaviour
   public enum ArmBehaviorType
   {
     None,
-    User,
-    Static,
-    Physics,
+    TrackUserInput,
+    Grabbed,
+    Ragdoll,
+    CopyArmMovement,
   }
 
   public enum ArmOwnerType
@@ -31,6 +32,8 @@ public class ArmBehaviour : MonoBehaviour
   {
     var handedness = gameObject.AddIfNotExisting<Handedness>();
     handedness.handType = handType;
+
+    gameObject.AddIfNotExisting<VRTrackingHierarchy>();
 
     switch (_behavior)
     {
@@ -57,9 +60,11 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
           gameObject.RemoveComponent<ApplyHandTracking>();
+          gameObject.RemoveComponent<CopyArmMovement>();
+
           break;
         }
-      case ArmBehaviorType.Static:
+      case ArmBehaviorType.Grabbed:
         {
           // Player movement algorithms
           gameObject.RemoveComponent<InverseKinematics>();
@@ -86,10 +91,12 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
           gameObject.RemoveComponent<ApplyHandTracking>();
+          gameObject.RemoveComponent<CopyArmMovement>();
+
           break;
         }
 
-      case ArmBehaviorType.Physics:
+      case ArmBehaviorType.Ragdoll:
         {
           // Player movement algorithms
           gameObject.RemoveComponent<InverseKinematics>();
@@ -115,10 +122,12 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
           gameObject.RemoveComponent<ApplyHandTracking>();
+          gameObject.RemoveComponent<CopyArmMovement>();
+
           break;
         }
 
-      case ArmBehaviorType.User:
+      case ArmBehaviorType.TrackUserInput:
         {
           // Player movement algorithms
           gameObject.AddIfNotExisting<InverseKinematics>();
@@ -144,6 +153,36 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.AddIfNotExisting<ApplyPose>();
           gameObject.AddIfNotExisting<ApplyRootTracking>();
           gameObject.AddIfNotExisting<ApplyHandTracking>();
+          gameObject.RemoveComponent<CopyArmMovement>();
+          break;
+        }
+
+      case ArmBehaviorType.CopyArmMovement:
+        {
+          // Player movement algorithms
+          gameObject.RemoveComponent<InverseKinematics>();
+          gameObject.RemoveComponent<CustomHand>();
+          gameObject.RemoveComponent<Skeleton>();
+          gameObject.RemoveComponent<DisableArmOnUntracked>();
+
+          // Grabbing state machine
+
+          gameObject.RemoveComponent<Idle>();
+          gameObject.RemoveComponent<Grabbed>();
+          gameObject.RemoveComponent<Grabbing>();
+
+
+          // Hand gestures
+          gameObject.RemoveComponent<GestureState>();
+          gameObject.RemoveComponent<PinchState>();
+
+          gameObject.RemoveComponent<RagDollArm>();
+
+          // Mixers for different sources of movement
+          gameObject.RemoveComponent<ApplyPose>();
+          gameObject.RemoveComponent<ApplyRootTracking>();
+          gameObject.RemoveComponent<ApplyHandTracking>();
+          gameObject.AddIfNotExisting<CopyArmMovement>();
           break;
         }
       default:

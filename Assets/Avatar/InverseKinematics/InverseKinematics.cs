@@ -48,6 +48,11 @@ public class InverseKinematics : MonoBehaviour
 
   void Update()
   {
+    errorDistance = ApplyIK(forearm, wrist, humerus, shoulder, target, strength);
+  }
+
+  public static float ApplyIK(Transform forearm, Transform wrist, Transform humerus, Transform shoulder, Transform target, float strength)
+  {
     var baseTransform = new JointTransform(forearm.position, wrist.rotation);
     var bones = new List<Transform>() { forearm, humerus, shoulder };
 
@@ -88,7 +93,6 @@ public class InverseKinematics : MonoBehaviour
         SolveOptions.defaultOptions
     );
 
-    errorDistance = getErrorDistance();
     var pos = GetEndEffectorPosition(results, baseTransform);
 
     for (int resultIndex = 0; resultIndex < results.Count; resultIndex++)
@@ -97,6 +101,8 @@ public class InverseKinematics : MonoBehaviour
       var link = results[resultIndex];
       bone.localRotation = Quaternion.Slerp(bone.localRotation, link.rotation, strength);
     }
+
+    return getErrorDistance();
   }
 
   class ArmConstraints

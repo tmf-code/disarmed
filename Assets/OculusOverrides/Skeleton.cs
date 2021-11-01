@@ -59,20 +59,7 @@ public class Skeleton : MonoBehaviour
       bones = new List<Bone>(new Bone[skeleton.NumBones]);
     }
 
-    var armature = transform.FindRecursiveOrThrow("Armature");
-    var vrTrackingData = transform.FindRecursiveOrThrow("VRTrackingData");
-    var maybeCopyArmature = vrTrackingData.Find("Armature");
-    var copyArmature = maybeCopyArmature != null ? maybeCopyArmature : Instantiate(armature, vrTrackingData);
-    copyArmature.name = "Armature";
-
-    copyArmature.transform.TraverseChildren(child =>
-    {
-      var components = child.gameObject.GetComponents<Component>();
-      components.ToList().Where(component => component.GetType() != typeof(Transform)).ToList().ForEach(component =>
-      {
-        Destroy(component);
-      });
-    });
+    var vrTrackingData = gameObject.GetComponentOrThrow<VRTrackingHierarchy>().vrTrackingData;
 
     for (int i = 0; i < bones.Count; ++i)
     {
@@ -80,7 +67,7 @@ public class Skeleton : MonoBehaviour
       bone.id = (TrackedBones)i;
 
       BoneName fbxBoneName = FbxBoneNameFromBoneId(GetHandedness(), bone.id);
-      Transform boneTransform = copyArmature.FindRecursiveOrThrow(fbxBoneName.ToString());
+      Transform boneTransform = vrTrackingData.FindRecursiveOrThrow(fbxBoneName.ToString());
 
       bone.transform = boneTransform;
       bone.transform.localRotation = skeleton.Bones[i].Pose.Orientation.FromFlippedXQuatf();
@@ -138,7 +125,7 @@ public class Skeleton : MonoBehaviour
 
   public Bone GetBoneFromBoneName(BoneName name)
   {
-    var boneId = BoneNameToBoneId.GetTrackedBone(name);
+    var boneId = BoneNameToBoneId.GetTrackedBone(name).Value;
     var maybeBone = bones.Find(bone => bone.id == boneId);
 
     return maybeBone;

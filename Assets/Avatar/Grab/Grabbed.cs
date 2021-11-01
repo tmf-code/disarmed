@@ -11,7 +11,7 @@ public class Grabbed : MonoBehaviour
   public float minimumIdleTimeSeconds = 3;
   public bool canTransition = false;
 
-  private new SimpleAnimation animation;
+  [SerializeField] private new SimpleAnimation animation;
   private Quaternion selectedStrategy;
   static readonly List<Quaternion> strategies;
 
@@ -31,7 +31,7 @@ public class Grabbed : MonoBehaviour
 
   void Start()
   {
-    gameObject.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Static;
+    gameObject.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Grabbed;
     gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 0);
     gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 0);
     gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 0);
@@ -64,7 +64,8 @@ public class Grabbed : MonoBehaviour
     var currentTransform = transform.FindRecursiveOrThrow("Model");
 
     targetTransform.Match(
-      targetTransform =>
+      none: () => OnGrabReleased(),
+      some: targetTransform =>
       {
         currentTransform.SetPositionAndRotation(
           Vector3.Lerp(
@@ -83,8 +84,8 @@ public class Grabbed : MonoBehaviour
         var currentTime = Time.time - creationTime;
         if (currentTime > minimumIdleTimeSeconds) canTransition = true;
         else canTransition = false;
-      },
-    () => OnGrabReleased());
+      }
+    );
   }
 
   private Option<Transform> GetTargetTransform()
@@ -108,16 +109,16 @@ public class Grabbed : MonoBehaviour
       gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
       gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
       gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
-      gameObject.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.User;
+      gameObject.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
 
       var clone = Instantiate(gameObject);
-      clone.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Physics;
+      clone.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
       clone.GetComponent<ArmBehaviour>().owner = ArmBehaviour.ArmOwnerType.World;
     }
     else
     {
       var armBehavior = gameObject.GetComponent<ArmBehaviour>();
-      armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Physics;
+      armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
     }
 
     Destroy(this);

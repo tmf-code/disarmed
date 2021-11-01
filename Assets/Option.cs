@@ -13,8 +13,8 @@ public abstract class Option<T>
   public abstract bool IsNone();
   public abstract T Unwrap();
   public abstract T UnwrapOrDefault(T value);
-  public abstract TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none);
-  public abstract void Match(Action<T> some, Action none);
+  public abstract TResult Match<TResult>(Func<TResult> none, Func<T, TResult> some);
+  public abstract void Match(Action none, Action<T> some);
 
   public abstract Option<TResult> Map<TResult>(Func<T, TResult> mapper);
   public abstract void End(Action<T> ender);
@@ -26,7 +26,7 @@ public class Some<T> : Option<T>
 
   public Some(T value)
   {
-    if (value == null) throw new System.NullReferenceException();
+    if (value == null) throw new NullReferenceException();
 
     this.value = value;
   }
@@ -40,8 +40,8 @@ public class Some<T> : Option<T>
   public override Option<TResult> Map<TResult>(Func<T, TResult> mapper) => Option<TResult>.of(mapper(value));
   public override void End(Action<T> ender) => ender(value);
 
-  public override TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none) => some(Unwrap());
-  public override void Match(Action<T> some, Action none) => some(Unwrap());
+  public override TResult Match<TResult>(Func<TResult> none, Func<T, TResult> some) => some(Unwrap());
+  public override void Match(Action none, Action<T> some) => some(Unwrap());
 }
 
 public class None<T> : Option<T>
@@ -49,12 +49,12 @@ public class None<T> : Option<T>
   public override bool IsSome() => false;
   public override bool IsNone() => true;
 
-  public override T Unwrap() => throw new System.NullReferenceException();
+  public override T Unwrap() => throw new NullReferenceException();
   public override T UnwrapOrDefault(T value) => value;
 
   public override Option<TResult> Map<TResult>(Func<T, TResult> mapper) => new None<TResult>();
   public override void End(Action<T> ender) { }
 
-  public override TResult Match<TResult>(Func<T, TResult> some, Func<TResult> none) => none();
-  public override void Match(Action<T> some, Action none) => none();
+  public override TResult Match<TResult>(Func<TResult> none, Func<T, TResult> some) => none();
+  public override void Match(Action none, Action<T> some) => none();
 }

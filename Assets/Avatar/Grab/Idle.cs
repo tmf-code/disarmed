@@ -54,6 +54,12 @@ public class Idle : MonoBehaviour
       return;
     }
 
+    var bothAreArms = gameObject.HasComponent<ArmBehaviour>() && otherParent.HasComponent<ArmBehaviour>();
+    if (!bothAreArms)
+    {
+      return;
+    }
+
     var source = colliders.source;
     var other = colliders.other;
 
