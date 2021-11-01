@@ -6,10 +6,19 @@ public class CopyArmMovement : MonoBehaviour
   public float strength = 1.0F;
   public GameObject targetArm;
   private Transform model;
+  private Handedness handedness;
 
   void Start()
   {
     model = transform.FindRecursiveOrThrow("Model");
+    handedness = gameObject.GetComponentOrThrow<Handedness>();
+
+    var playerArms = GameObject.Find("Player").GetComponentOrThrow<PlayerArms>();
+    targetArm = handedness.handType switch
+    {
+      Handedness.HandTypes.HandLeft => playerArms.left,
+      _ => playerArms.right,
+    };
   }
 
   void Update()
