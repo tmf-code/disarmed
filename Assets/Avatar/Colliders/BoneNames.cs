@@ -212,9 +212,9 @@ public enum TrackedBones
 
 public class BoneNameToBoneId
 {
-  public static TrackedBones GetTrackedBone(BoneName boneName)
+  public static TrackedBones? GetTrackedBone(BoneName boneName)
   {
-    var result = boneName switch
+    TrackedBones? result = boneName switch
     {
       BoneName.b_l_wrist => TrackedBones.Hand_WristRoot,
       BoneName.b_l_forearm_stub => TrackedBones.Hand_ForearmStub,
@@ -264,23 +264,12 @@ public class BoneNameToBoneId
       BoneName.r_middle_finger_tip_marker => TrackedBones.Hand_MiddleTip,
       BoneName.r_ring_finger_tip_marker => TrackedBones.Hand_RingTip,
       BoneName.r_pinky_finger_tip_marker => TrackedBones.Hand_PinkyTip,
-      _ => throw new System.Exception($"Invalid boneName: {boneName}"),
+      _ => null,
     };
 
     return result;
   }
-  public static bool IsTrackedBone(BoneName boneName)
-  {
-    try
-    {
-      GetTrackedBone(boneName);
-      return true;
-    }
-    catch
-    {
-      return false;
-    }
-  }
+  public static bool IsTrackedBone(BoneName boneName) => GetTrackedBone(boneName).HasValue;
 
   public static bool IsTrackedBone(string name)
   {
