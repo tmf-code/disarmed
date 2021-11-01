@@ -31,7 +31,7 @@ public class Grabbed : MonoBehaviour
 
   void Start()
   {
-    gameObject.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Static;
+    gameObject.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Grabbed;
     gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 0);
     gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 0);
     gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 0);
@@ -109,16 +109,16 @@ public class Grabbed : MonoBehaviour
       gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
       gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
       gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
-      gameObject.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.User;
+      gameObject.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
 
       var clone = Instantiate(gameObject);
-      clone.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Physics;
+      clone.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
       clone.GetComponent<ArmBehaviour>().owner = ArmBehaviour.ArmOwnerType.World;
     }
     else
     {
       var armBehavior = gameObject.GetComponent<ArmBehaviour>();
-      armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Physics;
+      armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
     }
 
     Destroy(this);

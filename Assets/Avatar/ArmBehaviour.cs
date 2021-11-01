@@ -11,9 +11,9 @@ public class ArmBehaviour : MonoBehaviour
   public enum ArmBehaviorType
   {
     None,
-    User,
-    Static,
-    Physics,
+    TrackUserInput,
+    Grabbed,
+    Ragdoll,
   }
 
   public enum ArmOwnerType
@@ -61,7 +61,7 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<ApplyHandTracking>();
           break;
         }
-      case ArmBehaviorType.Static:
+      case ArmBehaviorType.Grabbed:
         {
           // Player movement algorithms
           gameObject.RemoveComponent<InverseKinematics>();
@@ -91,7 +91,7 @@ public class ArmBehaviour : MonoBehaviour
           break;
         }
 
-      case ArmBehaviorType.Physics:
+      case ArmBehaviorType.Ragdoll:
         {
           // Player movement algorithms
           gameObject.RemoveComponent<InverseKinematics>();
@@ -120,7 +120,7 @@ public class ArmBehaviour : MonoBehaviour
           break;
         }
 
-      case ArmBehaviorType.User:
+      case ArmBehaviorType.TrackUserInput:
         {
           // Player movement algorithms
           gameObject.AddIfNotExisting<InverseKinematics>();
