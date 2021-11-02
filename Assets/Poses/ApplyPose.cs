@@ -39,6 +39,9 @@ public class ApplyPose : MonoBehaviour
       current.localScale = Vector3.Lerp(current.localScale, target.unSerialized.localScale, strength);
 
     }
+
+    if (strength < 0F) return;
+
     ApplyTransform(model);
     model.TraverseChildren(ApplyTransform);
   }
