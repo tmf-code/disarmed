@@ -219,6 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7616081211345186513}
   - component: {fileID: 3084248320703929296}
+  - component: {fileID: 6747060508052790423}
   m_Layer: 0
   m_Name: CustomArmPrefab_R
   m_TagString: Untagged
@@ -256,6 +257,19 @@ MonoBehaviour:
   behavior: 1
   handType: 1
   owner: 0
+--- !u!114 &6747060508052790423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612404611651155419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a6a04f84e407448840edf4eec9d443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotPointType: 0
 --- !u!1001 &7794568487982560734
 PrefabInstance:
   m_ObjectHideFlags: 0
