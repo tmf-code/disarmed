@@ -8,6 +8,7 @@ public class PivotPoint : MonoBehaviour
   {
     Wrist,
     Shoulder,
+    ShoulderNoRotation,
   }
 
   void Update()
@@ -19,7 +20,7 @@ public class PivotPoint : MonoBehaviour
     {
       offset.localPosition = Vector3.zero;
     }
-    else
+    else if (pivotPointType == PivotPointType.ShoulderNoRotation)
     {
       var handedness = gameObject.GetComponentOrThrow<Handedness>();
       var handPrefix = handedness.HandPrefix();
@@ -38,6 +39,23 @@ public class PivotPoint : MonoBehaviour
 
       var rotation = Quaternion.Inverse(shoulder.rotation) * model.rotation;
       pivot.localRotation = rotation;
+    }
+    else
+    {
+      var handedness = gameObject.GetComponentOrThrow<Handedness>();
+      var handPrefix = handedness.HandPrefix();
+
+      var model = transform.FindRecursiveOrThrow("Model");
+      var shoulder = model.FindRecursiveOrThrow($"b_{handPrefix}_shoulder");
+
+      var distance = offset.position - shoulder.position;
+
+      offset.localPosition = Quaternion.Inverse(offset.rotation) * distance;
+
+      offset.localPosition = new Vector3(
+          offset.localPosition.x / offset.lossyScale.x,
+          offset.localPosition.y / offset.lossyScale.y,
+          offset.localPosition.z / offset.lossyScale.z);
     }
   }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class ArmPlayback : MonoBehaviour
   public int framesPlayed = 0;
 
   private ArmRecording recording;
+  private Transform model;
 
   public void Start()
   {
@@ -57,21 +59,25 @@ public class ArmPlayback : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+
     if (stopPlaying)
     {
       CancelInvoke();
       stopPlaying = false;
       isPlaying = false;
+      return;
     }
 
     if (startPlaying == true && !isPlaying)
     {
+      Debug.Log("Start repeating invoke");
       LoadRecording();
       framesPlayed = 0;
       InvokeRepeating(nameof(PlayNextFrame), 0f, 1F / playbackFrameRate);
       startPlaying = false;
       isPlaying = true;
     }
+
 
     startPlaying = false;
     stopPlaying = false;
@@ -85,33 +91,28 @@ public class ArmPlayback : MonoBehaviour
       return;
     }
 
-
     ApplyTransforms();
   }
 
   private void ApplyTransforms()
   {
     var unSerializedTransforms = recording.frameTransforms[framesPlayed];
-    var start = arm.transform.FindRecursiveOrThrow("Model");
-    void ApplyTransform(Transform current)
+    model = model == null ? arm.transform.FindRecursiveOrThrow("Model") : model;
+    ApplyTransform(model, true, unSerializedTransforms);
+    model.TraverseChildren(current => ApplyTransform(current, false, unSerializedTransforms));
+  }
+
+  private void ApplyTransform(Transform current, bool rotationOnly, Dictionary<string, UnSerializedTransform> unSerializedTransforms)
+  {
+    if (unSerializedTransforms.TryGetValue(current.name, out var target))
     {
-      var filtered = unSerializedTransforms.Where(target => target.name == current.name);
-
-
-      var doesBoneExist = filtered.Count() != 0;
-      if (!doesBoneExist)
+      if (!rotationOnly)
       {
-        return;
+        current.localPosition = Vector3.Lerp(current.localPosition, target.localPosition, strength);
+        current.localScale = Vector3.Lerp(current.localScale, target.localScale, strength);
       }
-
-      var target = filtered.ElementAt(0);
-
-      current.localPosition = Vector3.Lerp(current.localPosition, target.localPosition, strength);
       current.localRotation = Quaternion.Slerp(current.localRotation, target.localRotation, strength);
-      current.localScale = Vector3.Lerp(current.localScale, target.localScale, strength);
-
     }
 
-    start.TraverseChildren(ApplyTransform);
   }
 }

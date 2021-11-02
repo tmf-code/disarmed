@@ -216,16 +216,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1117893122 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2005206363345165380, guid: 9fd06582a0e84b04fb0bacdd35cdbd4e, type: 3}
-  m_PrefabInstance: {fileID: 8248163741983054750}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1645008660 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8523919002348003864, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
-  m_PrefabInstance: {fileID: 2053690376}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1751483721
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,16 +241,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1751483721}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f451766f033c7f4e8588c1d02d3ff4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arm: {fileID: 1117893122}
-  strength: 1
+  arm: {fileID: 1908368648}
+  strength: 0.15
   playbackFrameRate: 10
   recordingsPath: Recordings
-  recordingName: unset
+  recordingName: PalmDrop
   startPlaying: 0
   isPlaying: 0
   stopPlaying: 0
@@ -272,15 +262,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1751483721}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 265c1ac928376ce4882569bb0b9fd197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arm: {fileID: 1645008660}
+  arm: {fileID: 2053690377}
   recordingFrameRate: 10
   recordingLengthSeconds: 1
-  recordingName: unset
+  recordingName: PalmDrop
   startRecording: 0
   isRecording: 0
   stopRecording: 0
@@ -309,18 +299,6 @@ PrefabInstance:
     - target: {fileID: 1670564531549618590, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1670564531549618590, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1670564531549618590, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1670564531549618590, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1670564531549618590, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -364,22 +342,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1673280072435804092, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: m_Name
-      value: CustomArmPrefab_L
-      objectReference: {fileID: 0}
-    - target: {fileID: 1673280072435804092, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
-      propertyPath: pivotPointType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
-      propertyPath: behavior
-      value: 0
+      value: LeftBigArm
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+--- !u!1 &1908368648 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1673280072435804092, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+  m_PrefabInstance: {fileID: 1908368647}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2053690376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -509,6 +480,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
+--- !u!1 &2053690377 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 637001919731227841, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
+  m_PrefabInstance: {fileID: 2053690376}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8248163741983054750
 PrefabInstance:
   m_ObjectHideFlags: 0
