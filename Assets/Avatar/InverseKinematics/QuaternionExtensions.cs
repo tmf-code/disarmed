@@ -17,7 +17,7 @@ public static class QuaternionExtensions
     var resultComponents = rotationAxis.Select(
       (component, index) =>
       {
-        var angle = 2 * Mathf.Atan(component / w);
+        var angle = 2F * Mathf.Atan(component / w);
         var lower = Mathf.Deg2Rad * lowerBound[index];
         var upper = Mathf.Deg2Rad * upperBound[index];
 
@@ -34,7 +34,7 @@ public static class QuaternionExtensions
         resultComponents.ElementAt(0),
         resultComponents.ElementAt(1),
         resultComponents.ElementAt(2),
-        1
+        1F
     );
 
     return result.normalized;
