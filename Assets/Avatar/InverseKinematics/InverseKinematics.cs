@@ -70,7 +70,7 @@ public class InverseKinematics : MonoBehaviour
           }
       ).ToList();
 
-    for (var index = 0; index < 10; index++)
+    for (var index = 0; index < 50; index++)
     {
       var intermediateResults =
         Solve(
@@ -92,8 +92,6 @@ public class InverseKinematics : MonoBehaviour
         target.position,
         SolveOptions.defaultOptions
     );
-
-    var pos = GetEndEffectorPosition(results, baseTransform);
 
     for (int resultIndex = 0; resultIndex < results.Count; resultIndex++)
     {
@@ -120,13 +118,13 @@ public class InverseKinematics : MonoBehaviour
     );
     static readonly EulerConstraint b_l_humerus = new EulerConstraint(
       pitch: new Range(30F),
-      yaw: new Range(min: 0F, max: 80F),
-      roll: new Range(min: 0F, max: 100F)
+      yaw: new Range(min: 0F, max: 100F),
+      roll: new Range(min: 0F, max: 140F)
     );
     static readonly EulerConstraint b_r_humerus = new EulerConstraint(
       pitch: new Range(30F),
-      yaw: new Range(min: 0F, max: 80F),
-      roll: new Range(min: 0F, max: 100F)
+      yaw: new Range(min: 0F, max: 100F),
+      roll: new Range(min: 0F, max: 140F)
     );
 
     // Not currently used - Would be if we retarget the IK towards the chest. Have had mixed results.
