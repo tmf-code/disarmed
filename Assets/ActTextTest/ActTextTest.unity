@@ -295,6 +295,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7616081211345186513, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
   m_PrefabInstance: {fileID: 81232443}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &88681120 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5487906834635304454, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
+  m_PrefabInstance: {fileID: 597526210}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &93477516
 GameObject:
   m_ObjectHideFlags: 0
@@ -2640,7 +2645,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593611217}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.3}
+  m_LocalPosition: {x: 0, y: 0, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1886621193}
@@ -2796,7 +2801,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5487906834635304448, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5487906834637307388, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
       propertyPath: m_BackGroundColor.b
@@ -7712,7 +7717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1750871168
 AudioListener:
   m_ObjectHideFlags: 0
@@ -7907,7 +7912,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792084930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1312446782}
@@ -7926,8 +7931,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bafc30ddec6d242ce8a3eb9a0bfa735f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 1750871167}
+  Camera: {fileID: 88681120}
+  startingPosition: {x: 0, y: 1.4, z: 0}
   threshold: 60
+  type: 1
+  type2DelaySpeed: 0.95
 --- !u!1001 &1799494102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8366,7 +8374,7 @@ RectTransform:
   m_GameObject: {fileID: 1886621192}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.002, y: 0.002, z: 0.002}
+  m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
   m_Children: []
   m_Father: {fileID: 593611218}
   m_RootOrder: 0
@@ -8398,11 +8406,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: cdaa079098e6c4278a3d9bf1c07867c7, type: 3}
-    m_FontSize: 150
+    m_FontSize: 128
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 212
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
