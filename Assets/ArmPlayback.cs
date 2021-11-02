@@ -111,7 +111,8 @@ public class ArmPlayback : MonoBehaviour
       current.localScale = Vector3.Lerp(current.localScale, target.localScale, strength);
 
     }
-    ApplyTransform(start);
+    // Apply root transform
+    // ApplyTransform(start);
     start.TraverseChildren(ApplyTransform);
   }
 }

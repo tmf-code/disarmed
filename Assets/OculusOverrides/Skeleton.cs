@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [DefaultExecutionOrder(-80)]
@@ -25,7 +24,7 @@ public class Skeleton : MonoBehaviour
   {
     handDataProvider = gameObject.GetComponentIfNull(handDataProvider);
     handedness = gameObject.GetComponentIfNull(handedness);
-    vrTrackingDataTransform = transform.FindOrThrow("VRTrackingData");
+    vrTrackingDataTransform = transform.FindRecursiveOrThrow("VRTrackingData");
     bones = new List<Bone>();
 
     if (!ShouldInitialize()) Initialize();

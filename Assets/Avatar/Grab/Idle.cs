@@ -60,6 +60,12 @@ public class Idle : MonoBehaviour
       return;
     }
 
+    var neitherAreTypeNone =
+      gameObject.GetComponent<ArmBehaviour>().behavior != ArmBehaviour.ArmBehaviorType.None
+      && otherParent.GetComponent<ArmBehaviour>().behavior != ArmBehaviour.ArmBehaviorType.None;
+
+    if (!neitherAreTypeNone) return;
+
     var source = colliders.source;
     var other = colliders.other;
 
