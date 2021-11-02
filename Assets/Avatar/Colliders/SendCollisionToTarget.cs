@@ -17,21 +17,12 @@ public class SendCollisionToTarget : MonoBehaviour
   }
   void OnTriggerEnter(Collider collider)
   {
-    var colliders = new TwoPartyCollider(GetComponent<CapsuleCollider>(), collider);
-    target.SendMessage("OnTriggerEnter", collider, SendMessageOptions.DontRequireReceiver);
-    target.SendMessage("OnTriggersEnter", colliders, SendMessageOptions.DontRequireReceiver);
-  }
-  void OnTriggerExit(Collider collider)
-  {
-    var colliders = new TwoPartyCollider(GetComponent<CapsuleCollider>(), collider);
-    target.SendMessage("OnTriggerExit", collider, SendMessageOptions.DontRequireReceiver);
-    target.SendMessage("OnTriggersExit", colliders, SendMessageOptions.DontRequireReceiver);
-  }
-  void OnTriggerStay(Collider collider)
-  {
-    var colliders = new TwoPartyCollider(GetComponent<CapsuleCollider>(), collider);
-    target.SendMessage("OnTriggersStay", collider, SendMessageOptions.DontRequireReceiver);
-    target.SendMessage("OnTriggersStay", colliders, SendMessageOptions.DontRequireReceiver);
+    if (collider.TryGetComponent<SendCollisionToTarget>(out var otherTarget))
+    {
+      var colliders = new TwoPartyCollider(GetComponent<CapsuleCollider>(), collider, target, otherTarget.target);
+      target.SendMessage("OnTriggerEnter", collider, SendMessageOptions.DontRequireReceiver);
+      target.SendMessage("OnTriggersEnter", colliders, SendMessageOptions.DontRequireReceiver);
+    }
   }
 }
 
@@ -40,10 +31,15 @@ public class TwoPartyCollider
   public Collider source;
   public Collider other;
 
-  public TwoPartyCollider(Collider source, Collider other)
+  public GameObject sourceTarget;
+  public GameObject otherTarget;
+
+  public TwoPartyCollider(Collider source, Collider other, GameObject sourceTarget, GameObject otherTarget)
   {
     this.source = source;
     this.other = other;
+    this.sourceTarget = sourceTarget;
+    this.otherTarget = otherTarget;
   }
 
   public new string ToString()

@@ -20,6 +20,7 @@ public class ApplyPose : MonoBehaviour
 
   public void Update()
   {
+    if (strength < 0F) return;
     void ApplyTransform(Transform current)
     {
       if (!BoneNameToBoneId.IsTrackedBone(current.name)) return;
@@ -40,7 +41,6 @@ public class ApplyPose : MonoBehaviour
 
     }
 
-    if (strength < 0F) return;
 
     ApplyTransform(model);
     model.TraverseChildren(ApplyTransform);

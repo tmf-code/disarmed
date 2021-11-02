@@ -45,16 +45,19 @@ public class Idle : MonoBehaviour
       return;
     }
 
-    var otherParent = colliders.other.transform.root.gameObject;
-    var isCollidingWithSelf = otherParent == gameObject;
-    if (isCollidingWithSelf) { return; }
-
-    if (otherParent.HasComponent<Grabbed>() || otherParent.HasComponent<Grabbing>())
+    var isSameObject = colliders.otherTarget == colliders.sourceTarget;
+    if (isSameObject)
     {
       return;
     }
 
-    var bothAreArms = gameObject.HasComponent<ArmBehaviour>() && otherParent.HasComponent<ArmBehaviour>();
+
+    if (colliders.otherTarget.HasComponent<Grabbed>() || colliders.otherTarget.HasComponent<Grabbing>())
+    {
+      return;
+    }
+
+    var bothAreArms = gameObject.HasComponent<ArmBehaviour>() && colliders.otherTarget.HasComponent<ArmBehaviour>();
     if (!bothAreArms)
     {
       return;
@@ -62,7 +65,7 @@ public class Idle : MonoBehaviour
 
     var neitherAreTypeNone =
       gameObject.GetComponent<ArmBehaviour>().behavior != ArmBehaviour.ArmBehaviorType.None
-      && otherParent.GetComponent<ArmBehaviour>().behavior != ArmBehaviour.ArmBehaviorType.None;
+      && colliders.otherTarget.GetComponent<ArmBehaviour>().behavior != ArmBehaviour.ArmBehaviorType.None;
 
     if (!neitherAreTypeNone) return;
 
@@ -74,18 +77,18 @@ public class Idle : MonoBehaviour
     if (shouldGrab)
     {
       var grabbing = gameObject.AddIfNotExisting<Grabbing>();
-      var grabbed = otherParent.AddIfNotExisting<Grabbed>();
+      var grabbed = colliders.otherTarget.AddIfNotExisting<Grabbed>();
       grabbing.grabbed = grabbed;
       grabbed.grabbing = grabbing;
       Destroy(this);
       return;
     }
 
-    var otherIsUserArm = otherParent.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
+    var otherIsUserArm = colliders.otherTarget.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
     var shouldBeGrabbed = source.CompareTag("Forearm") && other.CompareTag("Hand") && otherIsUserArm;
     if (shouldBeGrabbed)
     {
-      var grabbing = otherParent.AddIfNotExisting<Grabbing>();
+      var grabbing = colliders.otherTarget.AddIfNotExisting<Grabbing>();
       var grabbed = gameObject.AddIfNotExisting<Grabbed>();
       grabbing.grabbed = grabbed;
       grabbed.grabbing = grabbing;
