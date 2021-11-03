@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Grabbed : MonoBehaviour
+public partial class Grabbed : MonoBehaviour
 {
   public Grabbing grabbing;
 
@@ -40,7 +40,7 @@ public class Grabbed : MonoBehaviour
     gameObject.RemoveComponent<Idle>();
     gameObject.RemoveComponent<Grabbing>();
 
-    animation = new SimpleAnimation(3);
+    animation = new SimpleAnimation(3, SimpleAnimation.EasingFunction.Linear, Time.time);
 
     var grabRotation = GetTargetTransform().Unwrap().rotation;
     var grabRotations = strategies.ConvertAll((rotation) =>
@@ -59,7 +59,7 @@ public class Grabbed : MonoBehaviour
 
   void Update()
   {
-    animation.Update();
+    animation.Update(Time.time);
     var targetTransform = GetTargetTransform();
     var currentTransform = transform.FindRecursiveOrThrow("Model");
 
@@ -123,28 +123,6 @@ public class Grabbed : MonoBehaviour
 
     Destroy(this);
     gameObject.AddIfNotExisting<Idle>();
-  }
-
-  [Serializable]
-  class SimpleAnimation
-  {
-    public float timeCreated = Time.time;
-    public float duration = 1;
-    public float lifetime = 0;
-    public float progression = 0;
-
-    public SimpleAnimation(float duration)
-    {
-      this.duration = duration;
-    }
-
-    public float Update()
-    {
-      lifetime = Time.time - timeCreated;
-      progression = Mathf.Clamp(lifetime / duration, 0, 1);
-
-      return progression;
-    }
   }
 
 }

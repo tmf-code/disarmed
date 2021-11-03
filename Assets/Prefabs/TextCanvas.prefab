@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 9060656895443718860}
   - component: {fileID: 9060656895443718861}
   m_Layer: 5
-  m_Name: ActText
+  m_Name: ActNumber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,7 +204,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9060656895544748005}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -224,16 +224,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bafc30ddec6d242ce8a3eb9a0bfa735f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 0}
-  startingPosition: {x: 0, y: 1.4, z: 0}
-  threshold: 60
-  type: 2
-  type2DelaySpeed: 0.98
-  ActText: {fileID: 9060656895443718863}
-  OpeningText: {fileID: 9060656895634825775}
+  act: 0
+  type: 1
+  actNumber: {fileID: 9060656895443718861}
+  actTitle: {fileID: 9060656895634825773}
   transparent: {r: 1, g: 1, b: 1, a: 0}
   white: {r: 1, g: 1, b: 1, a: 1}
-  blendOut: 0
+  opacityAnimation:
+    timeCreated: 0
+    duration: 0
+    lifetime: 0
+    progression: 0
+    easedProgression: 0
+    easing: 0
+  lerpSpeed: 0.02
+  setBlendOut: 0
 --- !u!1 &9060656895634825775
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,7 +251,7 @@ GameObject:
   - component: {fileID: 9060656895634825772}
   - component: {fileID: 9060656895634825773}
   m_Layer: 5
-  m_Name: OpeningText
+  m_Name: ActTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
