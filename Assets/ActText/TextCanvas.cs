@@ -12,6 +12,12 @@ public class TextCanvas : MonoBehaviour
     Lerp
   }
 
+  public enum TextState
+  {
+    Opaque,
+    Transparent
+  }
+
   public enum Acts
   {
     Act1,
@@ -21,46 +27,43 @@ public class TextCanvas : MonoBehaviour
   }
 
   public Acts act = Acts.Act1;
+  private Acts _act = Acts.Act1;
   public TextTypes type = TextTypes.Lerp;
   public Text actNumber;
   public Text actTitle;
   public Color transparent;
   public Color white;
+  private TextState _state = TextState.Transparent;
+  public TextState state = TextState.Transparent;
 
-  private bool _blendOut = false;
-
-
-  [HideInInspector] public SimpleAnimation opacityAnimation;
+  [HideInInspector] public Option<SimpleAnimation> opacityAnimation = new None<SimpleAnimation>();
+  private Color previousColor;
   public float lerpSpeed = 0.98f;
-  public bool setBlendOut = false;
-  public bool blendOut
-  {
-    get => _blendOut; set
-    {
-      if (value != _blendOut)
-      {
-        opacityAnimation = new SimpleAnimation(1F, SimpleAnimation.EasingFunction.EaseOutCubic, Time.time);
-      }
-      _blendOut = value;
-    }
-  }
+  private Color nextColor;
 
   void Start()
   {
     camera = Camera.main;
     actNumber.color = transparent;
     actTitle.color = transparent;
-    opacityAnimation = new SimpleAnimation(1F, SimpleAnimation.EasingFunction.EaseOutCubic, Time.time);
   }
 
   void OnEnable()
   {
-    blendOut = false;
+    actNumber.color = transparent;
+    actTitle.color = transparent;
+    previousColor = transparent;
+    nextColor = transparent;
+    state = TextState.Opaque;
   }
 
-  public void SetAct(Acts act)
+  public void UpdateAct()
   {
-    switch (act)
+    if (_act == act) return;
+
+    _act = act;
+
+    switch (_act)
     {
       case Acts.Act1:
         actNumber.text = "Act 1.";
@@ -84,6 +87,7 @@ public class TextCanvas : MonoBehaviour
   void Update()
   {
     UpdateBlending();
+    UpdateAct();
 
     switch (type)
     {
@@ -96,31 +100,45 @@ public class TextCanvas : MonoBehaviour
     }
   }
 
+  private void SetTextState()
+  {
+    opacityAnimation = new Some<SimpleAnimation>(new SimpleAnimation(1F, SimpleAnimation.EasingFunction.EaseOutCubic, Time.time));
+    previousColor = actNumber.color;
+    switch (_state)
+    {
+      case TextState.Transparent:
+        nextColor = transparent;
+        break;
+      case TextState.Opaque:
+        nextColor = white;
+        break;
+    }
+  }
+
   private void UpdateBlending()
   {
-    opacityAnimation.Update(Time.time);
-
-    if (setBlendOut)
+    if (_state != state)
     {
-      setBlendOut = false;
-      blendOut = true;
+      opacityAnimation = new Some<SimpleAnimation>(new SimpleAnimation(1F, SimpleAnimation.EasingFunction.EaseOutCubic, Time.time));
+      _state = state;
+      SetTextState();
     }
 
-    if (!blendOut)
+    opacityAnimation.Match(() => { }, animation =>
     {
-      var color = Color.Lerp(transparent, white, opacityAnimation.easedProgression);
-      actNumber.color = color;
-      actTitle.color = color;
-    }
-    else
-    {
-      var color = Color.Lerp(white, transparent, opacityAnimation.easedProgression);
-      actNumber.color = color;
-      actTitle.color = color;
-      if (opacityAnimation.progression == 1.0F)
+      animation.Update(Time.time);
+      if (animation.progression == 0F || animation.progression == 1F)
       {
-        gameObject.SetActive(false);
-      }
-    }
+        if (animation.progression == 1F)
+        {
+          opacityAnimation = new None<SimpleAnimation>();
+        }
+        return;
+      };
+
+      actTitle.color = Color.Lerp(previousColor, nextColor, animation.easedProgression);
+      actNumber.color = Color.Lerp(previousColor, nextColor, animation.easedProgression);
+    });
+
   }
 }
