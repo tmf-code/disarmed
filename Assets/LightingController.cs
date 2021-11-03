@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class LightingController : MonoBehaviour
 {
-  public LightingState state;
-  private LightingState _state;
+  public LightingState state = LightingState.Dark;
+  private LightingState _state = LightingState.Dark;
   public Light directional;
   public Light spot;
   public Option<SimpleAnimation> maybeAnimation = new None<SimpleAnimation>();
@@ -64,11 +64,7 @@ public class LightingController : MonoBehaviour
       animation.Update(Time.time);
       if (animation.progression == 0F || animation.progression == 1F)
       {
-        if (animation.progression == 1F)
-        {
-          maybeAnimation = new None<SimpleAnimation>();
-        }
-
+        if (animation.progression == 1F) maybeAnimation = new None<SimpleAnimation>();
         return;
       };
 
