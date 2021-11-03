@@ -10,6 +10,10 @@ public class LightingController : MonoBehaviour
 
   public float nextIntensity;
   public float previousIntensity;
+  private readonly Color darkLight = new Color(0, 0, 0, 1F);
+  private readonly Color dimLight = new Color(0, 0, 0.1F, 1F);
+  private readonly Color blueLight = Color.blue;
+
   public Color nextColor;
   public Color previousColor;
 
@@ -21,25 +25,26 @@ public class LightingController : MonoBehaviour
   }
 
 
-  public void SetLightingState()
+  void SetLightingState()
   {
     maybeAnimation = new Some<SimpleAnimation>(new SimpleAnimation(3F, SimpleAnimation.EasingFunction.EaseInCubic, Time.time));
     previousColor = Camera.main.backgroundColor;
-    previousIntensity = nextIntensity;
+    previousIntensity = directional.intensity;
     switch (_state)
     {
       case LightingState.Dark:
-        nextColor = new Color(0, 0, 0, 1F);
+        nextColor = darkLight;
         nextIntensity = 0;
 
         break;
       case LightingState.Light:
-        nextColor = Color.blue;
+
+        nextColor = blueLight;
         nextIntensity = 1;
 
         break;
       case LightingState.Dim:
-        nextColor = new Color(0, 0, 0.1F, 1F);
+        nextColor = dimLight;
         nextIntensity = 1;
         break;
     }
@@ -47,8 +52,13 @@ public class LightingController : MonoBehaviour
 
   void Start()
   {
+    Camera.main.backgroundColor = darkLight;
+    directional.intensity = 0;
+    spot.intensity = 0;
     nextColor = Camera.main.backgroundColor;
     previousColor = Camera.main.backgroundColor;
+    nextIntensity = directional.intensity;
+    previousIntensity = directional.intensity;
   }
 
   public void Update()
@@ -72,12 +82,5 @@ public class LightingController : MonoBehaviour
       spot.intensity = Mathf.Lerp(previousIntensity, nextIntensity, animation.easedProgression);
       Camera.main.backgroundColor = Color.Lerp(previousColor, nextColor, animation.easedProgression);
     });
-
-  }
-
-  void OnValidate()
-  {
-    _state = state;
-    SetLightingState();
   }
 }

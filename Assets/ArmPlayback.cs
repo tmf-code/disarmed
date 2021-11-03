@@ -17,6 +17,8 @@ public class ArmPlayback : MonoBehaviour
   public bool startPlaying = false;
   [ShowOnly] public bool isPlaying = false;
   public bool stopPlaying = false;
+
+  public bool playOnEnable = false;
   public int framesPlayed = 0;
 
   private ArmRecording recording;
@@ -25,6 +27,14 @@ public class ArmPlayback : MonoBehaviour
   public void Start()
   {
     LoadRecording();
+  }
+
+  void OnEnable()
+  {
+    if (playOnEnable)
+    {
+      startPlaying = true;
+    }
   }
 
 

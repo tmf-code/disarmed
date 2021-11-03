@@ -46,6 +46,9 @@ public class TextCanvas : MonoBehaviour
     camera = Camera.main;
     actNumber.color = transparent;
     actTitle.color = transparent;
+    actNumber.text = "Act 1.";
+    actTitle.text = "Pointed Dreams of a Pair of Arms";
+    SetTextState();
   }
 
   void OnEnable()
@@ -60,7 +63,6 @@ public class TextCanvas : MonoBehaviour
   public void UpdateAct()
   {
     if (_act == act) return;
-
     _act = act;
 
     switch (_act)
@@ -102,7 +104,7 @@ public class TextCanvas : MonoBehaviour
 
   private void SetTextState()
   {
-    opacityAnimation = new Some<SimpleAnimation>(new SimpleAnimation(1F, SimpleAnimation.EasingFunction.EaseOutCubic, Time.time));
+    opacityAnimation = new Some<SimpleAnimation>(new SimpleAnimation(1F, SimpleAnimation.EasingFunction.EaseInCubic, Time.time));
     previousColor = actNumber.color;
     switch (_state)
     {
@@ -119,7 +121,6 @@ public class TextCanvas : MonoBehaviour
   {
     if (_state != state)
     {
-      opacityAnimation = new Some<SimpleAnimation>(new SimpleAnimation(1F, SimpleAnimation.EasingFunction.EaseOutCubic, Time.time));
       _state = state;
       SetTextState();
     }
@@ -127,6 +128,8 @@ public class TextCanvas : MonoBehaviour
     opacityAnimation.Match(() => { }, animation =>
     {
       animation.Update(Time.time);
+      actTitle.color = Color.Lerp(previousColor, nextColor, animation.easedProgression);
+      actNumber.color = Color.Lerp(previousColor, nextColor, animation.easedProgression);
       if (animation.progression == 0F || animation.progression == 1F)
       {
         if (animation.progression == 1F)
@@ -134,11 +137,7 @@ public class TextCanvas : MonoBehaviour
           opacityAnimation = new None<SimpleAnimation>();
         }
         return;
-      };
-
-      actTitle.color = Color.Lerp(previousColor, nextColor, animation.easedProgression);
-      actNumber.color = Color.Lerp(previousColor, nextColor, animation.easedProgression);
+      }
     });
-
   }
 }

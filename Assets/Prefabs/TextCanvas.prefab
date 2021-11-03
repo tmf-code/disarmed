@@ -179,7 +179,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Act 1
+  m_Text: Act 1.
 --- !u!1 &9060656895544748005
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,15 +230,8 @@ MonoBehaviour:
   actTitle: {fileID: 9060656895634825773}
   transparent: {r: 1, g: 1, b: 1, a: 0}
   white: {r: 1, g: 1, b: 1, a: 1}
-  opacityAnimation:
-    timeCreated: 0
-    duration: 0
-    lifetime: 0
-    progression: 0
-    easedProgression: 0
-    easing: 0
+  state: 1
   lerpSpeed: 0.02
-  setBlendOut: 0
 --- !u!1 &9060656895634825775
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,4 +310,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Opening Text
+  m_Text: Pointed Dreams of a Pair of Arms
