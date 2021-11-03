@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// using Pixelplacement;
-//using UnityXR;
+using Pixelplacement;
+using UnityEngine.UI;
 
 public class TextMovement : MonoBehaviour
 {
@@ -13,47 +13,81 @@ public class TextMovement : MonoBehaviour
 
   public float threshold = 60f;
 
-  public int type = 0;
-
-  public float type2DelaySpeed = 0.9f;
-
-  // Start is called before the first frame update
-  void Start()
+  public enum TextTypes
   {
-    //this.transform.localPosition = new Vector3(0, Camera.trandform.localPosition.y, 0);
-    this.transform.localPosition = startingPosition;
+    AnimateToPosition,
+    Static,
+    Lerp
   }
 
-  // Update is called once per frame
+  public TextTypes type = TextTypes.Lerp;
+
+  public float lerpSpeed = 0.98f;
+
+  public GameObject ActText;
+  public GameObject OpeningText;
+
+  private Text ActTextText;
+  private Text OpeningTextText;
+
+  public Color transparent;
+  public Color white;
+
+  public bool blendOut = false;
+
+  void Start()
+  {
+    this.transform.localPosition = startingPosition;
+
+    ActTextText = ActText.GetComponent<Text>();
+    OpeningTextText = OpeningText.GetComponent<Text>();
+
+    ActTextText.color = transparent;
+    OpeningTextText.color = transparent;
+
+    Tween.Color(ActTextText, white, 0.4f, 0, Tween.EaseOut);
+    Tween.Color(OpeningTextText, white, 0.4f, 0, Tween.EaseOut);
+  }
+
   void Update()
   {
-    if (type == 0)
+    if (type == TextTypes.AnimateToPosition)
     {
-      //   float deltaAngle = Mathf.Abs(Mathf.DeltaAngle(Camera.transform.eulerAngles.y, this.transform.eulerAngles.y));
+      float deltaAngle = Mathf.Abs(Mathf.DeltaAngle(Camera.transform.eulerAngles.y, this.transform.eulerAngles.y));
 
-      //   if (deltaAngle > threshold)
-      //   {
-      //     Tween.Stop(this.transform.GetInstanceID());
-      //     Tween.LocalPosition(this.transform, Camera.transform.localPosition, 0.5f, 0, Tween.EaseInOutStrong);
-      //     Tween.LocalRotation(this.transform, Quaternion.Euler(0, Camera.transform.eulerAngles.y, 0), 0.5f, 0, Tween.EaseInOutStrong);
-      //   }
+      if (deltaAngle > threshold)
+      {
+        Tween.Stop(this.transform.GetInstanceID());
+        Tween.LocalPosition(this.transform, Camera.transform.localPosition, 0.5f, 0, Tween.EaseInOutStrong);
+        Tween.LocalRotation(this.transform, Quaternion.Euler(0, Camera.transform.eulerAngles.y, 0), 0.5f, 0, Tween.EaseInOutStrong);
+      }
     }
-    else if (type == 1)
+    else if (type == TextTypes.Static)
     {
-      //this.transform.localPosition = new Vector3(0, Camera.transform.localPosition.y, 0);
-      //this.transform.localRotation = Quaternion.Euler(0, Camera.transform.eulerAngles.y, 0);
       this.transform.localPosition = Camera.transform.localPosition;
       this.transform.localRotation = Camera.transform.localRotation;
     }
-    else if (type == 2)
+    else if (type == TextTypes.Lerp)
     {
-      this.transform.localPosition = Vector3.Lerp(Camera.transform.localPosition, this.transform.localPosition, type2DelaySpeed);
-      this.transform.localRotation = Quaternion.Slerp(Camera.transform.localRotation, this.transform.localRotation, type2DelaySpeed);
+      this.transform.localPosition = Vector3.Lerp(Camera.transform.localPosition, this.transform.localPosition, lerpSpeed);
+      this.transform.localRotation = Quaternion.Slerp(Camera.transform.localRotation, this.transform.localRotation, lerpSpeed);
     }
-    else if (type == 3)
+
+    if (blendOut)
     {
-      this.transform.localPosition = startingPosition;
-      this.transform.localRotation = Quaternion.identity;
+      BlendOut();
     }
+  }
+
+  public void BlendOut()
+  {
+    Tween.Color(ActTextText, transparent, 0.2f, 0, Tween.EaseOut);
+    Tween.Color(OpeningTextText, transparent, 0.2f, 0, Tween.EaseOut, Tween.LoopType.None, null, Deactivate);
+    blendOut = false;
+  }
+
+  public void Deactivate()
+  {
+    gameObject.SetActive(false);
   }
 }
