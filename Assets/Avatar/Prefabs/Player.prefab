@@ -55,13 +55,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 648541198382110295}
     m_Modifications:
-    - target: {fileID: 5327207933921161324, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+    - target: {fileID: 5307780796026015778, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
       propertyPath: m_BackGroundColor.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5307780796026015778, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.38888884
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307780796026015778, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307780798079340472, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307780798079340472, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.38888884
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307780798079340472, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327207933921161324, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327207933921161324, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5327207933921161324, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
       propertyPath: m_BackGroundColor.g
-      value: 0.41959214
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5327207933921161324, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
       propertyPath: m_BackGroundColor.r
