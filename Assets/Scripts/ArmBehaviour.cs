@@ -23,7 +23,7 @@ public class ArmBehaviour : MonoBehaviour
     World,
   }
 
-  private void Start()
+  private void Awake()
   {
     UpdateBehavior();
   }
