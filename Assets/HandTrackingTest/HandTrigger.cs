@@ -8,9 +8,14 @@ public class HandTrigger : MonoBehaviour
   public GameObject Arm;
   private Renderer armRenderer;
 
-  private AudioSource sound;
+
+  private AudioSource[] sounds;
+  private AudioSource progressionSound;
+  private AudioSource passedSound;
 
   private float colorCounter = 0f;
+
+  private bool passed = false;
 
   public GameObject triggerObject;
 
@@ -20,8 +25,12 @@ public class HandTrigger : MonoBehaviour
   void Start()
   {
     armRenderer = Arm.GetComponent<Renderer>();
-    sound = GetComponent<AudioSource>();
-    sound.Stop();
+    sounds = GetComponents<AudioSource>();
+    progressionSound = sounds[0];
+    passedSound = sounds[1];
+
+    progressionSound.Stop();
+    passedSound.Stop();
     normalColor = armRenderer.material.color;
   }
 
@@ -29,7 +38,7 @@ public class HandTrigger : MonoBehaviour
   {
     if (other.gameObject == triggerObject)
     {
-      sound.Play();
+      progressionSound.Play();
     }
   }
 
@@ -44,11 +53,14 @@ public class HandTrigger : MonoBehaviour
       }
       else
       {
-        sound.enabled = false;
-        //What happens when Arm is full
-        armRenderer.material.SetColor("_Color", Color.white);
+        if (!passed)
+        {
+          this.transform.SetParent(other.transform);
+          progressionSound.enabled = false;
+          passedSound.Play();
+          armRenderer.material.SetColor("_Color", Color.white);
+        }
 
-        this.transform.SetParent(other.transform);
       }
     }
   }
@@ -59,7 +71,7 @@ public class HandTrigger : MonoBehaviour
     {
       armRenderer.material.SetColor("_Color", normalColor);
       colorCounter = 0f;
-      sound.Stop();
+      progressionSound.Stop();
     }
   }
 }
