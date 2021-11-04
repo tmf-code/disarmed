@@ -7,43 +7,33 @@ public class ApplyPose : MonoBehaviour
   [Range(0, 1)]
   public float strength = 0.0F;
   public Pose[] poses = new Pose[] { };
-  [SerializeField]
-  private Transform model;
+  public Option<Pose> pose = new None<Pose>();
 
   public string posePath = "Poses";
+  private GameObject[] modelAndChildren;
 
   public void Start()
   {
     Load();
-    model = transform.FindRecursiveOrThrow("Model");
+
+    var childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
+    var modelChildren = childDictionary.modelChildren;
+    var model = childDictionary.model;
+    modelAndChildren = modelChildren.Values.ToArray();
+    modelAndChildren.Append(model);
   }
 
   public void Update()
   {
-    if (strength < 0F) return;
-    void ApplyTransform(Transform current)
+    if (strength <= 0F) return;
+    if (pose.IsNone()) return;
+
+    foreach (var current in modelAndChildren)
     {
-      if (!BoneNameToBoneId.IsTrackedBone(current.name)) return;
-      if (poses.Length == 0)
-      {
-        return;
-      }
-      var maybePose = poses.First();
-      if (maybePose == null) return;
-      // Ideally Pose.transforms should be serialized (ie: not a dictionary) so that we can ignore the following check
-      if (maybePose.transforms == null) return;
-
-      if (!maybePose.transforms.TryGetValue(current.name, out var target)) return;
-
-      current.localPosition = Vector3.Lerp(current.localPosition, target.unSerialized.localPosition, strength);
-      current.localRotation = Quaternion.Slerp(current.localRotation, target.unSerialized.localRotation, strength);
-      current.localScale = Vector3.Lerp(current.localScale, target.unSerialized.localScale, strength);
-
+      if (!BoneNameToBoneId.IsTrackedBone(current.name)) continue;
+      if (!pose.Unwrap().transforms.TryGetValue(current.name, out var target)) continue;
+      current.transform.LerpLocal(target.unSerialized, strength);
     }
-
-
-    ApplyTransform(model);
-    model.TraverseChildren(ApplyTransform);
   }
 
   public void Load()

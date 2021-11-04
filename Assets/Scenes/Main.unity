@@ -2645,23 +2645,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5487906834637307388, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5487906834637307388, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5487906834637307388, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8603311366922692306, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6836763194973477691, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
 --- !u!1001 &600297123
 PrefabInstance:
@@ -9076,7 +9065,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8579105744200844670, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
       propertyPath: state
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}

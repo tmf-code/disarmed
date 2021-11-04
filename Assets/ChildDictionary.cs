@@ -13,13 +13,8 @@ public class ChildDictionary : MonoBehaviour
   public Dictionary<string, GameObject> modelChildren;
   public Dictionary<string, GameObject> vrTrackingDataChildren;
 
-  void Start()
+  void Awake()
   {
-    pivot = transform.FindRecursiveOrThrow("Pivot").gameObject;
-    offset = transform.FindRecursiveOrThrow("Offset").gameObject;
-    model = transform.FindRecursiveOrThrow("Model").gameObject;
-    vrTrackingData = transform.FindRecursiveOrThrow("VRTrackingData").gameObject;
-
     modelChildren = model.transform.AllChildren()
       .GroupBy(transform => transform.name)
       .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject);

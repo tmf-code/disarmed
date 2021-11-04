@@ -66,11 +66,11 @@ public class SerializedTransforms
   }
 }
 
-public class UnSerializedTransform
+public class UnSerializedTransform : ITransform
 {
-  public Vector3 localPosition;
-  public Quaternion localRotation;
-  public Vector3 localScale;
+  public Vector3 localPosition { get; set; }
+  public Quaternion localRotation { get; set; }
+  public Vector3 localScale { get; set; }
   public string name;
 
   public UnSerializedTransform(SerializedTransform transform)
@@ -80,4 +80,5 @@ public class UnSerializedTransform
     localScale = transform.localScale;
     name = transform.n;
   }
+
 }

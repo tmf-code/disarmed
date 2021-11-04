@@ -2214,6 +2214,7 @@ GameObject:
   - component: {fileID: 7616081211345186513}
   - component: {fileID: 3084248320703929296}
   - component: {fileID: 6747060508052790423}
+  - component: {fileID: 61271536152418970}
   m_Layer: 0
   m_Name: CustomArmPrefab_R
   m_TagString: Untagged
@@ -2264,6 +2265,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivotPointType: 0
+--- !u!114 &61271536152418970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612404611651155419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd94dc77ad21454ca080573c66271f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivot: {fileID: 462844313886014230}
+  offset: {fileID: 4352847447006806143}
+  model: {fileID: 6983595863514433679}
+  vrTrackingData: {fileID: 3788625241473245805}
 --- !u!1 &7629513301899643838
 GameObject:
   m_ObjectHideFlags: 0
@@ -3075,13 +3092,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0241cbd3e12d1354ab2286773b341af2, type: 3}
   m_PrefabInstance: {fileID: 7794568487982560734}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &822824301451934787 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -1783252924823074403, guid: 0241cbd3e12d1354ab2286773b341af2, type: 3}
-  m_PrefabInstance: {fileID: 7794568487982560734}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &601176135777509449 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7240680153671701911, guid: 0241cbd3e12d1354ab2286773b341af2, type: 3}
+  m_PrefabInstance: {fileID: 7794568487982560734}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &822824301451934787 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1783252924823074403, guid: 0241cbd3e12d1354ab2286773b341af2, type: 3}
   m_PrefabInstance: {fileID: 7794568487982560734}
   m_PrefabAsset: {fileID: 0}
