@@ -1,17 +1,31 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ChildDictionary : MonoBehaviour
 {
-  // Start is called before the first frame update
+  public GameObject pivot;
+  public GameObject offset;
+  public GameObject model;
+  public GameObject vrTrackingData;
+
+  public Dictionary<string, GameObject> modelChildren;
+  public Dictionary<string, GameObject> vrTrackingDataChildren;
+
   void Start()
   {
-    Debug.Log(String.Join("\n", transform.AllChildren().ConvertAll(child => child.name)));
-  }
+    pivot = transform.FindRecursiveOrThrow("Pivot").gameObject;
+    offset = transform.FindRecursiveOrThrow("Offset").gameObject;
+    model = transform.FindRecursiveOrThrow("Model").gameObject;
+    vrTrackingData = transform.FindRecursiveOrThrow("VRTrackingData").gameObject;
 
-  // Update is called once per frame
-  void Update()
-  {
+    modelChildren = model.transform.AllChildren()
+      .GroupBy(transform => transform.name)
+      .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject);
 
+    vrTrackingDataChildren = vrTrackingData.transform.AllChildren()
+      .GroupBy(transform => transform.name)
+      .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject);
   }
 }
