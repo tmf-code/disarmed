@@ -15,7 +15,12 @@ ModelImporter:
   - first:
       74: 9119522979286830592
     second: Armature|LetGo
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert2
+    second: {fileID: 2100000, guid: ee240a2fd0a40bd43830c485cee0cc68, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
