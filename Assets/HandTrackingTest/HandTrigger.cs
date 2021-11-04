@@ -8,14 +8,13 @@ public class HandTrigger : MonoBehaviour
   public GameObject Arm;
   private Renderer armRenderer;
 
-
   private AudioSource[] sounds;
   private AudioSource progressionSound;
   private AudioSource passedSound;
 
   private float colorCounter = 0f;
 
-  private bool passed = false;
+  private bool complete = false;
 
   public GameObject triggerObject;
 
@@ -53,8 +52,9 @@ public class HandTrigger : MonoBehaviour
       }
       else
       {
-        if (!passed)
+        if (!complete)
         {
+          complete = true;
           this.transform.SetParent(other.transform);
           progressionSound.enabled = false;
           passedSound.Play();
