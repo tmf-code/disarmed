@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 partial class Solve3D
 {
@@ -9,7 +8,7 @@ partial class Solve3D
  * Copy of the structure of input links
  * With the possibility of their rotation being changed
  */
-    public readonly List<Link> links;
+    public readonly Link[] links;
     /**
  * Returns the error distance after the solve step
  */
@@ -23,7 +22,7 @@ partial class Solve3D
  */
     public readonly bool? isWithinAcceptedError;
 
-    public SolveResult(List<Link> links, Func<float> getErrorDistance, bool? isWithinAcceptedError)
+    public SolveResult(Link[] links, Func<float> getErrorDistance, bool? isWithinAcceptedError)
     {
       this.links = links;
       this.getErrorDistance = getErrorDistance;
@@ -31,7 +30,7 @@ partial class Solve3D
     }
 
     internal void Deconstruct(
-        out List<Link> links,
+        out Link[] links,
         out Func<float> getErrorDistance,
         out bool? isWithinAcceptedError
     )

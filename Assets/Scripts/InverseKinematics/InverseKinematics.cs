@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using static Solve3D;
 
 public class InverseKinematics : MonoBehaviour
@@ -21,21 +19,12 @@ public class InverseKinematics : MonoBehaviour
 
     var hand = handedness.HandPrefix();
 
-    wrist = wrist == null
-      ? transform.FindChildRecursive($"b_{hand}_wrist")
-      : wrist;
+    var modelDictionary = gameObject.GetComponentOrThrow<ChildDictionary>().modelChildren;
 
-    forearm = forearm == null
-      ? transform.FindChildRecursive($"b_{hand}_forearm_stub")
-      : forearm;
-
-    humerus = humerus == null
-      ? transform.FindChildRecursive($"b_{hand}_humerus")
-      : humerus;
-
-    shoulder = shoulder == null
-      ? transform.FindChildRecursive($"b_{hand}_shoulder")
-      : shoulder;
+    wrist = modelDictionary.GetValue($"b_{hand}_wrist").transform;
+    forearm = modelDictionary.GetValue($"b_{hand}_forearm_stub").transform;
+    humerus = modelDictionary.GetValue($"b_{hand}_humerus").transform;
+    shoulder = modelDictionary.GetValue($"b_{hand}_shoulder").transform;
 
     var targetName = handedness.IsLeft()
       ? "ShoulderLeft"
@@ -54,21 +43,20 @@ public class InverseKinematics : MonoBehaviour
   public static float ApplyIK(Transform forearm, Transform wrist, Transform humerus, Transform shoulder, Transform target, float strength)
   {
     var baseTransform = new JointTransform(forearm.position, wrist.rotation);
-    var bones = new List<Transform>() { forearm, humerus, shoulder };
+    var bones = new Transform[] { forearm, humerus, shoulder };
 
-    var links = bones.ToList()
-      .GetRange(0, bones.Count - 1)
-      .Select(
-          (bone, index) =>
-          {
-            var nextBone = bones[index + 1];
-            var rotation = bone.localRotation;
-            var boneName = bone.name;
+    var links = new Link[bones.Length - 1];
 
-            var constraint = ArmConstraints.get(boneName);
-            return new Link(rotation, constraint, nextBone.localPosition);
-          }
-      ).ToList();
+    for (int index = 0; index < bones.Length - 1; index++)
+    {
+      var bone = bones[index];
+      var nextBone = bones[index + 1];
+      var rotation = bone.localRotation;
+      var boneName = bone.name;
+
+      var constraint = ArmConstraints.get(boneName);
+      links[index] = new Link(rotation, constraint, nextBone.localPosition);
+    }
 
     for (var index = 0; index < 50; index++)
     {
@@ -80,7 +68,7 @@ public class InverseKinematics : MonoBehaviour
             SolveOptions.defaultOptions
         ).links;
 
-      for (int resultIndex = 0; resultIndex < intermediateResults.Count; resultIndex++)
+      for (int resultIndex = 0; resultIndex < intermediateResults.Length; resultIndex++)
       {
         links[resultIndex] = intermediateResults[resultIndex];
       }
@@ -93,7 +81,7 @@ public class InverseKinematics : MonoBehaviour
         SolveOptions.defaultOptions
     );
 
-    for (int resultIndex = 0; resultIndex < results.Count; resultIndex++)
+    for (int resultIndex = 0; resultIndex < results.Length; resultIndex++)
     {
       var bone = bones[resultIndex];
       var link = results[resultIndex];

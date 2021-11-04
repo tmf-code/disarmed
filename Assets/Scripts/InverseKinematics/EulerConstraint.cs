@@ -35,9 +35,6 @@ partial class Solve3D
     public static EulerConstraint fullRotation = new EulerConstraint(new Range(360F), new Range(360F), new Range(360F));
     public static EulerConstraint noRotation = new EulerConstraint(new Range(0F), new Range(0F), new Range(0F));
   }
-  public static EulerConstraint CopyConstraints(
-      EulerConstraint constraints
-  ) => new EulerConstraint(constraints.pitch, constraints.yaw, constraints.roll);
 
 }
 

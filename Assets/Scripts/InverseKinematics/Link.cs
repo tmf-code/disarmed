@@ -7,16 +7,18 @@ partial class Solve3D
     /**
  * The rotation at the base of the link
  */
-    public readonly Quaternion rotation;
+    private Quaternion _rotation;
     public readonly EulerConstraint constraints;
     public readonly Vector3 position;
+    public readonly Quaternion rotation => _rotation;
+
     public Link(
         Quaternion rotation,
         EulerConstraint constraints,
         Vector3 position
     )
     {
-      this.rotation = rotation;
+      _rotation = rotation;
       this.constraints = constraints;
       this.position = position;
     }
@@ -26,27 +28,16 @@ partial class Solve3D
       return $"{position} {rotation} {constraints}";
     }
 
-    internal void Deconstruct(
-        out Quaternion rotation,
-        out EulerConstraint constraints,
-        out Vector3 position
-    )
+    public static void ApplyConstraint(ref Link link)
     {
-      rotation = this.rotation;
-      constraints = this.constraints;
-      position = this.position;
-    }
-
-    public static Link CopyLink(Link link)
-    {
-      var (rotation, constraints, position) = link;
-      return new Link(
-          rotation,
-          CopyConstraints(constraints),
-          position
-      );
+      var (pitch, yaw, roll) = link.constraints;
+      var lowerBound = new Vector3(pitch.min, yaw.min, roll.min);
+      var upperBound = new Vector3(pitch.max, yaw.max, roll.max);
+      var clampedRotation = QuaternionExtensions.Clamp(link.rotation, lowerBound, upperBound);
+      link._rotation = clampedRotation;
     }
   }
+
 }
 
 
