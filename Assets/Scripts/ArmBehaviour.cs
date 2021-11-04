@@ -33,8 +33,6 @@ public class ArmBehaviour : MonoBehaviour
     var handedness = gameObject.AddIfNotExisting<Handedness>();
     handedness.handType = handType;
 
-    gameObject.AddIfNotExisting<VRTrackingHierarchy>();
-
     switch (_behavior)
     {
       case ArmBehaviorType.None:

@@ -58,7 +58,7 @@ public class Skeleton : MonoBehaviour
       bones = new List<Bone>(new Bone[skeleton.NumBones]);
     }
 
-    var vrTrackingData = gameObject.GetComponentOrThrow<VRTrackingHierarchy>().vrTrackingData;
+    var vrTrackingData = transform.FindRecursiveOrThrow("VRTrackingData");
 
     for (int i = 0; i < bones.Count; ++i)
     {
