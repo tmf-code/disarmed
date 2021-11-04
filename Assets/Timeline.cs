@@ -7,7 +7,7 @@ public class Timeline : MonoBehaviour
 {
   public TextCanvas textCanvas;
   public LightingController lightingController;
-  // public GameObject ghostHands;
+  public GameObject ghostHands;
   public GameObject bigArmFromRoof;
   public GameObject copiesOfPlayerArms;
   public GameObject extraStairs;
@@ -110,6 +110,7 @@ public class Timeline : MonoBehaviour
     static List<GameObject> L(params GameObject[] array) => array.ToList();
 
     allObjects = L(
+      ghostHands,
       bigArmFromRoof,
       copiesOfPlayerArms,
       extraStairs,
@@ -118,7 +119,7 @@ public class Timeline : MonoBehaviour
 
     activeObjectPerStage = new Dictionary<Acts, List<GameObject>>((int)Acts.End + 1) {
       {Acts.Opening, L()},
-      {Acts.FitPlayersArmsIntoGhost, L()},
+      {Acts.FitPlayersArmsIntoGhost, L(ghostHands)},
       {Acts.OpeningEnd, L()},
 
       {Acts.One, L()},
@@ -251,16 +252,26 @@ public class Timeline : MonoBehaviour
           break;
       }
 
-
-      if (act == Acts.End)
+      if (act == Acts.FitPlayersArmsIntoGhost)
       {
-        Stop();
-        yield return null;
+        var isHoverComplete = ghostHands.GetComponentOrThrow<BothHandsHoverTrigger>().isHoverComplete;
+        if (!isHoverComplete)
+        {
+          yield return null;
+        }
       }
+      else
+      {
+        if (act == Acts.End)
+        {
+          Stop();
+          yield return null;
+        }
 
-      var waitTime = durations[act];
-      yield return new WaitForSeconds(waitTime);
-      act += 1;
+        var waitTime = durations[act];
+        yield return new WaitForSeconds(waitTime);
+        act += 1;
+      }
     }
   }
 }

@@ -1,15 +1,18 @@
 using UnityEngine;
 
-public class GhostHandsActivated : MonoBehaviour
+public class BothHandsHoverTrigger : MonoBehaviour
 
 {
-  public HandTrigger rightHand;
-  public HandTrigger leftHand;
+  public HandHoverTrigger rightHand;
+  public HandHoverTrigger leftHand;
+  public bool isHoverComplete = false;
 
-  // Update is called once per frame
   void Update()
   {
-    if (!rightHand.isOnGhostHand && !leftHand.isOnGhostHand) return;
+    isHoverComplete = rightHand.isHoverComplete && leftHand.isHoverComplete;
+
+    if (!isHoverComplete) return;
+
     rightHand.transform.FindRecursiveOrThrow("r_handMeshNode")
       .GetComponent<MeshRenderer>().material
       .SetColor("_Color", Color.green);
