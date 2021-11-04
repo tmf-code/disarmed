@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class QuaternionExtensions
 {
@@ -11,33 +8,18 @@ public static class QuaternionExtensions
       Vector3 upperBound
   )
   {
-    var rotationAxis = new List<float>() { quaternion.x, quaternion.y, quaternion.z };
-    var w = quaternion.w;
+    var w = 1F / quaternion.w;
 
-    var resultComponents = rotationAxis.Select(
-      (component, index) =>
-      {
-        var angle = 2F * Mathf.Atan(component / w);
-        var lower = Mathf.Deg2Rad * lowerBound[index];
-        var upper = Mathf.Deg2Rad * upperBound[index];
+    var x = 2F * Mathf.Atan(w * quaternion.x);
+    var y = 2F * Mathf.Atan(w * quaternion.y);
+    var z = 2F * Mathf.Atan(w * quaternion.z);
 
-        if (lower > upper)
-          throw new Exception(
-            $"Lower bound should be less than upper bound for component {index}. Lower: {lower}, upper: {upper}"
-          );
-        var clampedAngle = Mathf.Clamp(angle, lower, upper);
-        return Mathf.Tan(0.5F * clampedAngle);
-      }
-    );
+    var clampedX = Mathf.Tan(0.5F * Mathf.Clamp(x, lowerBound.x * Mathf.Deg2Rad, upperBound.x * Mathf.Deg2Rad));
+    var clampedY = Mathf.Tan(0.5F * Mathf.Clamp(y, lowerBound.y * Mathf.Deg2Rad, upperBound.y * Mathf.Deg2Rad));
+    var clampedZ = Mathf.Tan(0.5F * Mathf.Clamp(z, lowerBound.z * Mathf.Deg2Rad, upperBound.z * Mathf.Deg2Rad));
 
-    var result = new Quaternion(
-        resultComponents.ElementAt(0),
-        resultComponents.ElementAt(1),
-        resultComponents.ElementAt(2),
-        1F
-    );
-
-    return result.normalized;
+    var result = new Quaternion(clampedX, clampedY, clampedZ, 1F).normalized;
+    return result;
   }
 }
 

@@ -62,9 +62,8 @@ partial class Solve3D
         var linkWithAngleDelta = new Link(angleDelta, link.constraints, position);
 
         // Get remaining links from this links joint
-        var projectedLinks = new Link[1] { linkWithAngleDelta };
-
-        Array.Resize(ref projectedLinks, projectedLinks.Length + remainingLinks.Length);
+        var projectedLinks = new Link[1 + remainingLinks.Length];
+        projectedLinks[0] = linkWithAngleDelta;
         Array.Copy(remainingLinks, 0, projectedLinks, 1, remainingLinks.Length);
 
         var joint = joints[linkIndex];

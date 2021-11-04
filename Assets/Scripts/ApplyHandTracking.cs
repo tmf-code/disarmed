@@ -13,7 +13,10 @@ public class ApplyHandTracking : MonoBehaviour
   void Start()
   {
     childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
-    trackingDataChildren = childDictionary.vrTrackingDataChildren.Values.ToArray();
+    trackingDataChildren = childDictionary.vrTrackingDataChildren.Values.Where(child =>
+    {
+      return BoneNameToBoneId.IsTrackedBone(child.name) && child.name != "b_l_forearm_stub" && child.name != "b_r_forearm_stub";
+    }).ToArray();
     modelChildren = childDictionary.modelChildren;
   }
 
@@ -21,15 +24,7 @@ public class ApplyHandTracking : MonoBehaviour
   {
     foreach (var target in trackingDataChildren)
     {
-      if (!BoneNameToBoneId.IsTrackedBone(target.name)) continue;
-
-      if (target.name == "b_l_forearm_stub" || target.name == "b_r_forearm_stub")
-      {
-        // Bone shouldn't be controlled by tracking. Conflicts with IK
-        continue;
-      }
       var current = modelChildren.GetValue(target.name).transform;
-
       current.LerpLocal(target.transform, strength);
     }
   }
