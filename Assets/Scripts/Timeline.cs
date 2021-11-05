@@ -13,6 +13,7 @@ public class Timeline : MonoBehaviour
   public GameObject extraStairs;
   public GameObject largeArmHoldingArms;
   public GameObject wallsMoveBack;
+  public AudioPlayer audioPlayer;
   // public GameObject wallsContract;
   // public GameObject armsDoingDifferentActions;
   // public GameObject leftArmRightArmSwapped;
@@ -62,23 +63,23 @@ public class Timeline : MonoBehaviour
       {Acts.OpeningEnd, 3F},
 
       {Acts.One, 3F},
-      {Acts.ArmFromCeiling, 3F},
-      {Acts.CopiesOfPlayersArms, 3F},
-      {Acts.ExtraStairs, 3F},
-      {Acts.LargeArmHoldingArms, 3F},
+      {Acts.ArmFromCeiling, 75F},
+      {Acts.CopiesOfPlayersArms, 75F},
+      {Acts.ExtraStairs, 75F},
+      {Acts.LargeArmHoldingArms, 75F},
       {Acts.OneEnd, 3F},
 
       {Acts.Two, 3F},
-      {Acts.WallsMoveBack, 3F},
-      {Acts.WallsContract, 3F},
-      {Acts.AmsDoingDifferentActions, 3F},
+      {Acts.WallsMoveBack, 40F},
+      {Acts.WallsContract, 40F},
+      {Acts.AmsDoingDifferentActions, 40F},
       {Acts.TwoEnd, 3F},
 
       {Acts.Three, 3F},
-      {Acts.LeftArmRightArmSwapped, 3F},
-      {Acts.ArmsDropToFloor, 3F},
-      {Acts.ArmsToShoulderPlayerDifferentActions, 3F},
-      {Acts.OneArmTakesOffOther, 3F},
+      {Acts.LeftArmRightArmSwapped, 23F},
+      {Acts.ArmsDropToFloor, 23F},
+      {Acts.ArmsToShoulderPlayerDifferentActions, 23F},
+      {Acts.OneArmTakesOffOther, 23F},
       {Acts.ThreeEnd, 3F},
 
       {Acts.Four, 3F},
@@ -172,6 +173,7 @@ public class Timeline : MonoBehaviour
       switch (act)
       {
         case Acts.Opening:
+          audioPlayer.PlayAct(AudioPlayer.ClipType.Intro);
           lightingController.state = LightingController.LightingState.Dark;
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
@@ -183,6 +185,7 @@ public class Timeline : MonoBehaviour
           break;
 
         case Acts.One:
+          audioPlayer.PlayAct(AudioPlayer.ClipType.Act1);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act1;
           break;
@@ -201,6 +204,7 @@ public class Timeline : MonoBehaviour
           break;
 
         case Acts.Two:
+          audioPlayer.PlayAct(AudioPlayer.ClipType.Act2);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act2;
           break;
@@ -217,6 +221,7 @@ public class Timeline : MonoBehaviour
           break;
 
         case Acts.Three:
+          audioPlayer.PlayAct(AudioPlayer.ClipType.Act3);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act3;
           break;
@@ -235,6 +240,7 @@ public class Timeline : MonoBehaviour
           break;
 
         case Acts.Four:
+          audioPlayer.PlayAct(AudioPlayer.ClipType.Act4);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act4;
           break;
@@ -259,7 +265,7 @@ public class Timeline : MonoBehaviour
         var isHoverComplete = ghostHands.GetComponentOrThrow<BothHandsHoverTrigger>().isHoverComplete;
         if (!isHoverComplete)
         {
-          yield return null;
+          yield return new WaitUntil(() => ghostHands.GetComponentOrThrow<BothHandsHoverTrigger>().isHoverComplete);
         }
         else
         {
