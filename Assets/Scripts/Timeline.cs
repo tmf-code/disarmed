@@ -252,12 +252,19 @@ public class Timeline : MonoBehaviour
           break;
       }
 
+      var waitTime = durations[act];
+
       if (act == Acts.FitPlayersArmsIntoGhost)
       {
         var isHoverComplete = ghostHands.GetComponentOrThrow<BothHandsHoverTrigger>().isHoverComplete;
         if (!isHoverComplete)
         {
           yield return null;
+        }
+        else
+        {
+          yield return new WaitForSeconds(waitTime);
+          act += 1;
         }
       }
       else
@@ -267,8 +274,6 @@ public class Timeline : MonoBehaviour
           Stop();
           yield return null;
         }
-
-        var waitTime = durations[act];
         yield return new WaitForSeconds(waitTime);
         act += 1;
       }
