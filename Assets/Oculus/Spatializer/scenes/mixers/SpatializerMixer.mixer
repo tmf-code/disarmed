@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-4789586923209488874
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 71d39d9665ba7ed439979cf61b67e75b
+  m_EffectName: OculusSpatializerReflection
+  m_MixLevel: f5bb5ad0350c420489759433ced9a479
+  m_Parameters:
+  - m_ParameterName: GScale
+    m_GUID: dd3c10ece32a8504d83a2830d859bea3
+  - m_ParameterName: E.Rflt On
+    m_GUID: ac325fa96f56bc142a425aed07d78f07
+  - m_ParameterName: E.Rflt Rev On
+    m_GUID: 900276f293697e249aba4c0b7dcb6ed9
+  - m_ParameterName: Room X
+    m_GUID: d1f2d817933c5eb42ab7a9d338ed3880
+  - m_ParameterName: Room Y
+    m_GUID: fbd8f94a9fb600748a715e869a949d22
+  - m_ParameterName: Room Z
+    m_GUID: 56aff13054013814581f057272a12f3b
+  - m_ParameterName: Left
+    m_GUID: 17970543801a34344ad1545b10ad685b
+  - m_ParameterName: Right
+    m_GUID: e3ab00124b2d7094da0a450e1dbea119
+  - m_ParameterName: Up
+    m_GUID: 3d1d154ded780134097bbdcc9c2e8d48
+  - m_ParameterName: Down
+    m_GUID: 681d3811112960842941575472cc39c5
+  - m_ParameterName: Behind
+    m_GUID: 0bf13e566a4d8794dbf26e11172a6ab5
+  - m_ParameterName: Front
+    m_GUID: 9b164a04cddf7f44aa3dcc25cfe13ff3
+  - m_ParameterName: Shared Rev Min
+    m_GUID: cea3632ebbe5c7e47b93caecbff1f871
+  - m_ParameterName: Shared Rev Max
+    m_GUID: 3e740862adaa4ee4c9ac2a066d9bfe19
+  - m_ParameterName: Shared Rev Wet
+    m_GUID: 507a7f6df39af48409085324015d5868
+  - m_ParameterName: Prop Quality
+    m_GUID: ba62e19bdcb532543bba08487dc945f0
+  - m_ParameterName: Voice Limit
+    m_GUID: a4a3cbf19feca1c4f8d246b47f2099f5
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -195,7 +243,7 @@ AudioMixerSnapshotController:
     d887dc8b995a9174aab8c8b0de3b0733: 0.97
     fe36acab8a96d0046bafeb9e18a753df: 0.073
     34546ccb2e240cd48bcca671564120ce: 0
-    5cbf6ddbb7026dc45abe06cc43322e1c: 3
+    5cbf6ddbb7026dc45abe06cc43322e1c: 5
     cc132edbccace48469977b60edca52a5: 0.447
     4cff19eb609afd84992763e1020b8181: 1
     a7077ffb091b65b4dbcb5026128b2c5e: -25
@@ -220,7 +268,7 @@ AudioMixerSnapshotController:
     da2a1bdd1018dc54ebb2bf2349fbd8c8: 0.07
     e431e5ed060aa204c9ba5678db126270: 0.388
     3edd2aed8cd157048a7717f3d32caba1: 0.97
-    79190f1e429424246b6ff46577611745: 8
+    79190f1e429424246b6ff46577611745: 5
     9cf1f33e7b3d84e40a784d007dfb6bbc: 0.72
     6c1fab5e5d70dbf47a590880e58bedf2: 0.52
     72e6fc6e91bd9c6438d9497c5c20f087: 97
