@@ -1,24 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldSceneSelector : MonoBehaviour
 {
   private Animator anim;
 
+  public enum WorldScene
+  {
+    Base = 1,
+    ExpandRoom = 2,
+    ShrinkRoom = 3,
+    RevealPlatform = 4,
+    HidePlatform = 5,
+  }
+
   void Start()
   {
     anim = gameObject.GetComponent<Animator>();
+  }
+
+  public void ChangeScene(WorldScene scene)
+  {
+    anim.SetInteger("Scene", (int)scene);
   }
 
   void Update()
   {
     if (Input.GetKeyDown(KeyCode.RightArrow))
     {
-      // Currently we are using an Animation Controller
-      // It will transition whenever the "Scene" parameter changes
-      // This is just an integer that we increase until we reach the last scene.
-      // We can also just anim.Play("SceneName") instead
       int currentScene = anim.GetInteger("Scene");
       if (currentScene + 1 < 5)
       {
