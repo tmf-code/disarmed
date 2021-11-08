@@ -25,7 +25,7 @@ public class PivotPoint : MonoBehaviour
     shoulder = model.FindRecursiveOrThrow($"b_{handPrefix}_shoulder");
   }
 
-  void Update()
+  void LateUpdate()
   {
 
     if (pivotPointType == PivotPointType.Wrist)

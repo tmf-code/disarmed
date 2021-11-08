@@ -136,7 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -388,7 +392,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -857,7 +865,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -974,13 +986,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -1012,8 +1028,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 236292417}
-  m_LocalRotation: {x: -0.7071068, y: 0.7071068, z: -0, w: 0}
-  m_LocalPosition: {x: 1.25, y: 0.46, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0.7071068, z: 0, w: 0}
+  m_LocalPosition: {x: 0.85, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 371570855}
@@ -1024,7 +1040,7 @@ Transform:
   - {fileID: 1038327210}
   m_Father: {fileID: 309640886}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 90}
 --- !u!1 &240900003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1161,13 +1177,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -1189,7 +1209,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -1384,7 +1408,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -1514,13 +1542,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -1915,13 +1947,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -2024,7 +2060,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -2094,7 +2134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -3011,13 +3055,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -3081,13 +3129,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -3675,13 +3727,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -3713,8 +3769,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883372434}
-  m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
-  m_LocalPosition: {x: -0.52, y: -1.25, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.4, y: -1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 674216740}
@@ -3722,7 +3778,7 @@ Transform:
   - {fileID: 930217920}
   m_Father: {fileID: 1185679045}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &883409258
 GameObject:
   m_ObjectHideFlags: 0
@@ -3907,13 +3963,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -3979,8 +4039,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941686717}
-  m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
-  m_LocalPosition: {x: 0.9, y: 1.6, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.8, y: 1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2003628046}
@@ -3989,7 +4049,7 @@ Transform:
   - {fileID: 1125999494}
   m_Father: {fileID: 93477517}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &981695809
 GameObject:
   m_ObjectHideFlags: 0
@@ -4105,7 +4165,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -4217,13 +4281,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -4315,7 +4383,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -4817,7 +4889,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -4887,7 +4963,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -4957,7 +5037,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -5139,13 +5223,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -5209,13 +5297,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -5873,8 +5965,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1363427450}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -1.6, y: 0.871, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -1.3, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 491185994}
@@ -5885,7 +5977,7 @@ Transform:
   - {fileID: 1584331182}
   m_Father: {fileID: 534373527}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1001 &1377901016
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5969,7 +6061,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -6049,8 +6145,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1399677737}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -1.25, y: 0.435, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.85, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1454585339}
@@ -6061,7 +6157,7 @@ Transform:
   - {fileID: 1536893868}
   m_Father: {fileID: 534373527}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1001 &1431671476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6187,13 +6283,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -6388,13 +6488,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -6486,7 +6590,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -6556,7 +6664,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -6636,8 +6748,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1582824774}
-  m_LocalRotation: {x: -0.7071068, y: 0.7071068, z: -0, w: 0}
-  m_LocalPosition: {x: 1.6, y: 0.93, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0.7071068, z: 0, w: 0}
+  m_LocalPosition: {x: 1.3, y: 0.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1144220689}
@@ -6648,7 +6760,7 @@ Transform:
   - {fileID: 2128261134}
   m_Father: {fileID: 309640886}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 90}
 --- !u!1001 &1584331181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6704,13 +6816,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -6844,13 +6960,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -6914,13 +7034,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -6970,8 +7094,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1759561322}
-  m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
-  m_LocalPosition: {x: -0.87, y: -1.6, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.8, y: -1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1155614154}
@@ -6980,7 +7104,7 @@ Transform:
   - {fileID: 1685258590}
   m_Father: {fileID: 1185679045}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1772342793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7036,13 +7160,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -7064,7 +7192,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -7309,7 +7441,7 @@ MonoBehaviour:
   worldSceneSelector: {fileID: 594845049}
   playerArms: {fileID: 1041825334}
   allObjects: []
-  act: 14
+  act: 0
   state: 1
 --- !u!4 &1885960304
 Transform:
@@ -7399,13 +7531,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -7965,8 +8101,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1998024985}
-  m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
-  m_LocalPosition: {x: 0.5, y: 1.25, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.4, y: 1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 500990405}
@@ -7974,7 +8110,7 @@ Transform:
   - {fileID: 1817639365}
   m_Father: {fileID: 93477517}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1998811407 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
@@ -8129,13 +8265,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArmPrefab_L (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3058749850971303141, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
+      propertyPath: pivotPointType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: owner
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
@@ -8157,7 +8297,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -8268,7 +8412,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
@@ -8801,7 +8949,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: behavior
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747060508052790423, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+      propertyPath: pivotPointType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7612404611651155419, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
       propertyPath: m_Name
