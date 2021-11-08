@@ -14,6 +14,7 @@ public class Timeline : MonoBehaviour
   public GameObject largeArmHoldingArms;
   public GameObject wallsMoveBack;
   public AudioPlayer audioPlayer;
+  public WorldSceneSelector worldSceneSelector;
   // public GameObject wallsContract;
   // public GameObject armsDoingDifferentActions;
   // public GameObject leftArmRightArmSwapped;
@@ -174,6 +175,7 @@ public class Timeline : MonoBehaviour
       {
         case Acts.Opening:
           audioPlayer.PlayAct(AudioPlayer.ClipType.Intro);
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.Base);
           lightingController.state = LightingController.LightingState.Dark;
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
@@ -196,8 +198,11 @@ public class Timeline : MonoBehaviour
         case Acts.CopiesOfPlayersArms:
           break;
         case Acts.ExtraStairs:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExpandRoom);
           break;
         case Acts.LargeArmHoldingArms:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ShrinkRoom);
+
           break;
         case Acts.OneEnd:
           lightingController.state = LightingController.LightingState.Dark;
@@ -209,10 +214,12 @@ public class Timeline : MonoBehaviour
           textCanvas.act = TextCanvas.Acts.Act2;
           break;
         case Acts.WallsMoveBack:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.RevealPlatform);
           lightingController.state = LightingController.LightingState.Dim;
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.WallsContract:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.HidePlatform);
           break;
         case Acts.AmsDoingDifferentActions:
           break;
