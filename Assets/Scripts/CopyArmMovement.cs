@@ -5,7 +5,7 @@ using UnityEngine;
 public class CopyArmMovement : MonoBehaviour
 {
   [Range(0, 1)]
-  public float strength = 1.0F;
+  public float strength = 1F / 60F;
   public GameObject targetArm;
   private ChildDictionary targetChildDictionary;
   private Tuple<Transform, Transform>[] pairedChildrenToCopyTransforms;
@@ -49,8 +49,8 @@ public class CopyArmMovement : MonoBehaviour
   {
 
     // Copy IK from other arm
-    forearm.localRotation = forearmOther.localRotation;
-    humerus.localRotation = humerusOther.localRotation;
+    forearm.localRotation = Quaternion.Slerp(forearmOther.localRotation, forearm.localRotation, strength);
+    humerus.localRotation = Quaternion.Slerp(humerusOther.localRotation, humerus.localRotation, strength);
 
     foreach (var sourceAndDestination in pairedChildrenToCopyTransforms)
     {
