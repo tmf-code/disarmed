@@ -14,19 +14,19 @@ public class DisableArmOnUntracked : MonoBehaviour
   {
     if (hand.isDataHighConfidence)
     {
-      gameObject.GetComponent<InverseKinematics>().enabled = true;
-      gameObject.GetComponent<GestureState>().enabled = true;
-      gameObject.GetComponent<PinchState>().enabled = true;
-      gameObject.GetComponent<ApplyRootTracking>().enabled = true;
-      gameObject.GetComponent<ApplyHandTracking>().enabled = true;
+      gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.enabled = true);
+      gameObject.GetOptionComponent<GestureState>().Map(component => component.enabled = true);
+      gameObject.GetOptionComponent<PinchState>().Map(component => component.enabled = true);
+      gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.enabled = true);
+      gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.enabled = true);
     }
     else
     {
-      gameObject.GetComponent<InverseKinematics>().enabled = false;
-      gameObject.GetComponent<GestureState>().enabled = false;
-      gameObject.GetComponent<PinchState>().enabled = false;
-      gameObject.GetComponent<ApplyRootTracking>().enabled = false;
-      gameObject.GetComponent<ApplyHandTracking>().enabled = false;
+      gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.enabled = false);
+      gameObject.GetOptionComponent<GestureState>().Map(component => component.enabled = false);
+      gameObject.GetOptionComponent<PinchState>().Map(component => component.enabled = false);
+      gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.enabled = false);
+      gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.enabled = false);
     }
   }
 }

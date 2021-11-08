@@ -1,6 +1,9 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using UnityEngine;
+
+[Serializable]
+public class StringGameObjectDictionary : SerializableDictionary<string, GameObject> { }
 
 public class ChildDictionary : MonoBehaviour
 {
@@ -9,17 +12,20 @@ public class ChildDictionary : MonoBehaviour
   public GameObject model;
   public GameObject vrTrackingData;
 
-  public Dictionary<string, GameObject> modelChildren;
-  public Dictionary<string, GameObject> vrTrackingDataChildren;
+  public StringGameObjectDictionary modelChildren;
+  public StringGameObjectDictionary vrTrackingDataChildren;
 
   void Awake()
   {
-    modelChildren = model.transform.AllChildren()
-      .GroupBy(transform => transform.name)
-      .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject);
+    modelChildren = new StringGameObjectDictionary();
+    vrTrackingDataChildren = new StringGameObjectDictionary();
 
-    vrTrackingDataChildren = vrTrackingData.transform.AllChildren()
+    modelChildren.CopyFrom(model.transform.AllChildren()
       .GroupBy(transform => transform.name)
-      .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject);
+      .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject));
+
+    vrTrackingDataChildren.CopyFrom(vrTrackingData.transform.AllChildren()
+      .GroupBy(transform => transform.name)
+      .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject));
   }
 }

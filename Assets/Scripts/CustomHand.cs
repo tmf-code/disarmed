@@ -15,7 +15,7 @@ public class CustomHand : MonoBehaviour
   public TrackingConfidence HandConfidence { get; private set; }
   public bool IsDominantHand { get; private set; }
 
-  public void Start()
+  public void Awake()
   {
     handedness = gameObject.GetComponentIfNull(handedness);
     GetHandState(OVRPlugin.Step.Render);

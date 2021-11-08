@@ -13,8 +13,10 @@ public class Timeline : MonoBehaviour
   public GameObject extraStairs;
   public GameObject largeArmHoldingArms;
   public GameObject wallsMoveBack;
+
   public AudioPlayer audioPlayer;
   public WorldSceneSelector worldSceneSelector;
+  public PlayerArms playerArms;
   // public GameObject wallsContract;
   // public GameObject armsDoingDifferentActions;
   // public GameObject leftArmRightArmSwapped;
@@ -233,10 +235,14 @@ public class Timeline : MonoBehaviour
           textCanvas.act = TextCanvas.Acts.Act3;
           break;
         case Acts.LeftArmRightArmSwapped:
+          playerArms.left.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.SwapArms;
+          playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.SwapArms;
           lightingController.state = LightingController.LightingState.Light;
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.ArmsDropToFloor:
+          playerArms.left.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
+          playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
           break;
         case Acts.ArmsToShoulderPlayerDifferentActions:
           break;
