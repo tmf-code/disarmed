@@ -7,6 +7,7 @@ public class Skeleton : MonoBehaviour
 {
   private Handedness handedness;
   private CustomHand handDataProvider;
+  private CustomHand otherHandDataProvider;
   private Transform vrTrackingDataTransform;
 
   public bool updateRootScale = true;
@@ -20,9 +21,28 @@ public class Skeleton : MonoBehaviour
   private bool isInitialized = false;
   private readonly Quaternion wristFixupRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
+  public bool isSwapped = false;
+  public Quaternion fix2;
+
+  private CustomHand GetOtherHandDataProvider()
+  {
+    var arms = transform.parent.gameObject.GetComponentOrThrow<PlayerArms>();
+    if (GetHandedness().handType == Handedness.HandTypes.HandLeft)
+    {
+      return arms.right.GetComponentOrThrow<CustomHand>();
+    }
+    else
+    {
+      return arms.left.GetComponentOrThrow<CustomHand>();
+    }
+
+
+  }
+
   private void Start()
   {
     handDataProvider = gameObject.GetComponentIfNull(handDataProvider);
+    otherHandDataProvider = GetOtherHandDataProvider();
     handedness = gameObject.GetComponentIfNull(handedness);
     vrTrackingDataTransform = transform.FindRecursiveOrThrow("VRTrackingData");
     bones = new List<Bone>();
@@ -82,9 +102,9 @@ public class Skeleton : MonoBehaviour
       return;
     }
 
-    var data = handDataProvider.GetSkeletonPoseData();
+    var data = !isSwapped ? handDataProvider.GetSkeletonPoseData() : otherHandDataProvider.GetSkeletonPoseData();
 
-    if (!data.IsDataValid) return;
+    if (!data.IsDataHighConfidence) return;
 
     if (skeletonChangedCount != data.SkeletonChangedCount)
     {
@@ -97,6 +117,17 @@ public class Skeleton : MonoBehaviour
     {
       vrTrackingDataTransform.localPosition = data.RootPose.Position.FromFlippedZVector3f();
       vrTrackingDataTransform.localRotation = data.RootPose.Orientation.FromFlippedZQuatf();
+      if (isSwapped)
+      {
+        vrTrackingDataTransform.localPosition = new Vector3(
+          -vrTrackingDataTransform.localPosition.x,
+          vrTrackingDataTransform.localPosition.y,
+          vrTrackingDataTransform.localPosition.z);
+
+        var euler = vrTrackingDataTransform.localRotation.eulerAngles;
+        vrTrackingDataTransform.localRotation = Quaternion.Euler(-euler.x, -euler.y + 180F, euler.z + 180F);
+      }
+
     }
 
     if (updateRootScale) vrTrackingDataTransform.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
@@ -107,11 +138,13 @@ public class Skeleton : MonoBehaviour
       if (bone.transform == null) continue;
 
       var quaternion = data.BoneRotations[i].FromFlippedXQuatf();
+
       var isBoneWristRoot = bone.id == TrackedBones.Hand_WristRoot;
       if (isBoneWristRoot)
       {
         quaternion *= wristFixupRotation;
       }
+
       bone.localRotation = quaternion;
     }
 

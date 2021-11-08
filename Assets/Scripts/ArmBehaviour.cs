@@ -12,6 +12,7 @@ public class ArmBehaviour : MonoBehaviour
   {
     None,
     TrackUserInput,
+    SwapArms,
     Grabbed,
     Ragdoll,
     CopyArmMovement,
@@ -130,7 +131,8 @@ public class ArmBehaviour : MonoBehaviour
           // Player movement algorithms
           gameObject.AddIfNotExisting<InverseKinematics>();
           gameObject.AddIfNotExisting<CustomHand>();
-          gameObject.AddIfNotExisting<Skeleton>();
+          var skel = gameObject.AddIfNotExisting<Skeleton>();
+          skel.isSwapped = false;
           gameObject.AddIfNotExisting<DisableArmOnUntracked>();
 
           // Grabbing state machine
@@ -149,6 +151,36 @@ public class ArmBehaviour : MonoBehaviour
 
           // Mixers for different sources of movement
           gameObject.AddIfNotExisting<ApplyPose>();
+          gameObject.AddIfNotExisting<ApplyRootTracking>();
+          gameObject.AddIfNotExisting<ApplyHandTracking>();
+          gameObject.RemoveComponent<CopyArmMovement>();
+          break;
+        }
+
+      case ArmBehaviorType.SwapArms:
+        {
+          // Player movement algorithms
+          gameObject.AddIfNotExisting<InverseKinematics>();
+          gameObject.AddIfNotExisting<CustomHand>();
+          var skel = gameObject.AddIfNotExisting<Skeleton>();
+          skel.isSwapped = true;
+
+
+          gameObject.AddIfNotExisting<DisableArmOnUntracked>();
+
+
+          gameObject.RemoveComponent<Idle>();
+          gameObject.RemoveComponent<Grabbed>();
+          gameObject.RemoveComponent<Grabbing>();
+
+          // Hand gestures
+          gameObject.RemoveComponent<GestureState>();
+          gameObject.RemoveComponent<PinchState>();
+
+          gameObject.RemoveComponent<RagDollArm>();
+
+          // Mixers for different sources of movement
+          gameObject.RemoveComponent<ApplyPose>();
           gameObject.AddIfNotExisting<ApplyRootTracking>();
           gameObject.AddIfNotExisting<ApplyHandTracking>();
           gameObject.RemoveComponent<CopyArmMovement>();
