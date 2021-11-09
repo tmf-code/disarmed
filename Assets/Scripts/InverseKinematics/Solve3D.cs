@@ -94,7 +94,7 @@ partial class Solve3D
 
     return new SolveResult(
         withConstraints,
-        () => GetErrorDistance(withAngleStep, baseJoint, target),
+        () => GetErrorDistance(withConstraints, baseJoint, target),
         null
     );
   }
