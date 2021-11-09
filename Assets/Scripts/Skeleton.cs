@@ -13,8 +13,8 @@ public class Skeleton : MonoBehaviour
   public bool updateRootScale = true;
   public bool updateRootPose = true;
 
+
   [HideInInspector]
-  [SerializeField]
   private List<Bone> bones = new List<Bone>();
   private OVRPlugin.Skeleton2 skeleton = new OVRPlugin.Skeleton2();
   private int skeletonChangedCount;
@@ -22,7 +22,6 @@ public class Skeleton : MonoBehaviour
   private readonly Quaternion wristFixupRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
   public bool isSwapped = false;
-  public Quaternion fix2;
 
   private CustomHand GetOtherHandDataProvider()
   {
@@ -151,6 +150,7 @@ public class Skeleton : MonoBehaviour
     for (var i = 0; i < bones.Count; ++i)
     {
       var bone = bones[i];
+      if (bone.id == TrackedBones.Hand_ForearmStub) continue;
       bone.Update();
     }
   }
@@ -209,6 +209,7 @@ public class Skeleton : MonoBehaviour
     }
   }
 
+  [Serializable]
   public class Bone
   {
     public TrackedBones id;

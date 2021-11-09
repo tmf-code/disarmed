@@ -16,6 +16,7 @@ public class ArmBehaviour : MonoBehaviour
     Grabbed,
     Ragdoll,
     CopyArmMovement,
+    ResponsiveRagdoll,
   }
 
   public enum ArmOwnerType
@@ -56,8 +57,10 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<RagDollArm>();
 
           // Mixers for different sources of movement
+          gameObject.RemoveComponent<ApplyInverseKinematics>();
           gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
+          gameObject.RemoveComponent<ApplyRootRotation>();
           gameObject.RemoveComponent<ApplyHandTracking>();
           gameObject.RemoveComponent<CopyArmMovement>();
 
@@ -87,8 +90,10 @@ public class ArmBehaviour : MonoBehaviour
 
 
           // Mixers for different sources of movement
+          gameObject.RemoveComponent<ApplyInverseKinematics>();
           gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
+          gameObject.RemoveComponent<ApplyRootRotation>();
           gameObject.RemoveComponent<ApplyHandTracking>();
           gameObject.RemoveComponent<CopyArmMovement>();
 
@@ -118,8 +123,10 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.AddIfNotExisting<RagDollArm>();
 
           // Mixers for different sources of movement
+          gameObject.RemoveComponent<ApplyInverseKinematics>();
           gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
+          gameObject.RemoveComponent<ApplyRootRotation>();
           gameObject.RemoveComponent<ApplyHandTracking>();
           gameObject.RemoveComponent<CopyArmMovement>();
 
@@ -150,7 +157,9 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<RagDollArm>();
 
           // Mixers for different sources of movement
+          gameObject.AddIfNotExisting<ApplyInverseKinematics>();
           gameObject.AddIfNotExisting<ApplyPose>();
+          gameObject.RemoveComponent<ApplyRootRotation>();
           gameObject.AddIfNotExisting<ApplyRootTracking>();
           gameObject.AddIfNotExisting<ApplyHandTracking>();
           gameObject.RemoveComponent<CopyArmMovement>();
@@ -180,7 +189,9 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<RagDollArm>();
 
           // Mixers for different sources of movement
+          gameObject.AddIfNotExisting<ApplyInverseKinematics>();
           gameObject.RemoveComponent<ApplyPose>();
+          gameObject.RemoveComponent<ApplyRootRotation>();
           gameObject.AddIfNotExisting<ApplyRootTracking>();
           gameObject.AddIfNotExisting<ApplyHandTracking>();
           gameObject.RemoveComponent<CopyArmMovement>();
@@ -209,12 +220,45 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<RagDollArm>();
 
           // Mixers for different sources of movement
+          gameObject.RemoveComponent<ApplyInverseKinematics>();
           gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
+          gameObject.RemoveComponent<ApplyRootRotation>();
           gameObject.RemoveComponent<ApplyHandTracking>();
           gameObject.AddIfNotExisting<CopyArmMovement>();
           break;
         }
+
+      case ArmBehaviorType.ResponsiveRagdoll:
+        {
+          // Player movement algorithms
+          gameObject.AddIfNotExisting<InverseKinematics>();
+          gameObject.AddIfNotExisting<CustomHand>();
+          gameObject.AddIfNotExisting<Skeleton>();
+          gameObject.RemoveComponent<DisableArmOnUntracked>();
+
+          // Grabbing state machine
+          gameObject.RemoveComponent<Idle>();
+          gameObject.RemoveComponent<Grabbed>();
+          gameObject.RemoveComponent<Grabbing>();
+
+          // Hand gestures
+          gameObject.RemoveComponent<GestureState>();
+          gameObject.RemoveComponent<PinchState>();
+
+          gameObject.AddIfNotExisting<RagDollArm>();
+
+          // Mixers for different sources of movement
+          gameObject.AddIfNotExisting<ApplyInverseKinematics>();
+          gameObject.RemoveComponent<ApplyPose>();
+          gameObject.RemoveComponent<ApplyRootTracking>();
+          gameObject.AddIfNotExisting<ApplyRootRotation>();
+          gameObject.AddIfNotExisting<ApplyHandTracking>();
+          gameObject.RemoveComponent<CopyArmMovement>();
+
+          break;
+        }
+
       default:
         break;
 
