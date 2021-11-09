@@ -32,7 +32,7 @@ public partial class Grabbed : MonoBehaviour
   void Start()
   {
     gameObject.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Grabbed;
-    gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 0);
+    gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.strength = 0);
     gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 0);
     gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 0);
     gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
@@ -105,7 +105,7 @@ public partial class Grabbed : MonoBehaviour
 
     if (isUserArm)
     {
-      gameObject.GetOptionComponent<InverseKinematics>().Map(component => component.strength = 1);
+      gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.strength = 1);
       gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
       gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
       gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);

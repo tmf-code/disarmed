@@ -3,7 +3,6 @@ using static Solve3D;
 
 public class InverseKinematics : MonoBehaviour
 {
-  public float strength = 1.0F;
   public Transform wrist;
   public Transform shoulder;
   public Transform target;
@@ -19,12 +18,12 @@ public class InverseKinematics : MonoBehaviour
 
     var hand = handedness.HandPrefix();
 
-    var modelDictionary = gameObject.GetComponentOrThrow<ChildDictionary>().modelChildren;
+    var trackingDataDictionary = gameObject.GetComponentOrThrow<ChildDictionary>().vrTrackingDataChildren;
 
-    wrist = modelDictionary.GetValue($"b_{hand}_wrist").transform;
-    forearm = modelDictionary.GetValue($"b_{hand}_forearm_stub").transform;
-    humerus = modelDictionary.GetValue($"b_{hand}_humerus").transform;
-    shoulder = modelDictionary.GetValue($"b_{hand}_shoulder").transform;
+    wrist = trackingDataDictionary.GetValue($"b_{hand}_wrist").transform;
+    forearm = trackingDataDictionary.GetValue($"b_{hand}_forearm_stub").transform;
+    humerus = trackingDataDictionary.GetValue($"b_{hand}_humerus").transform;
+    shoulder = trackingDataDictionary.GetValue($"b_{hand}_shoulder").transform;
 
     var targetName = handedness.IsLeft()
       ? "ShoulderLeft"
@@ -37,10 +36,10 @@ public class InverseKinematics : MonoBehaviour
 
   void Update()
   {
-    errorDistance = ApplyIK(forearm, wrist, humerus, shoulder, target, strength);
+    errorDistance = ApplyIK(forearm, wrist, humerus, shoulder, target);
   }
 
-  public static float ApplyIK(Transform forearm, Transform wrist, Transform humerus, Transform shoulder, Transform target, float strength)
+  public static float ApplyIK(Transform forearm, Transform wrist, Transform humerus, Transform shoulder, Transform target)
   {
     var baseTransform = new JointTransform(forearm.position, wrist.rotation);
     var bones = new Transform[] { forearm, humerus, shoulder };
@@ -85,7 +84,7 @@ public class InverseKinematics : MonoBehaviour
     {
       var bone = bones[resultIndex];
       var link = results[resultIndex];
-      bone.localRotation = Quaternion.Slerp(bone.localRotation, link.rotation, strength);
+      bone.localRotation = link.rotation;
     }
 
     return getErrorDistance();
