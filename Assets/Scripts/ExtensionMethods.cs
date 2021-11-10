@@ -24,15 +24,15 @@ public static class ExtensionMethods
 
   public static void LerpLocal(this Transform transform, Transform target, float strength)
   {
-    transform.localPosition = Vector3.Lerp(transform.localPosition, target.localPosition, strength);
-    transform.localRotation = Quaternion.Slerp(transform.localRotation, target.localRotation, strength);
-    transform.localScale = Vector3.Lerp(transform.localScale, target.localScale, strength);
+    transform.localPosition = Vector3.LerpUnclamped(transform.localPosition, target.localPosition, strength);
+    transform.localRotation = Quaternion.SlerpUnclamped(transform.localRotation, target.localRotation, strength);
+    transform.localScale = Vector3.LerpUnclamped(transform.localScale, target.localScale, strength);
   }
   public static void LerpLocal(this Transform transform, ITransform target, float strength)
   {
-    transform.localPosition = Vector3.Lerp(transform.localPosition, target.localPosition, strength);
-    transform.localRotation = Quaternion.Slerp(transform.localRotation, target.localRotation, strength);
-    transform.localScale = Vector3.Lerp(transform.localScale, target.localScale, strength);
+    transform.localPosition = Vector3.LerpUnclamped(transform.localPosition, target.localPosition, strength);
+    transform.localRotation = Quaternion.SlerpUnclamped(transform.localRotation, target.localRotation, strength);
+    transform.localScale = Vector3.LerpUnclamped(transform.localScale, target.localScale, strength);
   }
 
   public static void TraverseChildren(this Transform parent, Action<Transform> action)
