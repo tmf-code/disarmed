@@ -25,13 +25,15 @@ public class RadialIndicator : MonoBehaviour
     [SerializeField]
     private UnityEvent myEvent = null;
 
+    public bool complete = false;
+
     private bool shouldUpdate = false;
 
     private bool active = false;
 
     private void Update()
     {
-
+        this.complete = false;
         active = Input.GetKey(selectKey);  
 
         if (active)
@@ -46,6 +48,7 @@ public class RadialIndicator : MonoBehaviour
                 indicatorTimer = maxIndicatorTimer;
                 radialIndicatorUI.fillAmount = 1.0f;
                 radialIndicatorUI.enabled = false;
+                this.complete = true;
                 myEvent.Invoke();
             }
         }

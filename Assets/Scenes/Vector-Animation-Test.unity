@@ -242,6 +242,7 @@ MonoBehaviour:
   myEvent:
     m_PersistentCalls:
       m_Calls: []
+  complete: 0
 --- !u!4 &703896246
 Transform:
   m_ObjectHideFlags: 0
