@@ -8,12 +8,14 @@ public class ArmRecording : ISerializationCallbackReceiver
 {
   public List<SerializedTransforms> serializedFrameTransforms = new List<SerializedTransforms>();
   public int recordingFrameRate;
+  public Handedness.HandTypes hand;
 
   public List<Dictionary<string, UnSerializedTransform>> frameTransforms;
-  public ArmRecording(int recordingFrameRate)
+  public ArmRecording(int recordingFrameRate, Handedness.HandTypes hand)
   {
     serializedFrameTransforms = new List<SerializedTransforms>();
     this.recordingFrameRate = recordingFrameRate;
+    this.hand = hand;
   }
 
   public void OnAfterDeserialize()
@@ -29,4 +31,6 @@ public class ArmRecording : ISerializationCallbackReceiver
   public void OnBeforeSerialize()
   {
   }
+
 }
+

@@ -101,7 +101,6 @@ public partial class Grabbed : MonoBehaviour
     if (!canTransition) return;
 
     var isUserArm = gameObject.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
-    Debug.Log($"isUserArm: {isUserArm}");
 
     if (isUserArm)
     {
@@ -118,7 +117,16 @@ public partial class Grabbed : MonoBehaviour
     else
     {
       var armBehavior = gameObject.GetComponent<ArmBehaviour>();
-      armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
+
+      var maybeTimeline = GameObject.Find("Timeline");
+      if (maybeTimeline && maybeTimeline.GetComponent<Timeline>().act > Timeline.Acts.Four)
+      {
+        armBehavior.behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackRagdoll;
+      }
+      else
+      {
+        armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
+      }
     }
 
     Destroy(this);

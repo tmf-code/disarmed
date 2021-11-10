@@ -34,8 +34,6 @@ public class Skeleton : MonoBehaviour
     {
       return arms.left.GetComponentOrThrow<CustomHand>();
     }
-
-
   }
 
   private void Start()
@@ -118,13 +116,16 @@ public class Skeleton : MonoBehaviour
       vrTrackingDataTransform.localRotation = data.RootPose.Orientation.FromFlippedZQuatf();
       if (isSwapped)
       {
-        vrTrackingDataTransform.localPosition = new Vector3(
-          -vrTrackingDataTransform.localPosition.x,
-          vrTrackingDataTransform.localPosition.y,
-          vrTrackingDataTransform.localPosition.z);
+        var swappedPosition = new Vector3(
+        -vrTrackingDataTransform.localPosition.x,
+                  vrTrackingDataTransform.localPosition.y,
+                  vrTrackingDataTransform.localPosition.z);
 
         var euler = vrTrackingDataTransform.localRotation.eulerAngles;
-        vrTrackingDataTransform.localRotation = Quaternion.Euler(-euler.x, -euler.y + 180F, euler.z + 180F);
+        var swappedRotation = Quaternion.Euler(-euler.x, -euler.y + 180F, euler.z + 180F);
+
+        vrTrackingDataTransform.localPosition = swappedPosition;
+        vrTrackingDataTransform.localRotation = swappedRotation;
       }
 
     }
@@ -157,7 +158,7 @@ public class Skeleton : MonoBehaviour
 
   public Bone GetBoneFromBoneName(BoneName name)
   {
-    var boneId = BoneNameToBoneId.GetTrackedBone(name).Value;
+    var boneId = BoneNameOperations.GetTrackedBone(name).Value;
     var maybeBone = bones.Find(bone => bone.id == boneId);
 
     return maybeBone;

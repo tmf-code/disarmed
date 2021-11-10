@@ -32,16 +32,18 @@ public class CopyArmMovement : MonoBehaviour
 
     pairedChildrenToCopyTransforms = targetChildDictionary.modelChildren.Values.Where(child =>
     {
-      return BoneNameToBoneId.IsTrackedBone(child.name) && child.name != "b_l_forearm_stub" && child.name != "b_r_forearm_stub";
-    }).Select((child) => new Tuple<Transform, Transform>(child.transform, childDictionary.modelChildren.GetValue(child.name).transform)).ToArray();
+      return BoneNameOperations.IsTrackedBone(child.name) && child.name != "b_l_forearm_stub" && child.name != "b_r_forearm_stub";
+    }).Select((child) => new Tuple<Transform, Transform>(
+      child.transform,
+      childDictionary.modelChildren.GetValue(child.name).Unwrap().transform)).ToArray();
 
     var handPrefix = handedness.HandPrefix();
 
-    forearm = childDictionary.modelChildren.GetValue($"b_{handPrefix}_forearm_stub").transform;
-    humerus = childDictionary.modelChildren.GetValue($"b_{handPrefix}_humerus").transform;
+    forearm = childDictionary.modelChildren.GetValue($"b_{handPrefix}_forearm_stub").Unwrap().transform;
+    humerus = childDictionary.modelChildren.GetValue($"b_{handPrefix}_humerus").Unwrap().transform;
 
-    forearmOther = targetChildDictionary.modelChildren.GetValue($"b_{handPrefix}_forearm_stub").transform;
-    humerusOther = targetChildDictionary.modelChildren.GetValue($"b_{handPrefix}_humerus").transform;
+    forearmOther = targetChildDictionary.modelChildren.GetValue($"b_{handPrefix}_forearm_stub").Unwrap().transform;
+    humerusOther = targetChildDictionary.modelChildren.GetValue($"b_{handPrefix}_humerus").Unwrap().transform;
 
   }
 

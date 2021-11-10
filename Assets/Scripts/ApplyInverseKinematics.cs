@@ -16,13 +16,13 @@ public class ApplyInverseKinematics : MonoBehaviour
     var childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
     var hand = gameObject.GetComponentOrThrow<Handedness>().HandPrefix();
 
-    forearmIK = childDictionary.vrTrackingDataChildren.GetValue($"b_{hand}_forearm_stub").transform;
-    humerusIK = childDictionary.vrTrackingDataChildren.GetValue($"b_{hand}_humerus").transform;
-    shoulderIK = childDictionary.vrTrackingDataChildren.GetValue($"b_{hand}_shoulder").transform;
+    forearmIK = childDictionary.vrTrackingDataChildren.GetValue($"b_{hand}_forearm_stub").Unwrap().transform;
+    humerusIK = childDictionary.vrTrackingDataChildren.GetValue($"b_{hand}_humerus").Unwrap().transform;
+    shoulderIK = childDictionary.vrTrackingDataChildren.GetValue($"b_{hand}_shoulder").Unwrap().transform;
 
-    forearm = childDictionary.modelChildren.GetValue($"b_{hand}_forearm_stub").transform;
-    humerus = childDictionary.modelChildren.GetValue($"b_{hand}_humerus").transform;
-    shoulder = childDictionary.modelChildren.GetValue($"b_{hand}_shoulder").transform;
+    forearm = childDictionary.modelChildren.GetValue($"b_{hand}_forearm_stub").Unwrap().transform;
+    humerus = childDictionary.modelChildren.GetValue($"b_{hand}_humerus").Unwrap().transform;
+    shoulder = childDictionary.modelChildren.GetValue($"b_{hand}_shoulder").Unwrap().transform;
   }
 
   void FixedUpdate()

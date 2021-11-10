@@ -30,7 +30,7 @@ public class ApplyPose : MonoBehaviour
 
     foreach (var current in modelAndChildren)
     {
-      if (!BoneNameToBoneId.IsTrackedBone(current.name)) continue;
+      if (!BoneNameOperations.IsTrackedBone(current.name)) continue;
       if (!pose.Unwrap().transforms.TryGetValue(current.name, out var target)) continue;
       current.transform.LerpLocal(target.unSerialized, strength);
     }
