@@ -135,9 +135,9 @@ public class Timeline : MonoBehaviour
       {Acts.LargeArmHoldingArms, L(largeArmHoldingArms)},
       {Acts.OneEnd, L()},
 
-      {Acts.Two, L()},
+      {Acts.Two, L(wallsMoveBack)},
       {Acts.WallsMoveBack, L(wallsMoveBack)},
-      {Acts.WallsContract, L()},
+      {Acts.WallsContract, L(wallsMoveBack)},
       {Acts.AmsDoingDifferentActions, L()},
       {Acts.TwoEnd, L()},
 
