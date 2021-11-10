@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AudioPlayer : MonoBehaviour
 {
-  private AudioSource source;
+  public AudioSource source;
 
   public AudioClip intro;
   public AudioClip act1;
@@ -17,11 +17,6 @@ public class AudioPlayer : MonoBehaviour
     Act2,
     Act3,
     Act4,
-  }
-
-  void Start()
-  {
-    source = gameObject.GetComponentOrThrow<AudioSource>();
   }
 
   public void PlayAct(ClipType act)
