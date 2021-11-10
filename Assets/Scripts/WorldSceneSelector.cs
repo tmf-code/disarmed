@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class WorldSceneSelector : MonoBehaviour
 {
-  private Animator anim;
+  public Animator anim;
 
   public enum WorldScene
   {
@@ -11,11 +11,6 @@ public class WorldSceneSelector : MonoBehaviour
     ShrinkRoom = 3,
     RevealPlatform = 4,
     HidePlatform = 5,
-  }
-
-  void Start()
-  {
-    anim = gameObject.GetComponent<Animator>();
   }
 
   public void ChangeScene(WorldScene scene)
