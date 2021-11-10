@@ -20,10 +20,10 @@ public class InverseKinematics : MonoBehaviour
 
     var trackingDataDictionary = gameObject.GetComponentOrThrow<ChildDictionary>().vrTrackingDataChildren;
 
-    wrist = trackingDataDictionary.GetValue($"b_{hand}_wrist").transform;
-    forearm = trackingDataDictionary.GetValue($"b_{hand}_forearm_stub").transform;
-    humerus = trackingDataDictionary.GetValue($"b_{hand}_humerus").transform;
-    shoulder = trackingDataDictionary.GetValue($"b_{hand}_shoulder").transform;
+    wrist = trackingDataDictionary.GetValue($"b_{hand}_wrist").Unwrap().transform;
+    forearm = trackingDataDictionary.GetValue($"b_{hand}_forearm_stub").Unwrap().transform;
+    humerus = trackingDataDictionary.GetValue($"b_{hand}_humerus").Unwrap().transform;
+    shoulder = trackingDataDictionary.GetValue($"b_{hand}_shoulder").Unwrap().transform;
 
     var targetName = handedness.IsLeft()
       ? "ShoulderLeft"

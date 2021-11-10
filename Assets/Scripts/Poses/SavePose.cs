@@ -23,7 +23,7 @@ public class SavePose : MonoBehaviour
 
     void Serialize(Transform transform)
     {
-      if (!BoneNameToBoneId.IsTrackedBone(transform.name)) return;
+      if (!BoneNameOperations.IsTrackedBone(transform.name)) return;
       transforms.Add(new SerializedTransform(transform));
     }
 

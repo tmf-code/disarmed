@@ -96,10 +96,19 @@ public static class ExtensionMethods
     GameObject.Destroy(maybeComponent);
   }
 
-  public static TValue GetValue<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
+  public static Option<TValue> GetValue<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
   {
-    dictionary.TryGetValue(key, out var result);
-    return result;
+    if (key == null)
+    {
+      return new None<TValue>();
+    }
+
+    if (dictionary.TryGetValue(key, out var result))
+    {
+      return Option<TValue>.of(result);
+    }
+
+    return new None<TValue>();
   }
 
   public static float Rescale(this float value, float currentMin, float currentMax, float nextMin, float nextMax)
@@ -110,6 +119,12 @@ public static class ExtensionMethods
     var nextRange = nextMax - nextMin;
     return currentDistance * nextRange + nextMin;
   }
+
+  public static TEnum ConvertToEnum<TEnum>(this string value) where TEnum : struct
+  {
+    return (TEnum)Enum.Parse(typeof(TEnum), value);
+  }
+
 }
 
 public interface ITransform
