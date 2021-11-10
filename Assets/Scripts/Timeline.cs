@@ -23,7 +23,7 @@ public class Timeline : MonoBehaviour
   // public GameObject armsDropToFloor;
   // public GameObject armsToShoulderPlayerDifferentActions;
   // public GameObject oneArmTakesOffOther;
-  // public GameObject tryOnArms;
+  public GameObject tryOnArms;
   // public GameObject armsWaveGoodbye;
 
   public enum Acts
@@ -86,7 +86,7 @@ public class Timeline : MonoBehaviour
       {Acts.ThreeEnd, 3F},
 
       {Acts.Four, 3F},
-      {Acts.PlayersArmsAndMovingArms, 3F},
+      {Acts.PlayersArmsAndMovingArms, 60F},
       {Acts.AllArmsWaveGoodbye, 3F},
       {Acts.FourEnd, 3F},
 
@@ -119,7 +119,9 @@ public class Timeline : MonoBehaviour
       copiesOfPlayerArms,
       extraStairs,
       largeArmHoldingArms,
-      wallsMoveBack);
+      wallsMoveBack,
+      tryOnArms
+    );
 
     activeObjectPerStage = new Dictionary<Acts, List<GameObject>>((int)Acts.End + 1) {
       {Acts.Opening, L()},
@@ -146,10 +148,10 @@ public class Timeline : MonoBehaviour
       {Acts.OneArmTakesOffOther, L()},
       {Acts.ThreeEnd, L()},
 
-      {Acts.Four, L()},
-      {Acts.PlayersArmsAndMovingArms, L()},
-      {Acts.AllArmsWaveGoodbye, L()},
-      {Acts.FourEnd, L()},
+      {Acts.Four, L(tryOnArms)},
+      {Acts.PlayersArmsAndMovingArms, L(tryOnArms)},
+      {Acts.AllArmsWaveGoodbye, L(tryOnArms)},
+      {Acts.FourEnd, L(tryOnArms)},
 
       {Acts.End, L()},
   };
