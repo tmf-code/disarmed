@@ -11,7 +11,7 @@ public class RadialIndicator : MonoBehaviour
     private float indicatorTimer = 0.0f;
 
     [SerializeField]
-    private float maxIndicatorTimer = 1.0f;
+    private float maxIndicatorTimer = 2.0f;
 
     [Header("UI Indicator")]
     [SerializeField]
@@ -37,14 +37,14 @@ public class RadialIndicator : MonoBehaviour
         if (active)
         {
             shouldUpdate = false;
-            indicatorTimer += Time.deltaTime * 0.5f;
+            indicatorTimer += Time.deltaTime;
             radialIndicatorUI.enabled = true;
-            radialIndicatorUI.fillAmount = indicatorTimer;
+            radialIndicatorUI.fillAmount = indicatorTimer / maxIndicatorTimer;
 
             if (indicatorTimer >= maxIndicatorTimer)
             {
                 indicatorTimer = maxIndicatorTimer;
-                radialIndicatorUI.fillAmount = maxIndicatorTimer;
+                radialIndicatorUI.fillAmount = 1.0f;
                 radialIndicatorUI.enabled = false;
                 myEvent.Invoke();
             }
@@ -53,8 +53,16 @@ public class RadialIndicator : MonoBehaviour
         {
             if (shouldUpdate)
             {
-                indicatorTimer -= Time.deltaTime;
-                radialIndicatorUI.fillAmount = indicatorTimer;
+                if (indicatorTimer >= maxIndicatorTimer)
+                {
+                    indicatorTimer = 0;
+                    radialIndicatorUI.fillAmount = 0;
+                } 
+                else
+                {
+                    indicatorTimer -= Time.deltaTime;
+                    radialIndicatorUI.fillAmount = indicatorTimer / maxIndicatorTimer;
+                }
 
                 if (indicatorTimer <= 0)
                 {
