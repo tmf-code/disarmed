@@ -1,0 +1,249 @@
+fileFormatVersion: 2
+guid: 7f6f94f5c9037554d8eb1419b61bb603
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      74: -8515560403302317629
+    second: Cube.001|Cube.001Action
+  - first:
+      74: -666181364355741495
+    second: Cube.001|Extra Stairs.001Action.001
+  - first:
+      74: 4082376310591173538
+    second: Cube.001|Extra Stairs.002Action.001
+  - first:
+      74: -6485150767904087972
+    second: Cube.001|Extra Stairs.003Action.001
+  - first:
+      74: -6926885442063735289
+    second: Cube.001|Extra Stairs.004Action.001
+  - first:
+      74: -5066170571222303313
+    second: Cube.001|Extra StairsAction.001
+  - first:
+      74: -3344351917277221898
+    second: Cube.001|HoleAction
+  - first:
+      74: 5083784163583784747
+    second: Hole|Cube.001Action
+  - first:
+      74: 3267310462738613425
+    second: Hole|Extra Stairs.001Action.001
+  - first:
+      74: -858491936766751289
+    second: Hole|Extra Stairs.002Action.001
+  - first:
+      74: -6622163078716457429
+    second: Hole|Extra Stairs.003Action.001
+  - first:
+      74: 4413974982968989928
+    second: Hole|Extra Stairs.004Action.001
+  - first:
+      74: 7390927407317694988
+    second: Hole|Extra StairsAction.001
+  - first:
+      74: -8060628513785680245
+    second: Hole|HoleAction
+  - first:
+      74: 4019404401622091693
+    second: Extra Stairs|Cube.001Action
+  - first:
+      74: 1402458948729512516
+    second: Extra Stairs|Extra Stairs.001Action.001
+  - first:
+      74: 6414559571196770413
+    second: Extra Stairs|Extra Stairs.002Action.001
+  - first:
+      74: 2934542711161819340
+    second: Extra Stairs|Extra Stairs.003Action.001
+  - first:
+      74: 2400533036810634471
+    second: Extra Stairs|Extra Stairs.004Action.001
+  - first:
+      74: -4902602653127120511
+    second: Extra Stairs|Extra StairsAction.001
+  - first:
+      74: -6134056753286631285
+    second: Extra Stairs|HoleAction
+  - first:
+      74: 6378250593048997607
+    second: Extra Stairs.001|Cube.001Action
+  - first:
+      74: -4818629095395393517
+    second: Extra Stairs.001|Extra Stairs.001Action.001
+  - first:
+      74: -4255751212215718730
+    second: Extra Stairs.001|Extra Stairs.002Action.001
+  - first:
+      74: -5977240765905684100
+    second: Extra Stairs.001|Extra Stairs.003Action.001
+  - first:
+      74: -5317071274752979554
+    second: Extra Stairs.001|Extra Stairs.004Action.001
+  - first:
+      74: 2240815149259179293
+    second: Extra Stairs.001|Extra StairsAction.001
+  - first:
+      74: 8811277452390619838
+    second: Extra Stairs.001|HoleAction
+  - first:
+      74: 8638802917768869116
+    second: Extra Stairs.002|Cube.001Action
+  - first:
+      74: 4726873107863918494
+    second: Extra Stairs.002|Extra Stairs.001Action.001
+  - first:
+      74: -6285454150115164552
+    second: Extra Stairs.002|Extra Stairs.002Action.001
+  - first:
+      74: 3721879014739564046
+    second: Extra Stairs.002|Extra Stairs.003Action.001
+  - first:
+      74: -3538526036802471472
+    second: Extra Stairs.002|Extra Stairs.004Action.001
+  - first:
+      74: -4646435673785709129
+    second: Extra Stairs.002|Extra StairsAction.001
+  - first:
+      74: -2962320349589938518
+    second: Extra Stairs.002|HoleAction
+  - first:
+      74: -2377443814672578883
+    second: Extra Stairs.003|Cube.001Action
+  - first:
+      74: 5141468672208306321
+    second: Extra Stairs.003|Extra Stairs.001Action.001
+  - first:
+      74: 7688130855435172211
+    second: Extra Stairs.003|Extra Stairs.002Action.001
+  - first:
+      74: 850205020453488168
+    second: Extra Stairs.003|Extra Stairs.003Action.001
+  - first:
+      74: -8984285937954860567
+    second: Extra Stairs.003|Extra Stairs.004Action.001
+  - first:
+      74: 8801673091684104541
+    second: Extra Stairs.003|Extra StairsAction.001
+  - first:
+      74: 6612092747741533688
+    second: Extra Stairs.003|HoleAction
+  - first:
+      74: -8639205805278196248
+    second: Extra Stairs.004|Cube.001Action
+  - first:
+      74: -5896609528672230644
+    second: Extra Stairs.004|Extra Stairs.001Action.001
+  - first:
+      74: -119981440646388915
+    second: Extra Stairs.004|Extra Stairs.002Action.001
+  - first:
+      74: 8160246235452088428
+    second: Extra Stairs.004|Extra Stairs.003Action.001
+  - first:
+      74: 4935879676629128949
+    second: Extra Stairs.004|Extra Stairs.004Action.001
+  - first:
+      74: -2872226608831775678
+    second: Extra Stairs.004|Extra StairsAction.001
+  - first:
+      74: 7953724052628974264
+    second: Extra Stairs.004|HoleAction
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
