@@ -9,7 +9,7 @@ public class Timeline : MonoBehaviour
   public LightingController lightingController;
   public GameObject ghostHands;
   public GameObject bigArmFromRoof;
-  public GameObject copiesOfPlayerArms;
+  public GameObject plinthArms;
   public GameObject extraStairs;
   public GameObject largeArmHoldingArms;
   public GameObject wallsMoveBack;
@@ -116,7 +116,7 @@ public class Timeline : MonoBehaviour
     allObjects = L(
       ghostHands,
       bigArmFromRoof,
-      copiesOfPlayerArms,
+      plinthArms,
       extraStairs,
       largeArmHoldingArms,
       wallsMoveBack,
@@ -130,15 +130,15 @@ public class Timeline : MonoBehaviour
 
       {Acts.One, L()},
       {Acts.ArmFromCeiling, L(bigArmFromRoof)},
-      {Acts.CopiesOfPlayersArms, L(copiesOfPlayerArms)},
-      {Acts.ExtraStairs, L(copiesOfPlayerArms, extraStairs)},
+      {Acts.CopiesOfPlayersArms, L(plinthArms)},
+      {Acts.ExtraStairs, L(plinthArms, extraStairs)},
       {Acts.LargeArmHoldingArms, L(largeArmHoldingArms)},
       {Acts.OneEnd, L()},
 
       {Acts.Two, L(wallsMoveBack)},
       {Acts.WallsMoveBack, L(wallsMoveBack)},
       {Acts.WallsContract, L(wallsMoveBack)},
-      {Acts.AmsDoingDifferentActions, L(wallsMoveBack)},
+      {Acts.AmsDoingDifferentActions, L(wallsMoveBack, plinthArms)},
       {Acts.TwoEnd, L()},
 
       {Acts.Three, L()},
@@ -200,6 +200,7 @@ public class Timeline : MonoBehaviour
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.CopiesOfPlayersArms:
+          plinthArms.GetComponentOrThrow<PlinthArms>().SetArmCount(PlinthArms.PlinthArmCount.All);
           break;
         case Acts.ExtraStairs:
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExpandRoom);
@@ -237,6 +238,7 @@ public class Timeline : MonoBehaviour
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.HidePlatform);
           break;
         case Acts.AmsDoingDifferentActions:
+          plinthArms.GetComponentOrThrow<PlinthArms>().SetArmCount(PlinthArms.PlinthArmCount.Eleven);
           break;
         case Acts.TwoEnd:
           lightingController.state = LightingController.LightingState.Dark;
