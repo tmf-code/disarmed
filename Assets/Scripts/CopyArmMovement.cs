@@ -1,14 +1,14 @@
-using System;
 using System.Linq;
 using UnityEngine;
 
 public class CopyArmMovement : MonoBehaviour
 {
   [Range(0, 1)]
-  public float strength = 1F / 60F;
+  public float strength = 10F / 60F;
   public GameObject targetArm;
   private ChildDictionary targetChildDictionary;
-  private Tuple<Transform, Transform>[] pairedChildrenToCopyTransforms;
+  [SerializeField]
+  private TransformPair[] pairedChildrenToCopyTransforms;
   private ChildDictionary childDictionary;
   private Handedness handedness;
   private Transform forearm;
@@ -33,7 +33,7 @@ public class CopyArmMovement : MonoBehaviour
     pairedChildrenToCopyTransforms = targetChildDictionary.modelChildren.Values.Where(child =>
     {
       return BoneNameOperations.IsTrackedBone(child.name) && child.name != "b_l_forearm_stub" && child.name != "b_r_forearm_stub";
-    }).Select((child) => new Tuple<Transform, Transform>(
+    }).Select((child) => new TransformPair(
       child.transform,
       childDictionary.modelChildren.GetValue(child.name).Unwrap().transform)).ToArray();
 
