@@ -2,6 +2,10 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// Applies a saved pose to the model
+/// Needs optimising (pairs)
+/// </summary>
 public class ApplyPose : MonoBehaviour
 {
   [Range(0, 1)]
