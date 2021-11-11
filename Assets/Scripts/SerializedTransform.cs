@@ -66,6 +66,7 @@ public class SerializedTransforms
   }
 }
 
+[Serializable]
 public class UnSerializedTransform : ITransform
 {
   public Vector3 localPosition { get; set; }
