@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Applies the transform of VRTrackingData to Model
+/// </summary>
 public class ApplyRootTracking : MonoBehaviour
 {
   [Range(0, 1)]
@@ -15,8 +18,6 @@ public class ApplyRootTracking : MonoBehaviour
 
   void Update()
   {
-    model.localPosition = Vector3.Lerp(model.localPosition, trackingData.localPosition, strength);
-    model.localRotation = Quaternion.Slerp(model.localRotation, trackingData.localRotation, strength);
-    model.localScale = Vector3.Lerp(model.localScale, trackingData.localScale, strength);
+    model.LerpLocal(trackingData, strength);
   }
 }
