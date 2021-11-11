@@ -7,6 +7,7 @@ public class PivotPoint : MonoBehaviour
   private Transform pivot;
   private Transform model;
   private Transform shoulder;
+  private Handedness handedness;
 
   public enum PivotPointType
   {
@@ -17,11 +18,12 @@ public class PivotPoint : MonoBehaviour
 
   void Start()
   {
-    var handedness = gameObject.GetComponentOrThrow<Handedness>();
+    handedness = gameObject.GetComponentOrThrow<Handedness>();
     var handPrefix = handedness.HandPrefix();
     offset = transform.FindRecursiveOrThrow("Offset");
     pivot = transform.FindRecursiveOrThrow("Pivot");
     model = transform.FindRecursiveOrThrow("Model");
+
     shoulder = model.FindRecursiveOrThrow($"b_{handPrefix}_shoulder");
   }
 
@@ -44,7 +46,19 @@ public class PivotPoint : MonoBehaviour
     if (pivotPointType == PivotPointType.ShoulderNoRotation)
     {
       var rotation = Quaternion.Inverse(shoulder.rotation) * model.rotation;
-      pivot.localRotation = rotation;
+      pivot.rotation = rotation;
+
+      pivot.Rotate(new Vector3(0, 0, 90), Space.World);
+
+      if (handedness.IsLeft())
+      {
+        pivot.Rotate(new Vector3(180, 0, 0), Space.World);
+      }
+      else
+      {
+        pivot.Rotate(new Vector3(0, 180, 0), Space.World);
+      }
     }
+
   }
 }
