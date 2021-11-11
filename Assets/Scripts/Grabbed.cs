@@ -11,7 +11,7 @@ public partial class Grabbed : MonoBehaviour
   public float minimumIdleTimeSeconds = 3;
   public bool canTransition = false;
 
-  [SerializeField] private new SimpleAnimation animation;
+  [SerializeField] [HideInInspector] private new SimpleAnimation animation;
   private Quaternion selectedStrategy;
   static readonly List<Quaternion> strategies;
 
@@ -68,13 +68,13 @@ public partial class Grabbed : MonoBehaviour
       some: targetTransform =>
       {
         currentTransform.SetPositionAndRotation(
-          Vector3.Lerp(
+          Vector3.LerpUnclamped(
             currentTransform.position,
             targetTransform.position,
             animation.progression
           ),
 
-          Quaternion.Slerp(
+          Quaternion.SlerpUnclamped(
             currentTransform.rotation,
             targetTransform.rotation * selectedStrategy,
             animation.progression
