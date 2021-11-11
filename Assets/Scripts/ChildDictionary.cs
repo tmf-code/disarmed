@@ -1,9 +1,10 @@
 using System;
-using System.Linq;
 using UnityEngine;
 
 [Serializable]
 public class StringGameObjectDictionary : SerializableDictionary<string, GameObject> { }
+[Serializable]
+public class GameObjectGameObjectDictionary : SerializableDictionary<GameObject, GameObject> { }
 
 public class ChildDictionary : MonoBehaviour
 {
@@ -15,17 +16,19 @@ public class ChildDictionary : MonoBehaviour
   public StringGameObjectDictionary modelChildren;
   public StringGameObjectDictionary vrTrackingDataChildren;
 
+  public GameObjectGameObjectDictionary trackingToModel;
+
   void Awake()
   {
-    modelChildren = new StringGameObjectDictionary();
-    vrTrackingDataChildren = new StringGameObjectDictionary();
+    // modelChildren = new StringGameObjectDictionary();
+    // vrTrackingDataChildren = new StringGameObjectDictionary();
 
-    modelChildren.CopyFrom(model.transform.AllChildren()
-      .GroupBy(transform => transform.name)
-      .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject));
+    // modelChildren.CopyFrom(model.transform.AllChildren()
+    //   .GroupBy(transform => transform.name)
+    //   .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject));
 
-    vrTrackingDataChildren.CopyFrom(vrTrackingData.transform.AllChildren()
-      .GroupBy(transform => transform.name)
-      .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject));
+    // vrTrackingDataChildren.CopyFrom(vrTrackingData.transform.AllChildren()
+    //   .GroupBy(transform => transform.name)
+    //   .ToDictionary(transforms => transforms.Key, transforms => transforms.First().gameObject));
   }
 }
