@@ -1,9 +1,10 @@
+using System.Linq;
 using UnityEngine;
 
 public class CopyArmMovement : MonoBehaviour
 {
   [Range(0, 1)]
-  public float strength = 10F / 60F;
+  public float strength = 30F / 60F;
   public GameObject targetArm;
   private ChildDictionary targetChildDictionary;
   [SerializeField]
@@ -30,7 +31,17 @@ public class CopyArmMovement : MonoBehaviour
 
     targetChildDictionary = targetArm.GetComponentOrThrow<ChildDictionary>();
 
-    handBonePairs = targetChildDictionary.handBonePairs;
+    handBonePairs = targetChildDictionary.modelChildren.Values.Where(child =>
+   {
+     var isTrackedBone = BoneNameOperations.IsTrackedBone(child.name);
+     var isNotIKBone = child.name != "b_l_forearm_stub" && child.name != "b_r_forearm_stub";
+     var isHandBone = isTrackedBone && isNotIKBone;
+     return isHandBone;
+   }).Select(bone =>
+   {
+     var modelBoneTransform = childDictionary.modelChildren.GetValue(bone.name).Unwrap().transform;
+     return new TransformPair(bone.transform, modelBoneTransform);
+   }).ToArray();
 
     var handPrefix = handedness.HandPrefix();
 
