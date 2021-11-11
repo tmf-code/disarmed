@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,6 +20,8 @@ public class ArmPlayback : MonoBehaviour
   public bool playOnEnable = false;
   public int framesPlayed = 0;
 
+  [SerializeField]
+  [HideInInspector]
   private ArmRecording recording;
   private Transform model;
 
@@ -118,10 +119,10 @@ public class ArmPlayback : MonoBehaviour
     {
       if (!rotationOnly)
       {
-        current.localPosition = Vector3.Lerp(current.localPosition, target.localPosition, strength);
-        current.localScale = Vector3.Lerp(current.localScale, target.localScale, strength);
+        current.localPosition = Vector3.LerpUnclamped(current.localPosition, target.localPosition, strength);
+        current.localScale = Vector3.LerpUnclamped(current.localScale, target.localScale, strength);
       }
-      current.localRotation = Quaternion.Slerp(current.localRotation, target.localRotation, strength);
+      current.localRotation = Quaternion.SlerpUnclamped(current.localRotation, target.localRotation, strength);
     }
 
   }

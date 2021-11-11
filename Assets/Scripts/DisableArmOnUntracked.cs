@@ -19,7 +19,7 @@ public class DisableArmOnUntracked : MonoBehaviour
       gameObject.GetOptionComponent<PinchState>().Map(component => component.enabled = true);
       gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.enabled = true);
       gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.enabled = true);
-      gameObject.GetOptionComponent<ApplyRootRotation>().Map(component => component.enabled = true);
+      gameObject.GetOptionComponent<ApplyVRTrackingDataToModelRagdoll>().Map(component => component.enabled = true);
       gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.enabled = true);
     }
     else
@@ -29,7 +29,7 @@ public class DisableArmOnUntracked : MonoBehaviour
       gameObject.GetOptionComponent<PinchState>().Map(component => component.enabled = false);
       gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.enabled = false);
       gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.enabled = false);
-      gameObject.GetOptionComponent<ApplyRootRotation>().Map(component => component.enabled = false);
+      gameObject.GetOptionComponent<ApplyVRTrackingDataToModelRagdoll>().Map(component => component.enabled = false);
       gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.enabled = false);
     }
   }

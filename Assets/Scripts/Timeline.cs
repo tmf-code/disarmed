@@ -73,8 +73,8 @@ public class Timeline : MonoBehaviour
       {Acts.OneEnd, 3F},
 
       {Acts.Two, 3F},
-      {Acts.WallsMoveBack, 40F},
-      {Acts.WallsContract, 40F},
+      {Acts.WallsMoveBack, 4F},
+      {Acts.WallsContract, 4F},
       {Acts.AmsDoingDifferentActions, 40F},
       {Acts.TwoEnd, 3F},
 
@@ -138,7 +138,7 @@ public class Timeline : MonoBehaviour
       {Acts.Two, L(wallsMoveBack)},
       {Acts.WallsMoveBack, L(wallsMoveBack)},
       {Acts.WallsContract, L(wallsMoveBack)},
-      {Acts.AmsDoingDifferentActions, L()},
+      {Acts.AmsDoingDifferentActions, L(wallsMoveBack)},
       {Acts.TwoEnd, L()},
 
       {Acts.Three, L()},
@@ -223,6 +223,17 @@ public class Timeline : MonoBehaviour
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.WallsContract:
+          foreach (Transform child in wallsMoveBack.transform)
+          {
+            if (child.gameObject.TryGetComponent<ArmBehaviour>(out var behaviour))
+            {
+              behaviour.behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackRagdoll;
+            }
+            if (child.gameObject.TryGetComponent<PivotPoint>(out var pivot))
+            {
+              pivot.pivotPointType = PivotPoint.PivotPointType.Wrist;
+            }
+          }
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.HidePlatform);
           break;
         case Acts.AmsDoingDifferentActions:

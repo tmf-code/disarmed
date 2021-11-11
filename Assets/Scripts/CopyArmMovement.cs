@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 public class CopyArmMovement : MonoBehaviour
@@ -8,7 +7,8 @@ public class CopyArmMovement : MonoBehaviour
   public GameObject targetArm;
   private ChildDictionary targetChildDictionary;
   [SerializeField]
-  private TransformPair[] pairedChildrenToCopyTransforms;
+  [HideInInspector]
+  private TransformPair[] handBonePairs;
   private ChildDictionary childDictionary;
   private Handedness handedness;
   private Transform forearm;
@@ -30,12 +30,7 @@ public class CopyArmMovement : MonoBehaviour
 
     targetChildDictionary = targetArm.GetComponentOrThrow<ChildDictionary>();
 
-    pairedChildrenToCopyTransforms = targetChildDictionary.modelChildren.Values.Where(child =>
-    {
-      return BoneNameOperations.IsTrackedBone(child.name) && child.name != "b_l_forearm_stub" && child.name != "b_r_forearm_stub";
-    }).Select((child) => new TransformPair(
-      child.transform,
-      childDictionary.modelChildren.GetValue(child.name).Unwrap().transform)).ToArray();
+    handBonePairs = targetChildDictionary.handBonePairs;
 
     var handPrefix = handedness.HandPrefix();
 
@@ -49,15 +44,14 @@ public class CopyArmMovement : MonoBehaviour
 
   void Update()
   {
-
     // Copy IK from other arm
-    forearm.localRotation = Quaternion.Slerp(forearmOther.localRotation, forearm.localRotation, strength);
-    humerus.localRotation = Quaternion.Slerp(humerusOther.localRotation, humerus.localRotation, strength);
+    forearm.localRotation = Quaternion.SlerpUnclamped(forearmOther.localRotation, forearm.localRotation, strength);
+    humerus.localRotation = Quaternion.SlerpUnclamped(humerusOther.localRotation, humerus.localRotation, strength);
 
-    foreach (var sourceAndDestination in pairedChildrenToCopyTransforms)
+    foreach (var sourceAndDestination in handBonePairs)
     {
-      var current = sourceAndDestination.Item2;
       var source = sourceAndDestination.Item1;
+      var current = sourceAndDestination.Item2;
       current.LerpLocal(source, strength);
     }
   }
