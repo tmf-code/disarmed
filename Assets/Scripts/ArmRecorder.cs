@@ -57,7 +57,7 @@ public class ArmRecorder : MonoBehaviour
     }
     if (startRecording == true && !isRecording)
     {
-      recording = new ArmRecording(recordingFrameRate, gameObject.GetComponentOrThrow<Handedness>().handType);
+      recording = new ArmRecording(recordingFrameRate, arm.GetComponentOrThrow<Handedness>().handType);
       framesSaved = 0;
       InvokeRepeating(nameof(AppendFrame), 0f, 1F / recordingFrameRate);
       startRecording = false;
