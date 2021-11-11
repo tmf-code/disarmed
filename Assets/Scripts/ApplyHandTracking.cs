@@ -1,29 +1,33 @@
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Applies VRTrackingData Hand components to Model
+/// </summary>
 public class ApplyHandTracking : MonoBehaviour
 {
   [Range(0, 1)]
   public float strength = 1.0F;
-  private GameObject[] trackingDataChildren;
-  private ChildDictionary childDictionary;
+  [SerializeField]
+  private TransformPair[] trackingDataChildrenPairs;
 
   void Start()
   {
-    childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
-    trackingDataChildren = childDictionary.vrTrackingDataChildren.Values.Where(child =>
+    var childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
+    var modelChildren = childDictionary.modelChildren;
+    trackingDataChildrenPairs = childDictionary.vrTrackingDataChildren.Values.Where(child =>
     {
       return BoneNameOperations.IsTrackedBone(child.name) && child.name != "b_l_forearm_stub" && child.name != "b_r_forearm_stub";
-    }).ToArray();
+    }).Select(gameObject => new TransformPair(gameObject.transform, modelChildren.GetValue(gameObject.name).Unwrap().transform)).ToArray();
   }
 
   void Update()
   {
-
-    foreach (var target in trackingDataChildren)
+    foreach (var trackingAndModel in trackingDataChildrenPairs)
     {
-      var current = childDictionary.modelChildren.GetValue(target.name).Unwrap().transform;
-      current.LerpLocal(target.transform, strength);
+      var tracking = trackingAndModel.Item1;
+      var model = trackingAndModel.Item2;
+      model.LerpLocal(tracking, strength);
     }
   }
 }
