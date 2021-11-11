@@ -14,7 +14,7 @@ public class PlaceGhostHandsInFrontOfPlayer : MonoBehaviour
 
   void Update()
   {
-    transform.localPosition = Vector3.Lerp(transform.localPosition, headset.transform.localPosition, 0.5f);
-    transform.localRotation = Quaternion.Slerp(transform.localRotation, headset.transform.localRotation, 0.5f);
+    transform.localPosition = Vector3.Lerp(transform.localPosition, headset.transform.localPosition, lerpSpeed);
+    transform.localRotation = Quaternion.Slerp(transform.localRotation, headset.transform.localRotation, lerpSpeed);
   }
 }
