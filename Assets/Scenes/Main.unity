@@ -205,11 +205,11 @@ PrefabInstance:
     - target: {fileID: 4592353758331942626, guid: 06e0d60b37e258344abac4c70ea6cd8c, type: 3}
       propertyPath: leftHand
       value: 
-      objectReference: {fileID: 1096003178}
+      objectReference: {fileID: 0}
     - target: {fileID: 4592353758331942626, guid: 06e0d60b37e258344abac4c70ea6cd8c, type: 3}
       propertyPath: rightHand
       value: 
-      objectReference: {fileID: 701114236}
+      objectReference: {fileID: 0}
     - target: {fileID: 4592353758331942626, guid: 06e0d60b37e258344abac4c70ea6cd8c, type: 3}
       propertyPath: myEvent.m_PersistentCalls.m_Calls.Array.size
       value: 0
@@ -1975,6 +1975,10 @@ PrefabInstance:
       propertyPath: playerHand
       value: 
       objectReference: {fileID: 2029490331}
+    - target: {fileID: 3592940314106559243, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: act
       value: 0
@@ -2083,6 +2087,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6695639029324995507, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
+      propertyPath: playerHand
+      value: 
+      objectReference: {fileID: 694645800}
+    - target: {fileID: 7401450095652468180, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
+      propertyPath: playerHand
+      value: 
+      objectReference: {fileID: 2029490331}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
 --- !u!4 &4150659635078557936 stripped

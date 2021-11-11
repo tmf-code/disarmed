@@ -14,8 +14,6 @@ public class BothHandsHoverTrigger : MonoBehaviour
 
   void Update()
   {
-
-
     if (rightHand.inHoverPosition && leftHand.inHoverPosition && !isHoverComplete)
     {
       isHoveringBoth = true;
@@ -30,17 +28,14 @@ public class BothHandsHoverTrigger : MonoBehaviour
       progression = 0;
       indicator.fillAmount = 0;
     }
-
     isHoverComplete = progression >= hoverDuration;
 
     if (!isHoverComplete) return;
 
     indicator.fillAmount = 0;
-    rightHand.transform.FindRecursiveOrThrow("r_handMeshNode")
-      .GetComponent<MeshRenderer>().material
+    rightHand.GetComponent<MeshRenderer>().material
       .SetColor("_Color", Color.green);
-    leftHand.transform.FindRecursiveOrThrow("l_handMeshNode")
-      .GetComponent<MeshRenderer>().material
+    leftHand.GetComponent<MeshRenderer>().material
       .SetColor("_Color", Color.green);
   }
 }
