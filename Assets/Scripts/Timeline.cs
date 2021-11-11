@@ -9,7 +9,6 @@ public class Timeline : MonoBehaviour
   public LightingController lightingController;
   public GameObject ghostHands;
   public GameObject bigArmFromRoof;
-  public GameObject plinthArms;
   public GameObject extraStairs;
   public GameObject largeArmHoldingArms;
   public GameObject wallsMoveBack;
@@ -116,7 +115,6 @@ public class Timeline : MonoBehaviour
     allObjects = L(
       ghostHands,
       bigArmFromRoof,
-      plinthArms,
       extraStairs,
       largeArmHoldingArms,
       wallsMoveBack,
@@ -130,15 +128,15 @@ public class Timeline : MonoBehaviour
 
       {Acts.One, L()},
       {Acts.ArmFromCeiling, L(bigArmFromRoof)},
-      {Acts.CopiesOfPlayersArms, L(plinthArms)},
-      {Acts.ExtraStairs, L(plinthArms, extraStairs)},
+      {Acts.CopiesOfPlayersArms, L(extraStairs)},
+      {Acts.ExtraStairs, L(extraStairs)},
       {Acts.LargeArmHoldingArms, L(largeArmHoldingArms)},
       {Acts.OneEnd, L()},
 
       {Acts.Two, L(wallsMoveBack)},
       {Acts.WallsMoveBack, L(wallsMoveBack)},
       {Acts.WallsContract, L(wallsMoveBack)},
-      {Acts.AmsDoingDifferentActions, L(wallsMoveBack, plinthArms)},
+      {Acts.AmsDoingDifferentActions, L(wallsMoveBack, extraStairs)},
       {Acts.TwoEnd, L()},
 
       {Acts.Three, L()},
@@ -200,9 +198,10 @@ public class Timeline : MonoBehaviour
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.CopiesOfPlayersArms:
-          plinthArms.GetComponentOrThrow<PlinthArms>().SetArmCount(PlinthArms.PlinthArmCount.All);
+          extraStairs.GetComponentOrThrow<ExtraStairsSpawner>().SetStairCount(2, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
           break;
         case Acts.ExtraStairs:
+          extraStairs.GetComponentOrThrow<ExtraStairsSpawner>().SetStairCount(8, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExpandRoom);
           break;
         case Acts.LargeArmHoldingArms:
@@ -238,7 +237,7 @@ public class Timeline : MonoBehaviour
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.HidePlatform);
           break;
         case Acts.AmsDoingDifferentActions:
-          plinthArms.GetComponentOrThrow<PlinthArms>().SetArmCount(PlinthArms.PlinthArmCount.Eleven);
+          extraStairs.GetComponentOrThrow<ExtraStairsSpawner>().SetStairCount(2, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
           break;
         case Acts.TwoEnd:
           lightingController.state = LightingController.LightingState.Dark;
