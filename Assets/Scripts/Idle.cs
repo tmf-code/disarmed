@@ -72,7 +72,21 @@ public class Idle : MonoBehaviour
     var source = colliders.source;
     var other = colliders.other;
 
+
     var sourceIsUserArm = armBehavior.owner == ArmBehaviour.ArmOwnerType.User;
+    var otherIsUserArm = colliders.otherTarget.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
+
+    // Can remove arms only in Act 4. So don't grab own arms.
+    var maybeTimeline = GameObject.Find("Timeline");
+    if (maybeTimeline)
+    {
+      var act = maybeTimeline.GetComponentOrThrow<Timeline>().act;
+      if (act < Timeline.Acts.Four)
+      {
+        if (sourceIsUserArm && otherIsUserArm) return;
+      }
+    }
+
     var shouldGrab = source.CompareTag("Hand") && other.CompareTag("Forearm") && sourceIsUserArm;
     if (shouldGrab)
     {
@@ -84,7 +98,6 @@ public class Idle : MonoBehaviour
       return;
     }
 
-    var otherIsUserArm = colliders.otherTarget.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
     var shouldBeGrabbed = source.CompareTag("Forearm") && other.CompareTag("Hand") && otherIsUserArm;
     if (shouldBeGrabbed)
     {
