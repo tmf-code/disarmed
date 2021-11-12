@@ -21,7 +21,7 @@ public class Timeline : MonoBehaviour
   // public GameObject armsDropToFloor;
   // public GameObject armsToShoulderPlayerDifferentActions;
   // public GameObject oneArmTakesOffOther;
-  public GameObject tryOnArms;
+  // public GameObject tryOnArms;
   // public GameObject armsWaveGoodbye;
 
   public enum Acts
@@ -126,8 +126,7 @@ public class Timeline : MonoBehaviour
     allObjects = L(
       ghostHands,
       bigArmFromRoof,
-      largeArmHoldingArms,
-      tryOnArms
+      largeArmHoldingArms
     );
 
     activeObjectPerStage = new Dictionary<Acts, List<GameObject>>((int)Acts.End + 1) {
@@ -160,10 +159,10 @@ public class Timeline : MonoBehaviour
       {Acts.OneArmTakesOffOther, L()},
       {Acts.ThreeEnd, L()},
 
-      {Acts.Four, L(tryOnArms)},
-      {Acts.PlayersArmsAndMovingArms, L(tryOnArms)},
-      {Acts.AllArmsWaveGoodbye, L(tryOnArms)},
-      {Acts.FourEnd, L(tryOnArms)},
+      {Acts.Four, L()},
+      {Acts.PlayersArmsAndMovingArms, L()},
+      {Acts.AllArmsWaveGoodbye, L()},
+      {Acts.FourEnd, L()},
 
       {Acts.End, L()},
   };
@@ -293,6 +292,7 @@ public class Timeline : MonoBehaviour
           break;
 
         case Acts.Four:
+          armPool.SetStairState(ArmPool.StairState.Act4);
           audioPlayer.PlayAct(AudioPlayer.ClipType.Act4);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act4;

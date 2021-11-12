@@ -31,6 +31,7 @@ public class ArmPool : MonoBehaviour
     RemoveStepThree,
     TwoRecordedMovement,
     None,
+    Act4,
   }
 
   private void SetStairCount(int nextStairCount, ArmBehaviour.ArmBehaviorType behaviour, PivotPoint.PivotPointType pivot)
@@ -85,9 +86,31 @@ public class ArmPool : MonoBehaviour
       case StairState.TwoRecordedMovement:
         SetStairCount(2, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
         break;
+      case StairState.Act4:
+        SetStairCount(2, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
+        MoveOuterLevelsToRoomCenter();
+
+        break;
       case StairState.None:
         SetStairCount(0, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.Wrist);
         break;
+    }
+  }
+
+  public void MoveOuterLevelsToRoomCenter()
+  {
+    var startLevel = 2;
+
+    for (int stairLevel = startLevel; stairLevel < maxStairCount; stairLevel++)
+    {
+      foreach (var stair in spawnedObjectsPerStair[stairLevel])
+      {
+        var position = new Vector3(Random.Range(-0.5F, 0.5F) * roomSize, startHeight, Random.Range(-0.5F, 0.5F) * roomSize);
+        stair.transform.localPosition = position;
+        stair.gameObject.SetActive(true);
+        stair.behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackRagdoll;
+        stair.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
+      }
     }
   }
 
