@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -53,17 +55,64 @@ public class CopyArmMovement : MonoBehaviour
 
   }
 
-  void Update()
-  {
-    // Copy IK from other arm
-    forearm.localRotation = Quaternion.SlerpUnclamped(forearmOther.localRotation, forearm.localRotation, strength);
-    humerus.localRotation = Quaternion.SlerpUnclamped(humerusOther.localRotation, humerus.localRotation, strength);
+  public int frameDelay = 0;
 
-    foreach (var sourceAndDestination in handBonePairs)
+  readonly Queue<FrameBuffer> frameQueue = new Queue<FrameBuffer>();
+
+  void FixedUpdate()
+  {
+    frameQueue.Enqueue(new FrameBuffer(forearmOther.localRotation, humerusOther.localRotation, handBonePairs));
+    if (frameQueue.Count > frameDelay)
     {
+      var frameToApply = frameQueue.Dequeue();
+      // Copy IK from other arm
+      forearm.localRotation = Quaternion.SlerpUnclamped(forearm.localRotation, frameToApply.forearmOther, strength);
+      humerus.localRotation = Quaternion.SlerpUnclamped(humerus.localRotation, frameToApply.humerusOther, strength);
+
+      foreach (var sourceAndDestination in frameToApply.handBonePairs)
+      {
+        var source = sourceAndDestination.source;
+        var destination = sourceAndDestination.destination;
+        destination.LerpLocal(source, strength);
+      }
+    }
+  }
+}
+
+public class FrameBuffer
+{
+  public Quaternion forearmOther;
+  public Quaternion humerusOther;
+  public ITransformPair[] handBonePairs;
+
+  public FrameBuffer(Quaternion forearmOther, Quaternion Other, TransformPair[] handBonePairs)
+  {
+    this.forearmOther = forearmOther;
+    this.humerusOther = Other;
+
+    this.handBonePairs = new ITransformPair[handBonePairs.Length];
+    for (var pairIndex = 0; pairIndex < handBonePairs.Length; pairIndex++)
+    {
+      var sourceAndDestination = handBonePairs[pairIndex];
       var source = sourceAndDestination.Item1;
       var current = sourceAndDestination.Item2;
-      current.LerpLocal(source, strength);
+
+      UnSerializedTransform transform = new UnSerializedTransform(source.localPosition, source.localRotation, source.localScale);
+      var pair = new ITransformPair(transform, current);
+      this.handBonePairs[pairIndex] = pair;
     }
+  }
+}
+
+[Serializable]
+public struct ITransformPair
+{
+  public ITransform source;
+  public Transform destination;
+
+  public ITransformPair(ITransform source, Transform destination)
+  {
+    this.source = source;
+    this.destination = destination;
   }
 }

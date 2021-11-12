@@ -34,6 +34,9 @@ public class Timeline : MonoBehaviour
     ArmFromCeiling,
     CopiesOfPlayersArms,
     ExtraStairs,
+    VariableOffset,
+
+    LongTimeOffset,
     LargeArmHoldingArms,
     OneEnd,
 
@@ -69,7 +72,9 @@ public class Timeline : MonoBehaviour
       {Acts.One, 3F},
       {Acts.ArmFromCeiling, 75F},
       {Acts.CopiesOfPlayersArms, 75F},
-      {Acts.ExtraStairs, 75F},
+      {Acts.ExtraStairs, 3F},
+      {Acts.VariableOffset, 27F},
+      {Acts.LongTimeOffset, 35F},
       {Acts.LargeArmHoldingArms, 75F},
       {Acts.OneEnd, 3F},
 
@@ -134,6 +139,8 @@ public class Timeline : MonoBehaviour
       {Acts.ArmFromCeiling, L(bigArmFromRoof)},
       {Acts.CopiesOfPlayersArms, L()},
       {Acts.ExtraStairs, L()},
+      {Acts.VariableOffset, L()},
+      {Acts.LongTimeOffset, L()},
       {Acts.LargeArmHoldingArms, L(largeArmHoldingArms )},
       {Acts.OneEnd, L()},
 
@@ -211,6 +218,14 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.ExtraStairs:
           armPool.SetStairState(ArmPool.StairState.All);
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExpandRoom);
+          break;
+        case Acts.VariableOffset:
+          armPool.SetStairState(ArmPool.StairState.VariableOffset);
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExpandRoom);
+          break;
+        case Acts.LongTimeOffset:
+          armPool.SetStairState(ArmPool.StairState.LongTimeOffset);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExpandRoom);
           break;
         case Acts.LargeArmHoldingArms:
