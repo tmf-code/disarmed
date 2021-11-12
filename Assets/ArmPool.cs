@@ -39,12 +39,6 @@ public class ArmPool : MonoBehaviour
       foreach (var item in spawnedObjects)
       {
         item.gameObject.SetActive(stairIndex < nextStairCount);
-        if (behaviour == ArmBehaviour.ArmBehaviorType.MovementPlayback)
-        {
-          // Somehow the recordings height is different to copy arm movement
-          var y = 1.15F + stairIndex * stairHeight;
-          item.transform.position = new Vector3(item.transform.position.x, y, item.transform.position.z);
-        }
         item.behavior = behaviour;
         item.GetComponent<PivotPoint>().pivotPointType = pivot;
       }
@@ -127,7 +121,7 @@ public class ArmPool : MonoBehaviour
         var newRad = rad + boost;
         var newZ = newRad * Mathf.Sin(angle);
         var newX = newRad * Mathf.Cos(angle);
-        var y = 1.5F;
+        var y = 0.8F;
         stair.transform.position = new Vector3(newX, y, newZ);
         stair.gameObject.SetActive(true);
         stair.behavior = ArmBehaviour.ArmBehaviorType.MovementPlayback;
