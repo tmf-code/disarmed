@@ -390,8 +390,8 @@ MonoBehaviour:
   usePositionTracking: 1
   useRotationTracking: 1
   useIPDInPositionTracking: 1
-  resetTrackerOnLoad: 1
-  AllowRecenter: 1
+  resetTrackerOnLoad: 0
+  AllowRecenter: 0
   LateControllerUpdate: 1
 --- !u!114 &5222130132929511728
 MonoBehaviour:
@@ -907,9 +907,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5327207934526750748}
+  - component: {fileID: 3065470253020096547}
   m_Layer: 0
   m_Name: ShoulderLeft
-  m_TagString: Untagged
+  m_TagString: LeftShoulder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -929,6 +930,19 @@ Transform:
   m_Father: {fileID: 5327207934531049403}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3065470253020096547
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5327207934526750749}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.10248345
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5327207934531049348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1373,9 +1387,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5327207935383121571}
+  - component: {fileID: 6998912937073800628}
   m_Layer: 0
   m_Name: ShoulderRight
-  m_TagString: Untagged
+  m_TagString: RightShoulder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1395,3 +1410,16 @@ Transform:
   m_Father: {fileID: 5327207934531049403}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6998912937073800628
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5327207935383121580}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.10248345
+  m_Center: {x: 0, y: 0, z: 0}

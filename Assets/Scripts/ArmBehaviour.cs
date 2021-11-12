@@ -345,7 +345,6 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<Grabbed>();
           gameObject.RemoveComponent<Grabbing>();
 
-
           // Hand gestures
           gameObject.AddIfNotExisting<GestureState>();
           gameObject.AddIfNotExisting<PinchState>();
