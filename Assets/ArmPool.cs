@@ -149,7 +149,7 @@ public class ArmPool : MonoBehaviour
     for (var stairPositionIndex = 0; stairPositionIndex < stairPositions.Count; stairPositionIndex++)
     {
       var position = stairPositions[stairPositionIndex];
-      var arm = Random.value > 0.5 ? Instantiate(leftArmPrefab) : Instantiate(rightArmPrefab);
+      var arm = position.x < 0.0 ? Instantiate(leftArmPrefab) : Instantiate(rightArmPrefab);
       arm.transform.parent = transform;
       arm.transform.position = position;
       arm.behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
