@@ -488,14 +488,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4150659633665364400, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
-      propertyPath: act
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: playerArms
       value: 

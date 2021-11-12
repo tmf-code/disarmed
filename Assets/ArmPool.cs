@@ -22,6 +22,8 @@ public class ArmPool : MonoBehaviour
   {
     TwoCopy,
     All,
+    VariableOffset,
+    LongTimeOffset,
     Flat,
     FlatRagdoll,
     RemoveStepOne,
@@ -55,6 +57,14 @@ public class ArmPool : MonoBehaviour
       case StairState.All:
         SetStairCount(8, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
         break;
+      case StairState.VariableOffset:
+        SetStairCount(8, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
+        TimeOffsetPerStair();
+        break;
+      case StairState.LongTimeOffset:
+        SetStairCount(8, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
+        LongTimeOffset();
+        break;
       case StairState.Flat:
         FlattenOutOuterLevels();
         break;
@@ -78,6 +88,35 @@ public class ArmPool : MonoBehaviour
       case StairState.None:
         SetStairCount(0, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.Wrist);
         break;
+    }
+  }
+
+  public void TimeOffsetPerStair()
+  {
+    for (int stairLevel = 0; stairLevel < maxStairCount; stairLevel++)
+    {
+      foreach (var stair in spawnedObjectsPerStair[stairLevel])
+      {
+        if (stair.TryGetComponent<CopyArmMovement>(out var copyArmMovement))
+        {
+          copyArmMovement.frameDelay = 10 * stairLevel;
+        }
+      }
+    }
+  }
+
+
+  public void LongTimeOffset()
+  {
+    for (int stairLevel = 0; stairLevel < maxStairCount; stairLevel++)
+    {
+      foreach (var stair in spawnedObjectsPerStair[stairLevel])
+      {
+        if (stair.TryGetComponent<CopyArmMovement>(out var copyArmMovement))
+        {
+          copyArmMovement.frameDelay = 120;
+        }
+      }
     }
   }
 
