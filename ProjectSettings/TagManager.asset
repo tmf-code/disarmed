@@ -7,6 +7,8 @@ TagManager:
   - Hand
   - Forearm
   - Humerus
+  - LeftShoulder
+  - RightShoulder
   layers:
   - Default
   - TransparentFX

@@ -59,5 +59,17 @@ public class Grabbing : MonoBehaviour
       fakeHandOpen = false;
     }
   }
+
+  public void OnArmAttach()
+  {
+    gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
+
+    gameObject.AddIfNotExisting<Idle>();
+
+    Destroy(this);
+  }
 }
 

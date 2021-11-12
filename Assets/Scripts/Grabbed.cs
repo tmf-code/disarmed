@@ -100,38 +100,83 @@ public partial class Grabbed : MonoBehaviour
   {
     if (!canTransition) return;
 
-    var isUserArm = gameObject.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
+    var armBehavior = gameObject.GetComponentOrThrow<ArmBehaviour>();
+    var isUserArm = armBehavior.owner == ArmBehaviour.ArmOwnerType.User;
 
     if (isUserArm)
     {
-      gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.strength = 1);
-      gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
-      gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
-      gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
-      gameObject.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
+      var playerArms = GameObject.Find("Player").GetComponentOrThrow<PlayerArms>();
+      playerArms.RemoveArm(gameObject);
+    }
 
-      var clone = Instantiate(gameObject);
-      clone.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
-      clone.GetComponent<ArmBehaviour>().owner = ArmBehaviour.ArmOwnerType.World;
+    armBehavior.owner = ArmBehaviour.ArmOwnerType.World;
+
+    var maybeTimeline = GameObject.Find("Timeline");
+    if (maybeTimeline && maybeTimeline.GetComponent<Timeline>().act > Timeline.Acts.Four)
+    {
+      armBehavior.behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackRagdoll;
     }
     else
     {
-      var armBehavior = gameObject.GetComponent<ArmBehaviour>();
-
-      var maybeTimeline = GameObject.Find("Timeline");
-      if (maybeTimeline && maybeTimeline.GetComponent<Timeline>().act > Timeline.Acts.Four)
-      {
-        armBehavior.behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackRagdoll;
-      }
-      else
-      {
-        armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
-      }
+      armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
     }
 
     Destroy(this);
     gameObject.AddIfNotExisting<Idle>();
   }
 
+  private void RepositionAndClone()
+  {
+    gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
+    gameObject.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
+
+    var clone = Instantiate(gameObject);
+    clone.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
+    clone.GetComponent<ArmBehaviour>().owner = ArmBehaviour.ArmOwnerType.World;
+  }
+
+  public void CollideWithShoulder(Collider shoulderCollider)
+  {
+
+    var handedness = gameObject.GetComponentOrThrow<Handedness>();
+    var armBehaviour = gameObject.GetComponentOrThrow<ArmBehaviour>();
+    var playerArms = GameObject.Find("Player").GetComponentOrThrow<PlayerArms>();
+
+    var thisHandIsLeft = handedness.IsLeft();
+    var tag = thisHandIsLeft ? "LeftShoulder" : "RightShoulder";
+    var isCorrectShoulder = shoulderCollider.CompareTag(tag);
+
+    if (!isCorrectShoulder) return;
+
+    var isWorldControlled = armBehaviour.owner == ArmBehaviour.ArmOwnerType.World;
+    if (!isWorldControlled) return;
+
+    var spotIsFree = !playerArms.HasHand(handedness.handType);
+
+    if (!spotIsFree) return;
+
+    AttachArm();
+  }
+
+  private void AttachArm()
+  {
+    var armBehaviour = gameObject.GetComponentOrThrow<ArmBehaviour>();
+    var playerArms = GameObject.Find("Player").GetComponentOrThrow<PlayerArms>();
+    armBehaviour.behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
+    armBehaviour.owner = ArmBehaviour.ArmOwnerType.User;
+    playerArms.AddArm(gameObject);
+    grabbing.OnArmAttach();
+
+    gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
+    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
+    gameObject.GetOptionComponent<PivotPoint>().Map(component => component.pivotPointType = PivotPoint.PivotPointType.Wrist);
+    gameObject.AddIfNotExisting<Idle>();
+    Destroy(this);
+  }
 }
 
