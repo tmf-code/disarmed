@@ -139,7 +139,7 @@ public class ArmPool : MonoBehaviour
       foreach (var stair in spawnedObjectsPerStair[stairLevel])
       {
         stair.gameObject.SetActive(true);
-        stair.behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackRagdoll;
+        stair.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
         stair.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
       }
     }
