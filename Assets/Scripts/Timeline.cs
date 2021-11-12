@@ -46,7 +46,7 @@ public class Timeline : MonoBehaviour
     RemoveArms1,
     RemoveArms2,
     RemoveArms3,
-    AmsDoingDifferentActions,
+    ArmsDoingDifferentActions,
     TwoEnd,
 
     Three,
@@ -84,7 +84,7 @@ public class Timeline : MonoBehaviour
       {Acts.RemoveArms1, 3F},
       {Acts.RemoveArms2, 3F},
       {Acts.RemoveArms3, 3F},
-      {Acts.AmsDoingDifferentActions, 40F},
+      {Acts.ArmsDoingDifferentActions, 40F},
       {Acts.TwoEnd, 3F},
 
       {Acts.Three, 3F},
@@ -149,7 +149,7 @@ public class Timeline : MonoBehaviour
       {Acts.RemoveArms1, L()},
       {Acts.RemoveArms2, L()},
       {Acts.RemoveArms3, L()},
-      {Acts.AmsDoingDifferentActions, L( )},
+      {Acts.ArmsDoingDifferentActions, L( )},
       {Acts.TwoEnd, L()},
 
       {Acts.Three, L()},
@@ -260,7 +260,7 @@ public class Timeline : MonoBehaviour
         case Acts.RemoveArms3:
           armPool.SetStairState(ArmPool.StairState.RemoveStepThree);
           break;
-        case Acts.AmsDoingDifferentActions:
+        case Acts.ArmsDoingDifferentActions:
           armPool.SetStairState(ArmPool.StairState.TwoRecordedMovement);
           break;
         case Acts.TwoEnd:
