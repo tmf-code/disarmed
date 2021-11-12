@@ -37,6 +37,18 @@ public class Idle : MonoBehaviour
   public void OnTriggersEnter(TwoPartyCollider colliders)
   {
     if (!canTransition) return;
+    var maybeTimeline = GameObject.Find("Timeline");
+
+    // Shouldn't be able to grab a hand before this scene.
+    if (maybeTimeline)
+    {
+      var act = maybeTimeline.GetComponentOrThrow<Timeline>().act;
+      if (act < Timeline.Acts.ArmsDoingDifferentActions)
+      {
+        return;
+      }
+    }
+
     var isSourceAnArm = colliders.source.CompareTag("Hand") || colliders.source.CompareTag("Forearm");
     var isOtherAnArm = colliders.other.CompareTag("Hand") || colliders.other.CompareTag("Forearm");
     if (!isSourceAnArm || !isOtherAnArm)
@@ -77,7 +89,6 @@ public class Idle : MonoBehaviour
     var otherIsUserArm = colliders.otherTarget.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
 
     // Can remove arms only in Act 4. So don't grab own arms.
-    var maybeTimeline = GameObject.Find("Timeline");
     if (maybeTimeline)
     {
       var act = maybeTimeline.GetComponentOrThrow<Timeline>().act;
@@ -92,6 +103,7 @@ public class Idle : MonoBehaviour
     {
       var grabbing = gameObject.AddIfNotExisting<Grabbing>();
       var grabbed = colliders.otherTarget.AddIfNotExisting<Grabbed>();
+      grabbed.gameObject.GetComponentOrThrow<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
       grabbing.grabbed = grabbed;
       grabbed.grabbing = grabbing;
       Destroy(this);
@@ -103,6 +115,8 @@ public class Idle : MonoBehaviour
     {
       var grabbing = colliders.otherTarget.AddIfNotExisting<Grabbing>();
       var grabbed = gameObject.AddIfNotExisting<Grabbed>();
+      grabbed.gameObject.GetComponentOrThrow<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
+
       grabbing.grabbed = grabbed;
       grabbed.grabbing = grabbing;
       Destroy(this);
