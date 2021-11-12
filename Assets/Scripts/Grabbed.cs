@@ -32,11 +32,6 @@ public partial class Grabbed : MonoBehaviour
   void Start()
   {
     gameObject.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Grabbed;
-    gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.strength = 0);
-    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 0);
-    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 0);
-    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
-
     gameObject.RemoveComponent<Idle>();
     gameObject.RemoveComponent<Grabbing>();
 
@@ -127,10 +122,6 @@ public partial class Grabbed : MonoBehaviour
 
   private void RepositionAndClone()
   {
-    gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.strength = 1);
-    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
-    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
-    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
     gameObject.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
 
     var clone = Instantiate(gameObject);
@@ -169,12 +160,6 @@ public partial class Grabbed : MonoBehaviour
     armBehaviour.owner = ArmBehaviour.ArmOwnerType.User;
     playerArms.AddArm(gameObject);
     grabbing.OnArmAttach();
-
-    gameObject.GetOptionComponent<ApplyInverseKinematics>().Map(component => component.strength = 1);
-    gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
-    gameObject.GetOptionComponent<ApplyRootTracking>().Map(component => component.strength = 1);
-    gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
-    gameObject.GetOptionComponent<PivotPoint>().Map(component => component.pivotPointType = PivotPoint.PivotPointType.Wrist);
     gameObject.AddIfNotExisting<Idle>();
     Destroy(this);
   }

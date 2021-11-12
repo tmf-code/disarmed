@@ -19,7 +19,6 @@ public class ArmBehaviour : MonoBehaviour
     ResponsiveRagdoll,
     MovementPlaybackRagdoll,
     MovementPlayback,
-    TrackUserInputNoGrab,
   }
 
   public enum ArmOwnerType
@@ -326,36 +325,6 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.AddIfNotExisting<ApplyInverseKinematics>();
           gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
-          gameObject.AddIfNotExisting<ApplyHandTracking>();
-          gameObject.RemoveComponent<CopyArmMovement>();
-          break;
-        }
-
-      case ArmBehaviorType.TrackUserInputNoGrab:
-        {
-          // Arm movement sources
-          gameObject.AddIfNotExisting<InverseKinematics>();
-          gameObject.AddIfNotExisting<CustomHand>();
-          var skel = gameObject.AddIfNotExisting<Skeleton>();
-          skel.isSwapped = false;
-          gameObject.AddIfNotExisting<DisableArmOnUntracked>();
-
-          // Grabbing state machine
-          gameObject.RemoveComponent<Idle>();
-          gameObject.RemoveComponent<Grabbed>();
-          gameObject.RemoveComponent<Grabbing>();
-
-          // Hand gestures
-          gameObject.AddIfNotExisting<GestureState>();
-          gameObject.AddIfNotExisting<PinchState>();
-
-          gameObject.RemoveComponent<RagDollArm>();
-
-          // Mixers for different sources of movement to be applied to model
-          gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
-          gameObject.AddIfNotExisting<ApplyInverseKinematics>();
-          gameObject.AddIfNotExisting<ApplyPose>();
-          gameObject.AddIfNotExisting<ApplyRootTracking>();
           gameObject.AddIfNotExisting<ApplyHandTracking>();
           gameObject.RemoveComponent<CopyArmMovement>();
           break;
