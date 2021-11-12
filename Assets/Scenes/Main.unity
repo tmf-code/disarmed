@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: e0fa1d03bbdca684e939cd248cc6459b, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: b869d9e5c949f874d82bf15107cba9b4, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: b792511c662848b4eab26e171f2fc42a, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -427,17 +427,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 816275463, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
-      propertyPath: m_Center.y
-      value: -0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 816275464, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
-      propertyPath: m_Center.y
-      value: -0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 816275465, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
-      propertyPath: m_Center.y
-      value: -0.02
+    - target: {fileID: 816275461, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3416799772149082548, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
       propertyPath: m_Name
@@ -453,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3416799772149082551, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.77
       objectReference: {fileID: 0}
     - target: {fileID: 3416799772149082551, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
       propertyPath: m_LocalPosition.z
@@ -487,10 +479,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6322098181252228451, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
 --- !u!1001 &4150659635078557935
@@ -500,10 +488,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4150659633665364401, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: playerArms
       value: 

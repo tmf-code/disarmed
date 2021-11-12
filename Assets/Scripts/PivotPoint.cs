@@ -14,6 +14,7 @@ public class PivotPoint : MonoBehaviour
     Wrist,
     Shoulder,
     ShoulderNoRotation,
+    None,
   }
 
   void Start()
@@ -29,6 +30,7 @@ public class PivotPoint : MonoBehaviour
 
   void LateUpdate()
   {
+    if (pivotPointType == PivotPointType.None) return;
 
     if (pivotPointType == PivotPointType.Wrist)
     {
