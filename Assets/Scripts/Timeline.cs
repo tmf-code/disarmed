@@ -9,9 +9,8 @@ public class Timeline : MonoBehaviour
   public LightingController lightingController;
   public GameObject ghostHands;
   public GameObject bigArmFromRoof;
-  public GameObject extraStairs;
+  public ArmPool armPool;
   public GameObject largeArmHoldingArms;
-  public GameObject wallsMoveBack;
 
   public AudioPlayer audioPlayer;
   public WorldSceneSelector worldSceneSelector;
@@ -41,6 +40,9 @@ public class Timeline : MonoBehaviour
     Two,
     WallsMoveBack,
     WallsContract,
+    RemoveArms1,
+    RemoveArms2,
+    RemoveArms3,
     AmsDoingDifferentActions,
     TwoEnd,
 
@@ -72,8 +74,11 @@ public class Timeline : MonoBehaviour
       {Acts.OneEnd, 3F},
 
       {Acts.Two, 3F},
-      {Acts.WallsMoveBack, 4F},
-      {Acts.WallsContract, 4F},
+      {Acts.WallsMoveBack, 40F},
+      {Acts.WallsContract, 40F},
+      {Acts.RemoveArms1, 3F},
+      {Acts.RemoveArms2, 3F},
+      {Acts.RemoveArms3, 3F},
       {Acts.AmsDoingDifferentActions, 40F},
       {Acts.TwoEnd, 3F},
 
@@ -93,14 +98,15 @@ public class Timeline : MonoBehaviour
   };
 
   public IReadOnlyDictionary<Acts, List<GameObject>> activeObjectPerStage;
-  public List<GameObject> allObjects;
+  [SerializeField] [HideInInspector] private List<GameObject> allObjects;
 
   public enum State
   {
-
     Playing,
     Stopped,
   }
+
+  public bool debugFast = false;
 
   public Acts act = Acts.Opening;
   [ShowOnly] public State state = State.Stopped;
@@ -115,9 +121,7 @@ public class Timeline : MonoBehaviour
     allObjects = L(
       ghostHands,
       bigArmFromRoof,
-      extraStairs,
       largeArmHoldingArms,
-      wallsMoveBack,
       tryOnArms
     );
 
@@ -128,15 +132,18 @@ public class Timeline : MonoBehaviour
 
       {Acts.One, L()},
       {Acts.ArmFromCeiling, L(bigArmFromRoof)},
-      {Acts.CopiesOfPlayersArms, L(extraStairs)},
-      {Acts.ExtraStairs, L(extraStairs)},
-      {Acts.LargeArmHoldingArms, L(largeArmHoldingArms)},
+      {Acts.CopiesOfPlayersArms, L()},
+      {Acts.ExtraStairs, L()},
+      {Acts.LargeArmHoldingArms, L(largeArmHoldingArms )},
       {Acts.OneEnd, L()},
 
-      {Acts.Two, L(wallsMoveBack)},
-      {Acts.WallsMoveBack, L(wallsMoveBack)},
-      {Acts.WallsContract, L(wallsMoveBack)},
-      {Acts.AmsDoingDifferentActions, L(wallsMoveBack, extraStairs)},
+      {Acts.Two, L()},
+      {Acts.WallsMoveBack, L()},
+      {Acts.WallsContract, L()},
+      {Acts.RemoveArms1, L()},
+      {Acts.RemoveArms2, L()},
+      {Acts.RemoveArms3, L()},
+      {Acts.AmsDoingDifferentActions, L( )},
       {Acts.TwoEnd, L()},
 
       {Acts.Three, L()},
@@ -176,6 +183,8 @@ public class Timeline : MonoBehaviour
       switch (act)
       {
         case Acts.Opening:
+          armPool.SetStairState(ArmPool.StairState.None);
+
           audioPlayer.PlayAct(AudioPlayer.ClipType.Intro);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.Base);
           lightingController.state = LightingController.LightingState.Dark;
@@ -198,15 +207,15 @@ public class Timeline : MonoBehaviour
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.CopiesOfPlayersArms:
-          extraStairs.GetComponentOrThrow<ExtraStairsSpawner>().SetStairCount(2, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
+          armPool.SetStairState(ArmPool.StairState.TwoCopy);
           break;
         case Acts.ExtraStairs:
-          extraStairs.GetComponentOrThrow<ExtraStairsSpawner>().SetStairCount(8, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
+          armPool.SetStairState(ArmPool.StairState.All);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExpandRoom);
           break;
         case Acts.LargeArmHoldingArms:
+          armPool.SetStairState(ArmPool.StairState.None);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ShrinkRoom);
-
           break;
         case Acts.OneEnd:
           lightingController.state = LightingController.LightingState.Dark;
@@ -221,25 +230,27 @@ public class Timeline : MonoBehaviour
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.RevealPlatform);
           lightingController.state = LightingController.LightingState.Dim;
           textCanvas.state = TextCanvas.TextState.Transparent;
+          armPool.SetStairState(ArmPool.StairState.Flat);
+
           break;
         case Acts.WallsContract:
-          foreach (Transform child in wallsMoveBack.transform)
-          {
-            if (child.gameObject.TryGetComponent<ArmBehaviour>(out var behaviour))
-            {
-              behaviour.behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackRagdoll;
-            }
-            if (child.gameObject.TryGetComponent<PivotPoint>(out var pivot))
-            {
-              pivot.pivotPointType = PivotPoint.PivotPointType.Wrist;
-            }
-          }
+          armPool.SetStairState(ArmPool.StairState.FlatRagdoll);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.HidePlatform);
           break;
+        case Acts.RemoveArms1:
+          armPool.SetStairState(ArmPool.StairState.RemoveStepOne);
+          break;
+        case Acts.RemoveArms2:
+          armPool.SetStairState(ArmPool.StairState.RemoveStepTwo);
+          break;
+        case Acts.RemoveArms3:
+          armPool.SetStairState(ArmPool.StairState.RemoveStepThree);
+          break;
         case Acts.AmsDoingDifferentActions:
-          extraStairs.GetComponentOrThrow<ExtraStairsSpawner>().SetStairCount(2, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
+          armPool.SetStairState(ArmPool.StairState.TwoRecordedMovement);
           break;
         case Acts.TwoEnd:
+          armPool.SetStairState(ArmPool.StairState.None);
           lightingController.state = LightingController.LightingState.Dark;
           break;
 
@@ -296,7 +307,7 @@ public class Timeline : MonoBehaviour
         }
         else
         {
-          yield return new WaitForSeconds(waitTime);
+          yield return new WaitForSeconds(waitTime * (debugFast ? 0.2F : 1.0F));
           act += 1;
         }
       }
@@ -307,7 +318,7 @@ public class Timeline : MonoBehaviour
           Stop();
           yield return null;
         }
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSeconds(waitTime * (debugFast ? 0.2F : 1.0F));
         act += 1;
       }
     }

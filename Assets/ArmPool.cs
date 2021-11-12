@@ -2,23 +2,36 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ExtraStairsSpawner : MonoBehaviour
+public class ArmPool : MonoBehaviour
 {
-  [ShowOnly] private readonly float stairHeight = 0.4F;
-  [ShowOnly] private readonly float stairDepth = 0.4F;
-  [ShowOnly] private readonly float startHeight = 0.4F;
-  [ShowOnly] private readonly float startWidth = 1.4F;
-  [ShowOnly] private readonly int maxStairCount = 8;
-  [ShowOnly] private readonly float roomSize = 3.0F;
+  private readonly float stairHeight = 0.4F;
+  private readonly float stairDepth = 0.4F;
+  private readonly float startHeight = 0.4F;
+  private readonly float startWidth = 1.4F;
+  private readonly int maxStairCount = 8;
+  private readonly float roomSize = 3.0F;
 
 
-  [ShowOnly] public float armSpacing = 0.8F;
+  private readonly float armSpacing = 0.8F;
   public ArmBehaviour leftArmPrefab;
   public ArmBehaviour rightArmPrefab;
   private List<List<Vector3>> positionsPerStair;
   private List<List<ArmBehaviour>> spawnedObjectsPerStair;
 
-  public void SetStairCount(int nextStairCount, ArmBehaviour.ArmBehaviorType behaviour, PivotPoint.PivotPointType pivot)
+  public enum StairState
+  {
+    TwoCopy,
+    All,
+    Flat,
+    FlatRagdoll,
+    RemoveStepOne,
+    RemoveStepTwo,
+    RemoveStepThree,
+    TwoRecordedMovement,
+    None,
+  }
+
+  private void SetStairCount(int nextStairCount, ArmBehaviour.ArmBehaviorType behaviour, PivotPoint.PivotPointType pivot)
   {
     for (int stairIndex = 0; stairIndex < maxStairCount; stairIndex++)
     {
@@ -26,8 +39,99 @@ public class ExtraStairsSpawner : MonoBehaviour
       foreach (var item in spawnedObjects)
       {
         item.gameObject.SetActive(stairIndex < nextStairCount);
+        if (behaviour == ArmBehaviour.ArmBehaviorType.MovementPlayback)
+        {
+          // Somehow the recordings height is different to copy arm movement
+          var y = 1.15F + stairIndex * stairHeight;
+          item.transform.position = new Vector3(item.transform.position.x, y, item.transform.position.z);
+        }
         item.behavior = behaviour;
         item.GetComponent<PivotPoint>().pivotPointType = pivot;
+      }
+    }
+  }
+
+  public void SetStairState(StairState state)
+  {
+    switch (state)
+    {
+      case StairState.TwoCopy:
+        SetStairCount(2, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
+        break;
+      case StairState.All:
+        SetStairCount(8, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
+        break;
+      case StairState.Flat:
+        FlattenOutOuterLevels();
+        break;
+      case StairState.FlatRagdoll:
+        MakeOuterLevelsRagdoll();
+        break;
+      case StairState.RemoveStepOne:
+        DisableStair(7);
+        break;
+      case StairState.RemoveStepTwo:
+        DisableStair(6);
+        DisableStair(5);
+        break;
+      case StairState.RemoveStepThree:
+        DisableStair(4);
+        DisableStair(3);
+        break;
+      case StairState.TwoRecordedMovement:
+        SetStairCount(2, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
+        break;
+      case StairState.None:
+        SetStairCount(0, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.Wrist);
+        break;
+    }
+  }
+
+  public void DisableStair(int stairLevel)
+  {
+    var stair = spawnedObjectsPerStair[stairLevel];
+
+    foreach (var arm in stair)
+    {
+      arm.gameObject.SetActive(false);
+    }
+  }
+
+  public void MakeOuterLevelsRagdoll()
+  {
+    var startLevel = 2;
+
+    for (int stairLevel = startLevel; stairLevel < maxStairCount; stairLevel++)
+    {
+      foreach (var stair in spawnedObjectsPerStair[stairLevel])
+      {
+        stair.gameObject.SetActive(true);
+        stair.behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackRagdoll;
+        stair.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
+      }
+    }
+  }
+
+  public void FlattenOutOuterLevels()
+  {
+    var startLevel = 2;
+
+    for (int stairLevel = startLevel; stairLevel < maxStairCount; stairLevel++)
+    {
+      foreach (var stair in spawnedObjectsPerStair[stairLevel])
+      {
+        var v = new Vector2(stair.transform.position.x, stair.transform.position.z);
+        var rad = v.magnitude;
+        var angle = Mathf.Atan2(v.y, v.x);
+        var boost = 0.8F * stairLevel;
+        var newRad = rad + boost;
+        var newZ = newRad * Mathf.Sin(angle);
+        var newX = newRad * Mathf.Cos(angle);
+        var y = 1.5F;
+        stair.transform.position = new Vector3(newX, y, newZ);
+        stair.gameObject.SetActive(true);
+        stair.behavior = ArmBehaviour.ArmBehaviorType.MovementPlayback;
+        stair.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.ShoulderNoRotation;
       }
     }
   }

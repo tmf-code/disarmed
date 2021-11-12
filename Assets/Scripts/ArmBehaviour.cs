@@ -325,7 +325,7 @@ public class ArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
           gameObject.AddIfNotExisting<ApplyInverseKinematics>();
           gameObject.RemoveComponent<ApplyPose>();
-          gameObject.AddIfNotExisting<ApplyRootTracking>();
+          gameObject.RemoveComponent<ApplyRootTracking>();
           gameObject.AddIfNotExisting<ApplyHandTracking>();
           gameObject.RemoveComponent<CopyArmMovement>();
           break;
