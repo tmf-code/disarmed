@@ -32,6 +32,7 @@ public class Timeline : MonoBehaviour
     OpeningEnd,
 
     One,
+    PlayerArmsOnly,
     ArmFromCeiling,
     CopiesOfPlayersArms,
     ExtraStairs,
@@ -54,7 +55,7 @@ public class Timeline : MonoBehaviour
     LeftArmRightArmSwapped,
     ArmsDropToFloor,
     ArmsToShoulderPlayerDifferentActions,
-    OneArmTakesOffOther,
+    // OneArmTakesOffOther,
     ThreeEnd,
 
     Four,
@@ -71,12 +72,13 @@ public class Timeline : MonoBehaviour
       {Acts.OpeningEnd, 3F},
 
       {Acts.One, 3F},
-      {Acts.ArmFromCeiling, 75F},
-      {Acts.CopiesOfPlayersArms, 75F},
+      {Acts.PlayerArmsOnly, 50F},
+      {Acts.ArmFromCeiling, 120F},
+      {Acts.CopiesOfPlayersArms, 23F},
       {Acts.ExtraStairs, 3F},
-      {Acts.VariableOffset, 27F},
-      {Acts.LongTimeOffset, 35F},
-      {Acts.LargeArmHoldingArms, 75F},
+      {Acts.VariableOffset, 30F},
+      {Acts.LongTimeOffset, 30F},
+      {Acts.LargeArmHoldingArms, 32F},
       {Acts.OneEnd, 3F},
 
       {Acts.Two, 3F},
@@ -85,14 +87,14 @@ public class Timeline : MonoBehaviour
       {Acts.RemoveArms1, 3F},
       {Acts.RemoveArms2, 3F},
       {Acts.RemoveArms3, 3F},
-      {Acts.ArmsDoingDifferentActions, 40F},
+      {Acts.ArmsDoingDifferentActions, 35F},
       {Acts.TwoEnd, 3F},
 
       {Acts.Three, 3F},
-      {Acts.LeftArmRightArmSwapped, 23F},
-      {Acts.ArmsDropToFloor, 23F},
-      {Acts.ArmsToShoulderPlayerDifferentActions, 23F},
-      {Acts.OneArmTakesOffOther, 23F},
+      {Acts.LeftArmRightArmSwapped, 27F},
+      {Acts.ArmsDropToFloor, 25F},
+      {Acts.ArmsToShoulderPlayerDifferentActions, 35F},
+      // {Acts.OneArmTakesOffOther, 23F},
       {Acts.ThreeEnd, 3F},
 
       {Acts.Four, 3F},
@@ -136,6 +138,7 @@ public class Timeline : MonoBehaviour
       {Acts.OpeningEnd, L()},
 
       {Acts.One, L()},
+      {Acts.PlayerArmsOnly, L()},
       {Acts.ArmFromCeiling, L(bigArmFromRoof)},
       {Acts.CopiesOfPlayersArms, L()},
       {Acts.ExtraStairs, L()},
@@ -157,7 +160,7 @@ public class Timeline : MonoBehaviour
       {Acts.LeftArmRightArmSwapped, L()},
       {Acts.ArmsDropToFloor, L()},
       {Acts.ArmsToShoulderPlayerDifferentActions, L()},
-      {Acts.OneArmTakesOffOther, L()},
+      // {Acts.OneArmTakesOffOther, L()},
       {Acts.ThreeEnd, L()},
 
       {Acts.Four, L()},
@@ -209,9 +212,11 @@ public class Timeline : MonoBehaviour
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act1;
           break;
-        case Acts.ArmFromCeiling:
+        case Acts.PlayerArmsOnly:
           lightingController.state = LightingController.LightingState.Light;
           textCanvas.state = TextCanvas.TextState.Transparent;
+          break;
+        case Acts.ArmFromCeiling:
           break;
         case Acts.CopiesOfPlayersArms:
           armPool.SetStairState(ArmPool.StairState.TwoCopy);
@@ -286,8 +291,8 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.ArmsToShoulderPlayerDifferentActions:
           break;
-        case Acts.OneArmTakesOffOther:
-          break;
+        // case Acts.OneArmTakesOffOther:
+        //   break;
         case Acts.ThreeEnd:
           lightingController.state = LightingController.LightingState.Dark;
           break;
