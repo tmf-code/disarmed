@@ -6,12 +6,15 @@ public class PivotPoint : MonoBehaviour
   private Transform offset;
   private Transform pivot;
   private Transform model;
+  private Transform elbow;
   private Transform shoulder;
+
   private Handedness handedness;
 
   public enum PivotPointType
   {
     Wrist,
+    Elbow,
     Shoulder,
     ShoulderNoRotation,
     None,
@@ -25,7 +28,9 @@ public class PivotPoint : MonoBehaviour
     pivot = transform.FindRecursiveOrThrow("Pivot");
     model = transform.FindRecursiveOrThrow("Model");
 
+    elbow = model.FindRecursiveOrThrow($"b_{handPrefix}_humerus");
     shoulder = model.FindRecursiveOrThrow($"b_{handPrefix}_shoulder");
+
   }
 
   void LateUpdate()
@@ -35,6 +40,17 @@ public class PivotPoint : MonoBehaviour
     if (pivotPointType == PivotPointType.Wrist)
     {
       offset.localPosition = Vector3.zero;
+      return;
+    }
+
+    if (pivotPointType == PivotPointType.Elbow)
+    {
+      var distance2 = offset.position - elbow.position;
+      offset.localPosition = Quaternion.Inverse(offset.rotation) * distance2;
+      offset.localPosition = new Vector3(
+          offset.localPosition.x / offset.lossyScale.x,
+          offset.localPosition.y / offset.lossyScale.y,
+          offset.localPosition.z / offset.lossyScale.z);
       return;
     }
 
