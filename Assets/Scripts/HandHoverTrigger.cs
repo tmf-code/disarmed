@@ -9,7 +9,7 @@ public class HandHoverTrigger : MonoBehaviour
 
   void Start()
   {
-    modelCollider = playerHand.model.GetComponentOrThrow<Collider>();
+    modelCollider = playerHand.model.gameObject.GetComponentOrThrow<Collider>();
     meshRenderer.material.SetColor("_Color", Color.red);
   }
 

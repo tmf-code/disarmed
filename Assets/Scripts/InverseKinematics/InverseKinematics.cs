@@ -11,27 +11,16 @@ public class InverseKinematics : MonoBehaviour
   // public Transform forwardKinematicTarget;
   public float errorDistance;
 
-  void Start()
+  private ArmBoneData ikArmBoneData;
+
+  public ArmBoneData GetArmBoneData()
   {
-    // Attempt to automap bones
-    var handedness = gameObject.GetComponentOrThrow<Handedness>();
+    if (ikArmBoneData == null)
+    {
+      ikArmBoneData = new ArmBoneData(forearm, humerus, shoulder);
+    }
 
-    var hand = handedness.HandPrefix();
-
-    var trackingDataDictionary = gameObject.GetComponentOrThrow<ChildDictionary>().vrTrackingDataChildren;
-
-    wrist = trackingDataDictionary.GetValue($"b_{hand}_wrist").Unwrap().transform;
-    forearm = trackingDataDictionary.GetValue($"b_{hand}_forearm_stub").Unwrap().transform;
-    humerus = trackingDataDictionary.GetValue($"b_{hand}_humerus").Unwrap().transform;
-    shoulder = trackingDataDictionary.GetValue($"b_{hand}_shoulder").Unwrap().transform;
-
-    var targetName = handedness.IsLeft()
-      ? "ShoulderLeft"
-      : "ShoulderRight";
-
-    target = target == null
-      ? GameObject.Find(targetName).transform
-      : target;
+    return ikArmBoneData;
   }
 
   void Update()

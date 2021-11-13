@@ -6,36 +6,23 @@ using UnityEngine;
 public class GestureState : MonoBehaviour
 {
   private Fingers fingers = new Fingers();
-  private Handedness handedness;
-  private Skeleton skeleton;
+  public Handedness handedness;
+  public HandTracking handTracking;
 
   public SendMessageDisplay sendMessageDisplay = new SendMessageDisplay();
 
-  public bool thumbOpen = false;
-  public bool indexOpen = false;
-  public bool middleOpen = false;
-  public bool ringOpen = false;
-  public bool pinkyOpen = false;
-  public bool handOpen = false;
+  public GestureData gestureData = new GestureData();
 
-  public bool thumbClosed = false;
-  public bool indexClosed = false;
-  public bool middleClosed = false;
-  public bool ringClosed = false;
-  public bool pinkyClosed = false;
-  public bool handClosed = false;
+  public GestureData GetGestureData()
+  {
+    if (gestureData != null) return gestureData;
 
-  public float thumbStraightness = 0;
-  public float indexStraightness = 0;
-  public float middleStraightness = 0;
-  public float ringStraightness = 0;
-  public float pinkyStraightness = 0;
-  public float handStraightness = 0;
+    gestureData = new GestureData();
+    return gestureData;
+  }
 
   void Start()
   {
-    skeleton = gameObject.GetComponentOrThrow<Skeleton>();
-    handedness = gameObject.GetComponentOrThrow<Handedness>();
     var handSide = handedness.HandPrefix();
     var fingerNames = Enum.GetNames(typeof(FingerNames));
     fingers = new Fingers();
@@ -64,7 +51,7 @@ public class GestureState : MonoBehaviour
       Enum.TryParse<FingerNames>(name, false, out var fingerName);
       fingerDimensions.TryGetValue(fingerName, out var range);
       fingers.SetFinger(fingerName,
-        new Finger(skeleton, new BoneName[]{
+        new Finger(handTracking, new BoneName[]{
           boneName1,
           boneName2,
           boneName3,
@@ -76,60 +63,58 @@ public class GestureState : MonoBehaviour
   }
 
   // Update is called once per frame
-  void Update()
+  void FixedUpdate()
   {
-    thumbStraightness = fingers.thumb.Straightness();
-    indexStraightness = fingers.index.Straightness();
-    middleStraightness = fingers.middle.Straightness();
-    ringStraightness = fingers.ring.Straightness();
-    pinkyStraightness = fingers.pinky.Straightness();
+    gestureData.thumbStraightness = fingers.thumb.Straightness();
+    gestureData.indexStraightness = fingers.index.Straightness();
+    gestureData.middleStraightness = fingers.middle.Straightness();
+    gestureData.ringStraightness = fingers.ring.Straightness();
+    gestureData.pinkyStraightness = fingers.pinky.Straightness();
 
-    handStraightness = (
-      thumbStraightness +
-      indexStraightness +
-      middleStraightness +
-      ringStraightness +
-      pinkyStraightness
+    gestureData.handStraightness = (
+      gestureData.thumbStraightness +
+      gestureData.indexStraightness +
+      gestureData.middleStraightness +
+      gestureData.ringStraightness +
+      gestureData.pinkyStraightness
       ) / 5;
 
-    thumbOpen = thumbStraightness > 0.8;
-    indexOpen = indexStraightness > 0.8;
-    middleOpen = middleStraightness > 0.8;
-    ringOpen = ringStraightness > 0.8;
-    pinkyOpen = pinkyStraightness > 0.8;
-    var handOpen = handStraightness > 0.7;
-    if (handOpen != this.handOpen)
+    gestureData.thumbOpen = gestureData.thumbStraightness > 0.8;
+    gestureData.indexOpen = gestureData.indexStraightness > 0.8;
+    gestureData.middleOpen = gestureData.middleStraightness > 0.8;
+    gestureData.ringOpen = gestureData.ringStraightness > 0.8;
+    gestureData.pinkyOpen = gestureData.pinkyStraightness > 0.8;
+    var handOpen = gestureData.handStraightness > 0.7;
+    if (handOpen != gestureData.handOpen)
     {
-      gameObject.SendMessage("OnHandOpen", SendMessageOptions.DontRequireReceiver);
-      var gesturePosition = skeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
+      var gesturePosition = handTracking.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
       if (gesturePosition != null) sendMessageDisplay.AddMessage("OnHandOpen", gesturePosition);
     }
-    this.handOpen = handOpen;
+    gestureData.handOpen = handOpen;
 
-    thumbClosed = thumbStraightness < 0.3;
-    indexClosed = indexStraightness < 0.3;
-    middleClosed = middleStraightness < 0.3;
-    ringClosed = ringStraightness < 0.3;
-    pinkyClosed = pinkyStraightness < 0.3;
-    var handClosed = handStraightness < 0.3;
-    if (handClosed != this.handClosed)
+    gestureData.thumbClosed = gestureData.thumbStraightness < 0.3;
+    gestureData.indexClosed = gestureData.indexStraightness < 0.3;
+    gestureData.middleClosed = gestureData.middleStraightness < 0.3;
+    gestureData.ringClosed = gestureData.ringStraightness < 0.3;
+    gestureData.pinkyClosed = gestureData.pinkyStraightness < 0.3;
+    var handClosed = gestureData.handStraightness < 0.3;
+    if (handClosed != gestureData.handClosed)
     {
-      gameObject.SendMessage("OnHandClosed", SendMessageOptions.DontRequireReceiver);
-      var gesturePosition = skeleton.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
+      var gesturePosition = handTracking.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
       if (gesturePosition != null) sendMessageDisplay.AddMessage("OnHandClosed", gesturePosition);
     }
-    this.handClosed = handClosed;
+    gestureData.handClosed = handClosed;
   }
 
   [Serializable]
   public class Finger
   {
     public BoneName[] boneNames;
-    public Skeleton skeleton;
+    public HandTracking skeleton;
     private readonly float minStraightness;
     private readonly float maxStraightness;
 
-    public Finger(Skeleton skeleton, BoneName[] boneNames, float minStraightness, float maxStraightness)
+    public Finger(HandTracking skeleton, BoneName[] boneNames, float minStraightness, float maxStraightness)
     {
       this.skeleton = skeleton;
       this.boneNames = boneNames;
@@ -230,4 +215,29 @@ public class SendMessageDisplay
 
     GameObject.Destroy(primitive, 1);
   }
+}
+
+[Serializable]
+public class GestureData
+{
+  public bool thumbOpen = false;
+  public bool indexOpen = false;
+  public bool middleOpen = false;
+  public bool ringOpen = false;
+  public bool pinkyOpen = false;
+  public bool handOpen = false;
+
+  public bool thumbClosed = false;
+  public bool indexClosed = false;
+  public bool middleClosed = false;
+  public bool ringClosed = false;
+  public bool pinkyClosed = false;
+  public bool handClosed = false;
+
+  public float thumbStraightness = 0;
+  public float indexStraightness = 0;
+  public float middleStraightness = 0;
+  public float ringStraightness = 0;
+  public float pinkyStraightness = 0;
+  public float handStraightness = 0;
 }

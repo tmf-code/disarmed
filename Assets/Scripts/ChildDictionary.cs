@@ -9,13 +9,17 @@ public class GameObjectGameObjectDictionary : SerializableDictionary<GameObject,
 
 public class ChildDictionary : MonoBehaviour
 {
-  public GameObject pivot;
-  public GameObject offset;
-  public GameObject model;
-  public GameObject vrTrackingData;
+  public Transform pivot;
+  public Transform offset;
+  public Transform model;
+  public Transform vrTrackingData;
 
   public StringGameObjectDictionary modelChildren;
   public StringGameObjectDictionary vrTrackingDataChildren;
+
+  public Transform modelForearm;
+  public Transform modelHumerus;
+  public Transform modelShoulder;
 
   [HideInInspector]
   public TransformPair[] handBonePairs;
@@ -24,6 +28,7 @@ public class ChildDictionary : MonoBehaviour
 
   void Awake()
   {
+    var handedness = gameObject.GetComponentOrThrow<Handedness>();
 
     handBonePairs = vrTrackingDataChildren.Values.Where(child =>
     {

@@ -24,7 +24,7 @@ public class ApplyPose : MonoBehaviour
     var modelChildren = childDictionary.modelChildren;
     var model = childDictionary.model;
     modelAndChildren = modelChildren.Values.ToArray();
-    modelAndChildren.Append(model);
+    modelAndChildren.Append(model.gameObject);
   }
 
   public void Update()
