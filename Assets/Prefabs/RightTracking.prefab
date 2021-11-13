@@ -1052,6 +1052,7 @@ GameObject:
   - component: {fileID: 1443326716344110}
   - component: {fileID: 4521999423893198958}
   - component: {fileID: 7070923011262179994}
+  - component: {fileID: 7382398000510645481}
   m_Layer: 0
   m_Name: RightTracking
   m_TagString: Untagged
@@ -1200,6 +1201,22 @@ MonoBehaviour:
     ringStrength: 0
     pinkyActive: 0
     pinkyStrength: 0
+--- !u!114 &7382398000510645481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443326716344108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1ffec45b85b7d6418d076f397d0e6ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handBonePairs: []
+  handTracking: {fileID: 1443326716344111}
+  inverseKinematics: {fileID: 1443326716344104}
+  maxFrames: 150
 --- !u!1 &1443326718141296
 GameObject:
   m_ObjectHideFlags: 0

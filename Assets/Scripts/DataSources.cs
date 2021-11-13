@@ -8,6 +8,7 @@ public class DataSources : MonoBehaviour
   public HandRootData trackingHandRootData;
   public GestureData gestureData;
   public Handedness handedness;
+  public SharedFrameBuffer sharedFrameBuffer;
 
   void Awake()
   {
@@ -16,6 +17,8 @@ public class DataSources : MonoBehaviour
     var trackingSide = GameObject.Find("Tracking")
           .GetComponentOrThrow<Tracking>()
           .GetSide(handedness);
+
+    sharedFrameBuffer = trackingSide.GetComponentOrThrow<SharedFrameBuffer>();
     ikArmBoneData = trackingSide
       .GetComponentOrThrow<InverseKinematics>()
       .GetArmBoneData();
