@@ -15,6 +15,7 @@ public class Timeline : MonoBehaviour
   public AudioPlayer audioPlayer;
   public WorldSceneSelector worldSceneSelector;
   public PlayerArms playerArms;
+  public Tracking tracking;
   // public GameObject wallsContract;
   // public GameObject armsDoingDifferentActions;
   // public GameObject leftArmRightArmSwapped;
@@ -274,12 +275,12 @@ public class Timeline : MonoBehaviour
           textCanvas.act = TextCanvas.Acts.Act3;
           break;
         case Acts.LeftArmRightArmSwapped:
-          playerArms.left.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.SwapArms;
-          playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.SwapArms;
+          tracking.SetSwapped(true);
           lightingController.state = LightingController.LightingState.Light;
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.ArmsDropToFloor:
+          tracking.SetSwapped(false);
           playerArms.left.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.ResponsiveRagdoll;
           playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.ResponsiveRagdoll;
           break;

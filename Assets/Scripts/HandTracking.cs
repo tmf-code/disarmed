@@ -1,47 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [DefaultExecutionOrder(-80)]
-public class Skeleton : MonoBehaviour
+public class HandTracking : MonoBehaviour
 {
-  private Handedness handedness;
-  private CustomHand handDataProvider;
-  private CustomHand otherHandDataProvider;
-  private Transform vrTrackingDataTransform;
+  public Handedness handedness;
+  public CustomHand handDataProvider;
+  public CustomHand otherHandDataProvider;
 
   public bool updateRootScale = true;
   public bool updateRootPose = true;
 
-
-  [HideInInspector]
   private List<Bone> bones = new List<Bone>();
+  public Transform vrTrackingData;
   private OVRPlugin.Skeleton2 skeleton = new OVRPlugin.Skeleton2();
   private int skeletonChangedCount;
   private bool isInitialized = false;
   private readonly Quaternion wristFixupRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
   public bool isSwapped = false;
+  private HandBoneData handBoneData;
+  private HandRootData handRootData;
 
-  private CustomHand GetOtherHandDataProvider()
+  public HandRootData GetHandRootData()
   {
-    var arms = transform.parent.gameObject.GetComponentOrThrow<PlayerArms>();
-    if (GetHandedness().handType == Handedness.HandTypes.HandLeft)
-    {
-      return arms.right.GetComponentOrThrow<CustomHand>();
-    }
-    else
-    {
-      return arms.left.GetComponentOrThrow<CustomHand>();
-    }
+    if (handRootData != null) return handRootData;
+
+    handRootData = new HandRootData(vrTrackingData);
+    return handRootData;
   }
+
+  public HandBoneData GetHandBoneData()
+  {
+    if (handBoneData != null) return handBoneData;
+
+    var handBones = new StringLocalRotationDictionary();
+
+    var children = transform.AllChildren();
+    handBones.CopyFrom(children.Where(child =>
+    {
+      var isTrackedBone = BoneNameOperations.IsTrackedBone(child.name);
+      var isNotIKBone = child.name != "b_l_forearm_stub" && child.name != "b_r_forearm_stub";
+      var isHandBone = isTrackedBone && isNotIKBone;
+      return isHandBone;
+    })
+      .GroupBy(transform => transform.name)
+      .ToDictionary(transforms => transforms.Key,
+                    transforms => new LocalRotation(transforms.First().transform)));
+
+    handBoneData = new HandBoneData(handBones);
+    return handBoneData;
+  }
+
 
   private void Start()
   {
-    handDataProvider = gameObject.GetComponentIfNull(handDataProvider);
-    otherHandDataProvider = GetOtherHandDataProvider();
-    handedness = gameObject.GetComponentIfNull(handedness);
-    vrTrackingDataTransform = transform.FindRecursiveOrThrow("VRTrackingData");
     bones = new List<Bone>();
 
     if (!ShouldInitialize()) Initialize();
@@ -75,8 +90,6 @@ public class Skeleton : MonoBehaviour
       bones = new List<Bone>(new Bone[skeleton.NumBones]);
     }
 
-    var vrTrackingData = transform.FindRecursiveOrThrow("VRTrackingData");
-
     for (int i = 0; i < bones.Count; ++i)
     {
       Bone bone = bones[i] ?? (bones[i] = new Bone());
@@ -100,6 +113,7 @@ public class Skeleton : MonoBehaviour
     }
 
     var data = !isSwapped ? handDataProvider.GetSkeletonPoseData() : otherHandDataProvider.GetSkeletonPoseData();
+    var other = isSwapped ? handDataProvider.GetSkeletonPoseData() : otherHandDataProvider.GetSkeletonPoseData();
 
     if (!data.IsDataHighConfidence) return;
 
@@ -112,25 +126,23 @@ public class Skeleton : MonoBehaviour
 
     if (updateRootPose)
     {
-      vrTrackingDataTransform.localPosition = data.RootPose.Position.FromFlippedZVector3f();
-      vrTrackingDataTransform.localRotation = data.RootPose.Orientation.FromFlippedZQuatf();
+
       if (isSwapped)
       {
-        var swappedPosition = new Vector3(
-        -vrTrackingDataTransform.localPosition.x,
-                  vrTrackingDataTransform.localPosition.y,
-                  vrTrackingDataTransform.localPosition.z);
+        vrTrackingData.localPosition = other.RootPose.Position.FromFlippedZVector3f();
+        vrTrackingData.localRotation = other.RootPose.Orientation.FromFlippedZQuatf();
+      }
+      else
+      {
+        vrTrackingData.localPosition = data.RootPose.Position.FromFlippedZVector3f();
+        vrTrackingData.localRotation = data.RootPose.Orientation.FromFlippedZQuatf();
 
-        var euler = vrTrackingDataTransform.localRotation.eulerAngles;
-        var swappedRotation = Quaternion.Euler(-euler.x, -euler.y + 180F, euler.z + 180F);
 
-        vrTrackingDataTransform.localPosition = swappedPosition;
-        vrTrackingDataTransform.localRotation = swappedRotation;
       }
 
     }
 
-    if (updateRootScale) vrTrackingDataTransform.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
+    if (updateRootScale) vrTrackingData.localScale = new Vector3(data.RootScale, data.RootScale, data.RootScale);
 
     for (var i = 0; i < bones.Count; ++i)
     {

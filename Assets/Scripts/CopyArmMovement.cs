@@ -73,7 +73,7 @@ public class CopyArmMovement : MonoBehaviour
       {
         var source = sourceAndDestination.source;
         var destination = sourceAndDestination.destination;
-        destination.LerpLocal(source, strength);
+        destination.localRotation = Quaternion.SlerpUnclamped(source.localRotation, destination.localRotation, strength);
       }
     }
   }

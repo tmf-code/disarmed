@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Applies the transform of VRTrackingData to Model
+/// Applies the transform of hand tracking to model
 /// </summary>
 public class ApplyRootTracking : MonoBehaviour
 {
@@ -12,8 +12,8 @@ public class ApplyRootTracking : MonoBehaviour
 
   void Start()
   {
-    trackingData = transform.FindRecursiveOrThrow("VRTrackingData");
-    model = transform.FindRecursiveOrThrow("Model");
+    model = gameObject.GetComponentOrThrow<ChildDictionary>().model;
+    trackingData = gameObject.GetComponentOrThrow<DataSources>().trackingHandRootData.handRoot;
   }
 
   void Update()

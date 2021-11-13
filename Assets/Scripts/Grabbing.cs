@@ -8,12 +8,15 @@ public class Grabbing : MonoBehaviour
   public float minimumIdleTimeSeconds = 3;
   public bool canTransition = false;
   public bool fakeHandOpen = false;
+  private GestureData gestureData;
 
   void Start()
   {
     creationTime = Time.time;
     gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 0);
     gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 1);
+
+    gestureData = gameObject.GetComponent<DataSources>().gestureData;
 
     gameObject.RemoveComponent<Idle>();
     gameObject.RemoveComponent<Grabbed>();
@@ -29,6 +32,11 @@ public class Grabbing : MonoBehaviour
     else
     {
       canTransition = false;
+    }
+
+    if (gestureData.handOpen)
+    {
+      OnHandOpen();
     }
   }
 

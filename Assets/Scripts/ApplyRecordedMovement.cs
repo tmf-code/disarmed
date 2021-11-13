@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ApplyRecordedMovementToVRTrackingData : MonoBehaviour
+public class ApplyRecordedMovement : MonoBehaviour
 {
   [SerializeField]
   [HideInInspector]
@@ -30,15 +30,15 @@ public class ApplyRecordedMovementToVRTrackingData : MonoBehaviour
 
     recordingPairs = RecordingToPairedTarget(
         recording,
-        childDictionary.vrTrackingData.transform,
-        childDictionary.vrTrackingDataChildren
+        childDictionary.model.transform,
+        childDictionary.modelChildren
     );
 
     CancelInvoke();
     InvokeRepeating(nameof(PlayNextFrame), 0f, 1F / playbackFrameRate);
   }
 
-  private static Dictionary<GameObject, UnSerializedTransform[]> RecordingToPairedTarget(ObjectToFramesDictionary recording, Transform vrTrackingData, StringGameObjectDictionary targets)
+  private static Dictionary<GameObject, UnSerializedTransform[]> RecordingToPairedTarget(ObjectToFramesDictionary recording, Transform root, StringGameObjectDictionary targets)
   {
     Dictionary<GameObject, UnSerializedTransform[]> result = new Dictionary<GameObject, UnSerializedTransform[]>();
 
@@ -50,7 +50,7 @@ public class ApplyRecordedMovementToVRTrackingData : MonoBehaviour
       {
         continue;
       }
-      var target = name == "Model" ? vrTrackingData.gameObject : targets.GetValue(name).Unwrap();
+      var target = name == "Model" ? root.gameObject : targets.GetValue(name).Unwrap();
       result.Add(target, transforms);
       continue;
     }
@@ -73,7 +73,15 @@ public class ApplyRecordedMovementToVRTrackingData : MonoBehaviour
       var gameObject = pair.Key;
       var transform = pair.Value;
 
-      gameObject.transform.LerpLocal(transform[framesPlayed], strength);
+      if (gameObject.name == "Model")
+      {
+        // Don't apply base movement
+        // gameObject.transform.LerpLocal(transform[framesPlayed], strength);
+      }
+      else
+      {
+        gameObject.transform.localRotation = Quaternion.SlerpUnclamped(gameObject.transform.localRotation, transform[framesPlayed].localRotation, strength);
+      }
     }
   }
 }

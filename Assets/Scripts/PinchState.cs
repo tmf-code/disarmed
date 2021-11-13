@@ -6,7 +6,7 @@ public class PinchState : MonoBehaviour
   [Serializable]
   public class PinchStateDisplay
   {
-    public bool thumbActice = false;
+    public bool thumbActive = false;
     public float thumbStrength = 0;
     public bool indexActive = false;
     public float indexStrength = 0;
@@ -21,16 +21,9 @@ public class PinchState : MonoBehaviour
   public CustomHand hand;
   public PinchStateDisplay pinchState = new PinchStateDisplay();
 
-  // Start is called before the first frame update
-  void Start()
-  {
-    hand = gameObject.GetComponentIfNull(hand);
-  }
-
-  // Update is called once per frame
   void Update()
   {
-    pinchState.thumbActice = hand.GetFingerIsPinching(CustomHand.HandFinger.Thumb);
+    pinchState.thumbActive = hand.GetFingerIsPinching(CustomHand.HandFinger.Thumb);
     pinchState.thumbStrength = hand.GetFingerPinchStrength(CustomHand.HandFinger.Thumb);
 
     pinchState.indexActive = hand.GetFingerIsPinching(CustomHand.HandFinger.Index);

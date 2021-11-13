@@ -1,9 +1,10 @@
+using System.Linq;
 using UnityEngine;
 
 public class ApplyVRTrackingDataToModelRagdoll : MonoBehaviour
 {
-  private Transform forearmIK;
-  private Transform humerusIK;
+  private LocalRotation forearmIK;
+  private LocalRotation humerusIK;
 
   private Transform forearm;
   private Transform humerus;
@@ -12,7 +13,7 @@ public class ApplyVRTrackingDataToModelRagdoll : MonoBehaviour
   private Rigidbody model;
 
   [SerializeField]
-  private TransformPair[] handBonePairs;
+  private LocalRotationTransformPair[] handBonePairs;
 
   [Range(0, 1)]
   public float strength = 10F / 60F;
@@ -26,19 +27,31 @@ public class ApplyVRTrackingDataToModelRagdoll : MonoBehaviour
     childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
     var hand = gameObject.GetComponentOrThrow<Handedness>().HandPrefix();
 
-    forearmIK = childDictionary.vrTrackingDataChildren.GetValue($"b_{hand}_forearm_stub").Unwrap().transform;
-    humerusIK = childDictionary.vrTrackingDataChildren.GetValue($"b_{hand}_humerus").Unwrap().transform;
-
-    forearm = childDictionary.modelChildren.GetValue($"b_{hand}_forearm_stub").Unwrap().transform;
-    humerus = childDictionary.modelChildren.GetValue($"b_{hand}_humerus").Unwrap().transform;
+    forearm = childDictionary.modelForearm;
+    humerus = childDictionary.modelHumerus;
 
     forearmJoint = forearm.GetComponent<ConfigurableJoint>();
     humerusJoint = humerus.GetComponent<ConfigurableJoint>();
 
-    trackingData = transform.FindRecursiveOrThrow("VRTrackingData");
-    model = transform.FindRecursiveOrThrow("Model").gameObject.GetComponentOrThrow<Rigidbody>();
+    var dataSources = gameObject.GetComponentOrThrow<DataSources>();
 
-    handBonePairs = childDictionary.handBonePairs;
+    trackingData = dataSources.trackingHandRootData.handRoot;
+    model = childDictionary.model.gameObject.GetComponentOrThrow<Rigidbody>();
+
+    var ikArmBoneData = dataSources.ikArmBoneData;
+
+    forearmIK = ikArmBoneData.forearm;
+    humerusIK = ikArmBoneData.humerus;
+
+
+    var handBoneData = dataSources.trackingHandBoneData.bones;
+    handBonePairs = handBoneData.Select(nameGameObjectKV =>
+    {
+      var source = nameGameObjectKV.Value;
+      var name = nameGameObjectKV.Key;
+      var destination = childDictionary.modelChildren.GetValue(name).Unwrap().transform;
+      return new LocalRotationTransformPair(source, destination);
+    }).ToArray();
   }
 
   void FixedUpdate()
@@ -55,8 +68,8 @@ public class ApplyVRTrackingDataToModelRagdoll : MonoBehaviour
     // Make the fingers move
     foreach (var pair in handBonePairs)
     {
-      var current = pair.Item2;
-      current.LerpLocal(pair.Item1, strength);
+      var current = pair.transform;
+      current.localRotation = Quaternion.SlerpUnclamped(current.localRotation, pair.rotation.localRotation, strength);
     }
   }
 
