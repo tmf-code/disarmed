@@ -12,13 +12,55 @@ public class ObjectToFramesDictionary : SerializableDictionary<string, UnSeriali
 
 public class RecordingsStore : MonoBehaviour
 {
-  [ShowOnly] public readonly string recordingsPath = "Recordings";
+  // [ShowOnly] public readonly string recordingsPath = "Recordings/Act2-actions";
+  [ShowOnly] public readonly string recordingsPath = "Recordings/Act4";
   // Start is called before the first frame update
   public enum RecordedMovements
   {
-    Unset,
-    LeftAction,
-    RightAction
+    // directions,
+    // directions2,
+    // directions3,
+    // discussing,
+    // discussing2,
+    // discussing3,
+    // discussing4,
+    // discussing5,
+    // eating,
+    // greeting,
+    // greeting2,
+    // photo,
+    // photo2,
+    // posing,
+    // posing2,
+    // posing3,
+    // purchases,
+    // smoking,
+    // smoking2,
+    // waiting,
+    // waiting2,
+    // walking,
+    // walking2,
+
+    sub1,
+    sub2,
+    sub3,
+    sub4,
+    sub5,
+    sub6,
+    sub7,
+    sub8,
+    sub9,
+    sub10,
+    sub11,
+    sub12,
+    sub13,
+    sub14,
+    sub15,
+    sub16,
+    sub17,
+    sub18,
+    sub19,
+    sub20,
   }
 
   [SerializeField]
