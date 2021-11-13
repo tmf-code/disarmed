@@ -470,7 +470,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: act
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: tracking
@@ -478,7 +478,7 @@ PrefabInstance:
       objectReference: {fileID: 597526211}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: debugFast
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: playerArms

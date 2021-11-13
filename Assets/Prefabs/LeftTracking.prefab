@@ -2135,6 +2135,7 @@ GameObject:
   - component: {fileID: 2072051707924851685}
   - component: {fileID: 840578522956751130}
   - component: {fileID: 4581738307471056555}
+  - component: {fileID: 4724550575824418847}
   m_Layer: 0
   m_Name: LeftTracking
   m_TagString: Untagged
@@ -2283,6 +2284,22 @@ MonoBehaviour:
     ringStrength: 0
     pinkyActive: 0
     pinkyStrength: 0
+--- !u!114 &4724550575824418847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072051707924851707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1ffec45b85b7d6418d076f397d0e6ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handBonePairs: []
+  handTracking: {fileID: 2072051707924851686}
+  inverseKinematics: {fileID: 2072051707924851687}
+  maxFrames: 150
 --- !u!1 &2072051707989486172
 GameObject:
   m_ObjectHideFlags: 0

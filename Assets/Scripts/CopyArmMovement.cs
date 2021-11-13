@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,111 +6,44 @@ public class CopyArmMovement : MonoBehaviour
   [Range(0, 1)]
   public float strength = 30F / 60F;
   public GameObject targetArm;
-  private ChildDictionary targetChildDictionary;
+  private DataSources dataSources;
   [SerializeField]
   [HideInInspector]
-  private TransformPair[] handBonePairs;
+
   private ChildDictionary childDictionary;
-  private Handedness handedness;
   private Transform forearm;
   private Transform humerus;
-  private Transform forearmOther;
-  private Transform humerusOther;
+
 
   void Start()
   {
     childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
-    handedness = gameObject.GetComponentOrThrow<Handedness>();
+    dataSources = gameObject.GetComponentOrThrow<DataSources>();
 
-    var playerArms = GameObject.Find("Player").GetComponentOrThrow<PlayerArms>();
-    targetArm = handedness.handType switch
-    {
-      Handedness.HandTypes.HandLeft => playerArms.left,
-      _ => playerArms.right,
-    };
-
-    targetChildDictionary = targetArm.GetComponentOrThrow<ChildDictionary>();
-
-    handBonePairs = targetChildDictionary.modelChildren.Values.Where(child =>
-   {
-     var isTrackedBone = BoneNameOperations.IsTrackedBone(child.name);
-     var isNotIKBone = child.name != "b_l_forearm_stub" && child.name != "b_r_forearm_stub";
-     var isHandBone = isTrackedBone && isNotIKBone;
-     return isHandBone;
-   }).Select(bone =>
-   {
-     var modelBoneTransform = childDictionary.modelChildren.GetValue(bone.name).Unwrap().transform;
-     return new TransformPair(bone.transform, modelBoneTransform);
-   }).ToArray();
-
-    var handPrefix = handedness.HandPrefix();
-
-    forearm = childDictionary.modelChildren.GetValue($"b_{handPrefix}_forearm_stub").Unwrap().transform;
-    humerus = childDictionary.modelChildren.GetValue($"b_{handPrefix}_humerus").Unwrap().transform;
-
-    forearmOther = targetChildDictionary.modelChildren.GetValue($"b_{handPrefix}_forearm_stub").Unwrap().transform;
-    humerusOther = targetChildDictionary.modelChildren.GetValue($"b_{handPrefix}_humerus").Unwrap().transform;
-
+    forearm = childDictionary.modelForearm;
+    humerus = childDictionary.modelHumerus;
   }
 
   public int frameDelay = 0;
 
-  readonly Queue<FrameBuffer> frameQueue = new Queue<FrameBuffer>();
-
   void FixedUpdate()
   {
-    frameQueue.Enqueue(new FrameBuffer(forearmOther.localRotation, humerusOther.localRotation, handBonePairs));
-    if (frameQueue.Count > frameDelay)
+    var maybeFrame = dataSources.sharedFrameBuffer.frameQueue.ElementAtOrDefault(dataSources.sharedFrameBuffer.frameQueue.Count - frameDelay - 1);
+    if (maybeFrame != null)
     {
-      var frameToApply = frameQueue.Dequeue();
-      // Copy IK from other arm
-      forearm.localRotation = Quaternion.SlerpUnclamped(forearm.localRotation, frameToApply.forearmOther, strength);
-      humerus.localRotation = Quaternion.SlerpUnclamped(humerus.localRotation, frameToApply.humerusOther, strength);
+      var frame = maybeFrame;
 
-      foreach (var sourceAndDestination in frameToApply.handBonePairs)
+      forearm.localRotation = Quaternion.SlerpUnclamped(forearm.localRotation, frame.forearm, strength);
+      humerus.localRotation = Quaternion.SlerpUnclamped(humerus.localRotation, frame.humerus, strength);
+
+      foreach (var nameRotation in frame.trackingHandBoneData)
       {
-        var source = sourceAndDestination.source;
-        var destination = sourceAndDestination.destination;
-        destination.localRotation = Quaternion.SlerpUnclamped(source.localRotation, destination.localRotation, strength);
+        var source = nameRotation.Key;
+        if (childDictionary.modelChildren.TryGetValue(source, out var destination))
+        {
+          destination.transform.localRotation = Quaternion.SlerpUnclamped(nameRotation.Value, destination.transform.localRotation, strength);
+        }
       }
     }
-  }
-}
-
-public class FrameBuffer
-{
-  public Quaternion forearmOther;
-  public Quaternion humerusOther;
-  public ITransformPair[] handBonePairs;
-
-  public FrameBuffer(Quaternion forearmOther, Quaternion Other, TransformPair[] handBonePairs)
-  {
-    this.forearmOther = forearmOther;
-    this.humerusOther = Other;
-
-    this.handBonePairs = new ITransformPair[handBonePairs.Length];
-    for (var pairIndex = 0; pairIndex < handBonePairs.Length; pairIndex++)
-    {
-      var sourceAndDestination = handBonePairs[pairIndex];
-      var source = sourceAndDestination.Item1;
-      var current = sourceAndDestination.Item2;
-
-      UnSerializedTransform transform = new UnSerializedTransform(source.localPosition, source.localRotation, source.localScale);
-      var pair = new ITransformPair(transform, current);
-      this.handBonePairs[pairIndex] = pair;
-    }
-  }
-}
-
-[Serializable]
-public struct ITransformPair
-{
-  public ITransform source;
-  public Transform destination;
-
-  public ITransformPair(ITransform source, Transform destination)
-  {
-    this.source = source;
-    this.destination = destination;
   }
 }
