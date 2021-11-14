@@ -47,7 +47,7 @@ BoxCollider:
   m_GameObject: {fileID: 816275461}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 13.323668, y: 1.6408561, z: 4.8991184}
   m_Center: {x: 0.26389027, y: -0.029375613, z: 5.6452646}
@@ -60,7 +60,7 @@ BoxCollider:
   m_GameObject: {fileID: 816275461}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5.066307, y: 1.6711478, z: 8.761529}
   m_Center: {x: -3.9227352, y: -0.0339849, z: 3.8807645}
@@ -73,7 +73,7 @@ BoxCollider:
   m_GameObject: {fileID: 816275461}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5.200074, y: 1.6554508, z: 8.53132}
   m_Center: {x: 3.9858289, y: -0.033878326, z: 3.9011302}
@@ -86,7 +86,7 @@ BoxCollider:
   m_GameObject: {fileID: 816275461}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 8.406061, y: 2.9623883, z: 2.2730317}
   m_Center: {x: 0.0673275, y: 0.98119414, z: -1.1139314}
@@ -125,7 +125,7 @@ BoxCollider:
   m_GameObject: {fileID: 816275461}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.7814918, y: 0.8749921, z: 6.78477}
   m_Center: {x: 0.034377337, y: -0.4312776, z: 2.3741522}
@@ -246,19 +246,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!65 &3252245086465461963
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8309781677501479308}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8, y: 0.79999983, z: 0.79999983}
-  m_Center: {x: 0, y: -0.39999992, z: 0.39999992}
 --- !u!1001 &7737937207913663885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -316,15 +303,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8021416624738670428, guid: 55fb579acebbd49c0b777a316d131128, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -89.98021
+      value: -89.716606
       objectReference: {fileID: 0}
     - target: {fileID: -8021416624738670428, guid: 55fb579acebbd49c0b777a316d131128, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 21.932962
       objectReference: {fileID: 0}
     - target: {fileID: -8021416624738670428, guid: 55fb579acebbd49c0b777a316d131128, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -21.932972
       objectReference: {fileID: 0}
     - target: {fileID: -7775999747367639233, guid: 55fb579acebbd49c0b777a316d131128, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -356,15 +343,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 183237300369809272, guid: 55fb579acebbd49c0b777a316d131128, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -89.98021
+      value: -89.716606
       objectReference: {fileID: 0}
     - target: {fileID: 183237300369809272, guid: 55fb579acebbd49c0b777a316d131128, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -21.932972
       objectReference: {fileID: 0}
     - target: {fileID: 183237300369809272, guid: 55fb579acebbd49c0b777a316d131128, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 21.932962
       objectReference: {fileID: 0}
     - target: {fileID: 696760902399014828, guid: 55fb579acebbd49c0b777a316d131128, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -415,10 +402,5 @@ GameObject:
 --- !u!1 &322819760849749327 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1218137696374503230, guid: 55fb579acebbd49c0b777a316d131128, type: 3}
-  m_PrefabInstance: {fileID: 7737937207913663885}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8309781677501479308 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1743150943672644609, guid: 55fb579acebbd49c0b777a316d131128, type: 3}
   m_PrefabInstance: {fileID: 7737937207913663885}
   m_PrefabAsset: {fileID: 0}
