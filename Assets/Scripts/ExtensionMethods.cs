@@ -127,6 +127,12 @@ public static class ExtensionMethods
     return (TEnum)Enum.Parse(typeof(TEnum), value);
   }
 
+  public static T PopAt<T>(this List<T> list, int index)
+  {
+    T r = list[index];
+    list.RemoveAt(index);
+    return r;
+  }
 }
 
 public interface ITransform

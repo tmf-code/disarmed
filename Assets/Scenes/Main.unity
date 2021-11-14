@@ -353,6 +353,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e45efe266b90a54c9321cf0bef6c577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &916404179
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 916404180}
+  - component: {fileID: 916404181}
+  m_Layer: 0
+  m_Name: EmitterPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &916404180
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916404179}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3124159101102285480}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &916404181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916404179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e2e8b593a9ab440ab9050c2eea828e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSize: 5
+  emitterPrefab: {fileID: 1143824567269402163, guid: d7fbba8a6cc978144968cf27741dbbb8, type: 3}
 --- !u!1 &1033051942
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,12 +544,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: collision
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a8fd3bfe064bf24c94987703866a0c4, type: 3}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: emitterPool
+      value: 
+      objectReference: {fileID: 916404181}
     - target: {fileID: 3124159100875462308, guid: db82e790488014a4297e378913ff774c, type: 3}
       propertyPath: m_Name
       value: AudioController
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db82e790488014a4297e378913ff774c, type: 3}
+--- !u!4 &3124159101102285480 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3124159100875462305, guid: db82e790488014a4297e378913ff774c, type: 3}
+  m_PrefabInstance: {fileID: 3124159101102285479}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3416799771825633285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -569,6 +627,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
+      propertyPath: act
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: tracking
       value: 
