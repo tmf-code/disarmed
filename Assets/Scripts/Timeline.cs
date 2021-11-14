@@ -52,10 +52,14 @@ public class Timeline : MonoBehaviour
     Two,
     SpawnArmsOnPlatform,
     WallsMoveBack,
+    WavingArmsOnPlatform,
     WallsContract,
+    InactiveRagdollArmsInCenter,
+
     RemoveArms1,
     RemoveArms2,
     RemoveArms3,
+
     ArmsDoingDifferentActions,
     TwoEnd,
 
@@ -111,37 +115,39 @@ public class Timeline : MonoBehaviour
       {Acts.One,                                      D(3F)},
 
       {Acts.OpenRoof1,                                D(2F)},
-      {Acts.ArmFromCeiling,                           D(75F, bigArmFromRoof)},
+      {Acts.ArmFromCeiling,                           D(120F, bigArmFromRoof)},
       {Acts.CloseRoof1,                               D(2F)},
 
-      {Acts.CopiesOfPlayersArms,                      D(75F)},
+      {Acts.CopiesOfPlayersArms,                      D(20F)},
 
       {Acts.ShowHighStairs,                           D(5F)},
       {Acts.SpawnArmsOnExtraStairs,                   D(3F)},
-      {Acts.VariableOffset,                           D(27F)},
-      {Acts.LongTimeOffset,                           D(35F)},
+      {Acts.VariableOffset,                           D(26F)},
+      {Acts.LongTimeOffset,                           D(24F)},
       {Acts.DespawnArmsOnAllStairs,                   D(1F)},
       {Acts.HideHighStairs,                           D(5F)},
 
       {Acts.OpenRoof2,                                D(2F)},
-      {Acts.LargeArmHoldingArms,                      D(75F, largeArmHoldingArms)},
+      {Acts.LargeArmHoldingArms,                      D(28F, largeArmHoldingArms)},
       {Acts.CloseRoof2,                               D(2F)},
       {Acts.OneEnd,                                   D(3F)},
 
       {Acts.Two,                                      D(3F)},
       {Acts.SpawnArmsOnPlatform,                      D(3F)},
-      {Acts.WallsMoveBack,                            D(40F)},
-      {Acts.WallsContract,                            D(40F)},
+      {Acts.WallsMoveBack,                            D(5F)},
+      {Acts.WavingArmsOnPlatform,                     D(25F)},
+      {Acts.WallsContract,                            D(5F)},
+      {Acts.InactiveRagdollArmsInCenter,              D(37F)},
       {Acts.RemoveArms1,                              D(3F)},
       {Acts.RemoveArms2,                              D(3F)},
       {Acts.RemoveArms3,                              D(3F)},
-      {Acts.ArmsDoingDifferentActions,                D(40F)},
+      {Acts.ArmsDoingDifferentActions,                D(29F)},
       {Acts.TwoEnd,                                   D(3F)},
 
       {Acts.Three,                                    D(3F)},
-      {Acts.LeftArmRightArmSwapped,                   D(23F)},
-      {Acts.ArmsDropToFloor,                          D(23F)},
-      {Acts.ArmsToShoulderPlayerDifferentActions,     D(23F)},
+      {Acts.LeftArmRightArmSwapped,                   D(27F)},
+      {Acts.ArmsDropToFloor,                          D(30F)},
+      {Acts.ArmsToShoulderPlayerDifferentActions,     D(36F)},
       {Acts.OneArmTakesOffOther,                      D(23F)},
       {Acts.ThreeEnd,                                 D(3F)},
 
@@ -256,9 +262,15 @@ public class Timeline : MonoBehaviour
         case Acts.WallsMoveBack:
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExtendRoom);
           break;
+        case Acts.WavingArmsOnPlatform:
+          // To enjoy
+          break;
         case Acts.WallsContract:
           armPool.SetStairState(ArmPool.StairState.FlatRagdoll);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ShrinkRoom);
+          break;
+        case Acts.InactiveRagdollArmsInCenter:
+          // To enjoy
           break;
         case Acts.RemoveArms1:
           armPool.SetStairState(ArmPool.StairState.RemoveStepOne);
