@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class DataSources : MonoBehaviour
 {
-  public ArmBoneData ikArmBoneData;
-  public HandBoneData trackingHandBoneData;
-  public HandRootData trackingHandRootData;
-  public GestureData gestureData;
-  public Handedness handedness;
-  public SharedFrameBuffer sharedFrameBuffer;
+  [HideInInspector] public ArmBoneData ikArmBoneData;
+  [HideInInspector] public HandBoneData trackingHandBoneData;
+  [HideInInspector] public HandRootData trackingHandRootData;
+  [HideInInspector] public GestureData gestureData;
+  [HideInInspector] public Handedness handedness;
+  [HideInInspector] public SharedFrameBuffer sharedFrameBuffer;
 
   void Awake()
   {
