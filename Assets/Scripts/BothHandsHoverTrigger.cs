@@ -12,14 +12,24 @@ public class BothHandsHoverTrigger : MonoBehaviour
   private float progression = 0f;
   public float hoverDuration = 4f;
 
+  public AudioSource source;
+
+  void Start()
+  {
+    source.mute = true;
+    source.Play();
+    source.loop = true;
+  }
+
   void Update()
   {
+    source.mute = !isHoveringBoth || isHoverComplete;
+    if (isHoverComplete) source.Stop();
+
     if (rightHand.inHoverPosition && leftHand.inHoverPosition && !isHoverComplete)
     {
       isHoveringBoth = true;
       progression += Time.deltaTime;
-      rightHand.setProgression(progression / hoverDuration);
-      leftHand.setProgression(progression / hoverDuration);
       indicator.fillAmount = progression / hoverDuration;
     }
     else if (!isHoverComplete)
@@ -33,9 +43,5 @@ public class BothHandsHoverTrigger : MonoBehaviour
     if (!isHoverComplete) return;
 
     indicator.fillAmount = 0;
-    rightHand.GetComponent<MeshRenderer>().material
-      .SetColor("_Color", Color.green);
-    leftHand.GetComponent<MeshRenderer>().material
-      .SetColor("_Color", Color.green);
   }
 }

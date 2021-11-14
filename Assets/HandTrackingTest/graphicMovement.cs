@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class graphicMovement : MonoBehaviour
@@ -8,16 +6,12 @@ public class graphicMovement : MonoBehaviour
 
   public float lerpSpeed = 0.98f;
 
-  // Start is called before the first frame update
-  void Start()
-  {
-
-  }
-
   // Update is called once per frame
   void Update()
   {
-    this.transform.localPosition = Vector3.Lerp(Camera.transform.localPosition, this.transform.localPosition, lerpSpeed);
-    this.transform.localRotation = Quaternion.Slerp(Camera.transform.localRotation, this.transform.localRotation, lerpSpeed);
+    transform.localPosition = Vector3.Lerp(Camera.transform.localPosition, transform.localPosition, lerpSpeed);
+    transform.localRotation = Quaternion.Slerp(Camera.transform.localRotation, transform.localRotation, lerpSpeed);
+    var eulers = transform.localRotation.eulerAngles;
+    transform.localRotation = Quaternion.Euler(eulers.x, eulers.y, 0);
   }
 }
