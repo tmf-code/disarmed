@@ -20,15 +20,40 @@ public class ArmPlayback : MonoBehaviour
   public bool playOnEnable = false;
   public int framesPlayed = 0;
 
-  [SerializeField]
-  [HideInInspector]
+  public int startAtFrame = 0;
+  public int endAtFrame = 0;
+
+  public PivotPoint pivotPoint;
+
   private ArmRecording recording;
   private Transform model;
+
+  [Button(nameof(ApplyFrame))]
+  public bool buttonField;
+
+  public Animator animator;
 
   public void Start()
   {
     LoadRecording();
   }
+
+#if UNITY_EDITOR
+  public void ApplyFrame()
+  {
+    LoadRecording();
+    if (endAtFrame > recording.frameTransforms.Count)
+      throw new System.Exception($"End at frame cannot be higher than total frames {endAtFrame}:{recording.frameTransforms.Count}");
+
+    framesPlayed %= endAtFrame;
+    if (framesPlayed == 0)
+    {
+      framesPlayed += startAtFrame;
+    }
+    ApplyTransforms();
+    pivotPoint.LateUpdate();
+  }
+#endif
 
   void OnEnable()
   {
@@ -56,6 +81,12 @@ public class ArmPlayback : MonoBehaviour
 
   void PlayNextFrame()
   {
+    if (framesPlayed == 0)
+    {
+      framesPlayed += startAtFrame;
+      animator.Play("LowerArm", 0);
+    }
+
 
     var isFrameAvaliable = framesPlayed >= recording.frameTransforms.Count;
     if (isFrameAvaliable)
@@ -65,6 +96,7 @@ public class ArmPlayback : MonoBehaviour
     }
 
     framesPlayed += 1;
+    framesPlayed %= endAtFrame;
   }
 
   // Update is called once per frame
