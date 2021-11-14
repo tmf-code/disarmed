@@ -16,14 +16,71 @@ public class RecordingsStore : MonoBehaviour
   // Start is called before the first frame update
   public enum RecordedMovements
   {
-    Unset,
-    LeftAction,
-    RightAction
+    // Act 2 start
+    wavingLeft1,
+    wavingLeft2,
+    wavingLeft3,
+    wavingLeft4,
+    wavingLeft5,
+    wavingLeft6,
+    wavingRight1,
+    wavingRight2,
+    wavingRight3,
+    wavingRight4,
+    wavingRight5,
+
+    // Act 2 end
+    directions,
+    directions2,
+    directions3,
+    discussing,
+    discussing2,
+    discussing3,
+    discussing4,
+    discussing5,
+    eating,
+    greeting,
+    greeting2,
+    photo,
+    photo2,
+    posing,
+    posing2,
+    posing3,
+    purchases,
+    smoking,
+    smoking2,
+    waiting,
+    waiting2,
+    walking,
+    walking2,
+
+    // Act 4
+    sub1,
+    sub2,
+    sub3,
+    sub4,
+    sub5,
+    sub6,
+    sub7,
+    sub8,
+    sub9,
+    sub10,
+    sub11,
+    sub12,
+    sub13,
+    sub14,
+    sub15,
+    sub16,
+    sub17,
+    sub18,
+    sub19,
   }
 
   [SerializeField]
+  [HideInInspector]
   private MovementToRecordingDictionary leftRecordings;
   [SerializeField]
+  [HideInInspector]
   private MovementToRecordingDictionary rightRecordings;
 
   void Awake()
@@ -62,7 +119,11 @@ public class RecordingsStore : MonoBehaviour
     {
       throw new Exception($"Could not load text asset {recordingPath}");
     }
-    return JsonUtility.FromJson<ArmRecording>(textAsset.text);
+
+    var maybeArmRecording = JsonUtility.FromJson<ArmRecording>(textAsset.text);
+    if (maybeArmRecording == null)
+      throw new Exception($"Could not parse text asset {textAsset} with name {recordingName} \n {textAsset.text}");
+    return maybeArmRecording;
   }
 
   private ObjectToFramesDictionary OrganiseRecordingByKey(ArmRecording recording)
