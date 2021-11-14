@@ -346,6 +346,11 @@ Transform:
   m_Father: {fileID: 1033051943}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &838887116 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5487906834635304454, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
+  m_PrefabInstance: {fileID: 597526210}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &914174980 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
@@ -549,9 +554,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: chime
+      value: 
+      objectReference: {fileID: 8300000, guid: 2fdb8fdfaaa8a6144bd7757636af4528, type: 3}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
       propertyPath: collision
       value: 
-      objectReference: {fileID: 8300000, guid: 5a8fd3bfe064bf24c94987703866a0c4, type: 3}
+      objectReference: {fileID: 8300000, guid: 0713ec41fe76b6e4eaf1c9230237d1d0, type: 3}
     - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
       propertyPath: emitterPool
       value: 
@@ -631,6 +640,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4150659633412140546, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
+      propertyPath: Camera
+      value: 
+      objectReference: {fileID: 838887116}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: act
       value: 0

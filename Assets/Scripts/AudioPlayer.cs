@@ -10,10 +10,12 @@ public class AudioPlayer : MonoBehaviour
   public AudioClip act2;
   public AudioClip act3;
   public AudioClip act4;
+  public AudioClip chime;
 
   public enum ActAudio
   {
     Intro,
+    Chime,
     Act1,
     Act2,
     Act3,
@@ -33,6 +35,9 @@ public class AudioPlayer : MonoBehaviour
     {
       case ActAudio.Intro:
         source.clip = intro;
+        break;
+      case ActAudio.Chime:
+        source.clip = chime;
         break;
       case ActAudio.Act1:
         source.clip = act1;

@@ -333,6 +333,7 @@ public class Timeline : MonoBehaviour
         if (!isHoverComplete)
         {
           yield return new WaitUntil(() => ghostHands.GetComponentOrThrow<BothHandsHoverTrigger>().isHoverComplete);
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Chime);
         }
         else
         {
