@@ -177,7 +177,7 @@ public class Timeline : MonoBehaviour
         case Acts.Opening:
           armPool.SetStairState(ArmPool.StairState.None);
 
-          audioPlayer.PlayAct(AudioPlayer.ClipType.Intro);
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Intro);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.Idle);
           lightingController.state = LightingController.LightingState.Dark;
           textCanvas.state = TextCanvas.TextState.Transparent;
@@ -191,7 +191,7 @@ public class Timeline : MonoBehaviour
 
 
         case Acts.One:
-          audioPlayer.PlayAct(AudioPlayer.ClipType.Act1);
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Act1);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act1;
           break;
@@ -243,7 +243,7 @@ public class Timeline : MonoBehaviour
           break;
 
         case Acts.Two:
-          audioPlayer.PlayAct(AudioPlayer.ClipType.Act2);
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Act2);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act2;
           break;
@@ -278,7 +278,7 @@ public class Timeline : MonoBehaviour
           break;
 
         case Acts.Three:
-          audioPlayer.PlayAct(AudioPlayer.ClipType.Act3);
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Act3);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act3;
           break;
@@ -304,7 +304,7 @@ public class Timeline : MonoBehaviour
 
         case Acts.Four:
           armPool.SetStairState(ArmPool.StairState.Act4);
-          audioPlayer.PlayAct(AudioPlayer.ClipType.Act4);
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act4;
           break;
