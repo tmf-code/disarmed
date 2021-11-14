@@ -22,7 +22,6 @@ public class WorldSceneSelector : MonoBehaviour
 
   public void ChangeScene(WorldScene scene)
   {
-    Debug.Log($"Try to play scene {scene}");
     anim.Play(scene.ToString(), 0);
   }
 }

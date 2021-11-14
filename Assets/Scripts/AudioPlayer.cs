@@ -5,16 +5,16 @@ public class AudioPlayer : MonoBehaviour
   public AudioSource source;
   public EmitterPool emitterPool;
 
-  public AudioClip intro;
+  public AudioClip tuning;
+  public AudioClip chime;
   public AudioClip act1;
   public AudioClip act2;
   public AudioClip act3;
   public AudioClip act4;
-  public AudioClip chime;
 
   public enum ActAudio
   {
-    Intro,
+    Tuning,
     Chime,
     Act1,
     Act2,
@@ -33,25 +33,32 @@ public class AudioPlayer : MonoBehaviour
   {
     switch (act)
     {
-      case ActAudio.Intro:
-        source.clip = intro;
+      case ActAudio.Tuning:
+        source.loop = true;
+        source.clip = tuning;
         break;
       case ActAudio.Chime:
+        source.loop = false;
         source.clip = chime;
         break;
       case ActAudio.Act1:
+        source.loop = false;
         source.clip = act1;
         break;
       case ActAudio.Act2:
+        source.loop = false;
         source.clip = act2;
         break;
       case ActAudio.Act3:
+        source.loop = false;
         source.clip = act3;
         break;
       case ActAudio.Act4:
+        source.loop = false;
         source.clip = act4;
         break;
     }
+
     source.Play();
   }
 

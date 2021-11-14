@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BothHandsHoverTrigger : MonoBehaviour
-
 {
   public HandHoverTrigger rightHand;
   public HandHoverTrigger leftHand;

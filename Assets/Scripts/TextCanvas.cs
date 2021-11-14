@@ -5,7 +5,7 @@ public class TextCanvas : MonoBehaviour
 {
 
   private new Camera camera;
-
+  public SpriteRenderer introTitle;
   public enum TextTypes
   {
     Static,
@@ -20,6 +20,7 @@ public class TextCanvas : MonoBehaviour
 
   public enum Acts
   {
+    Intro,
     Act1,
     Act2,
     Act3,
@@ -46,9 +47,10 @@ public class TextCanvas : MonoBehaviour
     camera = Camera.main;
     actNumber.color = transparent;
     actTitle.color = transparent;
-    actNumber.text = "Act 1.";
-    actTitle.text = "Pointed Dreams of a Pair of Arms";
+    actNumber.text = "";
+    actTitle.text = "";
     SetTextState();
+    introTitle.color = white;
   }
 
   void OnEnable()
@@ -67,19 +69,28 @@ public class TextCanvas : MonoBehaviour
 
     switch (_act)
     {
+      case Acts.Intro:
+        introTitle.gameObject.SetActive(true);
+        actNumber.text = "";
+        actTitle.text = "";
+        break;
       case Acts.Act1:
+        introTitle.gameObject.SetActive(false);
         actNumber.text = "Act 1.";
         actTitle.text = "Pointed Dreams of a Pair of Arms";
         break;
       case Acts.Act2:
+        introTitle.gameObject.SetActive(false);
         actNumber.text = "Act 2.";
         actTitle.text = "The Missing Touch";
         break;
       case Acts.Act3:
+        introTitle.gameObject.SetActive(false);
         actNumber.text = "Act 3.";
         actTitle.text = "Losing a Grip on Control";
         break;
       case Acts.Act4:
+        introTitle.gameObject.SetActive(false);
         actNumber.text = "Act 4.";
         actTitle.text = "Disarmed";
         break;
@@ -98,6 +109,8 @@ public class TextCanvas : MonoBehaviour
       case TextTypes.Lerp:
         transform.localPosition = Vector3.Lerp(transform.localPosition, camera.transform.localPosition, lerpSpeed);
         transform.localRotation = Quaternion.Slerp(transform.localRotation, camera.transform.localRotation, lerpSpeed);
+        var eulers = transform.localRotation.eulerAngles;
+        transform.localRotation = Quaternion.Euler(eulers.x, eulers.y, 0);
         break;
     }
   }
@@ -128,8 +141,10 @@ public class TextCanvas : MonoBehaviour
     opacityAnimation.Match(() => { }, animation =>
     {
       animation.Update(Time.time);
-      actTitle.color = Color.Lerp(previousColor, nextColor, animation.easedProgression);
-      actNumber.color = Color.Lerp(previousColor, nextColor, animation.easedProgression);
+      var color = Color.Lerp(previousColor, nextColor, animation.easedProgression);
+      actTitle.color = color;
+      actNumber.color = color;
+      introTitle.color = color;
       if (animation.progression == 0F || animation.progression == 1F)
       {
         if (animation.progression == 1F)

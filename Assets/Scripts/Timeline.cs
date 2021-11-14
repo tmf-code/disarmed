@@ -176,17 +176,17 @@ public class Timeline : MonoBehaviour
       {
         case Acts.Opening:
           armPool.SetStairState(ArmPool.StairState.None);
-
-          audioPlayer.PlayAct(AudioPlayer.ActAudio.Intro);
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Tuning);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.Idle);
           lightingController.state = LightingController.LightingState.Dark;
-          textCanvas.state = TextCanvas.TextState.Transparent;
+          textCanvas.state = TextCanvas.TextState.Opaque;
           break;
         case Acts.FitPlayersArmsIntoGhost:
           lightingController.state = LightingController.LightingState.Light;
           break;
         case Acts.OpeningEnd:
           lightingController.state = LightingController.LightingState.Dark;
+          textCanvas.state = TextCanvas.TextState.Transparent;
           break;
 
 

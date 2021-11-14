@@ -8,8 +8,8 @@ public class HandHoverTrigger : MonoBehaviour
   private Collider modelCollider;
   public bool inHoverPosition = false;
 
-  private Color active = new Color(1F, 1F, 1F, 0.1F);
-  private Color inactive = new Color(1F, 1F, 1F, 0.3F);
+  private Color active = new Color(1F, 1F, 1F, 0.3F);
+  private Color inactive = new Color(1F, 1F, 1F, 0.1F);
   void Start()
   {
     modelCollider = playerHand.model.gameObject.GetComponentOrThrow<Collider>();
