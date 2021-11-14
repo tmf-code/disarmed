@@ -32,16 +32,25 @@ public class Timeline : MonoBehaviour
     OpeningEnd,
 
     One,
+    OpenRoof1,
     ArmFromCeiling,
+    CloseRoof1,
     CopiesOfPlayersArms,
-    ExtraStairs,
-    VariableOffset,
 
+    ShowHighStairs,
+    SpawnArmsOnExtraStairs,
+    VariableOffset,
     LongTimeOffset,
+    DespawnArmsOnAllStairs,
+    HideHighStairs,
+
+    OpenRoof2,
     LargeArmHoldingArms,
+    CloseRoof2,
     OneEnd,
 
     Two,
+    SpawnArmsOnPlatform,
     WallsMoveBack,
     WallsContract,
     RemoveArms1,
@@ -65,45 +74,7 @@ public class Timeline : MonoBehaviour
     End,
   }
 
-  public readonly IReadOnlyDictionary<Acts, float> durations = new Dictionary<Acts, float>((int)Acts.End + 1) {
-      {Acts.Opening, 3F},
-      {Acts.FitPlayersArmsIntoGhost, 3F},
-      {Acts.OpeningEnd, 3F},
-
-      {Acts.One, 3F},
-      {Acts.ArmFromCeiling, 75F},
-      {Acts.CopiesOfPlayersArms, 75F},
-      {Acts.ExtraStairs, 3F},
-      {Acts.VariableOffset, 27F},
-      {Acts.LongTimeOffset, 35F},
-      {Acts.LargeArmHoldingArms, 75F},
-      {Acts.OneEnd, 3F},
-
-      {Acts.Two, 3F},
-      {Acts.WallsMoveBack, 40F},
-      {Acts.WallsContract, 40F},
-      {Acts.RemoveArms1, 3F},
-      {Acts.RemoveArms2, 3F},
-      {Acts.RemoveArms3, 3F},
-      {Acts.ArmsDoingDifferentActions, 40F},
-      {Acts.TwoEnd, 3F},
-
-      {Acts.Three, 3F},
-      {Acts.LeftArmRightArmSwapped, 23F},
-      {Acts.ArmsDropToFloor, 23F},
-      {Acts.ArmsToShoulderPlayerDifferentActions, 23F},
-      {Acts.OneArmTakesOffOther, 23F},
-      {Acts.ThreeEnd, 3F},
-
-      {Acts.Four, 3F},
-      {Acts.PlayersArmsAndMovingArms, 60F},
-      {Acts.AllArmsWaveGoodbye, 3F},
-      {Acts.FourEnd, 3F},
-
-      {Acts.End, 3F},
-  };
-
-  public IReadOnlyDictionary<Acts, List<GameObject>> activeObjectPerStage;
+  public IReadOnlyDictionary<Acts, ActDescription> actDescriptions;
   [SerializeField] [HideInInspector] private List<GameObject> allObjects;
 
   public enum State
@@ -122,51 +93,65 @@ public class Timeline : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    static List<GameObject> L(params GameObject[] array) => array.ToList();
+    List<GameObject> L(params GameObject[] array) => array.ToList();
 
+    ActDescription D(float duraction, params GameObject[] array) => new ActDescription(duraction, array.ToList());
+    D(0.0F, ghostHands);
     allObjects = L(
       ghostHands,
       bigArmFromRoof,
       largeArmHoldingArms
     );
 
-    activeObjectPerStage = new Dictionary<Acts, List<GameObject>>((int)Acts.End + 1) {
-      {Acts.Opening, L()},
-      {Acts.FitPlayersArmsIntoGhost, L(ghostHands)},
-      {Acts.OpeningEnd, L()},
+    actDescriptions = new Dictionary<Acts, ActDescription>((int)Acts.End + 1) {
+      {Acts.Opening,                                  D(3F)},
+      {Acts.FitPlayersArmsIntoGhost,                  D(3F, ghostHands)},
+      {Acts.OpeningEnd,                               D(3F)},
 
-      {Acts.One, L()},
-      {Acts.ArmFromCeiling, L(bigArmFromRoof)},
-      {Acts.CopiesOfPlayersArms, L()},
-      {Acts.ExtraStairs, L()},
-      {Acts.VariableOffset, L()},
-      {Acts.LongTimeOffset, L()},
-      {Acts.LargeArmHoldingArms, L(largeArmHoldingArms )},
-      {Acts.OneEnd, L()},
+      {Acts.One,                                      D(3F)},
 
-      {Acts.Two, L()},
-      {Acts.WallsMoveBack, L()},
-      {Acts.WallsContract, L()},
-      {Acts.RemoveArms1, L()},
-      {Acts.RemoveArms2, L()},
-      {Acts.RemoveArms3, L()},
-      {Acts.ArmsDoingDifferentActions, L( )},
-      {Acts.TwoEnd, L()},
+      {Acts.OpenRoof1,                                D(2F)},
+      {Acts.ArmFromCeiling,                           D(75F, bigArmFromRoof)},
+      {Acts.CloseRoof1,                               D(2F)},
 
-      {Acts.Three, L()},
-      {Acts.LeftArmRightArmSwapped, L()},
-      {Acts.ArmsDropToFloor, L()},
-      {Acts.ArmsToShoulderPlayerDifferentActions, L()},
-      {Acts.OneArmTakesOffOther, L()},
-      {Acts.ThreeEnd, L()},
+      {Acts.CopiesOfPlayersArms,                      D(75F)},
 
-      {Acts.Four, L()},
-      {Acts.PlayersArmsAndMovingArms, L()},
-      {Acts.AllArmsWaveGoodbye, L()},
-      {Acts.FourEnd, L()},
+      {Acts.ShowHighStairs,                           D(5F)},
+      {Acts.SpawnArmsOnExtraStairs,                   D(3F)},
+      {Acts.VariableOffset,                           D(27F)},
+      {Acts.LongTimeOffset,                           D(35F)},
+      {Acts.DespawnArmsOnAllStairs,                   D(1F)},
+      {Acts.HideHighStairs,                           D(5F)},
 
-      {Acts.End, L()},
-  };
+      {Acts.OpenRoof2,                                D(2F)},
+      {Acts.LargeArmHoldingArms,                      D(75F, largeArmHoldingArms)},
+      {Acts.CloseRoof2,                               D(2F)},
+      {Acts.OneEnd,                                   D(3F)},
+
+      {Acts.Two,                                      D(3F)},
+      {Acts.SpawnArmsOnPlatform,                      D(3F)},
+      {Acts.WallsMoveBack,                            D(40F)},
+      {Acts.WallsContract,                            D(40F)},
+      {Acts.RemoveArms1,                              D(3F)},
+      {Acts.RemoveArms2,                              D(3F)},
+      {Acts.RemoveArms3,                              D(3F)},
+      {Acts.ArmsDoingDifferentActions,                D(40F)},
+      {Acts.TwoEnd,                                   D(3F)},
+
+      {Acts.Three,                                    D(3F)},
+      {Acts.LeftArmRightArmSwapped,                   D(23F)},
+      {Acts.ArmsDropToFloor,                          D(23F)},
+      {Acts.ArmsToShoulderPlayerDifferentActions,     D(23F)},
+      {Acts.OneArmTakesOffOther,                      D(23F)},
+      {Acts.ThreeEnd,                                 D(3F)},
+
+      {Acts.Four,                                     D(3F)},
+      {Acts.PlayersArmsAndMovingArms,                 D(60F)},
+      {Acts.AllArmsWaveGoodbye,                       D(3F)},
+      {Acts.FourEnd,                                  D(3F)},
+
+      {Acts.End,                                      D(3F)},
+    };
 
     coroutine = NextAct();
     StartCoroutine(coroutine);
@@ -184,8 +169,8 @@ public class Timeline : MonoBehaviour
 
     while (state == State.Playing)
     {
-      activeObjectPerStage.TryGetValue(act, out var activeObjects);
-      allObjects.ForEach(testObject => testObject.SetActive(activeObjects.Contains(testObject)));
+      actDescriptions.TryGetValue(act, out var activeObjects);
+      allObjects.ForEach(testObject => testObject.SetActive(activeObjects.gameObjects.Contains(testObject)));
 
       switch (act)
       {
@@ -193,7 +178,7 @@ public class Timeline : MonoBehaviour
           armPool.SetStairState(ArmPool.StairState.None);
 
           audioPlayer.PlayAct(AudioPlayer.ClipType.Intro);
-          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.Base);
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.Idle);
           lightingController.state = LightingController.LightingState.Dark;
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
@@ -204,33 +189,54 @@ public class Timeline : MonoBehaviour
           lightingController.state = LightingController.LightingState.Dark;
           break;
 
+
         case Acts.One:
           audioPlayer.PlayAct(AudioPlayer.ClipType.Act1);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act1;
           break;
-        case Acts.ArmFromCeiling:
+
+        case Acts.OpenRoof1:
           lightingController.state = LightingController.LightingState.Light;
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
+        case Acts.ArmFromCeiling:
+          break;
+        case Acts.CloseRoof1:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
+          break;
+
         case Acts.CopiesOfPlayersArms:
           armPool.SetStairState(ArmPool.StairState.TwoCopy);
           break;
-        case Acts.ExtraStairs:
+
+        case Acts.ShowHighStairs:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ShowHighStairs);
+          break;
+        case Acts.SpawnArmsOnExtraStairs:
           armPool.SetStairState(ArmPool.StairState.All);
-          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExpandRoom);
           break;
         case Acts.VariableOffset:
           armPool.SetStairState(ArmPool.StairState.VariableOffset);
-          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExpandRoom);
           break;
         case Acts.LongTimeOffset:
           armPool.SetStairState(ArmPool.StairState.LongTimeOffset);
-          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExpandRoom);
+          break;
+        case Acts.DespawnArmsOnAllStairs:
+          armPool.SetStairState(ArmPool.StairState.None);
+          break;
+        case Acts.HideHighStairs:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.HideHighStairs);
+          break;
+
+        case Acts.OpenRoof2:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
           break;
         case Acts.LargeArmHoldingArms:
-          armPool.SetStairState(ArmPool.StairState.None);
-          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ShrinkRoom);
+          break;
+        case Acts.CloseRoof2:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
           break;
         case Acts.OneEnd:
           lightingController.state = LightingController.LightingState.Dark;
@@ -241,16 +247,18 @@ public class Timeline : MonoBehaviour
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act2;
           break;
-        case Acts.WallsMoveBack:
-          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.RevealPlatform);
+
+        case Acts.SpawnArmsOnPlatform:
           lightingController.state = LightingController.LightingState.Dim;
           textCanvas.state = TextCanvas.TextState.Transparent;
           armPool.SetStairState(ArmPool.StairState.Flat);
-
+          break;
+        case Acts.WallsMoveBack:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExtendRoom);
           break;
         case Acts.WallsContract:
           armPool.SetStairState(ArmPool.StairState.FlatRagdoll);
-          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.HidePlatform);
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ShrinkRoom);
           break;
         case Acts.RemoveArms1:
           armPool.SetStairState(ArmPool.StairState.RemoveStepOne);
@@ -285,8 +293,10 @@ public class Timeline : MonoBehaviour
           playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.ResponsiveRagdoll;
           break;
         case Acts.ArmsToShoulderPlayerDifferentActions:
+          Debug.LogWarning("Arms to shoulder not implemented");
           break;
         case Acts.OneArmTakesOffOther:
+          Debug.LogWarning("One arm takes off other not implemented");
           break;
         case Acts.ThreeEnd:
           lightingController.state = LightingController.LightingState.Dark;
@@ -310,9 +320,12 @@ public class Timeline : MonoBehaviour
 
         case Acts.End:
           break;
+
+        default:
+          throw new System.Exception($"{act} not implemented");
       }
 
-      var waitTime = durations[act];
+      var waitTime = actDescriptions[act].duration;
 
       if (act == Acts.FitPlayersArmsIntoGhost)
       {
@@ -323,7 +336,7 @@ public class Timeline : MonoBehaviour
         }
         else
         {
-          yield return new WaitForSeconds(waitTime * (debugFast ? 0.2F : 1.0F));
+          yield return new WaitForSeconds(waitTime * (debugFast && waitTime > 10F ? 0.1F : 1.0F));
           act += 1;
         }
       }
@@ -334,9 +347,21 @@ public class Timeline : MonoBehaviour
           Stop();
           yield return null;
         }
-        yield return new WaitForSeconds(waitTime * (debugFast ? 0.2F : 1.0F));
+        yield return new WaitForSeconds(waitTime * (debugFast && waitTime > 10F ? 0.1F : 1.0F));
         act += 1;
       }
     }
+  }
+}
+
+public struct ActDescription
+{
+  public float duration;
+  public List<GameObject> gameObjects;
+
+  public ActDescription(float duration, List<GameObject> gameObjects)
+  {
+    this.duration = duration;
+    this.gameObjects = gameObjects;
   }
 }

@@ -6,31 +6,23 @@ public class WorldSceneSelector : MonoBehaviour
 
   public enum WorldScene
   {
-    Base = 1,
-    ExpandRoom = 2,
-    ShrinkRoom = 3,
-    RevealPlatform = 4,
-    HidePlatform = 5,
+    Idle = 0,
+    OpenRoof = 1,
+    CloseRoof = 2,
+    ShowHighStairs = 3,
+    HideHighStairs = 4,
+    ExtendRoom = 5,
+    ShrinkRoom = 6,
+  }
+
+  void Start()
+  {
+    anim.Play(WorldScene.Idle.ToString(), 0);
   }
 
   public void ChangeScene(WorldScene scene)
   {
-    anim.SetInteger("Scene", (int)scene);
-  }
-
-  void Update()
-  {
-    if (Input.GetKeyDown(KeyCode.RightArrow))
-    {
-      int currentScene = anim.GetInteger("Scene");
-      if (currentScene + 1 < 5)
-      {
-        anim.SetInteger("Scene", currentScene + 1);
-      }
-      else
-      {
-        anim.SetInteger("Scene", 1);
-      }
-    }
+    Debug.Log($"Try to play scene {scene}");
+    anim.Play(scene.ToString(), 0);
   }
 }

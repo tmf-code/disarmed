@@ -7,7 +7,7 @@ public class ArmPool : MonoBehaviour
   private readonly float stairHeight = 0.4F;
   private readonly float stairDepth = 0.4F;
   private readonly float startHeight = 0.4F;
-  private readonly float startWidth = 1.4F;
+  private readonly float startWidth = 2F;
   private readonly int maxStairCount = 8;
   private readonly float roomSize = 3.0F;
 
