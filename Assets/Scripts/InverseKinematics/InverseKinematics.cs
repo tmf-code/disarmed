@@ -83,13 +83,13 @@ public class InverseKinematics : MonoBehaviour
   {
     //Z axis is swapped with x for all (ie x axis points forward) (pitch with roll)
     static readonly EulerConstraint b_l_forearm_stub = new EulerConstraint(
-      pitch: new Range(20F),
-      yaw: new Range(30F),
+      pitch: new Range(140F),
+      yaw: new Range(140F),
       roll: new Range(170F)
     );
     static readonly EulerConstraint b_r_forearm_stub = new EulerConstraint(
-      pitch: new Range(20F),
-      yaw: new Range(30F),
+      pitch: new Range(140F),
+      yaw: new Range(140F),
       roll: new Range(170F)
     );
     static readonly EulerConstraint b_l_humerus = new EulerConstraint(
