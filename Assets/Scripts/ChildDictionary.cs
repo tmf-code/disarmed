@@ -14,17 +14,15 @@ public class ChildDictionary : MonoBehaviour
   public Transform model;
   public Transform vrTrackingData;
 
-  public StringGameObjectDictionary modelChildren;
-  public StringGameObjectDictionary vrTrackingDataChildren;
+  [HideInInspector] public StringGameObjectDictionary modelChildren;
+  [HideInInspector] public StringGameObjectDictionary vrTrackingDataChildren;
 
   public Transform modelForearm;
   public Transform modelHumerus;
   public Transform modelShoulder;
 
-  [HideInInspector]
-  public TransformPair[] handBonePairs;
-  [HideInInspector]
-  public GameObjectGameObjectDictionary trackingToModel;
+  [HideInInspector] public TransformPair[] handBonePairs;
+  [HideInInspector] public GameObjectGameObjectDictionary trackingToModel;
 
   void Awake()
   {
