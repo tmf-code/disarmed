@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class PivotPoint : MonoBehaviour
 {
-  public PivotPointType pivotPointType = PivotPointType.Wrist;
-  private Transform offset;
-  private Transform pivot;
-  private Transform model;
-  private Transform elbow;
-  private Transform shoulder;
 
-  private Handedness handedness;
+  public PivotPointType pivotPointType = PivotPointType.Wrist;
+  public ChildDictionary childDictionary;
+
+  public Handedness handedness;
+
+  [Button(nameof(LateUpdate))]
+  public bool buttonField;
 
   public enum PivotPointType
   {
@@ -20,21 +20,14 @@ public class PivotPoint : MonoBehaviour
     None,
   }
 
-  void Start()
+  public void LateUpdate()
   {
-    handedness = gameObject.GetComponentOrThrow<Handedness>();
-    var handPrefix = handedness.HandPrefix();
-    offset = transform.FindRecursiveOrThrow("Offset");
-    pivot = transform.FindRecursiveOrThrow("Pivot");
-    model = transform.FindRecursiveOrThrow("Model");
+    var offset = childDictionary.offset;
+    var model = childDictionary.model;
+    var pivot = childDictionary.pivot;
+    var elbow = childDictionary.modelHumerus;
+    var shoulder = childDictionary.modelShoulder;
 
-    elbow = model.FindRecursiveOrThrow($"b_{handPrefix}_humerus");
-    shoulder = model.FindRecursiveOrThrow($"b_{handPrefix}_shoulder");
-
-  }
-
-  void LateUpdate()
-  {
     if (pivotPointType == PivotPointType.None) return;
 
     if (pivotPointType == PivotPointType.Wrist)

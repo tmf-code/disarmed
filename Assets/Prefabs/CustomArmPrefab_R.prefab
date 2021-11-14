@@ -2295,6 +2295,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivotPointType: 0
+  childDictionary: {fileID: 61271536152418970}
+  handedness: {fileID: 2460864850384928065}
+  buttonField: 0
 --- !u!114 &61271536152418970
 MonoBehaviour:
   m_ObjectHideFlags: 0
