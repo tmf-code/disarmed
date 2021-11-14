@@ -4,7 +4,7 @@ struct SolveOptions
 {
   public static SolveOptions defaultOptions = new SolveOptions(
       0.1F,
-      new Func<float, float>((float _) => 200.1F),
+      new Func<float, float>((float error) => 200.1F * error),
       0.1F
   );
 
