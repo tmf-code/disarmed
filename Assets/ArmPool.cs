@@ -192,7 +192,7 @@ public class ArmPool : MonoBehaviour
     }
   }
 
-  void Start()
+  void Awake()
   {
     positionsPerStair = GetSpawnPositions();
     spawnedObjectsPerStair = positionsPerStair.Select(value => new List<ArmBehaviour>()).ToList();

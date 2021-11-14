@@ -8,8 +8,10 @@ public class PivotPoint : MonoBehaviour
 
   public Handedness handedness;
 
+#if UNITY_EDITOR
   [Button(nameof(LateUpdate))]
   public bool buttonField;
+#endif
 
   public enum PivotPointType
   {

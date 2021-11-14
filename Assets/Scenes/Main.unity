@@ -603,6 +603,10 @@ PrefabInstance:
       propertyPath: animation
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7036307008878937861, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
+      propertyPath: playOnEnable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7036307009128497313, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.019908583

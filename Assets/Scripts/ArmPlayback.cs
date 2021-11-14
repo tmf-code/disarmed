@@ -28,8 +28,11 @@ public class ArmPlayback : MonoBehaviour
   private ArmRecording recording;
   private Transform model;
 
+#if UNITY_EDITOR
   [Button(nameof(ApplyFrame))]
   public bool buttonField;
+#endif
+
 
   public Animator animator;
 
@@ -54,6 +57,11 @@ public class ArmPlayback : MonoBehaviour
     pivotPoint.LateUpdate();
   }
 #endif
+
+  void OnDisable()
+  {
+    CancelInvoke();
+  }
 
   void OnEnable()
   {
