@@ -20,10 +20,25 @@ ModelImporter:
     second: Extend Room
   - first:
       74: -1609281748187839663
-    second: Shrink Room
+    second: ShrinkRoom
+  - first:
+      74: -2136590664754262198
+    second: OpenRoof
+  - first:
+      74: 2069645782089754877
+    second: CloseRoof
+  - first:
+      74: 2016258763623049199
+    second: ShowHighStairs
+  - first:
+      74: 187205064949012659
+    second: HideHighStairs
+  - first:
+      74: 2604612371580721100
+    second: ExtendRoom
   externalObjects: {}
   materials:
-    materialImportMode: 2
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -50,7 +65,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Open
+      name: OpenRoof
       takeName: Scene
       internalID: 0
       firstFrame: 0
@@ -79,7 +94,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Close
+      name: CloseRoof
       takeName: Scene
       internalID: 0
       firstFrame: 100
@@ -108,7 +123,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ShowStairs
+      name: ShowHighStairs
       takeName: Scene
       internalID: 0
       firstFrame: 1100
@@ -137,7 +152,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: HideStairs
+      name: HideHighStairs
       takeName: Scene
       internalID: 0
       firstFrame: 1500
@@ -166,7 +181,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Extend Room
+      name: ExtendRoom
       takeName: Scene
       internalID: 0
       firstFrame: 2300
@@ -195,7 +210,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Shrink Room
+      name: ShrinkRoom
       takeName: Scene
       internalID: 0
       firstFrame: 2600
@@ -233,8 +248,8 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
