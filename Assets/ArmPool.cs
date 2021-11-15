@@ -16,7 +16,7 @@ public class ArmPool : MonoBehaviour
   public ArmBehaviour leftArmPrefab;
   public ArmBehaviour rightArmPrefab;
   private List<List<Vector3>> positionsPerStair;
-  private List<List<ArmBehaviour>> spawnedObjectsPerStair;
+  private List<List<ArmBehaviour>> armsPerStair;
 
   public enum StairState
   {
@@ -39,7 +39,7 @@ public class ArmPool : MonoBehaviour
   {
     for (int stairIndex = 0; stairIndex < maxStairCount; stairIndex++)
     {
-      var spawnedObjects = spawnedObjectsPerStair[stairIndex];
+      var spawnedObjects = armsPerStair[stairIndex];
       foreach (var item in spawnedObjects)
       {
         item.gameObject.SetActive(stairIndex < nextStairCount);
@@ -54,12 +54,12 @@ public class ArmPool : MonoBehaviour
     switch (state)
     {
       case StairState.DuoArms:
-        spawnedObjectsPerStair[1][9].gameObject.SetActive(true);
-        spawnedObjectsPerStair[1][10].gameObject.SetActive(true);
-        spawnedObjectsPerStair[1][9].behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
-        spawnedObjectsPerStair[1][10].behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
-        spawnedObjectsPerStair[1][9].GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
-        spawnedObjectsPerStair[1][10].GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
+        armsPerStair[1][9].gameObject.SetActive(true);
+        armsPerStair[1][10].gameObject.SetActive(true);
+        armsPerStair[1][9].behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
+        armsPerStair[1][10].behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
+        armsPerStair[1][9].GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
+        armsPerStair[1][10].GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
         break;
       case StairState.TwoCopy:
         SetStairCount(2, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
@@ -110,7 +110,7 @@ public class ArmPool : MonoBehaviour
 
     for (int stairLevel = startLevel; stairLevel < maxStairCount; stairLevel++)
     {
-      foreach (var stair in spawnedObjectsPerStair[stairLevel])
+      foreach (var stair in armsPerStair[stairLevel])
       {
         var position = new Vector3(Random.Range(-0.5F, 0.5F) * roomSize, startHeight, Random.Range(-0.5F, 0.5F) * roomSize);
         stair.transform.localPosition = position;
@@ -125,7 +125,7 @@ public class ArmPool : MonoBehaviour
   {
     for (int stairLevel = 0; stairLevel < maxStairCount; stairLevel++)
     {
-      foreach (var stair in spawnedObjectsPerStair[stairLevel])
+      foreach (var stair in armsPerStair[stairLevel])
       {
         if (stair.TryGetComponent<CopyArmMovement>(out var copyArmMovement))
         {
@@ -140,7 +140,7 @@ public class ArmPool : MonoBehaviour
   {
     for (int stairLevel = 0; stairLevel < maxStairCount; stairLevel++)
     {
-      foreach (var stair in spawnedObjectsPerStair[stairLevel])
+      foreach (var stair in armsPerStair[stairLevel])
       {
         if (stair.TryGetComponent<CopyArmMovement>(out var copyArmMovement))
         {
@@ -152,7 +152,7 @@ public class ArmPool : MonoBehaviour
 
   public void DisableStair(int stairLevel)
   {
-    var stair = spawnedObjectsPerStair[stairLevel];
+    var stair = armsPerStair[stairLevel];
 
     foreach (var arm in stair)
     {
@@ -168,11 +168,12 @@ public class ArmPool : MonoBehaviour
     {
       if (stairLevel >= 5) continue;
 
-      foreach (var stair in spawnedObjectsPerStair[stairLevel])
+      foreach (var arm in armsPerStair[stairLevel])
       {
-        stair.gameObject.SetActive(true);
-        stair.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
-        stair.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
+        arm.gameObject.SetActive(true);
+        arm.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
+        arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
+        arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
       }
     }
   }
@@ -184,9 +185,9 @@ public class ArmPool : MonoBehaviour
     for (int stairLevel = startLevel; stairLevel < maxStairCount; stairLevel++)
     {
       if (stairLevel >= 5) continue;
-      foreach (var stair in spawnedObjectsPerStair[stairLevel])
+      foreach (var arm in armsPerStair[stairLevel])
       {
-        var v = new Vector2(stair.transform.position.x, stair.transform.position.z);
+        var v = new Vector2(arm.transform.position.x, arm.transform.position.z);
         var rad = v.magnitude;
         var angle = Mathf.Atan2(v.y, v.x);
         var boost = 0.4F * (stairLevel - 1);
@@ -196,10 +197,10 @@ public class ArmPool : MonoBehaviour
         var newZ = newRad * Mathf.Sin(angle) * jitterX;
         var newX = newRad * Mathf.Cos(angle) * jitterY;
         var y = 1.4F;
-        stair.transform.position = new Vector3(newX, y, newZ);
-        stair.gameObject.SetActive(true);
-        stair.behavior = ArmBehaviour.ArmBehaviorType.MovementPlayback;
-        stair.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
+        arm.transform.position = new Vector3(newX, y, newZ);
+        arm.gameObject.SetActive(true);
+        arm.behavior = ArmBehaviour.ArmBehaviorType.MovementPlayback;
+        arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
       }
     }
   }
@@ -207,7 +208,7 @@ public class ArmPool : MonoBehaviour
   void Awake()
   {
     positionsPerStair = GetSpawnPositions();
-    spawnedObjectsPerStair = positionsPerStair.Select(value => new List<ArmBehaviour>()).ToList();
+    armsPerStair = positionsPerStair.Select(value => new List<ArmBehaviour>()).ToList();
 
     for (var stairIndex = 0; stairIndex < positionsPerStair.Count; stairIndex++)
     {
@@ -218,7 +219,7 @@ public class ArmPool : MonoBehaviour
   private void SpawnStairHands(int stairIndex)
   {
     var stairPositions = positionsPerStair[stairIndex];
-    var stairObjects = spawnedObjectsPerStair[stairIndex];
+    var stairObjects = armsPerStair[stairIndex];
 
     for (var stairPositionIndex = 0; stairPositionIndex < stairPositions.Count; stairPositionIndex++)
     {
