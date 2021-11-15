@@ -122,7 +122,7 @@ public class Timeline : MonoBehaviour
       {Acts.ArmFromCeiling,                           D(110F, bigArmFromRoof)},
       {Acts.CloseRoof1,                               D(2F)},
 
-      {Acts.DuoArms,                                  D(30F)},
+      {Acts.DuoArms,                                  D(35F)},
       {Acts.CopiesOfPlayersArms,                      D(36F)},
       {Acts.ShowHighStairs,                           D(5F)},
       {Acts.SpawnArmsOnExtraStairs,                   D(3F)},
