@@ -140,9 +140,9 @@ public class Timeline : MonoBehaviour
       {Acts.WallsMoveBack,                            D(8F)},
       {Acts.SpawnArmsOnPlatform,                      D(3F)},
       {Acts.WavingArmsOnPlatform,                     D(22F)},
-      {Acts.LightsComeOn,                             D(25F)},
+      {Acts.LightsComeOn,                             D(3F)},
 
-      {Acts.WallsContract,                            D(5F)},
+      {Acts.WallsContract,                            D(21F)},
       {Acts.InactiveRagdollArmsInCenter,              D(37F)},
       {Acts.RemoveArms1,                              D(3F)},
       {Acts.RemoveArms2,                              D(3F)},
@@ -284,11 +284,10 @@ public class Timeline : MonoBehaviour
           // To enjoy
           break;
         case Acts.LightsComeOn:
+          armPool.SetStairState(ArmPool.StairState.FlatRagdoll);
           lightingController.state = LightingController.LightingState.Light;
-          // To enjoy
           break;
         case Acts.WallsContract:
-          armPool.SetStairState(ArmPool.StairState.FlatRagdoll);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ShrinkRoom);
           break;
         case Acts.InactiveRagdollArmsInCenter:

@@ -195,11 +195,11 @@ public class ArmPool : MonoBehaviour
         var newRad = rad + boost;
         var newZ = newRad * Mathf.Sin(angle) * jitterX;
         var newX = newRad * Mathf.Cos(angle) * jitterY;
-        var y = 0.8F;
+        var y = 1.4F;
         stair.transform.position = new Vector3(newX, y, newZ);
         stair.gameObject.SetActive(true);
         stair.behavior = ArmBehaviour.ArmBehaviorType.MovementPlayback;
-        stair.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.ShoulderNoRotation;
+        stair.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
       }
     }
   }

@@ -76,7 +76,7 @@ public class ApplyRecordedMovement : MonoBehaviour
       if (gameObject.name == "Model")
       {
         // Don't apply base movement
-        // gameObject.transform.LerpLocal(transform[framesPlayed], strength);
+        gameObject.transform.LerpLocal(transform[framesPlayed], strength);
       }
       else
       {
