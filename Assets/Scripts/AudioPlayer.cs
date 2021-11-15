@@ -9,7 +9,6 @@ public class AudioPlayer : MonoBehaviour
   public AudioClip chime;
   public AudioClip act1;
   public AudioClip act2;
-  public AudioClip music;
   public AudioClip act3;
   public AudioClip act4;
 
@@ -19,7 +18,6 @@ public class AudioPlayer : MonoBehaviour
     Chime,
     Act1,
     Act2,
-    Music,
     Act3,
     Act4,
   }
@@ -50,10 +48,6 @@ public class AudioPlayer : MonoBehaviour
       case ActAudio.Act2:
         source.loop = false;
         source.clip = act2;
-        break;
-      case ActAudio.Music:
-        source.loop = false;
-        source.PlayOneShot(music);
         break;
       case ActAudio.Act3:
         source.loop = false;
