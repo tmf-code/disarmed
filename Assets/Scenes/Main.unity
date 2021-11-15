@@ -381,6 +381,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: collision1
+      value: 
+      objectReference: {fileID: 8300000, guid: 0713ec41fe76b6e4eaf1c9230237d1d0, type: 3}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: collision2
+      value: 
+      objectReference: {fileID: 8300000, guid: b19268bb06d248140ad69913e6a90219, type: 3}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: collision3
+      value: 
+      objectReference: {fileID: 8300000, guid: 08361fb5b93abb548a270af1947719bd, type: 3}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: collision4
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a59956d78fe476468c819ee5dd2c402, type: 3}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: collision5
+      value: 
+      objectReference: {fileID: 8300000, guid: 9f88a5349c66284408b8b0da535805e4, type: 3}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: collision6
+      value: 
+      objectReference: {fileID: 8300000, guid: bce8ad5429e8fe44ea6bd312c870a79e, type: 3}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: collision7
+      value: 
+      objectReference: {fileID: 8300000, guid: ef668c9077884e44ca2c8ed3c6ff53da, type: 3}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: collision8
+      value: 
+      objectReference: {fileID: 8300000, guid: af8b7e7747e7a0747a66ae0a60c296f5, type: 3}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: collision9
+      value: 
+      objectReference: {fileID: 8300000, guid: 2adb3bd9fcb20b64c845328be48951d5, type: 3}
     - target: {fileID: 3124159100875462308, guid: db82e790488014a4297e378913ff774c, type: 3}
       propertyPath: m_Name
       value: AudioController

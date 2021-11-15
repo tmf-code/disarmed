@@ -27,7 +27,15 @@ public class AudioPlayer : MonoBehaviour
     Collision,
   }
 
-  public AudioClip collision;
+  public AudioClip collision1;
+  public AudioClip collision2;
+  public AudioClip collision3;
+  public AudioClip collision4;
+  public AudioClip collision5;
+  public AudioClip collision6;
+  public AudioClip collision7;
+  public AudioClip collision8;
+  public AudioClip collision9;
 
   public void PlayAct(ActAudio act)
   {
@@ -64,9 +72,10 @@ public class AudioPlayer : MonoBehaviour
 
   public void PlayEffectAtPosition(SoundEffects effect, Vector3 position)
   {
+    var collisions = new AudioClip[] { collision1, collision2, collision3, collision4, collision5, collision6, collision7, collision8, collision9, };
     var clip = effect switch
     {
-      SoundEffects.Collision => collision,
+      SoundEffects.Collision => collisions[Random.Range(0, collisions.Length)],
       _ => throw new System.NotImplementedException(),
     };
 
