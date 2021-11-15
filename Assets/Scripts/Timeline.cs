@@ -260,6 +260,7 @@ public class Timeline : MonoBehaviour
           armPool.SetStairState(ArmPool.StairState.Flat);
           break;
         case Acts.WallsMoveBack:
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Music);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExtendRoom);
           break;
         case Acts.WavingArmsOnPlatform:
