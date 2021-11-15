@@ -53,9 +53,10 @@ public class Timeline : MonoBehaviour
     OneEnd,
 
     Two,
-    SpawnArmsOnPlatform,
     WallsMoveBack,
+    SpawnArmsOnPlatform,
     WavingArmsOnPlatform,
+    LightsComeOn,
     WallsContract,
     InactiveRagdollArmsInCenter,
 
@@ -136,9 +137,11 @@ public class Timeline : MonoBehaviour
       {Acts.OneEnd,                                   D(3F)},
 
       {Acts.Two,                                      D(3F)},
+      {Acts.WallsMoveBack,                            D(8F)},
       {Acts.SpawnArmsOnPlatform,                      D(3F)},
-      {Acts.WallsMoveBack,                            D(5F)},
-      {Acts.WavingArmsOnPlatform,                     D(25F)},
+      {Acts.WavingArmsOnPlatform,                     D(22F)},
+      {Acts.LightsComeOn,                             D(25F)},
+
       {Acts.WallsContract,                            D(5F)},
       {Acts.InactiveRagdollArmsInCenter,              D(37F)},
       {Acts.RemoveArms1,                              D(3F)},
@@ -267,16 +270,21 @@ public class Timeline : MonoBehaviour
           textCanvas.act = TextCanvas.Acts.Act2;
           break;
 
-        case Acts.SpawnArmsOnPlatform:
-          lightingController.state = LightingController.LightingState.Dim;
-          textCanvas.state = TextCanvas.TextState.Transparent;
-          armPool.SetStairState(ArmPool.StairState.Flat);
-          break;
         case Acts.WallsMoveBack:
-          audioPlayer.PlayAct(AudioPlayer.ActAudio.Music);
+          textCanvas.state = TextCanvas.TextState.Transparent;
+          lightingController.state = LightingController.LightingState.Dim;
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExtendRoom);
           break;
+
+        case Acts.SpawnArmsOnPlatform:
+          armPool.SetStairState(ArmPool.StairState.Flat);
+          break;
+
         case Acts.WavingArmsOnPlatform:
+          // To enjoy
+          break;
+        case Acts.LightsComeOn:
+          lightingController.state = LightingController.LightingState.Light;
           // To enjoy
           break;
         case Acts.WallsContract:
