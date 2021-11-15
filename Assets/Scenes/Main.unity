@@ -397,6 +397,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 8300000, guid: 5534ab1f86e6e07408939a77e7727ac3, type: 3}
     - target: {fileID: 3124159100875462308, guid: db82e790488014a4297e378913ff774c, type: 3}
       propertyPath: m_Name
       value: AudioController
@@ -472,27 +476,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7631439446102774517, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 89.87027
+      value: -89.98021
       objectReference: {fileID: 0}
     - target: {fileID: 7631439446102774517, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 90.00386
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7631439446102774517, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -89.99633
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8920673120972514601, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 89.87027
+      value: -89.98021
       objectReference: {fileID: 0}
     - target: {fileID: 8920673120972514601, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90.00386
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8920673120972514601, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 89.99633
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
@@ -509,7 +513,7 @@ PrefabInstance:
       objectReference: {fileID: 838887116}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: act
-      value: 0
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: tracking
@@ -1161,6 +1165,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8579105742849785296, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
+      propertyPath: m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8579105742849785297, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 8579105742849785297, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8579105742849785299, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
+      propertyPath: m_Name
+      value: MainRoomPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 8579105742849785299, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8579105743063311109, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.361
+      objectReference: {fileID: 0}
+    - target: {fileID: 8579105743063311109, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8579105743063311130, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
+      propertyPath: m_SpotAngle
+      value: 120.4
+      objectReference: {fileID: 0}
     - target: {fileID: 8579105744200844664, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
       propertyPath: m_Name
       value: Lighting
