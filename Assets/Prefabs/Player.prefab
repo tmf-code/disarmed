@@ -80,6 +80,14 @@ PrefabInstance:
       propertyPath: m_BackGroundColor.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5327207933462970444, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327207933898399011, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5327207933921161324, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
       propertyPath: m_BackGroundColor.a
       value: 1
@@ -143,6 +151,22 @@ PrefabInstance:
     - target: {fileID: 5327207933922894736, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
       propertyPath: m_Name
       value: CameraRig
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327207934449785327, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327207934804294943, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327207935176720769, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327207935377587745, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}

@@ -199,7 +199,7 @@ public class Timeline : MonoBehaviour
           textCanvas.state = TextCanvas.TextState.Opaque;
           break;
         case Acts.FitPlayersArmsIntoGhost:
-          lightingController.state = LightingController.LightingState.Light;
+          lightingController.state = LightingController.LightingState.SpotOnly;
           break;
         case Acts.OpeningEnd:
           lightingController.state = LightingController.LightingState.Dark;
@@ -214,7 +214,7 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.WaitForRoofOpen:
           textCanvas.state = TextCanvas.TextState.Transparent;
-          lightingController.state = LightingController.LightingState.Light;
+          lightingController.state = LightingController.LightingState.SpotOnly;
           break;
 
         case Acts.OpenRoof1:
@@ -227,6 +227,7 @@ public class Timeline : MonoBehaviour
           break;
 
         case Acts.DuoArms:
+          lightingController.state = LightingController.LightingState.Both;
           armPool.SetStairState(ArmPool.StairState.DuoArms);
           break;
         case Acts.CopiesOfPlayersArms:
@@ -285,9 +286,9 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.LightsComeOn:
           armPool.SetStairState(ArmPool.StairState.FlatRagdoll);
-          lightingController.state = LightingController.LightingState.Light;
           break;
         case Acts.WallsContract:
+          lightingController.state = LightingController.LightingState.Both;
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ShrinkRoom);
           break;
         case Acts.InactiveRagdollArmsInCenter:
@@ -317,7 +318,7 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.LeftArmRightArmSwapped:
           tracking.SetSwapped(true);
-          lightingController.state = LightingController.LightingState.Light;
+          lightingController.state = LightingController.LightingState.Both;
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.ArmsDropToFloor:
@@ -342,7 +343,7 @@ public class Timeline : MonoBehaviour
           textCanvas.act = TextCanvas.Acts.Act4;
           break;
         case Acts.PlayersArmsAndMovingArms:
-          lightingController.state = LightingController.LightingState.Light;
+          lightingController.state = LightingController.LightingState.Both;
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.AllArmsWaveGoodbye:

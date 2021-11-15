@@ -4,14 +4,16 @@ public class LightingController : MonoBehaviour
 {
   public LightingState state = LightingState.Dark;
   private LightingState _state = LightingState.Dark;
-  public Light directional;
+  public Light point;
   public Light spot;
   public Option<SimpleAnimation> maybeAnimation = new None<SimpleAnimation>();
 
-  public float nextIntensity;
-  public float previousIntensity;
+  public float nextPointIntensity;
+  public float nextSpotIntensity;
+  public float previousPointInstensity;
+  public float previousSpotInstensity;
   private readonly Color darkLight = new Color(0, 0, 0, 1F);
-  private readonly Color dimLight = new Color(0, 0, 0.1F, 1F);
+  private readonly Color dimLight = new Color(0.5F, 0, 0.1F, 1F);
   private readonly Color blueLight = Color.blue;
 
   public Color nextColor;
@@ -20,7 +22,8 @@ public class LightingController : MonoBehaviour
   public enum LightingState
   {
     Dark,
-    Light,
+    SpotOnly,
+    Both,
     Dim,
   }
 
@@ -29,23 +32,32 @@ public class LightingController : MonoBehaviour
   {
     maybeAnimation = new Some<SimpleAnimation>(new SimpleAnimation(3F, SimpleAnimation.EasingFunction.EaseInCubic, Time.time));
     previousColor = Camera.main.backgroundColor;
-    previousIntensity = directional.intensity;
+    previousPointInstensity = point.intensity;
+    previousSpotInstensity = point.intensity;
     switch (_state)
     {
       case LightingState.Dark:
         nextColor = darkLight;
-        nextIntensity = 0;
+        nextPointIntensity = 0;
+        nextSpotIntensity = 0;
 
         break;
-      case LightingState.Light:
-
+      case LightingState.SpotOnly:
         nextColor = blueLight;
-        nextIntensity = 1;
+        nextPointIntensity = 0;
+        nextSpotIntensity = 1;
+
+        break;
+      case LightingState.Both:
+        nextColor = blueLight;
+        nextPointIntensity = 0.6F;
+        nextSpotIntensity = 1;
 
         break;
       case LightingState.Dim:
         nextColor = dimLight;
-        nextIntensity = 1;
+        nextPointIntensity = 0.1F;
+        nextSpotIntensity = 0.6F;
         break;
     }
   }
@@ -53,12 +65,14 @@ public class LightingController : MonoBehaviour
   void Start()
   {
     Camera.main.backgroundColor = darkLight;
-    directional.intensity = 0;
+    point.intensity = 0;
     spot.intensity = 0;
     nextColor = Camera.main.backgroundColor;
     previousColor = Camera.main.backgroundColor;
-    nextIntensity = directional.intensity;
-    previousIntensity = directional.intensity;
+    nextPointIntensity = point.intensity;
+    nextSpotIntensity = spot.intensity;
+    previousPointInstensity = point.intensity;
+    nextSpotIntensity = spot.intensity;
   }
 
   public void Update()
@@ -78,8 +92,8 @@ public class LightingController : MonoBehaviour
         return;
       };
 
-      directional.intensity = Mathf.Lerp(previousIntensity, nextIntensity, animation.easedProgression);
-      spot.intensity = Mathf.Lerp(previousIntensity, nextIntensity, animation.easedProgression);
+      point.intensity = Mathf.Lerp(previousPointInstensity, nextPointIntensity, animation.easedProgression);
+      spot.intensity = Mathf.Lerp(previousSpotInstensity, nextSpotIntensity, animation.easedProgression);
       Camera.main.backgroundColor = Color.Lerp(previousColor, nextColor, animation.easedProgression);
     });
   }
