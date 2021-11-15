@@ -12,7 +12,7 @@ public class ObjectToFramesDictionary : SerializableDictionary<string, UnSeriali
 
 public class RecordingsStore : MonoBehaviour
 {
-  [ShowOnly] public readonly string recordingsPath = "Recordings";
+  [ShowOnly] public readonly string recordingsPath = "Compressed";
 
   public Timeline timeline;
   // Start is called before the first frame update
@@ -77,7 +77,6 @@ public class RecordingsStore : MonoBehaviour
     // sub18,
     // sub19,
   }
-
   [SerializeField]
   [HideInInspector]
   private MovementToRecordingDictionary leftRecordings;
@@ -110,7 +109,7 @@ public class RecordingsStore : MonoBehaviour
     Debug.Log(leftRecordings.Count);
   }
 
-  private ArmRecording LoadRecording(string recordingName)
+  private CompressedArmRecording LoadRecording(string recordingName)
   {
 #if UNITY_EDITOR
     AssetDatabase.Refresh();
@@ -122,13 +121,13 @@ public class RecordingsStore : MonoBehaviour
       throw new Exception($"Could not load text asset {recordingPath}");
     }
 
-    var maybeArmRecording = JsonUtility.FromJson<ArmRecording>(textAsset.text);
+    var maybeArmRecording = JsonUtility.FromJson<CompressedArmRecording>(textAsset.text);
     if (maybeArmRecording == null)
       throw new Exception($"Could not parse text asset {textAsset} with name {recordingName} \n {textAsset.text}");
     return maybeArmRecording;
   }
 
-  private ObjectToFramesDictionary OrganiseRecordingByKey(ArmRecording recording)
+  private ObjectToFramesDictionary OrganiseRecordingByKey(CompressedArmRecording recording)
   {
     var result = new ObjectToFramesDictionary();
     for (var frameIndex = 0; frameIndex < recording.frameTransforms.Count; frameIndex++)

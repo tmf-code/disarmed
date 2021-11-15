@@ -27,14 +27,12 @@ public static class ExtensionMethods
   {
     transform.localPosition = Vector3.LerpUnclamped(transform.localPosition, target.localPosition, strength);
     transform.localRotation = Quaternion.SlerpUnclamped(transform.localRotation, target.localRotation, strength);
-    transform.localScale = Vector3.LerpUnclamped(transform.localScale, target.localScale, strength);
   }
   [MethodImpl(MethodImplOptions.AggressiveInlining)]
   public static void LerpLocal(this Transform transform, ITransform target, float strength)
   {
     transform.localPosition = Vector3.LerpUnclamped(transform.localPosition, target.localPosition, strength);
     transform.localRotation = Quaternion.SlerpUnclamped(transform.localRotation, target.localRotation, strength);
-    transform.localScale = Vector3.LerpUnclamped(transform.localScale, target.localScale, strength);
   }
 
   public static void TraverseChildren(this Transform parent, Action<Transform> action)
@@ -139,5 +137,4 @@ public interface ITransform
 {
   Vector3 localPosition { get; set; }
   Quaternion localRotation { get; set; }
-  Vector3 localScale { get; set; }
 }

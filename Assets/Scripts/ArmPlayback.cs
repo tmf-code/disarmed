@@ -160,7 +160,6 @@ public class ArmPlayback : MonoBehaviour
       if (!rotationOnly)
       {
         current.localPosition = Vector3.LerpUnclamped(current.localPosition, target.localPosition, strength);
-        current.localScale = Vector3.LerpUnclamped(current.localScale, target.localScale, strength);
       }
       current.localRotation = Quaternion.SlerpUnclamped(current.localRotation, target.localRotation, strength);
     }

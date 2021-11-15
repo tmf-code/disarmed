@@ -60,9 +60,17 @@ public class ApplyRecordedMovement : MonoBehaviour
 
   void PlayNextFrame()
   {
-    var numFrames = recording.First().Value.Length;
-    framesPlayed += 1;
-    framesPlayed %= numFrames;
+    try
+    {
+      var numFrames = recording.First().Value.Length;
+      framesPlayed += 1;
+      framesPlayed %= numFrames;
+
+    }
+    catch
+    {
+      throw new System.NullReferenceException();
+    }
   }
 
   void Update()
