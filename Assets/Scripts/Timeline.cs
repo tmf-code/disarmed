@@ -36,6 +36,8 @@ public class Timeline : MonoBehaviour
     OpenRoof1,
     ArmFromCeiling,
     CloseRoof1,
+
+    DuoArms,
     CopiesOfPlayersArms,
 
     ShowHighStairs,
@@ -120,7 +122,8 @@ public class Timeline : MonoBehaviour
       {Acts.ArmFromCeiling,                           D(120F, bigArmFromRoof)},
       {Acts.CloseRoof1,                               D(2F)},
 
-      {Acts.CopiesOfPlayersArms,                      D(20F)},
+      {Acts.DuoArms,                                  D(20F)},
+      {Acts.CopiesOfPlayersArms,                      D(10F)},
 
       {Acts.ShowHighStairs,                           D(5F)},
       {Acts.SpawnArmsOnExtraStairs,                   D(3F)},
@@ -222,6 +225,9 @@ public class Timeline : MonoBehaviour
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
           break;
 
+        case Acts.DuoArms:
+          armPool.SetStairState(ArmPool.StairState.DuoArms);
+          break;
         case Acts.CopiesOfPlayersArms:
           armPool.SetStairState(ArmPool.StairState.TwoCopy);
           break;

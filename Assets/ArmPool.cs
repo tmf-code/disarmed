@@ -8,7 +8,7 @@ public class ArmPool : MonoBehaviour
   private readonly float stairDepth = 0.4F;
   private readonly float startHeight = 0.4F;
   private readonly float startWidth = 1.7F;
-  private readonly int maxStairCount = 8;
+  private readonly int maxStairCount = 6;
   private readonly float roomSize = 3.0F;
 
 
@@ -20,6 +20,7 @@ public class ArmPool : MonoBehaviour
 
   public enum StairState
   {
+    DuoArms,
     TwoCopy,
     All,
     VariableOffset,
@@ -52,18 +53,26 @@ public class ArmPool : MonoBehaviour
   {
     switch (state)
     {
+      case StairState.DuoArms:
+        spawnedObjectsPerStair[1][9].gameObject.SetActive(true);
+        spawnedObjectsPerStair[1][10].gameObject.SetActive(true);
+        spawnedObjectsPerStair[1][9].behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
+        spawnedObjectsPerStair[1][10].behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
+        spawnedObjectsPerStair[1][9].GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
+        spawnedObjectsPerStair[1][10].GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
+        break;
       case StairState.TwoCopy:
         SetStairCount(2, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
         break;
       case StairState.All:
-        SetStairCount(8, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
+        SetStairCount(6, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
         break;
       case StairState.VariableOffset:
-        SetStairCount(8, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
+        SetStairCount(6, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
         TimeOffsetPerStair();
         break;
       case StairState.LongTimeOffset:
-        SetStairCount(8, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
+        SetStairCount(6, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
         LongTimeOffset();
         break;
       case StairState.Flat:
@@ -73,14 +82,12 @@ public class ArmPool : MonoBehaviour
         MakeOuterLevelsRagdoll();
         break;
       case StairState.RemoveStepOne:
-        DisableStair(7);
-        break;
-      case StairState.RemoveStepTwo:
-        DisableStair(6);
         DisableStair(5);
         break;
-      case StairState.RemoveStepThree:
+      case StairState.RemoveStepTwo:
         DisableStair(4);
+        break;
+      case StairState.RemoveStepThree:
         DisableStair(3);
         break;
       case StairState.TwoRecordedMovement:
@@ -216,7 +223,7 @@ public class ArmPool : MonoBehaviour
     for (var stairPositionIndex = 0; stairPositionIndex < stairPositions.Count; stairPositionIndex++)
     {
       var position = stairPositions[stairPositionIndex];
-      var arm = position.x < 0.0 ? Instantiate(leftArmPrefab) : Instantiate(rightArmPrefab);
+      var arm = position.x < 0.0 ? Instantiate(rightArmPrefab) : Instantiate(leftArmPrefab);
       arm.transform.parent = transform;
       arm.transform.position = position;
       arm.transform.localRotation = Quaternion.Euler(0, 180F, 0);
@@ -296,10 +303,24 @@ public class ArmPool : MonoBehaviour
 
     var spawnPositionsPerStair = GetSpawnPositions();
 
-    foreach (var stair in spawnPositionsPerStair)
+    for (var stairLevel = 0; stairLevel < spawnPositionsPerStair.Count; stairLevel++)
     {
-      foreach (var position in stair)
+      var stair = spawnPositionsPerStair[stairLevel];
+      for (var positionIndex = 0; positionIndex < stair.Count; positionIndex++)
       {
+        if (positionIndex == 0)
+        {
+          Gizmos.color = Color.red;
+        }
+        else if (positionIndex % 2 == 0)
+        {
+          Gizmos.color = Color.black;
+        }
+        else
+        {
+          Gizmos.color = Color.green;
+        }
+        var position = stair[positionIndex];
         Gizmos.DrawSphere(position, 0.1F);
       }
     }
