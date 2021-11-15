@@ -319,7 +319,8 @@ public class Timeline : MonoBehaviour
           playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.ResponsiveRagdoll;
           break;
         case Acts.ArmsToShoulderPlayerDifferentActions:
-          Debug.LogWarning("Arms to shoulder not implemented");
+          playerArms.left.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackArmSocket;
+          playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackArmSocket;
           break;
         case Acts.OneArmTakesOffOther:
           Debug.LogWarning("One arm takes off other not implemented");
@@ -331,6 +332,8 @@ public class Timeline : MonoBehaviour
         case Acts.Four:
           armPool.SetStairState(ArmPool.StairState.Act4);
           audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4);
+          playerArms.left.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
+          playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act4;
           break;

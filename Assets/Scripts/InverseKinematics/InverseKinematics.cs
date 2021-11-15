@@ -17,7 +17,7 @@ public class InverseKinematics : MonoBehaviour
   {
     if (ikArmBoneData == null)
     {
-      ikArmBoneData = new ArmBoneData(forearm, humerus, shoulder);
+      ikArmBoneData = new ArmBoneData(forearm, humerus, shoulder, target);
     }
 
     return ikArmBoneData;

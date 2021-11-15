@@ -19,6 +19,7 @@ public class ArmBehaviour : MonoBehaviour
     ResponsiveRagdoll,
     MovementPlaybackRagdoll,
     MovementPlayback,
+    MovementPlaybackArmSocket,
   }
 
   public enum ArmOwnerType
@@ -40,6 +41,8 @@ public class ArmBehaviour : MonoBehaviour
       case ArmBehaviorType.None:
         {
           gameObject.RemoveComponent<ApplyRecordedMovement>();
+          gameObject.RemoveComponent<ApplyRecordedShoulder>();
+
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
 
           // Grabbing state machine
@@ -62,6 +65,8 @@ public class ArmBehaviour : MonoBehaviour
       case ArmBehaviorType.Grabbed:
         {
           gameObject.RemoveComponent<ApplyRecordedMovement>();
+          gameObject.RemoveComponent<ApplyRecordedShoulder>();
+
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
 
           // Grabbing state machine
@@ -89,6 +94,8 @@ public class ArmBehaviour : MonoBehaviour
       case ArmBehaviorType.Ragdoll:
         {
           gameObject.RemoveComponent<ApplyRecordedMovement>();
+          gameObject.RemoveComponent<ApplyRecordedShoulder>();
+
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
 
           // Grabbing state machine
@@ -115,6 +122,8 @@ public class ArmBehaviour : MonoBehaviour
       case ArmBehaviorType.TrackUserInputNoGrab:
         {
           gameObject.RemoveComponent<ApplyRecordedMovement>();
+          gameObject.RemoveComponent<ApplyRecordedShoulder>();
+
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
 
           gameObject.RemoveComponent<Idle>();
@@ -137,6 +146,8 @@ public class ArmBehaviour : MonoBehaviour
       case ArmBehaviorType.TrackUserInput:
         {
           gameObject.RemoveComponent<ApplyRecordedMovement>();
+          gameObject.RemoveComponent<ApplyRecordedShoulder>();
+
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
           // Grabbing state machine
           if (!HasAnyGrabbingState())
@@ -162,6 +173,8 @@ public class ArmBehaviour : MonoBehaviour
       case ArmBehaviorType.CopyArmMovement:
         {
           gameObject.RemoveComponent<ApplyRecordedMovement>();
+          gameObject.RemoveComponent<ApplyRecordedShoulder>();
+
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
 
 
@@ -188,6 +201,8 @@ public class ArmBehaviour : MonoBehaviour
       case ArmBehaviorType.ResponsiveRagdoll:
         {
           gameObject.RemoveComponent<ApplyRecordedMovement>();
+          gameObject.RemoveComponent<ApplyRecordedShoulder>();
+
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
 
           // Grabbing state machine
@@ -212,6 +227,7 @@ public class ArmBehaviour : MonoBehaviour
       case ArmBehaviorType.MovementPlaybackRagdoll:
         {
           gameObject.RemoveComponent<ApplyRecordedMovement>();
+          gameObject.RemoveComponent<ApplyRecordedShoulder>();
           gameObject.AddIfNotExisting<ApplyRecordedMovementRagdoll>();
 
           // Grabbing state machine
@@ -239,6 +255,8 @@ public class ArmBehaviour : MonoBehaviour
         {
           gameObject.AddIfNotExisting<ApplyRecordedMovement>();
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
+          gameObject.RemoveComponent<ApplyRecordedShoulder>();
+
 
           // Grabbing state machine
           if (!HasAnyGrabbingState())
@@ -247,6 +265,29 @@ public class ArmBehaviour : MonoBehaviour
             gameObject.RemoveComponent<Grabbed>();
             gameObject.RemoveComponent<Grabbing>();
           }
+
+          gameObject.RemoveComponent<RagDollArm>();
+
+          // Mixers for different sources of movement to be applied to model
+          gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
+          gameObject.RemoveComponent<ApplyInverseKinematics>();
+          gameObject.RemoveComponent<ApplyPose>();
+          gameObject.RemoveComponent<ApplyRootTracking>();
+          gameObject.RemoveComponent<ApplyHandTracking>();
+          gameObject.RemoveComponent<CopyArmMovement>();
+          break;
+        }
+
+      case ArmBehaviorType.MovementPlaybackArmSocket:
+        {
+          gameObject.RemoveComponent<ApplyRecordedMovement>();
+          gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
+          gameObject.AddIfNotExisting<ApplyRecordedShoulder>();
+
+          // Grabbing state machine
+          gameObject.RemoveComponent<Idle>();
+          gameObject.RemoveComponent<Grabbed>();
+          gameObject.RemoveComponent<Grabbing>();
 
           gameObject.RemoveComponent<RagDollArm>();
 

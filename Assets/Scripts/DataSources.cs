@@ -73,12 +73,14 @@ public class ArmBoneData
   public LocalRotation forearm;
   public LocalRotation humerus;
   public LocalRotation shoulder;
+  public Transform target;
 
-  public ArmBoneData(Transform forearm, Transform humerus, Transform shoulder)
+  public ArmBoneData(Transform forearm, Transform humerus, Transform shoulder, Transform target)
   {
     this.forearm = new LocalRotation(forearm);
     this.humerus = new LocalRotation(humerus);
     this.shoulder = new LocalRotation(shoulder);
+    this.target = target;
   }
 }
 
