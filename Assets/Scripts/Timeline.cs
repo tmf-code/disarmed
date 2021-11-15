@@ -32,6 +32,7 @@ public class Timeline : MonoBehaviour
     OpeningEnd,
 
     One,
+    WaitForRoofOpen,
     OpenRoof1,
     ArmFromCeiling,
     CloseRoof1,
@@ -114,6 +115,7 @@ public class Timeline : MonoBehaviour
 
       {Acts.One,                                      D(3F)},
 
+      {Acts.WaitForRoofOpen,                          D(50F)},
       {Acts.OpenRoof1,                                D(2F)},
       {Acts.ArmFromCeiling,                           D(120F, bigArmFromRoof)},
       {Acts.CloseRoof1,                               D(2F)},
@@ -169,6 +171,11 @@ public class Timeline : MonoBehaviour
     StopCoroutine(coroutine);
   }
 
+  void OnDisable()
+  {
+    StopCoroutine(coroutine);
+  }
+
   IEnumerator NextAct()
   {
     state = State.Playing;
@@ -201,11 +208,13 @@ public class Timeline : MonoBehaviour
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act1;
           break;
+        case Acts.WaitForRoofOpen:
+          textCanvas.state = TextCanvas.TextState.Transparent;
+          lightingController.state = LightingController.LightingState.Light;
+          break;
 
         case Acts.OpenRoof1:
-          lightingController.state = LightingController.LightingState.Light;
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
-          textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.ArmFromCeiling:
           break;
