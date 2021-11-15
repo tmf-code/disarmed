@@ -119,10 +119,10 @@ public class Timeline : MonoBehaviour
 
       {Acts.WaitForRoofOpen,                          D(50F)},
       {Acts.OpenRoof1,                                D(2F)},
-      {Acts.ArmFromCeiling,                           D(120F, bigArmFromRoof)},
+      {Acts.ArmFromCeiling,                           D(110F, bigArmFromRoof)},
       {Acts.CloseRoof1,                               D(2F)},
 
-      {Acts.DuoArms,                                  D(20F)},
+      {Acts.DuoArms,                                  D(30F)},
       {Acts.CopiesOfPlayersArms,                      D(36F)},
       {Acts.ShowHighStairs,                           D(5F)},
       {Acts.SpawnArmsOnExtraStairs,                   D(3F)},
