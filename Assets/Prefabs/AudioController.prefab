@@ -330,7 +330,7 @@ MonoBehaviour:
   tuning: {fileID: 8300000, guid: 1a14b5afa3a0bc44b99b01b536fdd9ab, type: 3}
   chime: {fileID: 8300000, guid: 2fdb8fdfaaa8a6144bd7757636af4528, type: 3}
   act1: {fileID: 8300000, guid: c29be82df484d9441b279a6a7b624a79, type: 3}
-  act2: {fileID: 8300000, guid: bf7567e43c69f3c46ac884d1878d3fa2, type: 3}
+  act2: {fileID: 8300000, guid: a1fa12715b35bd24ea99d658bbc30248, type: 3}
   act3: {fileID: 8300000, guid: 3a71f0cda7a4afe43b6927015f846bc2, type: 3}
   act4: {fileID: 8300000, guid: 175438b00834ace419fe2305e2779680, type: 3}
   collision: {fileID: 8300000, guid: 0713ec41fe76b6e4eaf1c9230237d1d0, type: 3}
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableSpatialization: 1
-  gain: 2
+  gain: 5
   useInvSqr: 0
   near: 0.25
   far: 250

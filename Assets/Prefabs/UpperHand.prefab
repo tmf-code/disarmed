@@ -874,7 +874,7 @@ MonoBehaviour:
   startPlaying: 0
   isPlaying: 0
   stopPlaying: 0
-  playOnEnable: 0
+  playOnEnable: 1
   framesPlayed: 1200
   startAtFrame: 100
   endAtFrame: 1200
