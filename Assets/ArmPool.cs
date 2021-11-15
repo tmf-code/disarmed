@@ -24,7 +24,6 @@ public class ArmPool : MonoBehaviour
     TwoCopy,
     All,
     VariableOffset,
-    LongTimeOffset,
     Flat,
     FlatRagdoll,
     RemoveStepOne,
@@ -70,10 +69,6 @@ public class ArmPool : MonoBehaviour
       case StairState.VariableOffset:
         SetStairCount(6, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
         TimeOffsetPerStair();
-        break;
-      case StairState.LongTimeOffset:
-        SetStairCount(6, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
-        LongTimeOffset();
         break;
       case StairState.Flat:
         FlattenOutOuterLevels();

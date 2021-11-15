@@ -35,13 +35,8 @@ public class Timeline : MonoBehaviour
     ShowHighStairs,
     SpawnArmsOnExtraStairs,
     VariableOffset,
-    LongTimeOffset,
     DespawnArmsOnAllStairs,
     HideHighStairs,
-
-    OpenRoof2,
-    LargeArmHoldingArms,
-    CloseRoof2,
     OneEnd,
 
     Two,
@@ -69,6 +64,9 @@ public class Timeline : MonoBehaviour
     Four,
     PlayersArmsAndMovingArms,
     AllArmsWaveGoodbye,
+    OpenRoof2,
+    LargeArmHoldingArms,
+    CloseRoof2,
     FourEnd,
 
     End,
@@ -116,16 +114,12 @@ public class Timeline : MonoBehaviour
       {Acts.CloseRoof1,                               D(2F)},
 
       {Acts.DuoArms,                                  D(35F)},
-      {Acts.CopiesOfPlayersArms,                      D(36F)},
+      {Acts.CopiesOfPlayersArms,                      D(26F)},
       {Acts.ShowHighStairs,                           D(5F)},
       {Acts.SpawnArmsOnExtraStairs,                   D(3F)},
       {Acts.VariableOffset,                           D(65F)},
       {Acts.DespawnArmsOnAllStairs,                   D(1F)},
       {Acts.HideHighStairs,                           D(5F)},
-
-      {Acts.OpenRoof2,                                D(2F)},
-      {Acts.LargeArmHoldingArms,                      D(28F, largeArmHoldingArms)},
-      {Acts.CloseRoof2,                               D(2F)},
       {Acts.OneEnd,                                   D(3F)},
 
       {Acts.Two,                                      D(3F)},
@@ -152,6 +146,9 @@ public class Timeline : MonoBehaviour
       {Acts.Four,                                     D(3F)},
       {Acts.PlayersArmsAndMovingArms,                 D(60F)},
       {Acts.AllArmsWaveGoodbye,                       D(3F)},
+      {Acts.OpenRoof2,                                D(2F)},
+      {Acts.LargeArmHoldingArms,                      D(28F, largeArmHoldingArms)},
+      {Acts.CloseRoof2,                               D(2F)},
       {Acts.FourEnd,                                  D(3F)},
 
       {Acts.End,                                      D(3F)},
@@ -235,9 +232,6 @@ public class Timeline : MonoBehaviour
         case Acts.VariableOffset:
           armPool.SetStairState(ArmPool.StairState.VariableOffset);
           break;
-        case Acts.LongTimeOffset:
-          armPool.SetStairState(ArmPool.StairState.LongTimeOffset);
-          break;
         case Acts.DespawnArmsOnAllStairs:
           armPool.SetStairState(ArmPool.StairState.None);
           break;
@@ -245,14 +239,6 @@ public class Timeline : MonoBehaviour
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.HideHighStairs);
           break;
 
-        case Acts.OpenRoof2:
-          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
-          break;
-        case Acts.LargeArmHoldingArms:
-          break;
-        case Acts.CloseRoof2:
-          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
-          break;
         case Acts.OneEnd:
           lightingController.state = LightingController.LightingState.Dark;
           break;
@@ -342,6 +328,14 @@ public class Timeline : MonoBehaviour
           textCanvas.state = TextCanvas.TextState.Transparent;
           break;
         case Acts.AllArmsWaveGoodbye:
+          break;
+        case Acts.OpenRoof2:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
+          break;
+        case Acts.LargeArmHoldingArms:
+          break;
+        case Acts.CloseRoof2:
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
           break;
         case Acts.FourEnd:
           lightingController.state = LightingController.LightingState.Dark;
