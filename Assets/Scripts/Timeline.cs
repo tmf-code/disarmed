@@ -16,14 +16,6 @@ public class Timeline : MonoBehaviour
   public WorldSceneSelector worldSceneSelector;
   public PlayerArms playerArms;
   public Tracking tracking;
-  // public GameObject wallsContract;
-  // public GameObject armsDoingDifferentActions;
-  // public GameObject leftArmRightArmSwapped;
-  // public GameObject armsDropToFloor;
-  // public GameObject armsToShoulderPlayerDifferentActions;
-  // public GameObject oneArmTakesOffOther;
-  // public GameObject tryOnArms;
-  // public GameObject armsWaveGoodbye;
 
   public enum Acts
   {
