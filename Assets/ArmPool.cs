@@ -174,15 +174,18 @@ public class ArmPool : MonoBehaviour
 
     for (int stairLevel = startLevel; stairLevel < maxStairCount; stairLevel++)
     {
+      if (stairLevel >= 5) continue;
       foreach (var stair in spawnedObjectsPerStair[stairLevel])
       {
         var v = new Vector2(stair.transform.position.x, stair.transform.position.z);
         var rad = v.magnitude;
         var angle = Mathf.Atan2(v.y, v.x);
-        var boost = 0.8F * stairLevel;
+        var boost = 0.4F * (stairLevel - 1);
+        var jitterX = Random.Range(0.9F, 1.1F);
+        var jitterY = Random.Range(0.9F, 1.1F);
         var newRad = rad + boost;
-        var newZ = newRad * Mathf.Sin(angle);
-        var newX = newRad * Mathf.Cos(angle);
+        var newZ = newRad * Mathf.Sin(angle) * jitterX;
+        var newX = newRad * Mathf.Cos(angle) * jitterY;
         var y = 0.8F;
         stair.transform.position = new Vector3(newX, y, newZ);
         stair.gameObject.SetActive(true);
