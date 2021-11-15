@@ -123,12 +123,10 @@ public class Timeline : MonoBehaviour
       {Acts.CloseRoof1,                               D(2F)},
 
       {Acts.DuoArms,                                  D(20F)},
-      {Acts.CopiesOfPlayersArms,                      D(10F)},
-
+      {Acts.CopiesOfPlayersArms,                      D(36F)},
       {Acts.ShowHighStairs,                           D(5F)},
       {Acts.SpawnArmsOnExtraStairs,                   D(3F)},
-      {Acts.VariableOffset,                           D(26F)},
-      {Acts.LongTimeOffset,                           D(24F)},
+      {Acts.VariableOffset,                           D(65F)},
       {Acts.DespawnArmsOnAllStairs,                   D(1F)},
       {Acts.HideHighStairs,                           D(5F)},
 
