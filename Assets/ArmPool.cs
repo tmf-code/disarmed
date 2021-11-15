@@ -7,12 +7,12 @@ public class ArmPool : MonoBehaviour
   private readonly float stairHeight = 0.4F;
   private readonly float stairDepth = 0.4F;
   private readonly float startHeight = 0.4F;
-  private readonly float startWidth = 2F;
+  private readonly float startWidth = 1.7F;
   private readonly int maxStairCount = 8;
   private readonly float roomSize = 3.0F;
 
 
-  private readonly float armSpacing = 0.8F;
+  private readonly float armSpacing = 0.7F;
   public ArmBehaviour leftArmPrefab;
   public ArmBehaviour rightArmPrefab;
   private List<List<Vector3>> positionsPerStair;
@@ -53,7 +53,7 @@ public class ArmPool : MonoBehaviour
     switch (state)
     {
       case StairState.TwoCopy:
-        SetStairCount(2, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
+        SetStairCount(2, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
         break;
       case StairState.All:
         SetStairCount(8, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.ShoulderNoRotation);
@@ -159,6 +159,8 @@ public class ArmPool : MonoBehaviour
 
     for (int stairLevel = startLevel; stairLevel < maxStairCount; stairLevel++)
     {
+      if (stairLevel >= 5) continue;
+
       foreach (var stair in spawnedObjectsPerStair[stairLevel])
       {
         stair.gameObject.SetActive(true);
@@ -217,6 +219,7 @@ public class ArmPool : MonoBehaviour
       var arm = position.x < 0.0 ? Instantiate(leftArmPrefab) : Instantiate(rightArmPrefab);
       arm.transform.parent = transform;
       arm.transform.position = position;
+      arm.transform.localRotation = Quaternion.Euler(0, 180F, 0);
       arm.behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
       arm.owner = ArmBehaviour.ArmOwnerType.World;
       arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.ShoulderNoRotation;
@@ -228,7 +231,7 @@ public class ArmPool : MonoBehaviour
   public Bounds GetBounds(int stair)
   {
     var bounds = new Bounds();
-    bounds.center = new Vector3(0, startHeight + stair * stairHeight, 0) + transform.position;
+    bounds.center = new Vector3(0, startHeight + stair * stairHeight + 0.5F, 0) + transform.position;
     bounds.extents = new Vector3(startWidth + stair * stairDepth * 2F + stairDepth, 0, startWidth + stair * stairDepth * 2F + stairDepth);
 
     return bounds;
