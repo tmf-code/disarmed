@@ -413,56 +413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9d4e37785054746a48252c2dc15bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handBonePairs: []
   childDictionary: {fileID: 1172513761}
---- !u!1 &1520763246 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7036307009128503562, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
-  m_PrefabInstance: {fileID: 4150659635078557935}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1520763248 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8343081109386398189, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
-  m_PrefabInstance: {fileID: 4150659635078557935}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1520763252 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7036307009128498586, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
-  m_PrefabInstance: {fileID: 4150659635078557935}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1520763246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2a6a04f84e407448840edf4eec9d443, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1520763254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1520763246}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f451766f033c7f4e8588c1d02d3ff4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arm: {fileID: 1520763246}
-  strength: 1
-  playbackFrameRate: 10
-  recordingsPath: Recordings
-  recordingName: upperHandRight
-  startPlaying: 0
-  isPlaying: 0
-  stopPlaying: 0
-  playOnEnable: 0
-  framesPlayed: 700
-  startAtFrame: 0
-  endAtFrame: 1100
-  pivotPoint: {fileID: 1520763252}
-  buttonField: 0
-  animator: {fileID: 1520763248}
+  handBonePairs: []
 --- !u!114 &1676733431 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8683794326163463650, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
