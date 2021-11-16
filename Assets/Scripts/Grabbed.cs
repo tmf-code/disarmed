@@ -2,17 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static PlayerArmBehaviour;
+using static WorldArmBehaviour;
 
 public partial class Grabbed : MonoBehaviour
 {
   public Grabbing grabbing;
 
-  public float creationTime;
-  public float minimumIdleTimeSeconds = 3;
-  public bool canTransition = false;
-
   [SerializeField] [HideInInspector] private new SimpleAnimation animation;
-  private Quaternion selectedStrategy;
+  private Option<Quaternion> selectedStrategy = new None<Quaternion>();
   static readonly List<Quaternion> strategies;
 
   static Grabbed()
@@ -31,13 +29,18 @@ public partial class Grabbed : MonoBehaviour
 
   void Start()
   {
-    gameObject.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Grabbed;
+    gameObject.GetComponentOrThrow<WorldArmBehaviour>().behaviour = WorldArmBehaviours.Grabbed;
     gameObject.RemoveComponent<Idle>();
     gameObject.RemoveComponent<Grabbing>();
 
     animation = new SimpleAnimation(3, SimpleAnimation.EasingFunction.Linear, Time.time);
 
-    var grabRotation = GetTargetTransform().Unwrap().rotation;
+    selectedStrategy = selectedStrategy.IsNone() ? GetStrategy() : selectedStrategy;
+  }
+
+  private Option<Quaternion> GetStrategy()
+  {
+    var grabRotation = GetTargetTransform(grabbing).Unwrap().rotation;
     var grabRotations = strategies.ConvertAll((rotation) =>
       grabRotation * rotation);
 
@@ -49,41 +52,34 @@ public partial class Grabbed : MonoBehaviour
       .Select((value, index) => new Tuple<float, int>(value, index))
       .OrderBy((item) => item.Item1);
     var selectedStrategyIndex = sortedDistances.First().Item2;
-    selectedStrategy = strategies[selectedStrategyIndex];
+    return Option<Quaternion>.of(strategies[selectedStrategyIndex]);
   }
 
   void Update()
   {
+    selectedStrategy = selectedStrategy.IsNone() ? GetStrategy() : selectedStrategy;
+    var targetTransform = GetTargetTransform(grabbing);
+
+    if (!selectedStrategy.TryUnwrap(out var strategy)) return;
+    if (!targetTransform.TryUnwrap(out var target)) return;
     animation.Update(Time.time);
-    var targetTransform = GetTargetTransform();
+
     var currentTransform = transform.FindRecursiveOrThrow("Model");
 
-    targetTransform.Match(
-      none: () => OnGrabReleased(),
-      some: targetTransform =>
-      {
-        currentTransform.SetPositionAndRotation(
-          Vector3.LerpUnclamped(
-            currentTransform.position,
-            targetTransform.position,
-            animation.progression
-          ),
+    var position = Vector3.LerpUnclamped(
+      currentTransform.position,
+      target.position,
+      animation.progression);
 
-          Quaternion.SlerpUnclamped(
-            currentTransform.rotation,
-            targetTransform.rotation * selectedStrategy,
-            animation.progression
-          )
-        );
+    var rotation = Quaternion.SlerpUnclamped(
+      currentTransform.rotation,
+      target.rotation * strategy,
+      animation.progression);
 
-        var currentTime = Time.time - creationTime;
-        if (currentTime > minimumIdleTimeSeconds) canTransition = true;
-        else canTransition = false;
-      }
-    );
+    currentTransform.SetPositionAndRotation(position, rotation);
   }
 
-  private Option<Transform> GetTargetTransform()
+  private Option<Transform> GetTargetTransform(Grabbing grabbing)
   {
     if (grabbing == null) return new None<Transform>();
     var grabbingHandPrefix = grabbing.gameObject.GetComponentOrThrow<Handedness>().HandPrefix();
@@ -91,49 +87,36 @@ public partial class Grabbed : MonoBehaviour
     return Option<Transform>.of(targetTransform);
   }
 
-  public void OnGrabReleased()
+  void OnDestroy()
   {
-    if (!canTransition) return;
-
-    var armBehavior = gameObject.GetComponentOrThrow<ArmBehaviour>();
-    var isUserArm = armBehavior.owner == ArmBehaviour.ArmOwnerType.User;
-
-    if (isUserArm)
-    {
-      var playerArms = GameObject.Find("Player").GetComponentOrThrow<PlayerArms>();
-      playerArms.RemoveArm(gameObject);
-    }
-
-    armBehavior.owner = ArmBehaviour.ArmOwnerType.World;
-
     var maybeTimeline = GameObject.Find("Timeline");
+    WorldArmBehaviours nextBehaviour;
     if (maybeTimeline && maybeTimeline.GetComponent<Timeline>().act > Timeline.Acts.Four)
     {
-      armBehavior.behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackRagdoll;
+      nextBehaviour = WorldArmBehaviours.MovementPlaybackRagdoll;
     }
     else
     {
-      armBehavior.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
+      nextBehaviour = WorldArmBehaviours.Ragdoll;
     }
 
-    Destroy(this);
-    gameObject.AddIfNotExisting<Idle>();
+    var armBehavior = gameObject.GetComponentOrThrow<WorldArmBehaviour>();
+    armBehavior.behaviour = nextBehaviour;
+    Option<Grabbing>.of(grabbing).End(grabbed => grabbed.OnDestroy());
   }
 
-  private void RepositionAndClone()
+  public void OnGrabReleased()
   {
-    gameObject.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
-
-    var clone = Instantiate(gameObject);
-    clone.GetComponent<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
-    clone.GetComponent<ArmBehaviour>().owner = ArmBehaviour.ArmOwnerType.World;
+    Destroy(this);
   }
 
   public void CollideWithShoulder(Collider shoulderCollider)
   {
 
     var handedness = gameObject.GetComponentOrThrow<Handedness>();
-    var armBehaviour = gameObject.GetComponentOrThrow<ArmBehaviour>();
+    // This arm should be a world arm
+    if (gameObject.TryGetComponent<WorldArmBehaviour>(out var behaviour)) return;
+
     var playerArms = GameObject.Find("Player").GetComponentOrThrow<PlayerArms>();
 
     var thisHandIsLeft = handedness.IsLeft();
@@ -142,25 +125,18 @@ public partial class Grabbed : MonoBehaviour
 
     if (!isCorrectShoulder) return;
 
-    var isWorldControlled = armBehaviour.owner == ArmBehaviour.ArmOwnerType.World;
-    if (!isWorldControlled) return;
-
     var spotIsFree = !playerArms.HasHand(handedness.handType);
 
     if (!spotIsFree) return;
 
-    AttachArm();
+    AttachArm(behaviour);
   }
 
-  private void AttachArm()
+  private void AttachArm(WorldArmBehaviour behaviour)
   {
-    var armBehaviour = gameObject.GetComponentOrThrow<ArmBehaviour>();
     var playerArms = GameObject.Find("Player").GetComponentOrThrow<PlayerArms>();
-    armBehaviour.behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
-    armBehaviour.owner = ArmBehaviour.ArmOwnerType.User;
-    playerArms.AddArm(gameObject);
+    playerArms.AddArm(behaviour, PlayerArmBehaviours.TrackUserInput);
     grabbing.OnArmAttach();
-    gameObject.AddIfNotExisting<Idle>();
     Destroy(this);
   }
 }

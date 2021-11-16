@@ -1,4 +1,5 @@
 using UnityEngine;
+using static WorldArmBehaviour;
 
 public class Idle : MonoBehaviour
 {
@@ -26,15 +27,25 @@ public class Idle : MonoBehaviour
     }
   }
 
-
   public void OnGrabBegin(Idle toBeGrabbed)
   {
     if (!toBeGrabbed.canTransition || !canTransition) return;
 
+    if (toBeGrabbed.TryGetComponent<PlayerArmBehaviour>(out var playerArmBehaviour))
+    {
+      var playerArms = GameObject.Find("Player").GetComponentOrThrow<PlayerArms>();
+      playerArms.RemoveArm(playerArmBehaviour, WorldArmBehaviours.Grabbed);
+    }
+
     var grabbing = gameObject.AddIfNotExisting<Grabbing>();
     var grabbed = toBeGrabbed.gameObject.AddIfNotExisting<Grabbed>();
 
-    grabbed.gameObject.GetComponentOrThrow<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
+    var worldArmBehaviour = toBeGrabbed.gameObject.GetComponentOrThrow<WorldArmBehaviour>();
+    worldArmBehaviour.behaviour = WorldArmBehaviours.Grabbed;
+
+    var pivotPoint = grabbed.gameObject.GetComponentOrThrow<PivotPoint>();
+    pivotPoint.pivotPointType = PivotPoint.PivotPointType.None;
+
     grabbing.grabbed = grabbed;
     grabbed.grabbing = grabbing;
 

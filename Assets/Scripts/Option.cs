@@ -11,6 +11,7 @@ public abstract class Option<T>
 
   public abstract bool IsSome();
   public abstract bool IsNone();
+  public abstract bool TryUnwrap(out T value);
   public abstract T Unwrap();
   public abstract T UnwrapOrDefault(T value);
   public abstract TResult Match<TResult>(Func<TResult> none, Func<T, TResult> some);
@@ -34,6 +35,7 @@ public class Some<T> : Option<T>
   public override bool IsSome() => true;
   public override bool IsNone() => false;
 
+  public override bool TryUnwrap(out T value) { value = this.value; return true; }
   public override T Unwrap() => value;
   public override T UnwrapOrDefault(T value) => value;
 
@@ -49,6 +51,7 @@ public class None<T> : Option<T>
   public override bool IsSome() => false;
   public override bool IsNone() => true;
 
+  public override bool TryUnwrap(out T value) { value = default; return false; }
   public override T Unwrap() => throw new NullReferenceException();
   public override T UnwrapOrDefault(T value) => value;
 

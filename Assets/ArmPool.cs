@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static WorldArmBehaviour;
 
 public class ArmPool : MonoBehaviour
 {
@@ -13,10 +14,10 @@ public class ArmPool : MonoBehaviour
 
 
   private readonly float armSpacing = 0.7F;
-  public ArmBehaviour leftArmPrefab;
-  public ArmBehaviour rightArmPrefab;
+  public WorldArmBehaviour leftArmPrefab;
+  public WorldArmBehaviour rightArmPrefab;
   private List<List<Vector3>> positionsPerStair;
-  private List<List<ArmBehaviour>> armsPerStair;
+  private List<List<WorldArmBehaviour>> armsPerStair;
 
   public enum StairState
   {
@@ -34,7 +35,7 @@ public class ArmPool : MonoBehaviour
     Act4,
   }
 
-  private void SetStairCount(int nextStairCount, ArmBehaviour.ArmBehaviorType behaviour, PivotPoint.PivotPointType pivot)
+  private void SetStairCount(int nextStairCount, WorldArmBehaviours behaviour, PivotPoint.PivotPointType pivot)
   {
     for (int stairIndex = 0; stairIndex < maxStairCount; stairIndex++)
     {
@@ -42,7 +43,7 @@ public class ArmPool : MonoBehaviour
       foreach (var item in spawnedObjects)
       {
         item.gameObject.SetActive(stairIndex < nextStairCount);
-        item.behavior = behaviour;
+        item.behaviour = behaviour;
         item.GetComponent<PivotPoint>().pivotPointType = pivot;
       }
     }
@@ -55,19 +56,19 @@ public class ArmPool : MonoBehaviour
       case StairState.DuoArms:
         armsPerStair[1][9].gameObject.SetActive(true);
         armsPerStair[1][10].gameObject.SetActive(true);
-        armsPerStair[1][9].behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
-        armsPerStair[1][10].behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
+        armsPerStair[1][9].behaviour = WorldArmBehaviours.CopyArmMovement;
+        armsPerStair[1][10].behaviour = WorldArmBehaviours.CopyArmMovement;
         armsPerStair[1][9].GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
         armsPerStair[1][10].GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
         break;
       case StairState.TwoCopy:
-        SetStairCount(2, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
+        SetStairCount(2, WorldArmBehaviours.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
         break;
       case StairState.All:
-        SetStairCount(6, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
+        SetStairCount(6, WorldArmBehaviours.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
         break;
       case StairState.VariableOffset:
-        SetStairCount(6, ArmBehaviour.ArmBehaviorType.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
+        SetStairCount(6, WorldArmBehaviours.CopyArmMovement, PivotPoint.PivotPointType.Shoulder);
         TimeOffsetPerStair();
         break;
       case StairState.Flat:
@@ -86,15 +87,15 @@ public class ArmPool : MonoBehaviour
         DisableStair(3);
         break;
       case StairState.TwoRecordedMovement:
-        SetStairCount(2, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
+        SetStairCount(2, WorldArmBehaviours.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
         break;
       case StairState.Act4:
-        SetStairCount(2, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
+        SetStairCount(2, WorldArmBehaviours.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
         MoveOuterLevelsToRoomCenter();
 
         break;
       case StairState.None:
-        SetStairCount(0, ArmBehaviour.ArmBehaviorType.MovementPlayback, PivotPoint.PivotPointType.Wrist);
+        SetStairCount(0, WorldArmBehaviours.MovementPlayback, PivotPoint.PivotPointType.Wrist);
         break;
     }
   }
@@ -110,7 +111,7 @@ public class ArmPool : MonoBehaviour
         var position = new Vector3(Random.Range(-0.5F, 0.5F) * roomSize, startHeight, Random.Range(-0.5F, 0.5F) * roomSize);
         stair.transform.localPosition = position;
         stair.gameObject.SetActive(true);
-        stair.behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackRagdoll;
+        stair.behaviour = WorldArmBehaviours.MovementPlaybackRagdoll;
         stair.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
       }
     }
@@ -166,7 +167,7 @@ public class ArmPool : MonoBehaviour
       foreach (var arm in armsPerStair[stairLevel])
       {
         arm.gameObject.SetActive(true);
-        arm.behavior = ArmBehaviour.ArmBehaviorType.Ragdoll;
+        arm.behaviour = WorldArmBehaviours.Ragdoll;
         arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
         arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
       }
@@ -194,7 +195,7 @@ public class ArmPool : MonoBehaviour
         var y = 1.4F;
         arm.transform.position = new Vector3(newX, y, newZ);
         arm.gameObject.SetActive(true);
-        arm.behavior = ArmBehaviour.ArmBehaviorType.MovementPlayback;
+        arm.behaviour = WorldArmBehaviours.MovementPlayback;
         arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Shoulder;
       }
     }
@@ -203,7 +204,7 @@ public class ArmPool : MonoBehaviour
   void Awake()
   {
     positionsPerStair = GetSpawnPositions();
-    armsPerStair = positionsPerStair.Select(value => new List<ArmBehaviour>()).ToList();
+    armsPerStair = positionsPerStair.Select(value => new List<WorldArmBehaviour>()).ToList();
 
     for (var stairIndex = 0; stairIndex < positionsPerStair.Count; stairIndex++)
     {
@@ -223,8 +224,7 @@ public class ArmPool : MonoBehaviour
       arm.transform.parent = transform;
       arm.transform.position = position;
       arm.transform.localRotation = Quaternion.Euler(0, 180F, 0);
-      arm.behavior = ArmBehaviour.ArmBehaviorType.CopyArmMovement;
-      arm.owner = ArmBehaviour.ArmOwnerType.World;
+      arm.behaviour = WorldArmBehaviours.CopyArmMovement;
       arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.ShoulderNoRotation;
       stairObjects.Add(arm);
       arm.gameObject.SetActive(false);

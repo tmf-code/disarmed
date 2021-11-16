@@ -34,7 +34,7 @@ public class PlayHandCollisionAudio : MonoBehaviour
     if (armSpot != ArmSpot.Hand) return;
 
     // Since I will perform the grab, I should be a User
-    var iAmUser = target.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
+    var iAmUser = target.HasComponent<PlayerArmBehaviour>();
     if (!iAmUser) return;
 
     var maybeAudioController = GameObject.Find("AudioController");

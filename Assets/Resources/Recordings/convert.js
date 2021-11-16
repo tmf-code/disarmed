@@ -100,6 +100,7 @@ console.log(files);
 // Loop them all with the new for...of
 for (const file of files) {
   if (!file.includes(".json")) continue;
+  if (file.includes(".meta")) continue;
 
   try {
     let rawdata = fs.readFileSync(file);
@@ -112,7 +113,9 @@ for (const file of files) {
 
           const [a, b, c, d, e, f, g] = data;
 
-          transform.data = [a, b, c, d, e, f, g];
+          transform.data = [a, b, c, d, e, f, g].map((number) =>
+            Number(number.toPrecision(5))
+          );
         });
       }
     );

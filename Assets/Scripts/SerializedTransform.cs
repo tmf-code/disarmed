@@ -34,6 +34,13 @@ public class SerializedTransform : ISerializationCallbackReceiver
     data = data.ConvertAll(data => Math.Round(data, 4));
     n = transform.name;
   }
+
+  public SerializedTransform(List<double> data, string n)
+  {
+    this.data = data;
+    this.n = n;
+  }
+
   public void OnAfterDeserialize()
   {
     if (this.data.Count == 0)

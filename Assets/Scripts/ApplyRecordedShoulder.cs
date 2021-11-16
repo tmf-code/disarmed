@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static RecordingsStore;
 
 public class ApplyRecordedShoulder : MonoBehaviour
 {
@@ -19,8 +20,14 @@ public class ApplyRecordedShoulder : MonoBehaviour
 
   void Start()
   {
-    var hand = gameObject.GetComponentOrThrow<Handedness>().handType;
-    recording = GameObject.Find("Recordings").GetComponentOrThrow<RecordingsStore>().RandomRecording(hand);
+    var isLeft = gameObject.GetComponentOrThrow<Handedness>().IsLeft();
+
+    var recordingsStore = GameObject.Find("Recordings").GetComponentOrThrow<RecordingsStore>();
+
+    recording = recordingsStore.GetRecording(isLeft
+      ? RecordedMovements.leftReplacementShoulder
+      : RecordedMovements.rightReplacementShoulder);
+
     childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
     dataSources = gameObject.GetComponentOrThrow<DataSources>();
     handBonePairs = childDictionary.handBonePairs;
@@ -40,6 +47,13 @@ public class ApplyRecordedShoulder : MonoBehaviour
 
     CancelInvoke();
     InvokeRepeating(nameof(PlayNextFrame), 0f, 1F / playbackFrameRate);
+  }
+
+  void OnDestroy()
+  {
+    gameObject.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Wrist;
+    transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+    CancelInvoke();
   }
 
   private static Dictionary<GameObject, UnSerializedTransform[]> RecordingToPairedTarget(ObjectToFramesDictionary recording, Transform root, StringGameObjectDictionary targets)
@@ -82,30 +96,33 @@ public class ApplyRecordedShoulder : MonoBehaviour
     // Apply the recording to the VR tracking object
     foreach (var pair in recordingPairs)
     {
-      var gameObject = pair.Key;
-      var transform = pair.Value;
+      var objectToSet = pair.Key;
+      var transformsPerFrame = pair.Value;
 
-      if (gameObject.name == "Model")
+      if (objectToSet.name == "Model")
       {
-        gameObject.transform.SetPositionAndRotation(
-          Vector3.LerpUnclamped(
-            gameObject.transform.position,
-            dataSources.ikArmBoneData.target.position,
-            strength),
-          Quaternion.SlerpUnclamped(
-            gameObject.transform.rotation,
-            dataSources.ikArmBoneData.target.rotation,
-            strength
-          )
-        );
+        var position = Vector3.LerpUnclamped(
+          objectToSet.transform.localPosition,
+          transformsPerFrame[framesPlayed].localPosition,
+          strength);
+
+        var rotation = Quaternion.SlerpUnclamped(
+          objectToSet.transform.localRotation,
+          dataSources.ikArmBoneData.target.rotation * transformsPerFrame[framesPlayed].localRotation,
+          strength);
+
+        objectToSet.transform.localPosition = position;
+        objectToSet.transform.localRotation = rotation;
       }
       else
       {
-        gameObject.transform.localRotation = Quaternion.SlerpUnclamped(
-          gameObject.transform.localRotation,
-          transform[framesPlayed].localRotation,
+        objectToSet.transform.localRotation = Quaternion.SlerpUnclamped(
+          objectToSet.transform.localRotation,
+          transformsPerFrame[framesPlayed].localRotation,
           strength);
       }
     }
+
+    transform.position = dataSources.ikArmBoneData.target.position;
   }
 }

@@ -30,8 +30,8 @@ public class ApplyVRTrackingDataToModelRagdoll : MonoBehaviour
     forearm = childDictionary.modelForearm;
     humerus = childDictionary.modelHumerus;
 
-    forearmJoint = forearm.GetComponent<ConfigurableJoint>();
-    humerusJoint = humerus.GetComponent<ConfigurableJoint>();
+    forearmJoint = forearm.gameObject.GetComponentOrThrow<ConfigurableJoint>();
+    humerusJoint = humerus.gameObject.GetComponentOrThrow<ConfigurableJoint>();
 
     var dataSources = gameObject.GetComponentOrThrow<DataSources>();
 

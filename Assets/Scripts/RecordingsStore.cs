@@ -31,6 +31,10 @@ public class RecordingsStore : MonoBehaviour
     wavingRight4,
     wavingRight5,
 
+    leftReplacementShoulder,
+    rightReplacementShoulder
+
+
     // Act 2 end
     // directions,
     // directions2,
@@ -179,6 +183,21 @@ public class RecordingsStore : MonoBehaviour
       return values.ElementAt((int)Mathf.Floor(values.Count * random));
     }
   }
+
+  public ObjectToFramesDictionary GetRecording(RecordedMovements movement)
+  {
+    if (leftRecordings.TryGetValue(movement, out var leftMovement))
+    {
+      return leftMovement;
+    }
+    else if (rightRecordings.TryGetValue(movement, out var rightMovement))
+    {
+      return rightMovement;
+    }
+
+    throw new Exception($"Could not get recording {movement}");
+  }
+
 
   static KeyValuePair<TEnum, string>[] EnumToKeyValue<TEnum>() where TEnum : struct
   {

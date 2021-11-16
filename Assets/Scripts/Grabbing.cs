@@ -43,13 +43,16 @@ public class Grabbing : MonoBehaviour
   public void OnHandOpen()
   {
     if (!canTransition) return;
+    Option<Grabbed>.of(grabbed).End(grabbed => grabbed.OnGrabReleased());
+    Destroy(this);
+  }
+
+  public void OnDestroy()
+  {
     gameObject.GetOptionComponent<ApplyHandTracking>().Map(component => component.strength = 1);
     gameObject.GetOptionComponent<ApplyPose>().Map(component => component.strength = 0);
-
     gameObject.AddIfNotExisting<Idle>();
-    Option<Grabbed>.of(grabbed).End(grabbed => SendMessage("OnGrabReleased", SendMessageOptions.DontRequireReceiver));
-
-    Destroy(this);
+    Option<Grabbed>.of(grabbed).End(grabbed => grabbed.OnGrabReleased());
   }
 
   void OnValidate()

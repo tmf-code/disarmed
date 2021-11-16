@@ -42,7 +42,7 @@ public class SendHandToForearmCollisionToTarget : MonoBehaviour
     if (!iHaveIdle || !otherHasIdle) return;
 
     // Since I will perform the grab, I should be a User
-    var iAmUser = target.GetComponentOrThrow<ArmBehaviour>().owner == ArmBehaviour.ArmOwnerType.User;
+    var iAmUser = target.HasComponent<PlayerArmBehaviour>();
     if (!iAmUser) return;
 
     targetIdle.OnGrabBegin(otherIdle);

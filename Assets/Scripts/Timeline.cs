@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static PlayerArmBehaviour;
 
 public class Timeline : MonoBehaviour
 {
@@ -301,12 +302,12 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.ArmsDropToFloor:
           tracking.SetSwapped(false);
-          playerArms.left.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.ResponsiveRagdoll;
-          playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.ResponsiveRagdoll;
+          playerArms.left.behaviour = PlayerArmBehaviours.ResponsiveRagdoll;
+          playerArms.right.behaviour = PlayerArmBehaviours.ResponsiveRagdoll;
           break;
         case Acts.ArmsToShoulderPlayerDifferentActions:
-          playerArms.left.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackArmSocket;
-          playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.MovementPlaybackArmSocket;
+          playerArms.left.behaviour = PlayerArmBehaviours.MovementPlaybackArmSocket;
+          playerArms.right.behaviour = PlayerArmBehaviours.MovementPlaybackArmSocket;
           break;
         case Acts.OneArmTakesOffOther:
           Debug.LogWarning("One arm takes off other not implemented");
@@ -318,8 +319,8 @@ public class Timeline : MonoBehaviour
         case Acts.Four:
           armPool.SetStairState(ArmPool.StairState.Act4);
           audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4);
-          playerArms.left.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
-          playerArms.right.GetComponentOrThrow<ArmBehaviour>().behavior = ArmBehaviour.ArmBehaviorType.TrackUserInput;
+          playerArms.left.behaviour = PlayerArmBehaviours.TrackUserInput;
+          playerArms.right.behaviour = PlayerArmBehaviours.TrackUserInput;
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act4;
           break;
