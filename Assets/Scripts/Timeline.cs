@@ -63,11 +63,11 @@ public class Timeline : MonoBehaviour
     ThreeEnd,
 
     Four,
-    PlayersArmsAndMovingArms,
-    AllArmsWaveGoodbye,
     OpenRoof2,
     LargeArmHoldingArms,
     CloseRoof2,
+    PlayersArmsAndMovingArms,
+    AllArmsWaveGoodbye,
     FourEnd,
 
     End,
@@ -145,11 +145,11 @@ public class Timeline : MonoBehaviour
       {Acts.ThreeEnd,                                 D(3F)},
 
       {Acts.Four,                                     D(3F)},
-      {Acts.PlayersArmsAndMovingArms,                 D(60F)},
-      {Acts.AllArmsWaveGoodbye,                       D(3F)},
       {Acts.OpenRoof2,                                D(2F)},
       {Acts.LargeArmHoldingArms,                      D(28F, largeArmHoldingArms)},
       {Acts.CloseRoof2,                               D(2F)},
+      {Acts.PlayersArmsAndMovingArms,                 D(60F)},
+      {Acts.AllArmsWaveGoodbye,                       D(3F)},
       {Acts.FourEnd,                                  D(3F)},
 
       {Acts.End,                                      D(3F)},
@@ -211,6 +211,7 @@ public class Timeline : MonoBehaviour
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
           break;
         case Acts.ArmFromCeiling:
+          bigArmFromRoof.GetComponentInChildren<Animator>().Play("LowerArm", 0);
           break;
         case Acts.CloseRoof1:
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
@@ -324,19 +325,21 @@ public class Timeline : MonoBehaviour
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act4;
           break;
-        case Acts.PlayersArmsAndMovingArms:
+        case Acts.OpenRoof2:
           lightingController.state = LightingController.LightingState.Both;
           textCanvas.state = TextCanvas.TextState.Transparent;
-          break;
-        case Acts.AllArmsWaveGoodbye:
-          break;
-        case Acts.OpenRoof2:
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
           break;
         case Acts.LargeArmHoldingArms:
           break;
         case Acts.CloseRoof2:
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
+          break;
+        case Acts.PlayersArmsAndMovingArms:
+          Debug.LogWarning("Not implemented");
+          break;
+        case Acts.AllArmsWaveGoodbye:
+          Debug.LogWarning("Not implemented");
           break;
         case Acts.FourEnd:
           lightingController.state = LightingController.LightingState.Dark;

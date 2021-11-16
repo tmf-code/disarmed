@@ -1,219 +1,130 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
-[Serializable]
-public class MovementToRecordingDictionary : SerializableDictionary<RecordingsStore.RecordedMovements, ObjectToFramesDictionary> { }
 
 [Serializable]
 public class ObjectToFramesDictionary : SerializableDictionary<string, UnSerializedTransform[]> { }
 
 public class RecordingsStore : MonoBehaviour
 {
-  [ShowOnly] public readonly string recordingsPath = "Compressed";
+  [ShowOnly] public readonly string recordingsPath = "Recordings";
 
   public Timeline timeline;
-  // Start is called before the first frame update
-  public enum RecordedMovements
+
+  public readonly Loadable<ObjectToFramesDictionary> upperHandRight = new Loadable<ObjectToFramesDictionary>(() =>
   {
-    // Act 2 start
-    wavingLeft1,
-    wavingLeft2,
-    wavingLeft3,
-    wavingLeft4,
-    wavingLeft5,
-    wavingLeft6,
-    wavingRight1,
-    wavingRight2,
-    wavingRight3,
-    wavingRight4,
-    wavingRight5,
+    var recording = ActMovements.LoadRecording(Act1Movements.upperHandRight.ToString());
+    return ActMovements.OrganiseRecordingByKey(recording);
+  });
 
-    leftReplacementShoulder,
-    rightReplacementShoulder
+  public readonly Loadable<Dictionary<Act2StartMovementsLeft, ObjectToFramesDictionary>> act2StartMovementsLeft
+    = new Loadable<Dictionary<Act2StartMovementsLeft, ObjectToFramesDictionary>>(() => ActMovements.LoadRecordings<Act2StartMovementsLeft>());
 
+  public readonly Loadable<Dictionary<Act2StartMovementsRight, ObjectToFramesDictionary>> act2StartMovementsRight
+    = new Loadable<Dictionary<Act2StartMovementsRight, ObjectToFramesDictionary>>(() => ActMovements.LoadRecordings<Act2StartMovementsRight>());
 
-    // Act 2 end
-    // directions,
-    // directions2,
-    // directions3,
-    // discussing,
-    // discussing2,
-    // discussing3,
-    // discussing4,
-    // discussing5,
-    // eating,
-    // greeting,
-    // greeting2,
-    // photo,
-    // photo2,
-    // posing,
-    // posing2,
-    // posing3,
-    // purchases,
-    // smoking,
-    // smoking2,
-    // waiting,
-    // waiting2,
-    // walking,
-    // walking2,
+  public readonly Loadable<Dictionary<Act2EndMovementsLeft, ObjectToFramesDictionary>> act2EndMovementsLeft
+    = new Loadable<Dictionary<Act2EndMovementsLeft, ObjectToFramesDictionary>>(() => ActMovements.LoadRecordings<Act2EndMovementsLeft>());
 
-    // Act 4
-    // sub1,
-    // sub2,
-    // sub3,
-    // sub4,
-    // sub5,
-    // sub6,
-    // sub7,
-    // sub8,
-    // sub9,
-    // sub10,
-    // sub11,
-    // sub12,
-    // sub13,
-    // sub14,
-    // sub15,
-    // sub16,
-    // sub17,
-    // sub18,
-    // sub19,
-  }
-  [SerializeField]
-  [HideInInspector]
-  private MovementToRecordingDictionary leftRecordings;
-  [SerializeField]
-  [HideInInspector]
-  private MovementToRecordingDictionary rightRecordings;
+  public readonly Loadable<Dictionary<Act2EndMovementsRight, ObjectToFramesDictionary>> act2EndMovementsRight
+    = new Loadable<Dictionary<Act2EndMovementsRight, ObjectToFramesDictionary>>(() => ActMovements.LoadRecordings<Act2EndMovementsRight>());
+
+  public readonly Loadable<Dictionary<Act3Movements, ObjectToFramesDictionary>> act3Movements
+    = new Loadable<Dictionary<Act3Movements, ObjectToFramesDictionary>>(() => ActMovements.LoadRecordings<Act3Movements>());
+
+  public readonly Loadable<Dictionary<Act4ArmDropRight, ObjectToFramesDictionary>> act4ArmDropRight
+    = new Loadable<Dictionary<Act4ArmDropRight, ObjectToFramesDictionary>>(() => ActMovements.LoadRecordings<Act4ArmDropRight>());
+
+  public readonly Loadable<Dictionary<Act4MovementsLeft, ObjectToFramesDictionary>> act4MovementsLeft
+    = new Loadable<Dictionary<Act4MovementsLeft, ObjectToFramesDictionary>>(() => ActMovements.LoadRecordings<Act4MovementsLeft>());
+
+  public readonly Loadable<Dictionary<Act4MovementsRight, ObjectToFramesDictionary>> act4MovementsRight
+    = new Loadable<Dictionary<Act4MovementsRight, ObjectToFramesDictionary>>(() => ActMovements.LoadRecordings<Act4MovementsRight>());
 
   void Awake()
   {
-    leftRecordings = new MovementToRecordingDictionary();
-    rightRecordings = new MovementToRecordingDictionary();
-    var keyValue = EnumToKeyValue<RecordedMovements>().ToList();
-    keyValue.ForEach((keyValue) =>
-      {
-        var key = keyValue.Key;
-        var name = keyValue.Value;
-        var armRecording = LoadRecording(name);
-        var reorganizedRecording = OrganiseRecordingByKey(armRecording);
-
-        if (armRecording.hand == Handedness.HandTypes.HandLeft)
-        {
-          leftRecordings.Add(key, reorganizedRecording);
-        }
-        else
-        {
-          rightRecordings.Add(key, reorganizedRecording);
-        }
-      });
-
-    Debug.Log(leftRecordings.Count);
+    upperHandRight.Load();
+    act2StartMovementsLeft.Load();
+    act2StartMovementsRight.Load();
   }
 
-  private CompressedArmRecording LoadRecording(string recordingName)
+  void Update()
   {
-#if UNITY_EDITOR
-    AssetDatabase.Refresh();
-#endif
-    var recordingPath = $"{recordingsPath}/{recordingName}";
-    var textAsset = Resources.Load<TextAsset>(recordingPath);
-    if (textAsset == null)
+    if (timeline.act > Timeline.Acts.Opening) upperHandRight.Load();
+    if (timeline.act >= Timeline.Acts.CloseRoof1)
     {
-      throw new Exception($"Could not load text asset {recordingPath}");
+      act2StartMovementsLeft.Load();
+      act2StartMovementsRight.Load();
     }
 
-    var maybeArmRecording = JsonUtility.FromJson<CompressedArmRecording>(textAsset.text);
-    if (maybeArmRecording == null)
-      throw new Exception($"Could not parse text asset {textAsset} with name {recordingName} \n {textAsset.text}");
-    return maybeArmRecording;
-  }
-
-  private ObjectToFramesDictionary OrganiseRecordingByKey(CompressedArmRecording recording)
-  {
-    var result = new ObjectToFramesDictionary();
-    for (var frameIndex = 0; frameIndex < recording.frameTransforms.Count; frameIndex++)
+    if (timeline.act >= Timeline.Acts.InactiveRagdollArmsInCenter)
     {
-      var frame = recording.frameTransforms[frameIndex];
-      foreach (var nameTransform in frame)
-      {
-        if (result.TryGetValue(nameTransform.Key, out var frames))
-        {
-          frames[frameIndex] = nameTransform.Value;
-        }
-        else
-        {
-          var transforms = new UnSerializedTransform[recording.frameTransforms.Count];
-          transforms[frameIndex] = nameTransform.Value;
-          result.Add(nameTransform.Key, transforms);
-
-        }
-      }
+      act2EndMovementsLeft.Load();
+      act2EndMovementsRight.Load();
     }
 
-    return result;
-  }
-
-  public ObjectToFramesDictionary RandomRecording(Handedness.HandTypes handType)
-  {
-
-    List<RecordedMovements> L(params RecordedMovements[] array) => array.ToList();
-    if (handType == Handedness.HandTypes.HandLeft)
+    if (timeline.act >= Timeline.Acts.Three) act3Movements.Load();
+    if (timeline.act >= Timeline.Acts.ThreeEnd) act4ArmDropRight.Load();
+    if (timeline.act >= Timeline.Acts.Four)
     {
-      var values = leftRecordings.Values;
-      if (values.Count == 0)
-      {
-        throw new Exception("No recordings for left hand");
-      }
-      var random = UnityEngine.Random.value;
-      return values.ElementAt((int)Mathf.Floor(values.Count * random));
-    }
-    else
-    {
-      var values = rightRecordings.Values;
-
-      if (values.Count == 0)
-      {
-        throw new Exception("No recordings for right hand");
-      }
-
-      var random = UnityEngine.Random.value;
-      return values.ElementAt((int)Mathf.Floor(values.Count * random));
+      act4MovementsLeft.Load();
+      act4MovementsRight.Load();
     }
   }
 
-  public ObjectToFramesDictionary GetRecording(RecordedMovements movement)
+  public ObjectToFramesDictionary RandomRecording(Handedness.HandTypes hand)
   {
-    if (leftRecordings.TryGetValue(movement, out var leftMovement))
-    {
-      return leftMovement;
-    }
-    else if (rightRecordings.TryGetValue(movement, out var rightMovement))
-    {
-      return rightMovement;
-    }
 
-    throw new Exception($"Could not get recording {movement}");
-  }
-
-
-  static KeyValuePair<TEnum, string>[] EnumToKeyValue<TEnum>() where TEnum : struct
-  {
-    var names = Enum.GetNames(typeof(TEnum));
-    var keyValues = names.Select(name =>
+    if (timeline.act >= Timeline.Acts.PlayersArmsAndMovingArms)
     {
-      if (Enum.TryParse(name, false, out TEnum result))
+      if (hand == Handedness.HandTypes.HandLeft)
       {
-        return new KeyValuePair<TEnum, string>(result, name);
+        return act4MovementsLeft.UnwrapOrLoad().RandomElement();
       }
       else
       {
-        throw new InvalidOperationException();
+        return act4MovementsRight.UnwrapOrLoad().RandomElement();
       }
-    }).ToArray();
+    }
+    else if (timeline.act >= Timeline.Acts.OpenRoof2)
+    {
+      return act4ArmDropRight.UnwrapOrLoad().RandomElement();
+    }
+    else if (timeline.act >= Timeline.Acts.ArmsToShoulderPlayerDifferentActions)
+    {
+      if (hand == Handedness.HandTypes.HandLeft)
+      {
+        return act3Movements.UnwrapOrLoad().GetValue(Act3Movements.replacementShoulderLeft).Unwrap();
+      }
+      else
+      {
+        return act3Movements.UnwrapOrLoad().GetValue(Act3Movements.replacementShoulderRight).Unwrap();
 
-    return keyValues;
+      }
+    }
+    else if (timeline.act >= Timeline.Acts.ArmsDoingDifferentActions)
+    {
+      if (hand == Handedness.HandTypes.HandLeft)
+      {
+        return act2EndMovementsLeft.UnwrapOrLoad().RandomElement();
+      }
+      else
+      {
+        return act2EndMovementsRight.UnwrapOrLoad().RandomElement();
+      }
+    }
+    // if (timeline.act >= Timeline.Acts.SpawnArmsOnPlatform)
+    else
+    {
+      if (hand == Handedness.HandTypes.HandLeft)
+      {
+        return act2StartMovementsLeft.UnwrapOrLoad().RandomElement();
+      }
+      else
+      {
+        return act2StartMovementsRight.UnwrapOrLoad().RandomElement();
+      }
+    }
   }
 }

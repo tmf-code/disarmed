@@ -12,7 +12,7 @@ public class SharedFrameBuffer : MonoBehaviour
   public HandTracking handTracking;
   public InverseKinematics inverseKinematics;
 
-  public int maxFrames = 200;
+  public int maxFrames = 70;
   public readonly Queue<FrameBuffer> frameQueue = new Queue<FrameBuffer>();
 
   void FixedUpdate()

@@ -154,7 +154,7 @@ public class CompressedSerializedTransforms : ISerializationCallbackReceiver
 
 
 [Serializable]
-public class UnSerializedTransform : ITransform
+public struct UnSerializedTransform : ITransform
 {
   public Vector3 localPosition { get; set; }
   public Quaternion localRotation { get; set; }
@@ -172,12 +172,5 @@ public class UnSerializedTransform : ITransform
     localPosition = transform.localPosition;
     localRotation = transform.localRotation;
     name = transform.n;
-  }
-
-
-  public UnSerializedTransform(Vector3 localPosition, Quaternion localRotation)
-  {
-    this.localPosition = localPosition;
-    this.localRotation = localRotation;
   }
 }

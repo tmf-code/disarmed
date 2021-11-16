@@ -1,16 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static RecordingsStore;
 
 public class ApplyRecordedShoulder : MonoBehaviour
 {
   [SerializeField]
   [HideInInspector]
   private TransformPair[] handBonePairs;
-  [ShowOnly] public int playbackFrameRate = 10;
-  [ShowOnly] public int framesPlayed = 0;
-  [ShowOnly] public float strength = 10F / 60F;
+  [ShowOnly] private int playbackFrameRate = 10;
+  [ShowOnly] private int framesPlayed = 0;
+  [ShowOnly] private float strength = 10F / 60F;
 
   private ObjectToFramesDictionary recording;
 
@@ -20,13 +19,15 @@ public class ApplyRecordedShoulder : MonoBehaviour
 
   void Start()
   {
-    var isLeft = gameObject.GetComponentOrThrow<Handedness>().IsLeft();
-
-    var recordingsStore = GameObject.Find("Recordings").GetComponentOrThrow<RecordingsStore>();
-
-    recording = recordingsStore.GetRecording(isLeft
-      ? RecordedMovements.leftReplacementShoulder
-      : RecordedMovements.rightReplacementShoulder);
+    var hand = gameObject.GetComponentOrThrow<Handedness>();
+    recording = Option<GameObject>.of(GameObject.Find("Recordings"))
+      .Unwrap()
+      .GetOptionComponent<RecordingsStore>()
+      .Map((recording) => recording.act3Movements.UnwrapOrLoad().GetValue(hand.IsLeft()
+        ? Act3Movements.replacementShoulderLeft
+        : Act3Movements.replacementShoulderRight))
+      .Unwrap()
+      .Unwrap();
 
     childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
     dataSources = gameObject.GetComponentOrThrow<DataSources>();
@@ -38,7 +39,6 @@ public class ApplyRecordedShoulder : MonoBehaviour
 
   void LoadAndPlay()
   {
-
     recordingPairs = RecordingToPairedTarget(
         recording,
         childDictionary.model.transform,

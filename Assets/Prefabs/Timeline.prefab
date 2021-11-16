@@ -85,7 +85,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4150659633665364401}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.7}
+  m_LocalPosition: {x: 0, y: 0, z: 0.488}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4150659633729603743}
@@ -103,8 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0738c6b545f1baa4b8bd145ddbe2520a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftArmPrefab: {fileID: 6111802295212504442, guid: c7549b43474af2f44843af1d9b1d66c4, type: 3}
-  rightArmPrefab: {fileID: 3084248320703929296, guid: 827f36935d06b4e4eb7ebbf1b6258915, type: 3}
+  leftArmPrefab: {fileID: 3440817743546311341, guid: eaa1d1be4b2f62b478cfc595094ff118, type: 3}
+  rightArmPrefab: {fileID: 8360805956251210890, guid: 17c3502fed3a025409c0e5c062221874, type: 3}
 --- !u!1 &4150659633729603713
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class ExtensionMethods
 {
@@ -22,6 +24,7 @@ public static class ExtensionMethods
 
     return maybeChild;
   }
+
   [MethodImpl(MethodImplOptions.AggressiveInlining)]
   public static void LerpLocal(this Transform transform, Transform target, float strength)
   {
@@ -130,6 +133,19 @@ public static class ExtensionMethods
     T r = list[index];
     list.RemoveAt(index);
     return r;
+  }
+
+  public static T RandomElement<T>(this T[] list)
+  {
+    if (list.Length == 0) throw new IndexOutOfRangeException("Could not get random element from empty array");
+    var index = Random.Range(0, list.Length);
+    return list[index];
+  }
+  public static TValue RandomElement<TKey, TValue>(this IDictionary<TKey, TValue> dict)
+  {
+    var index = Random.Range(0, dict.Count);
+    List<TValue> values = Enumerable.ToList(dict.Values);
+    return values.ElementAt(index);
   }
 }
 

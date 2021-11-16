@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ApplyRecordedMovement : MonoBehaviour
+public class ApplyBigArmMovement : MonoBehaviour
 {
   [SerializeField]
   [HideInInspector]
@@ -13,14 +13,12 @@ public class ApplyRecordedMovement : MonoBehaviour
 
   private ObjectToFramesDictionary recording;
 
-  private ChildDictionary childDictionary;
+  public ChildDictionary childDictionary;
   private Dictionary<GameObject, UnSerializedTransform[]> recordingPairs;
 
   void Start()
   {
-    var hand = gameObject.GetComponentOrThrow<Handedness>().handType;
-    recording = GameObject.Find("Recordings").GetComponentOrThrow<RecordingsStore>().RandomRecording(hand);
-    childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
+    recording = GameObject.Find("Recordings").GetComponentOrThrow<RecordingsStore>().upperHandRight.UnwrapOrLoad();
     handBonePairs = childDictionary.handBonePairs;
     LoadAndPlay();
   }
@@ -78,17 +76,16 @@ public class ApplyRecordedMovement : MonoBehaviour
     // Apply the recording to the VR tracking object
     foreach (var pair in recordingPairs)
     {
-      var gameObject = pair.Key;
-      var transform = pair.Value;
-
-      if (gameObject.name == "Model")
+      var current = pair.Key;
+      var position = current.transform.localPosition;
+      var rotation = current.transform.localRotation;
+      var transforms = pair.Value;
+      var target = transforms[framesPlayed];
+      if (current.name != "Model")
       {
-        gameObject.transform.LerpLocal(transform[framesPlayed], strength);
+        current.transform.localPosition = Vector3.LerpUnclamped(position, target.localPosition, strength);
       }
-      else
-      {
-        gameObject.transform.localRotation = Quaternion.SlerpUnclamped(gameObject.transform.localRotation, transform[framesPlayed].localRotation, strength);
-      }
+      current.transform.localRotation = Quaternion.SlerpUnclamped(rotation, target.localRotation, strength);
     }
   }
 }

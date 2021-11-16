@@ -55,6 +55,9 @@ public class CompressedArmRecording : ISerializationCallbackReceiver
 
   public void OnAfterDeserialize()
   {
+    if(serializedFrameTransforms.Count == 0) {
+      throw new Exception("Error in parsing json file, no frames received");
+    }
     if (serializedFrameTransforms.First().transforms.Count == 0)
     {
       throw new Exception("Error in parsing json file, no frames received");

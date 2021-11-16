@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ApplyRecordedMovement : MonoBehaviour
+public class ApplyArmDropMovement : MonoBehaviour
 {
   [SerializeField]
   [HideInInspector]
@@ -13,13 +13,17 @@ public class ApplyRecordedMovement : MonoBehaviour
 
   private ObjectToFramesDictionary recording;
 
-  private ChildDictionary childDictionary;
+  public ChildDictionary childDictionary;
   private Dictionary<GameObject, UnSerializedTransform[]> recordingPairs;
 
   void Start()
   {
-    var hand = gameObject.GetComponentOrThrow<Handedness>().handType;
-    recording = GameObject.Find("Recordings").GetComponentOrThrow<RecordingsStore>().RandomRecording(hand);
+    recording = GameObject.Find("Recordings")
+      .GetComponentOrThrow<RecordingsStore>().act4ArmDropRight
+      .UnwrapOrLoad()
+      .GetValue(Act4ArmDropRight.armDrop2Right)
+      .Unwrap();
+
     childDictionary = gameObject.GetComponentOrThrow<ChildDictionary>();
     handBonePairs = childDictionary.handBonePairs;
     LoadAndPlay();

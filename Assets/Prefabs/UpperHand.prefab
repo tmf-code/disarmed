@@ -200,9 +200,9 @@ GameObject:
   - component: {fileID: 7803083499850164424}
   - component: {fileID: 7803083499850164454}
   - component: {fileID: 7803083499850164442}
-  - component: {fileID: 7803083500670151289}
   - component: {fileID: 8743341617304856237}
   - component: {fileID: 9090358587112973457}
+  - component: {fileID: 5580043377989113630}
   m_Layer: 0
   m_Name: UpperHand
   m_TagString: Untagged
@@ -234,11 +234,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7803083499850167414}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9248b944c289f145977ae362c892ae7, type: 3}
+  m_Script: {fileID: 11500000, guid: 54c1de89429b345419dfedba06a28ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: 1
-  behavior: 0
+  behaviour: 0
 --- !u!114 &7803083499850164454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -854,33 +853,6 @@ MonoBehaviour:
     - {fileID: 7803083499850169607}
     - {fileID: 7803083499850169094}
     - {fileID: 7803083499850169503}
---- !u!114 &7803083500670151289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7803083499850167414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f451766f033c7f4e8588c1d02d3ff4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arm: {fileID: 7803083499850167414}
-  strength: 0.16666667
-  playbackFrameRate: 10
-  recordingsPath: Recordings
-  recordingName: UpperHand
-  startPlaying: 0
-  isPlaying: 0
-  stopPlaying: 0
-  playOnEnable: 1
-  framesPlayed: 1200
-  startAtFrame: 100
-  endAtFrame: 1200
-  pivotPoint: {fileID: 7803083499850164454}
-  buttonField: 0
-  animator: {fileID: 9090358587112973457}
 --- !u!114 &8743341617304856237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,6 +885,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5580043377989113630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7803083499850167414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c0041c4b3d491648b69e065c617070a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handBonePairs: []
+  childDictionary: {fileID: 7803083499850164442}
 --- !u!1 &7803083499850167415
 GameObject:
   m_ObjectHideFlags: 0
