@@ -146,7 +146,7 @@ public class Timeline : MonoBehaviour
 
       {Acts.Four,                                     D(3F)},
       {Acts.OpenRoof2,                                D(2F)},
-      {Acts.LargeArmHoldingArms,                      D(28F, largeArmHoldingArms)},
+      {Acts.LargeArmHoldingArms,                      D(21F, largeArmHoldingArms)},
       {Acts.CloseRoof2,                               D(2F)},
       {Acts.PlayersArmsAndMovingArms,                 D(60F)},
       {Acts.AllArmsWaveGoodbye,                       D(3F)},
@@ -331,6 +331,8 @@ public class Timeline : MonoBehaviour
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
           break;
         case Acts.LargeArmHoldingArms:
+          largeArmHoldingArms.GetComponentInChildren<Animator>().Play("ArmDrop", 0);
+
           break;
         case Acts.CloseRoof2:
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);

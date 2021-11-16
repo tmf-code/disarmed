@@ -9,7 +9,7 @@ public abstract class UpperHandMovement : MonoBehaviour
   [HideInInspector]
   protected TransformPair[] handBonePairs;
   [ShowOnly] protected int playbackFrameRate = 10;
-  [ShowOnly] protected int framesPlayed = 0;
+  [ShowOnly] public int framesPlayed = 0;
   [ShowOnly] protected float strength = 10F / 60F;
 
   private ObjectToFramesDictionary recording;
