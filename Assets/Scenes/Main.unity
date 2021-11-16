@@ -295,7 +295,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 4150659635078557935}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 052675ce45a01b94fa50998120737027, type: 3}
   m_Name: 
@@ -415,6 +415,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handBonePairs: []
   childDictionary: {fileID: 1172513761}
+--- !u!1 &1520763246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7036307009128503562, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
+  m_PrefabInstance: {fileID: 4150659635078557935}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1520763248 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8343081109386398189, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
+  m_PrefabInstance: {fileID: 4150659635078557935}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1520763252 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7036307009128498586, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
+  m_PrefabInstance: {fileID: 4150659635078557935}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520763246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a6a04f84e407448840edf4eec9d443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1520763254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520763246}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f451766f033c7f4e8588c1d02d3ff4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arm: {fileID: 1520763246}
+  strength: 1
+  playbackFrameRate: 10
+  recordingsPath: Recordings
+  recordingName: upperHandRight
+  startPlaying: 0
+  isPlaying: 0
+  stopPlaying: 0
+  playOnEnable: 0
+  framesPlayed: 700
+  startAtFrame: 0
+  endAtFrame: 1100
+  pivotPoint: {fileID: 1520763252}
+  buttonField: 0
+  animator: {fileID: 1520763248}
 --- !u!114 &1676733431 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8683794326163463650, guid: 77a8ee51a5502ce4f837019d0efe4314, type: 3}
@@ -558,6 +606,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 13400000, guid: dc31248acbe99a1429e96117403659a6, type: 2}
+    - target: {fileID: 1213868816732341714, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2847447756524431324, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
       propertyPath: m_Material
       value: 
@@ -665,7 +717,7 @@ PrefabInstance:
       objectReference: {fileID: 838887116}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: act
-      value: 28
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: tracking
@@ -677,7 +729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4150659633729603712, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: playerArms
@@ -760,20 +812,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7036307009128497945, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9991587
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7036307009128497945, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.00045280816
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7036307009128497945, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.040766694
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7036307009128497945, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.004462004
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7401450095652468180, guid: 88cdc2a71e5889e408efbc36a7b35d5d, type: 3}
       propertyPath: playerHand
