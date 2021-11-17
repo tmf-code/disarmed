@@ -9,7 +9,7 @@ public partial class Grabbed : MonoBehaviour
 {
   public Grabbing grabbing;
 
-  [SerializeField] [HideInInspector] private new SimpleAnimation animation;
+  private new SimpleAnimation animation;
   private Option<Quaternion> selectedStrategy = new None<Quaternion>();
   static readonly List<Quaternion> strategies;
 
@@ -32,6 +32,7 @@ public partial class Grabbed : MonoBehaviour
     gameObject.GetComponentOrThrow<WorldArmBehaviour>().behaviour = WorldArmBehaviours.Grabbed;
     gameObject.RemoveComponent<Idle>();
     gameObject.RemoveComponent<Grabbing>();
+    gameObject.GetComponentOrThrow<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Wrist;
 
     animation = new SimpleAnimation(3, SimpleAnimation.EasingFunction.Linear, Time.time);
 
@@ -40,6 +41,8 @@ public partial class Grabbed : MonoBehaviour
 
   private Option<Quaternion> GetStrategy()
   {
+    if (grabbing == null) return new None<Quaternion>();
+
     var grabRotation = GetTargetTransform(grabbing).Unwrap().rotation;
     var grabRotations = strategies.ConvertAll((rotation) =>
       grabRotation * rotation);
@@ -93,7 +96,7 @@ public partial class Grabbed : MonoBehaviour
     WorldArmBehaviours nextBehaviour;
     if (maybeTimeline && maybeTimeline.GetComponent<Timeline>().act > Timeline.Acts.Four)
     {
-      nextBehaviour = WorldArmBehaviours.MovementPlaybackRagdoll;
+      nextBehaviour = WorldArmBehaviours.Ragdoll;
     }
     else
     {

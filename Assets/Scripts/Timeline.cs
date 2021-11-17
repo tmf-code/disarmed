@@ -12,6 +12,7 @@ public class Timeline : MonoBehaviour
   public GameObject bigArmFromRoof;
   public ArmPool armPool;
   public GameObject largeArmHoldingArms;
+  public GameObject platformCollider;
 
   public AudioPlayer audioPlayer;
   public WorldSceneSelector worldSceneSelector;
@@ -65,9 +66,11 @@ public class Timeline : MonoBehaviour
     Four,
     OpenRoof2,
     LargeArmHoldingArms,
+    ArmRain,
     CloseRoof2,
     PlayersArmsAndMovingArms,
     AllArmsWaveGoodbye,
+    FloorOpens,
     FourEnd,
 
     End,
@@ -93,6 +96,9 @@ public class Timeline : MonoBehaviour
   void Start()
   {
     List<GameObject> L(params GameObject[] array) => array.ToList();
+    playerArms.gameObject.GetComponentOrThrow<Rigidbody>().detectCollisions = false;
+    playerArms.gameObject.GetComponentOrThrow<Rigidbody>().useGravity = false;
+
 
     ActDescription D(float duraction, params GameObject[] array) => new ActDescription(duraction, array.ToList());
     D(0.0F, ghostHands);
@@ -146,10 +152,12 @@ public class Timeline : MonoBehaviour
 
       {Acts.Four,                                     D(3F)},
       {Acts.OpenRoof2,                                D(2F)},
-      {Acts.LargeArmHoldingArms,                      D(21F, largeArmHoldingArms)},
+      {Acts.LargeArmHoldingArms,                      D(18F, largeArmHoldingArms)},
+      {Acts.ArmRain,                                  D(30F)},
       {Acts.CloseRoof2,                               D(2F)},
       {Acts.PlayersArmsAndMovingArms,                 D(60F)},
       {Acts.AllArmsWaveGoodbye,                       D(3F)},
+      {Acts.FloorOpens,                               D(3F)},
       {Acts.FourEnd,                                  D(3F)},
 
       {Acts.End,                                      D(3F)},
@@ -318,7 +326,6 @@ public class Timeline : MonoBehaviour
           break;
 
         case Acts.Four:
-          armPool.SetStairState(ArmPool.StairState.Act4);
           audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4);
           playerArms.left.behaviour = PlayerArmBehaviours.TrackUserInput;
           playerArms.right.behaviour = PlayerArmBehaviours.TrackUserInput;
@@ -332,16 +339,27 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.LargeArmHoldingArms:
           largeArmHoldingArms.GetComponentInChildren<Animator>().Play("ArmDrop", 0);
-
+          armPool.SetStairState(ArmPool.StairState.Act4);
+          break;
+        case Acts.ArmRain:
+          armPool.SetStairState(ArmPool.StairState.Act4ArmRain);
           break;
         case Acts.CloseRoof2:
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
           break;
         case Acts.PlayersArmsAndMovingArms:
-          Debug.LogWarning("Not implemented");
+          lightingController.state = LightingController.LightingState.Dim;
           break;
         case Acts.AllArmsWaveGoodbye:
-          Debug.LogWarning("Not implemented");
+          // Free play
+          break;
+        case Acts.FloorOpens:
+          armPool.SetStairState(ArmPool.StairState.Act4PlinthArmsFall);
+          Physics.gravity = Vector3.down * 0.1F;
+          platformCollider.SetActive(false);
+          worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenFloor);
+          playerArms.gameObject.GetComponentOrThrow<Rigidbody>().detectCollisions = true;
+          playerArms.gameObject.GetComponentOrThrow<Rigidbody>().useGravity = true;
           break;
         case Acts.FourEnd:
           lightingController.state = LightingController.LightingState.Dark;

@@ -75,8 +75,7 @@ public class RecordingsStore : MonoBehaviour
 
   public ObjectToFramesDictionary RandomRecording(Handedness.HandTypes hand)
   {
-
-    if (timeline.act >= Timeline.Acts.PlayersArmsAndMovingArms)
+    if (timeline.act >= Timeline.Acts.OpenRoof2)
     {
       if (hand == Handedness.HandTypes.HandLeft)
       {
@@ -86,10 +85,6 @@ public class RecordingsStore : MonoBehaviour
       {
         return act4MovementsRight.UnwrapOrLoad().RandomElement();
       }
-    }
-    else if (timeline.act >= Timeline.Acts.OpenRoof2)
-    {
-      return act4ArmDropRight.UnwrapOrLoad().RandomElement();
     }
     else if (timeline.act >= Timeline.Acts.ArmsToShoulderPlayerDifferentActions)
     {
@@ -114,8 +109,8 @@ public class RecordingsStore : MonoBehaviour
         return act2EndMovementsRight.UnwrapOrLoad().RandomElement();
       }
     }
-    // if (timeline.act >= Timeline.Acts.SpawnArmsOnPlatform)
-    else
+
+    else if (timeline.act >= Timeline.Acts.SpawnArmsOnPlatform)
     {
       if (hand == Handedness.HandTypes.HandLeft)
       {
@@ -126,5 +121,6 @@ public class RecordingsStore : MonoBehaviour
         return act2StartMovementsRight.UnwrapOrLoad().RandomElement();
       }
     }
+    throw new NullReferenceException("Cannot get random movement");
   }
 }

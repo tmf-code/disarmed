@@ -13,6 +13,7 @@ public class WorldSceneSelector : MonoBehaviour
     HideHighStairs = 4,
     ExtendRoom = 5,
     ShrinkRoom = 6,
+    OpenFloor = 7,
   }
 
   void Start()

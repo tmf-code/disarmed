@@ -10,9 +10,9 @@ class RagDollArm : MonoBehaviour
     var forearm = transform.FindRecursiveOrThrow($"b_{handPrefix}_forearm_stub").gameObject;
     var humerus = transform.FindRecursiveOrThrow($"b_{handPrefix}_humerus").gameObject;
 
-    var modelRigidBody = model.GetComponent<Rigidbody>();
-    var forearmRigidBody = forearm.GetComponent<Rigidbody>();
-    var humerusRigidbody = humerus.GetComponent<Rigidbody>();
+    var modelRigidBody = model.GetComponentOrThrow<Rigidbody>();
+    var forearmRigidBody = forearm.GetComponentOrThrow<Rigidbody>();
+    var humerusRigidbody = humerus.GetComponentOrThrow<Rigidbody>();
 
 
     var forearmJoint = forearm.AddIfNotExisting<ConfigurableJoint>();
@@ -43,9 +43,9 @@ class RagDollArm : MonoBehaviour
     var forearm = transform.FindRecursiveOrThrow($"b_{handPrefix}_forearm_stub").gameObject;
     var humerus = transform.FindRecursiveOrThrow($"b_{handPrefix}_humerus").gameObject;
 
-    var modelRigidBody = model.GetComponent<Rigidbody>();
-    var forearmRigidBody = forearm.GetComponent<Rigidbody>();
-    var humerusRigidbody = humerus.GetComponent<Rigidbody>();
+    var modelRigidBody = model.GetComponentOrThrow<Rigidbody>();
+    var forearmRigidBody = forearm.GetComponentOrThrow<Rigidbody>();
+    var humerusRigidbody = humerus.GetComponentOrThrow<Rigidbody>();
 
     modelRigidBody.isKinematic = true;
     modelRigidBody.useGravity = false;

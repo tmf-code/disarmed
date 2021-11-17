@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +17,15 @@ public class ArmPool : MonoBehaviour
   private readonly float armSpacing = 0.7F;
   public WorldArmBehaviour leftArmPrefab;
   public WorldArmBehaviour rightArmPrefab;
+
+  public Transform act4RainPoint;
+  public Transform act4HandPoint1;
+  public Transform act4HandPoint2;
+  public Transform act4HandPoint3;
+  public Transform act4HandPoint4;
+  public Transform act4HandPoint5;
+  public Transform act4HandPoint6;
+
   private List<List<Vector3>> positionsPerStair;
   private List<List<WorldArmBehaviour>> armsPerStair;
 
@@ -33,6 +43,8 @@ public class ArmPool : MonoBehaviour
     TwoRecordedMovement,
     None,
     Act4,
+    Act4ArmRain,
+    Act4PlinthArmsFall,
   }
 
   private void SetStairCount(int nextStairCount, WorldArmBehaviours behaviour, PivotPoint.PivotPointType pivot)
@@ -90,9 +102,15 @@ public class ArmPool : MonoBehaviour
         SetStairCount(2, WorldArmBehaviours.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
         break;
       case StairState.Act4:
+        SpawnInHand();
+        break;
+      case StairState.Act4ArmRain:
+
         SetStairCount(2, WorldArmBehaviours.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
         MoveOuterLevelsToRoomCenter();
-
+        break;
+      case StairState.Act4PlinthArmsFall:
+        MakeOuterArmsFall();
         break;
       case StairState.None:
         SetStairCount(0, WorldArmBehaviours.MovementPlayback, PivotPoint.PivotPointType.Wrist);
@@ -100,21 +118,80 @@ public class ArmPool : MonoBehaviour
     }
   }
 
+  private void MakeOuterArmsFall()
+  {
+    for (int stairIndex = 0; stairIndex < maxStairCount; stairIndex++)
+    {
+      if (stairIndex > 2) continue;
+      var spawnedObjects = armsPerStair[stairIndex];
+      foreach (var item in spawnedObjects)
+      {
+        item.gameObject.SetActive(true);
+        item.behaviour = WorldArmBehaviours.Ragdoll;
+        item.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
+      }
+    }
+  }
+
   public void MoveOuterLevelsToRoomCenter()
   {
     var startLevel = 2;
 
+    var count = 0;
     for (int stairLevel = startLevel; stairLevel < maxStairCount; stairLevel++)
     {
-      foreach (var stair in armsPerStair[stairLevel])
+      for (var armIndex = 0; armIndex < armsPerStair[stairLevel].Count; armIndex++)
       {
-        var position = new Vector3(Random.Range(-0.5F, 0.5F) * roomSize, startHeight, Random.Range(-0.5F, 0.5F) * roomSize);
-        stair.transform.localPosition = position;
-        stair.gameObject.SetActive(true);
-        stair.behaviour = WorldArmBehaviours.MovementPlaybackRagdoll;
-        stair.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
+        count += 1;
+        var arm = armsPerStair[stairLevel][armIndex];
+        if (count <= 6) continue;
+        var delay = 0.4F * (stairLevel + 1F) * (armIndex + 1F);
+        if (delay > 25F) continue;
+        StartCoroutine(SpawnAtRainPoint(arm, delay));
       }
     }
+  }
+
+  public void SpawnInHand()
+  {
+    var startLevel = 2;
+
+    var count = 0;
+    for (int stairLevel = startLevel; stairLevel < maxStairCount; stairLevel++)
+    {
+      for (var armIndex = 0; armIndex < armsPerStair[stairLevel].Count; armIndex++)
+      {
+        count += 1;
+        var arm = armsPerStair[stairLevel][armIndex];
+        if (count > 6) continue;
+
+        var position = (count switch
+        {
+          1 => act4HandPoint1,
+          2 => act4HandPoint2,
+          3 => act4HandPoint3,
+          4 => act4HandPoint4,
+          5 => act4HandPoint5,
+          6 => act4HandPoint6,
+          _ => throw new System.NotImplementedException(),
+        }).transform.position;
+
+        arm.transform.position = position;
+        arm.gameObject.SetActive(true);
+        arm.behaviour = WorldArmBehaviours.MovementPlaybackRagdoll;
+        arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Wrist;
+      }
+    }
+  }
+
+  public IEnumerator SpawnAtRainPoint(WorldArmBehaviour arm, float delay)
+  {
+    yield return new WaitForSeconds(delay);
+    var position = act4RainPoint.transform.position;
+    arm.transform.localPosition = position;
+    arm.gameObject.SetActive(true);
+    arm.behaviour = WorldArmBehaviours.MovementPlaybackRagdoll;
+    arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
   }
 
   public void TimeOffsetPerStair()
