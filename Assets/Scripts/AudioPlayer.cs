@@ -72,6 +72,11 @@ public class AudioPlayer : MonoBehaviour
 
   public void PlayEffectAtPosition(SoundEffects effect, Vector3 position)
   {
+    PlayEffectAtPosition(effect, position, 1);
+  }
+
+  public void PlayEffectAtPosition(SoundEffects effect, Vector3 position, float volume)
+  {
     var collisions = new AudioClip[] { collision1, collision2, collision3, collision4, collision5, collision6, collision7, collision8, collision9, };
     var clip = effect switch
     {
@@ -79,6 +84,6 @@ public class AudioPlayer : MonoBehaviour
       _ => throw new System.NotImplementedException(),
     };
 
-    emitterPool.TryPlayAtPosition(clip, position);
+    emitterPool.TryPlayAtPosition(clip, position, volume);
   }
 }

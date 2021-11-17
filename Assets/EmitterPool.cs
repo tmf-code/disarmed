@@ -24,11 +24,16 @@ public class EmitterPool : MonoBehaviour
 
   public void TryPlayAtPosition(AudioClip clip, Vector3 position)
   {
+    TryPlayAtPosition(clip, position, 1F);
+  }
+
+  public void TryPlayAtPosition(AudioClip clip, Vector3 position, float volume)
+  {
     if (available.Count == 0) return;
     var source = available.PopAt(0);
     occupied.Add(source);
     source.transform.position = position;
-    source.PlayOneShot(clip);
+    source.PlayOneShot(clip, volume);
   }
 
   public void Update()

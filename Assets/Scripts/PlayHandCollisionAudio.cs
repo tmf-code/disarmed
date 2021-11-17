@@ -20,6 +20,7 @@ public class PlayHandCollisionAudio : MonoBehaviour
   void OnCollisionEnter(Collision collision)
   {
     TryPlayCollisionAudio(collision.gameObject);
+    TryPlayGroundCollisionAudio(collision, collision.gameObject);
   }
 
   private void TryPlayCollisionAudio(GameObject collider)
@@ -42,5 +43,30 @@ public class PlayHandCollisionAudio : MonoBehaviour
 
     var audioPlayer = maybeAudioController.GetComponentOrThrow<AudioPlayer>();
     audioPlayer.PlayEffectAtPosition(AudioPlayer.SoundEffects.Collision, transform.position);
+  }
+
+  private void TryPlayGroundCollisionAudio(Collision collision, GameObject collider)
+  {
+    // Should be floor
+    if (!collider.CompareTag("Floor")) return;
+
+    // Only play thuds on act four
+    var maybeTimeline = GameObject.Find("Timeline");
+    if (maybeTimeline)
+    {
+      var act = maybeTimeline.GetComponent<Timeline>().act;
+      if (act < Timeline.Acts.Four) return;
+    }
+
+    var maybeAudioController = GameObject.Find("AudioController");
+    if (!maybeAudioController) return;
+
+    var audioPlayer = maybeAudioController.GetComponentOrThrow<AudioPlayer>();
+
+    var vel = collision.relativeVelocity.magnitude;
+
+    if (vel < 0.1F) return;
+
+    audioPlayer.PlayEffectAtPosition(AudioPlayer.SoundEffects.Collision, transform.position, Mathf.Clamp(vel, 0, 1));
   }
 }
