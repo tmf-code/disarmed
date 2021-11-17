@@ -155,7 +155,7 @@ public class Timeline : MonoBehaviour
       {Acts.CloseRoof2,                               D(2F)},
       {Acts.PlayersArmsAndMovingArms,                 D(60F)},
       {Acts.AllArmsWaveGoodbye,                       D(3F)},
-      {Acts.FloorOpens,                               D(3F)},
+      {Acts.FloorOpens,                               D(6F)},
       {Acts.FourEnd,                                  D(3F)},
 
       {Acts.End,                                      D(3F)},
@@ -328,7 +328,7 @@ public class Timeline : MonoBehaviour
           textCanvas.act = TextCanvas.Acts.Act4;
           break;
         case Acts.OpenRoof2:
-          lightingController.state = LightingController.LightingState.Both;
+          lightingController.state = LightingController.LightingState.End;
           textCanvas.state = TextCanvas.TextState.Transparent;
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
           break;
@@ -343,7 +343,6 @@ public class Timeline : MonoBehaviour
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
           break;
         case Acts.PlayersArmsAndMovingArms:
-          lightingController.state = LightingController.LightingState.Dim;
           break;
         case Acts.AllArmsWaveGoodbye:
           // Free play
@@ -357,10 +356,10 @@ public class Timeline : MonoBehaviour
           playerArms.gameObject.GetComponentOrThrow<Rigidbody>().useGravity = true;
           break;
         case Acts.FourEnd:
-          lightingController.state = LightingController.LightingState.Dark;
           break;
 
         case Acts.End:
+          lightingController.state = LightingController.LightingState.Dark;
           break;
 
         default:

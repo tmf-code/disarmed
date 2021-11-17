@@ -14,6 +14,7 @@ public class LightingController : MonoBehaviour
   public float previousSpotInstensity;
   private readonly Color darkLight = new Color(0, 0, 0, 1F);
   private readonly Color dimLight = new Color(0.5F, 0, 0.1F, 1F);
+  private readonly Color dimBlueLight = new Color(0.0F, 0, 0.1F, 1F);
   private readonly Color blueLight = Color.blue;
 
   public Color nextColor;
@@ -25,6 +26,7 @@ public class LightingController : MonoBehaviour
     SpotOnly,
     Both,
     Dim,
+    End,
   }
 
 
@@ -56,6 +58,11 @@ public class LightingController : MonoBehaviour
         break;
       case LightingState.Dim:
         nextColor = dimLight;
+        nextPointIntensity = 0.1F;
+        nextSpotIntensity = 0.6F;
+        break;
+      case LightingState.End:
+        nextColor = dimBlueLight;
         nextPointIntensity = 0.1F;
         nextSpotIntensity = 0.6F;
         break;
