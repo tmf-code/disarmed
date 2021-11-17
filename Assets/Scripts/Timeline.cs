@@ -65,6 +65,7 @@ public class Timeline : MonoBehaviour
     Four,
     OpenRoof2,
     LargeArmHoldingArms,
+    PlaceArmsInHand,
     ArmRain,
     CloseRoof2,
     PlayersArmsAndMovingArms,
@@ -150,7 +151,8 @@ public class Timeline : MonoBehaviour
 
       {Acts.Four,                                     D(3F)},
       {Acts.OpenRoof2,                                D(2F)},
-      {Acts.LargeArmHoldingArms,                      D(18F, largeArmHoldingArms)},
+      {Acts.LargeArmHoldingArms,                      D(1F, largeArmHoldingArms)},
+      {Acts.PlaceArmsInHand,                          D(16F, largeArmHoldingArms)},
       {Acts.ArmRain,                                  D(30F)},
       {Acts.CloseRoof2,                               D(2F)},
       {Acts.PlayersArmsAndMovingArms,                 D(60F)},
@@ -334,6 +336,8 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.LargeArmHoldingArms:
           largeArmHoldingArms.GetComponentInChildren<Animator>().Play("ArmDrop", 0);
+          break;
+        case Acts.PlaceArmsInHand:
           armPool.SetStairState(ArmPool.StairState.Act4);
           break;
         case Acts.ArmRain:
@@ -348,7 +352,6 @@ public class Timeline : MonoBehaviour
           // Free play
           break;
         case Acts.FloorOpens:
-          armPool.SetStairState(ArmPool.StairState.Act4PlinthArmsFall);
           Physics.gravity = Vector3.down * 0.1F;
           platformCollider.SetActive(false);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenFloor);

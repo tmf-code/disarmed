@@ -44,7 +44,6 @@ public class ArmPool : MonoBehaviour
     None,
     Act4,
     Act4ArmRain,
-    Act4PlinthArmsFall,
   }
 
   private void SetStairCount(int nextStairCount, WorldArmBehaviours behaviour, PivotPoint.PivotPointType pivot)
@@ -105,12 +104,7 @@ public class ArmPool : MonoBehaviour
         SpawnInHand();
         break;
       case StairState.Act4ArmRain:
-
-        SetStairCount(2, WorldArmBehaviours.MovementPlayback, PivotPoint.PivotPointType.ShoulderNoRotation);
-        MoveOuterLevelsToRoomCenter();
-        break;
-      case StairState.Act4PlinthArmsFall:
-        MakeOuterArmsFall();
+        RainArms();
         break;
       case StairState.None:
         SetStairCount(0, WorldArmBehaviours.MovementPlayback, PivotPoint.PivotPointType.Wrist);
@@ -118,22 +112,7 @@ public class ArmPool : MonoBehaviour
     }
   }
 
-  private void MakeOuterArmsFall()
-  {
-    for (int stairIndex = 0; stairIndex < maxStairCount; stairIndex++)
-    {
-      if (stairIndex > 2) continue;
-      var spawnedObjects = armsPerStair[stairIndex];
-      foreach (var item in spawnedObjects)
-      {
-        item.gameObject.SetActive(true);
-        item.behaviour = WorldArmBehaviours.Ragdoll;
-        item.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.None;
-      }
-    }
-  }
-
-  public void MoveOuterLevelsToRoomCenter()
+  public void RainArms()
   {
     var startLevel = 2;
 
