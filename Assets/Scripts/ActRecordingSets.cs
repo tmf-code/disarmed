@@ -72,9 +72,6 @@ public enum Act4MovementsLeft
   sub14Left,
   sub15Left,
   sub16Left,
-  sub17Left,
-  sub18Left,
-  sub19Left,
 }
 
 public enum Act4MovementsRight
@@ -85,8 +82,6 @@ public enum Act4MovementsRight
   sub4Right,
   sub5Right,
   sub6Right,
-  sub7Right,
-  sub8Right,
 }
 
 public class ActMovements
