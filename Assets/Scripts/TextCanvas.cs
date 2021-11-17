@@ -6,6 +6,7 @@ public class TextCanvas : MonoBehaviour
 
   private new Camera camera;
   public SpriteRenderer introTitle;
+  public SpriteRenderer credits;
   public enum TextTypes
   {
     Static,
@@ -24,7 +25,8 @@ public class TextCanvas : MonoBehaviour
     Act1,
     Act2,
     Act3,
-    Act4
+    Act4,
+    Credits
   }
 
   public Acts act = Acts.Act1;
@@ -51,6 +53,7 @@ public class TextCanvas : MonoBehaviour
     actTitle.text = "";
     SetTextState();
     introTitle.color = white;
+    credits.color = white;
   }
 
   void OnEnable()
@@ -70,34 +73,51 @@ public class TextCanvas : MonoBehaviour
     switch (_act)
     {
       case Acts.Intro:
+        type = TextTypes.Static;
         introTitle.gameObject.SetActive(true);
+        credits.gameObject.SetActive(false);
         actNumber.text = "";
         actTitle.text = "";
         break;
       case Acts.Act1:
+        type = TextTypes.Static;
         introTitle.gameObject.SetActive(false);
+        credits.gameObject.SetActive(false);
         actNumber.text = "Act 1.";
         actTitle.text = "Pointed Dreams of a Pair of Arms";
         break;
       case Acts.Act2:
+        type = TextTypes.Static;
         introTitle.gameObject.SetActive(false);
+        credits.gameObject.SetActive(false);
         actNumber.text = "Act 2.";
         actTitle.text = "The Missing Touch";
         break;
       case Acts.Act3:
+        type = TextTypes.Static;
         introTitle.gameObject.SetActive(false);
+        credits.gameObject.SetActive(false);
         actNumber.text = "Act 3.";
         actTitle.text = "Losing a Grip on Control";
         break;
       case Acts.Act4:
+        type = TextTypes.Static;
         introTitle.gameObject.SetActive(false);
+        credits.gameObject.SetActive(false);
         actNumber.text = "Act 4.";
         actTitle.text = "Disarmed";
+        break;
+      case Acts.Credits:
+        type = TextTypes.Lerp;
+        introTitle.gameObject.SetActive(false);
+        credits.gameObject.SetActive(true);
+        actNumber.text = "";
+        actTitle.text = "";
         break;
     }
   }
 
-  void Update()
+  void LateUpdate()
   {
     UpdateBlending();
     UpdateAct();
@@ -107,10 +127,11 @@ public class TextCanvas : MonoBehaviour
       case TextTypes.Static:
         break;
       case TextTypes.Lerp:
-        transform.localPosition = Vector3.Lerp(transform.localPosition, camera.transform.localPosition, lerpSpeed);
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, camera.transform.localRotation, lerpSpeed);
-        var eulers = transform.localRotation.eulerAngles;
-        transform.localRotation = Quaternion.Euler(eulers.x, eulers.y, 0);
+        transform.position = Vector3.Lerp(transform.position, camera.transform.position, lerpSpeed);
+        transform.position = new Vector3(transform.position.x, camera.transform.position.y, transform.position.z);
+        transform.rotation = Quaternion.Slerp(transform.rotation, camera.transform.rotation, lerpSpeed);
+        var eulers = transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.Euler(eulers.x, eulers.y, 0);
         break;
     }
   }

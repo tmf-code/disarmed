@@ -26,7 +26,8 @@ public class LightingController : MonoBehaviour
     SpotOnly,
     Both,
     Dim,
-    End,
+    DimBlueLight,
+    DarkEnd,
   }
 
 
@@ -61,7 +62,7 @@ public class LightingController : MonoBehaviour
         nextPointIntensity = 0.1F;
         nextSpotIntensity = 0.6F;
         break;
-      case LightingState.End:
+      case LightingState.DimBlueLight:
         nextColor = dimBlueLight;
         nextPointIntensity = 0.1F;
         nextSpotIntensity = 0.6F;
@@ -102,6 +103,11 @@ public class LightingController : MonoBehaviour
       point.intensity = Mathf.Lerp(previousPointInstensity, nextPointIntensity, animation.easedProgression);
       spot.intensity = Mathf.Lerp(previousSpotInstensity, nextSpotIntensity, animation.easedProgression);
       Camera.main.backgroundColor = Color.Lerp(previousColor, nextColor, animation.easedProgression);
+
+      if (_state == LightingState.DarkEnd)
+      {
+        RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, Camera.main.backgroundColor, animation.easedProgression);
+      }
     });
   }
 }

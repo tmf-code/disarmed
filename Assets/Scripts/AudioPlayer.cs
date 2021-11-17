@@ -11,6 +11,7 @@ public class AudioPlayer : MonoBehaviour
   public AudioClip act2;
   public AudioClip act3;
   public AudioClip act4;
+  public AudioClip act4Ticking;
 
   public enum ActAudio
   {
@@ -20,6 +21,7 @@ public class AudioPlayer : MonoBehaviour
     Act2,
     Act3,
     Act4,
+    Act4Ticking,
   }
 
   public enum SoundEffects
@@ -64,6 +66,11 @@ public class AudioPlayer : MonoBehaviour
       case ActAudio.Act4:
         source.loop = false;
         source.clip = act4;
+        break;
+
+      case ActAudio.Act4Ticking:
+        source.loop = false;
+        source.clip = act4Ticking;
         break;
     }
 

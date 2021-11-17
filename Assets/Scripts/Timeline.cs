@@ -69,11 +69,13 @@ public class Timeline : MonoBehaviour
     ArmRain,
     CloseRoof2,
     PlayersArmsAndMovingArms,
-    AllArmsWaveGoodbye,
+    Ticking,
     FloorOpens,
     FourEnd,
 
-    End,
+    FadeToBlack,
+    Credits,
+    FogFades,
   }
 
   public IReadOnlyDictionary<Acts, ActDescription> actDescriptions;
@@ -108,7 +110,7 @@ public class Timeline : MonoBehaviour
       largeArmHoldingArms
     );
 
-    actDescriptions = new Dictionary<Acts, ActDescription>((int)Acts.End + 1) {
+    actDescriptions = new Dictionary<Acts, ActDescription>((int)Acts.Credits + 1) {
       {Acts.Opening,                                  D(3F)},
       {Acts.FitPlayersArmsIntoGhost,                  D(3F, ghostHands)},
       {Acts.OpeningEnd,                               D(3F)},
@@ -155,12 +157,13 @@ public class Timeline : MonoBehaviour
       {Acts.PlaceArmsInHand,                          D(18F, largeArmHoldingArms)},
       {Acts.ArmRain,                                  D(30F)},
       {Acts.CloseRoof2,                               D(2F)},
-      {Acts.PlayersArmsAndMovingArms,                 D(60F)},
-      {Acts.AllArmsWaveGoodbye,                       D(3F)},
+      {Acts.PlayersArmsAndMovingArms,                 D(50F)},
+      {Acts.Ticking,                                  D(14F)},
       {Acts.FloorOpens,                               D(6F)},
-      {Acts.FourEnd,                                  D(3F)},
-
-      {Acts.End,                                      D(3F)},
+      {Acts.FourEnd,                                  D(10F)},
+      {Acts.FadeToBlack,                              D(3F)},
+      {Acts.Credits,                                  D(10F)},
+      {Acts.FogFades,                                 D(10F)},
     };
 
     coroutine = NextAct();
@@ -330,7 +333,7 @@ public class Timeline : MonoBehaviour
           textCanvas.act = TextCanvas.Acts.Act4;
           break;
         case Acts.OpenRoof2:
-          lightingController.state = LightingController.LightingState.End;
+          lightingController.state = LightingController.LightingState.DimBlueLight;
           textCanvas.state = TextCanvas.TextState.Transparent;
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
           break;
@@ -348,8 +351,11 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.PlayersArmsAndMovingArms:
           break;
-        case Acts.AllArmsWaveGoodbye:
-          // Free play
+        case Acts.Ticking:
+          textCanvas.state = TextCanvas.TextState.Opaque;
+          textCanvas.act = TextCanvas.Acts.Intro;
+          audioPlayer.gameObject.transform.parent = playerArms.transform;
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4Ticking);
           break;
         case Acts.FloorOpens:
           Physics.gravity = Vector3.down * 0.1F;
@@ -359,10 +365,19 @@ public class Timeline : MonoBehaviour
           playerArms.gameObject.GetComponentOrThrow<Rigidbody>().useGravity = true;
           break;
         case Acts.FourEnd:
+          textCanvas.state = TextCanvas.TextState.Transparent;
           break;
 
-        case Acts.End:
+        case Acts.FadeToBlack:
           lightingController.state = LightingController.LightingState.Dark;
+          break;
+
+        case Acts.Credits:
+          textCanvas.state = TextCanvas.TextState.Opaque;
+          textCanvas.act = TextCanvas.Acts.Credits;
+          break;
+        case Acts.FogFades:
+          lightingController.state = LightingController.LightingState.DarkEnd;
           break;
 
         default:
@@ -387,7 +402,7 @@ public class Timeline : MonoBehaviour
       }
       else
       {
-        if (act == Acts.End)
+        if (act == Acts.FogFades)
         {
           Stop();
           yield return null;
