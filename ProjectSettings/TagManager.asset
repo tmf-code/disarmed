@@ -9,6 +9,7 @@ TagManager:
   - Humerus
   - LeftShoulder
   - RightShoulder
+  - Floor
   layers:
   - Default
   - TransparentFX
