@@ -152,7 +152,7 @@ public class Timeline : MonoBehaviour
       {Acts.Four,                                     D(3F)},
       {Acts.OpenRoof2,                                D(2F)},
       {Acts.LargeArmHoldingArms,                      D(1F, largeArmHoldingArms)},
-      {Acts.PlaceArmsInHand,                          D(16F, largeArmHoldingArms)},
+      {Acts.PlaceArmsInHand,                          D(18F, largeArmHoldingArms)},
       {Acts.ArmRain,                                  D(30F)},
       {Acts.CloseRoof2,                               D(2F)},
       {Acts.PlayersArmsAndMovingArms,                 D(60F)},
