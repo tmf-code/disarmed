@@ -45,7 +45,7 @@ public class Timeline : MonoBehaviour
     WallsMoveBack,
     SpawnArmsOnPlatform,
     WavingArmsOnPlatform,
-    LightsComeOn,
+    ArmsTurnToRagdoll,
     WallsContract,
     InactiveRagdollArmsInCenter,
 
@@ -60,7 +60,6 @@ public class Timeline : MonoBehaviour
     LeftArmRightArmSwapped,
     ArmsDropToFloor,
     ArmsToShoulderPlayerDifferentActions,
-    OneArmTakesOffOther,
     ThreeEnd,
 
     Four,
@@ -115,39 +114,38 @@ public class Timeline : MonoBehaviour
 
       {Acts.One,                                      D(3F)},
 
-      {Acts.WaitForRoofOpen,                          D(50F)},
+      {Acts.WaitForRoofOpen,                          D(52F)},
       {Acts.OpenRoof1,                                D(2F)},
       {Acts.ArmFromCeiling,                           D(110F, bigArmFromRoof)},
       {Acts.CloseRoof1,                               D(2F)},
 
-      {Acts.DuoArms,                                  D(35F)},
-      {Acts.CopiesOfPlayersArms,                      D(26F)},
+      {Acts.DuoArms,                                  D(34.5F)},
+      {Acts.CopiesOfPlayersArms,                      D(28.5F)},
       {Acts.ShowHighStairs,                           D(5F)},
       {Acts.SpawnArmsOnExtraStairs,                   D(3F)},
       {Acts.VariableOffset,                           D(65F)},
       {Acts.DespawnArmsOnAllStairs,                   D(1F)},
-      {Acts.HideHighStairs,                           D(5F)},
+      {Acts.HideHighStairs,                           D(8F)},
       {Acts.OneEnd,                                   D(3F)},
 
       {Acts.Two,                                      D(3F)},
       {Acts.WallsMoveBack,                            D(8F)},
       {Acts.SpawnArmsOnPlatform,                      D(3F)},
       {Acts.WavingArmsOnPlatform,                     D(22F)},
-      {Acts.LightsComeOn,                             D(3F)},
+      {Acts.ArmsTurnToRagdoll,                        D(3F)},
 
-      {Acts.WallsContract,                            D(21F)},
-      {Acts.InactiveRagdollArmsInCenter,              D(37F)},
-      {Acts.RemoveArms1,                              D(3F)},
-      {Acts.RemoveArms2,                              D(3F)},
-      {Acts.RemoveArms3,                              D(3F)},
-      {Acts.ArmsDoingDifferentActions,                D(29F)},
+      {Acts.WallsContract,                            D(8F)},
+      {Acts.InactiveRagdollArmsInCenter,              D(36F)},
+      {Acts.RemoveArms1,                              D(1F)},
+      {Acts.RemoveArms2,                              D(2F)},
+      {Acts.RemoveArms3,                              D(2F)},
+      {Acts.ArmsDoingDifferentActions,                D(35F)},
       {Acts.TwoEnd,                                   D(3F)},
 
       {Acts.Three,                                    D(3F)},
-      {Acts.LeftArmRightArmSwapped,                   D(27F)},
+      {Acts.LeftArmRightArmSwapped,                   D(28F)},
       {Acts.ArmsDropToFloor,                          D(30F)},
-      {Acts.ArmsToShoulderPlayerDifferentActions,     D(36F)},
-      {Acts.OneArmTakesOffOther,                      D(23F)},
+      {Acts.ArmsToShoulderPlayerDifferentActions,     D(35F)},
       {Acts.ThreeEnd,                                 D(3F)},
 
       {Acts.Four,                                     D(3F)},
@@ -272,7 +270,7 @@ public class Timeline : MonoBehaviour
         case Acts.WavingArmsOnPlatform:
           // To enjoy
           break;
-        case Acts.LightsComeOn:
+        case Acts.ArmsTurnToRagdoll:
           armPool.SetStairState(ArmPool.StairState.FlatRagdoll);
           break;
         case Acts.WallsContract:
@@ -317,9 +315,6 @@ public class Timeline : MonoBehaviour
         case Acts.ArmsToShoulderPlayerDifferentActions:
           playerArms.left.behaviour = PlayerArmBehaviours.MovementPlaybackArmSocket;
           playerArms.right.behaviour = PlayerArmBehaviours.MovementPlaybackArmSocket;
-          break;
-        case Acts.OneArmTakesOffOther:
-          Debug.LogWarning("One arm takes off other not implemented");
           break;
         case Acts.ThreeEnd:
           lightingController.state = LightingController.LightingState.Dark;
