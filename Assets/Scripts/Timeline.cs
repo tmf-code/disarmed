@@ -69,7 +69,6 @@ public class Timeline : MonoBehaviour
     ArmRain,
     CloseRoof2,
     PlayersArmsAndMovingArms,
-    Ticking,
     FloorOpens,
     FourEnd,
 
@@ -154,11 +153,10 @@ public class Timeline : MonoBehaviour
       {Acts.Four,                                     D(3F)},
       {Acts.OpenRoof2,                                D(2F)},
       {Acts.LargeArmHoldingArms,                      D(2F, largeArmHoldingArms)},
-      {Acts.PlaceArmsInHand,                          D(17F, largeArmHoldingArms)},
-      {Acts.ArmRain,                                  D(30F)},
+      {Acts.PlaceArmsInHand,                          D(11F, largeArmHoldingArms)},
+      {Acts.ArmRain,                                  D(24F)},
       {Acts.CloseRoof2,                               D(2F)},
-      {Acts.PlayersArmsAndMovingArms,                 D(50F)},
-      {Acts.Ticking,                                  D(14F)},
+      {Acts.PlayersArmsAndMovingArms,                 D(16F)},
       {Acts.FloorOpens,                               D(6F)},
       {Acts.FourEnd,                                  D(10F)},
       {Acts.FadeToBlack,                              D(3F)},
@@ -368,6 +366,7 @@ public class Timeline : MonoBehaviour
 
         case Acts.Four:
           audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4);
+          audioPlayer.gameObject.transform.parent = playerArms.transform;
           playerArms.left.behaviour = PlayerArmBehaviours.TrackUserCollideWithArms;
           playerArms.right.behaviour = PlayerArmBehaviours.TrackUserCollideWithArms;
 
@@ -395,9 +394,6 @@ public class Timeline : MonoBehaviour
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
           break;
         case Acts.PlayersArmsAndMovingArms:
-          break;
-        case Acts.Ticking:
-          audioPlayer.gameObject.transform.parent = playerArms.transform;
           break;
         case Acts.FloorOpens:
           Physics.gravity = Vector3.down * 0.1F;
