@@ -36,7 +36,6 @@ public class SendHandToForearmCollisionToTarget : MonoBehaviour
 
   private void TryStartGrab(GameObject otherGameObject)
   {
-    GrabOperations.LogMethodCall(otherGameObject);
     // Since I will perform the grab, I should be a User
     var iAmUser = target.HasComponent<PlayerArmBehaviour>();
     if (!iAmUser) return;
