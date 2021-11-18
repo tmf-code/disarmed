@@ -153,8 +153,8 @@ public class Timeline : MonoBehaviour
 
       {Acts.Four,                                     D(3F)},
       {Acts.OpenRoof2,                                D(2F)},
-      {Acts.LargeArmHoldingArms,                      D(1F, largeArmHoldingArms)},
-      {Acts.PlaceArmsInHand,                          D(18F, largeArmHoldingArms)},
+      {Acts.LargeArmHoldingArms,                      D(2F, largeArmHoldingArms)},
+      {Acts.PlaceArmsInHand,                          D(17F, largeArmHoldingArms)},
       {Acts.ArmRain,                                  D(30F)},
       {Acts.CloseRoof2,                               D(2F)},
       {Acts.PlayersArmsAndMovingArms,                 D(50F)},
@@ -377,7 +377,7 @@ public class Timeline : MonoBehaviour
           textCanvas.act = TextCanvas.Acts.Credits;
           break;
         case Acts.FogFades:
-          lightingController.state = LightingController.LightingState.DarkEnd;
+          // lightingController.state = LightingController.LightingState.DarkEnd;
           break;
 
         default:
