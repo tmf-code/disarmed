@@ -285,11 +285,13 @@ public class Timeline : MonoBehaviour
 
         case Acts.WallsMoveBack:
           textCanvas.state = TextCanvas.TextState.Transparent;
-          lightingController.state = LightingController.LightingState.Dim;
+          lightingController.state = LightingController.LightingState.PartySolid;
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExtendRoom);
           break;
 
         case Acts.SpawnArmsOnPlatform:
+          lightingController.state = LightingController.LightingState.PartyPulse;
+
           playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           armPool.SetStairState(ArmPool.StairState.Flat);
@@ -299,6 +301,7 @@ public class Timeline : MonoBehaviour
           // To enjoy
           break;
         case Acts.ArmsTurnToRagdoll:
+          lightingController.state = LightingController.LightingState.PartySolid;
           playerArms.left.behaviour = PlayerArmBehaviours.TrackUserCollideWithArms;
           playerArms.right.behaviour = PlayerArmBehaviours.TrackUserCollideWithArms;
           playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserCollideWithArms);
