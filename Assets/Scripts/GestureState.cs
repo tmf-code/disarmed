@@ -209,11 +209,11 @@ public class SendMessageDisplay
     messages = messages.Prepend(message).ToArray();
     messages = messages.Take(size).ToArray();
 
-    var primitive = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-    primitive.transform.position = transform.position;
-    primitive.transform.localScale = new Vector3(0.01F, 0.01F, 0.01F);
+    // var primitive = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+    // primitive.transform.position = transform.position;
+    // primitive.transform.localScale = new Vector3(0.01F, 0.01F, 0.01F);
 
-    GameObject.Destroy(primitive, 1);
+    // GameObject.Destroy(primitive, 1);
   }
 }
 
