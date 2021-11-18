@@ -41,6 +41,9 @@ public class SendHandToForearmCollisionToTarget : MonoBehaviour
     var iAmUser = target.HasComponent<PlayerArmBehaviour>();
     if (!iAmUser) return;
 
+    var isInteractive = target.HasComponent<PlayerInteracts>();
+    if (!isInteractive) return;
+
     // Other should also have this component
     if (!otherGameObject.TryGetComponent<SendHandToForearmCollisionToTarget>(out var other)) return;
 

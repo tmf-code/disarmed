@@ -8,8 +8,8 @@ public class PlayerArmBehaviour : MonoBehaviour
   public enum PlayerArmBehaviours
   {
     None,
-    TrackUserInputNoGrab,
     TrackUserInput,
+    TrackUserCollideWithArms,
     ResponsiveRagdoll,
     MovementPlaybackArmSocket,
     TrackUserInputGrabSelf,
@@ -24,6 +24,8 @@ public class PlayerArmBehaviour : MonoBehaviour
     {
       case PlayerArmBehaviours.None:
         {
+          gameObject.RemoveComponent<PlayerCollides>();
+          gameObject.AddIfNotExisting<PlayerInteracts>();
           gameObject.RemoveComponent<ApplyRecordedShoulder>();
           gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
           gameObject.RemoveComponent<RagDollArm>();
@@ -34,26 +36,28 @@ public class PlayerArmBehaviour : MonoBehaviour
           break;
         }
 
-      case PlayerArmBehaviours.TrackUserInputNoGrab:
+      case PlayerArmBehaviours.TrackUserInput:
         {
-          GrabOperations.AddAbilities(gameObject, false, false);
+          GrabOperations.AddAbilities(gameObject, true, false);
 
-
+          gameObject.RemoveComponent<PlayerCollides>();
+          gameObject.AddIfNotExisting<PlayerInteracts>();
           gameObject.AddIfNotExisting<ApplyInverseKinematics>();
           gameObject.AddIfNotExisting<ApplyRootTracking>();
           gameObject.AddIfNotExisting<ApplyHandTracking>();
 
-
           gameObject.RemoveComponent<ApplyRecordedShoulder>();
           gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
           gameObject.RemoveComponent<RagDollArm>();
-
           break;
         }
 
-      case PlayerArmBehaviours.TrackUserInput:
+      case PlayerArmBehaviours.TrackUserCollideWithArms:
         {
           GrabOperations.AddAbilities(gameObject, true, false);
+
+          gameObject.AddIfNotExisting<PlayerCollides>();
+          gameObject.RemoveComponent<PlayerInteracts>();
 
           gameObject.AddIfNotExisting<ApplyInverseKinematics>();
           gameObject.AddIfNotExisting<ApplyRootTracking>();
@@ -69,6 +73,8 @@ public class PlayerArmBehaviour : MonoBehaviour
         {
           GrabOperations.AddAbilities(gameObject, true, true);
 
+          gameObject.AddIfNotExisting<PlayerCollides>();
+          gameObject.RemoveComponent<PlayerInteracts>();
 
           gameObject.AddIfNotExisting<ApplyInverseKinematics>();
           gameObject.AddIfNotExisting<ApplyRootTracking>();
@@ -84,6 +90,8 @@ public class PlayerArmBehaviour : MonoBehaviour
         {
           GrabOperations.AddAbilities(gameObject, false, false);
 
+          gameObject.RemoveComponent<PlayerCollides>();
+          gameObject.RemoveComponent<PlayerInteracts>();
 
           gameObject.AddIfNotExisting<RagDollArm>();
           gameObject.AddIfNotExisting<ApplyVRTrackingDataToModelRagdoll>();
@@ -101,6 +109,9 @@ public class PlayerArmBehaviour : MonoBehaviour
           GrabOperations.AddAbilities(gameObject, false, false);
 
           gameObject.AddIfNotExisting<ApplyRecordedShoulder>();
+
+          gameObject.RemoveComponent<PlayerCollides>();
+          gameObject.AddIfNotExisting<PlayerInteracts>();
 
           gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
           gameObject.RemoveComponent<RagDollArm>();
