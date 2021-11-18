@@ -66,6 +66,7 @@ public class Timeline : MonoBehaviour
     OpenRoof2,
     LargeArmHoldingArms,
     PlaceArmsInHand,
+    LargeArmAndArmRain,
     ArmRain,
     CloseRoof2,
     PlayersArmsAndMovingArms,
@@ -152,9 +153,10 @@ public class Timeline : MonoBehaviour
 
       {Acts.Four,                                     D(3F)},
       {Acts.OpenRoof2,                                D(2F)},
-      {Acts.LargeArmHoldingArms,                      D(2F, largeArmHoldingArms)},
-      {Acts.PlaceArmsInHand,                          D(11F, largeArmHoldingArms)},
-      {Acts.ArmRain,                                  D(24F)},
+      {Acts.LargeArmHoldingArms,                      D(2F,   largeArmHoldingArms)},
+      {Acts.PlaceArmsInHand,                          D(11F,  largeArmHoldingArms)},
+      {Acts.LargeArmAndArmRain,                       D(6F,   largeArmHoldingArms)},
+      {Acts.ArmRain,                                  D(18F)},
       {Acts.CloseRoof2,                               D(2F)},
       {Acts.PlayersArmsAndMovingArms,                 D(16F)},
       {Acts.FloorOpens,                               D(6F)},
@@ -386,9 +388,11 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.PlaceArmsInHand:
           armPool.SetStairState(ArmPool.StairState.Act4);
+          armPool.SetStairState(ArmPool.StairState.Act4ArmRain);
+          break;
+        case Acts.LargeArmAndArmRain:
           break;
         case Acts.ArmRain:
-          armPool.SetStairState(ArmPool.StairState.Act4ArmRain);
           break;
         case Acts.CloseRoof2:
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
