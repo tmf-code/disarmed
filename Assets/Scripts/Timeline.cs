@@ -141,7 +141,7 @@ public class Timeline : MonoBehaviour
       {Acts.RemoveArms1,                              D(1F)},
       {Acts.RemoveArms2,                              D(2F)},
       {Acts.RemoveArms3,                              D(2F)},
-      {Acts.ArmsDoingDifferentActions,                D(35F)},
+      {Acts.ArmsDoingDifferentActions,                D(33F)},
       {Acts.TwoEnd,                                   D(3F)},
 
       {Acts.Three,                                    D(3F)},
