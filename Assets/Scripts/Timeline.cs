@@ -338,6 +338,7 @@ public class Timeline : MonoBehaviour
           lightingController.state = LightingController.LightingState.DimBlueLight;
           textCanvas.state = TextCanvas.TextState.Transparent;
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4Ticking);
           break;
         case Acts.LargeArmHoldingArms:
           largeArmHoldingArms.GetComponentInChildren<Animator>().Play("ArmDrop", 0);
@@ -355,7 +356,6 @@ public class Timeline : MonoBehaviour
           break;
         case Acts.Ticking:
           audioPlayer.gameObject.transform.parent = playerArms.transform;
-          audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4Ticking);
           break;
         case Acts.FloorOpens:
           Physics.gravity = Vector3.down * 0.1F;
