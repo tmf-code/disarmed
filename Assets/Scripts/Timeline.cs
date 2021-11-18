@@ -148,7 +148,7 @@ public class Timeline : MonoBehaviour
       {Acts.Three,                                    D(3F)},
       {Acts.LeftArmRightArmSwapped,                   D(28F)},
       {Acts.ArmsDropToFloor,                          D(30F)},
-      {Acts.ArmsToShoulderPlayerDifferentActions,     D(32F)},
+      {Acts.ArmsToShoulderPlayerDifferentActions,     D(12F)},
       {Acts.ThreeEnd,                                 D(3F)},
 
       {Acts.Four,                                     D(3F)},
