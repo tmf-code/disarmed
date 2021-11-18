@@ -59,6 +59,7 @@
     "Assets/XR": true,
     "Assets/Resources": false
   },
+  "editor.minimap.enabled": false,
   "editor.codeLens": false,
   "cSpell.words": [
     "Dont",
