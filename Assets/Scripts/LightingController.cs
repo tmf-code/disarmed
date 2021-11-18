@@ -36,7 +36,7 @@ public class LightingController : MonoBehaviour
     maybeAnimation = new Some<SimpleAnimation>(new SimpleAnimation(3F, SimpleAnimation.EasingFunction.EaseInCubic, Time.time));
     previousColor = Camera.main.backgroundColor;
     previousPointInstensity = point.intensity;
-    previousSpotInstensity = point.intensity;
+    previousSpotInstensity = spot.intensity;
     switch (_state)
     {
       case LightingState.Dark:
