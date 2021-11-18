@@ -36,10 +36,12 @@ public class SendHandToForearmCollisionToTarget : MonoBehaviour
 
   private void TryStartGrab(GameObject otherGameObject)
   {
-    GrabOperations.LogMethodCall(otherGameObject);
     // Since I will perform the grab, I should be a User
     var iAmUser = target.HasComponent<PlayerArmBehaviour>();
     if (!iAmUser) return;
+
+    var isInteractive = target.HasComponent<PlayerInteracts>();
+    if (!isInteractive) return;
 
     // Other should also have this component
     if (!otherGameObject.TryGetComponent<SendHandToForearmCollisionToTarget>(out var other)) return;

@@ -6,6 +6,7 @@ public class LightingController : MonoBehaviour
   private LightingState _state = LightingState.Dark;
   public Light point;
   public Light spot;
+  public Light party;
   public Option<SimpleAnimation> maybeAnimation = new None<SimpleAnimation>();
 
   public float nextPointIntensity;
@@ -25,7 +26,8 @@ public class LightingController : MonoBehaviour
     Dark,
     SpotOnly,
     Both,
-    Dim,
+    PartySolid,
+    PartyPulse,
     DimBlueLight,
     DarkEnd,
   }
@@ -36,7 +38,7 @@ public class LightingController : MonoBehaviour
     maybeAnimation = new Some<SimpleAnimation>(new SimpleAnimation(3F, SimpleAnimation.EasingFunction.EaseInCubic, Time.time));
     previousColor = Camera.main.backgroundColor;
     previousPointInstensity = point.intensity;
-    previousSpotInstensity = point.intensity;
+    previousSpotInstensity = spot.intensity;
     switch (_state)
     {
       case LightingState.Dark:
@@ -57,10 +59,15 @@ public class LightingController : MonoBehaviour
         nextSpotIntensity = 1;
 
         break;
-      case LightingState.Dim:
+      case LightingState.PartySolid:
         nextColor = dimLight;
         nextPointIntensity = 0.1F;
-        nextSpotIntensity = 0.6F;
+        nextSpotIntensity = 0.0F;
+        break;
+      case LightingState.PartyPulse:
+        nextColor = dimLight;
+        nextPointIntensity = 0.1F;
+        nextSpotIntensity = 0.0F;
         break;
       case LightingState.DimBlueLight:
         nextColor = dimBlueLight;
@@ -85,6 +92,15 @@ public class LightingController : MonoBehaviour
 
   public void Update()
   {
+    if (_state == LightingState.PartyPulse)
+    {
+      var t = Time.time * 116F / 60F * 0.5F;
+      var oscillating = 1F - t % 0.5F;
+      var bottom = 0.0F;
+      var range = 1F - bottom;
+      party.color = new Color(oscillating * range + bottom, party.color.g, party.color.b, party.color.a);
+    }
+
     if (_state != state)
     {
       _state = state;

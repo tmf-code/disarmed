@@ -66,10 +66,10 @@ public class Timeline : MonoBehaviour
     OpenRoof2,
     LargeArmHoldingArms,
     PlaceArmsInHand,
+    LargeArmAndArmRain,
     ArmRain,
     CloseRoof2,
     PlayersArmsAndMovingArms,
-    Ticking,
     FloorOpens,
     FourEnd,
 
@@ -142,23 +142,23 @@ public class Timeline : MonoBehaviour
       {Acts.RemoveArms1,                              D(1F)},
       {Acts.RemoveArms2,                              D(2F)},
       {Acts.RemoveArms3,                              D(2F)},
-      {Acts.ArmsDoingDifferentActions,                D(35F)},
+      {Acts.ArmsDoingDifferentActions,                D(33F)},
       {Acts.TwoEnd,                                   D(3F)},
 
       {Acts.Three,                                    D(3F)},
       {Acts.LeftArmRightArmSwapped,                   D(28F)},
       {Acts.ArmsDropToFloor,                          D(30F)},
-      {Acts.ArmsToShoulderPlayerDifferentActions,     D(35F)},
+      {Acts.ArmsToShoulderPlayerDifferentActions,     D(30F)},
       {Acts.ThreeEnd,                                 D(3F)},
 
       {Acts.Four,                                     D(3F)},
       {Acts.OpenRoof2,                                D(2F)},
-      {Acts.LargeArmHoldingArms,                      D(1F, largeArmHoldingArms)},
-      {Acts.PlaceArmsInHand,                          D(18F, largeArmHoldingArms)},
-      {Acts.ArmRain,                                  D(30F)},
+      {Acts.LargeArmHoldingArms,                      D(2F,   largeArmHoldingArms)},
+      {Acts.PlaceArmsInHand,                          D(11F,  largeArmHoldingArms)},
+      {Acts.LargeArmAndArmRain,                       D(6F,   largeArmHoldingArms)},
+      {Acts.ArmRain,                                  D(18F)},
       {Acts.CloseRoof2,                               D(2F)},
-      {Acts.PlayersArmsAndMovingArms,                 D(50F)},
-      {Acts.Ticking,                                  D(14F)},
+      {Acts.PlayersArmsAndMovingArms,                 D(16F)},
       {Acts.FloorOpens,                               D(6F)},
       {Acts.FourEnd,                                  D(10F)},
       {Acts.FadeToBlack,                              D(3F)},
@@ -193,6 +193,8 @@ public class Timeline : MonoBehaviour
       switch (act)
       {
         case Acts.Opening:
+          playerArms.left.behaviour = PlayerArmBehaviours.TrackUserInput;
+          playerArms.right.behaviour = PlayerArmBehaviours.TrackUserInput;
           armPool.SetStairState(ArmPool.StairState.None);
           audioPlayer.PlayAct(AudioPlayer.ActAudio.Tuning);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.Idle);
@@ -231,26 +233,41 @@ public class Timeline : MonoBehaviour
         case Acts.DuoArms:
           lightingController.state = LightingController.LightingState.Both;
           armPool.SetStairState(ArmPool.StairState.DuoArms);
+
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           break;
         case Acts.CopiesOfPlayersArms:
           playerArms.left.behaviour = PlayerArmBehaviours.TrackUserInput;
           playerArms.right.behaviour = PlayerArmBehaviours.TrackUserInput;
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           armPool.SetStairState(ArmPool.StairState.TwoCopy);
           break;
 
         case Acts.ShowHighStairs:
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ShowHighStairs);
           break;
         case Acts.SpawnArmsOnExtraStairs:
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           armPool.SetStairState(ArmPool.StairState.All);
           break;
         case Acts.VariableOffset:
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           armPool.SetStairState(ArmPool.StairState.VariableOffset);
           break;
         case Acts.DespawnArmsOnAllStairs:
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           armPool.SetStairState(ArmPool.StairState.None);
           break;
         case Acts.HideHighStairs:
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.HideHighStairs);
           break;
 
@@ -259,6 +276,8 @@ public class Timeline : MonoBehaviour
           break;
 
         case Acts.Two:
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           audioPlayer.PlayAct(AudioPlayer.ActAudio.Act2);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act2;
@@ -266,11 +285,15 @@ public class Timeline : MonoBehaviour
 
         case Acts.WallsMoveBack:
           textCanvas.state = TextCanvas.TextState.Transparent;
-          lightingController.state = LightingController.LightingState.Dim;
+          lightingController.state = LightingController.LightingState.PartySolid;
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.ExtendRoom);
           break;
 
         case Acts.SpawnArmsOnPlatform:
+          lightingController.state = LightingController.LightingState.PartyPulse;
+
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           armPool.SetStairState(ArmPool.StairState.Flat);
           break;
 
@@ -278,6 +301,11 @@ public class Timeline : MonoBehaviour
           // To enjoy
           break;
         case Acts.ArmsTurnToRagdoll:
+          lightingController.state = LightingController.LightingState.PartySolid;
+          playerArms.left.behaviour = PlayerArmBehaviours.TrackUserCollideWithArms;
+          playerArms.right.behaviour = PlayerArmBehaviours.TrackUserCollideWithArms;
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserCollideWithArms);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserCollideWithArms);
           armPool.SetStairState(ArmPool.StairState.FlatRagdoll);
           break;
         case Acts.WallsContract:
@@ -297,6 +325,12 @@ public class Timeline : MonoBehaviour
           armPool.SetStairState(ArmPool.StairState.RemoveStepThree);
           break;
         case Acts.ArmsDoingDifferentActions:
+          playerArms.left.behaviour = PlayerArmBehaviours.TrackUserInput;
+          playerArms.right.behaviour = PlayerArmBehaviours.TrackUserInput;
+
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+
           armPool.SetStairState(ArmPool.StairState.TwoRecordedMovement);
           break;
         case Acts.TwoEnd:
@@ -308,6 +342,11 @@ public class Timeline : MonoBehaviour
           audioPlayer.PlayAct(AudioPlayer.ActAudio.Act3);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act3;
+          playerArms.left.behaviour = PlayerArmBehaviours.TrackUserInput;
+          playerArms.right.behaviour = PlayerArmBehaviours.TrackUserInput;
+
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserInput);
           break;
         case Acts.LeftArmRightArmSwapped:
           tracking.SetSwapped(true);
@@ -329,8 +368,12 @@ public class Timeline : MonoBehaviour
 
         case Acts.Four:
           audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4);
-          playerArms.left.behaviour = PlayerArmBehaviours.TrackUserInputGrabSelf;
-          playerArms.right.behaviour = PlayerArmBehaviours.TrackUserInputGrabSelf;
+          audioPlayer.gameObject.transform.parent = playerArms.transform;
+          playerArms.left.behaviour = PlayerArmBehaviours.TrackUserCollideWithArms;
+          playerArms.right.behaviour = PlayerArmBehaviours.TrackUserCollideWithArms;
+
+          playerArms.left.UpdateBehaviour(PlayerArmBehaviours.TrackUserCollideWithArms);
+          playerArms.right.UpdateBehaviour(PlayerArmBehaviours.TrackUserCollideWithArms);
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act4;
           break;
@@ -338,24 +381,23 @@ public class Timeline : MonoBehaviour
           lightingController.state = LightingController.LightingState.DimBlueLight;
           textCanvas.state = TextCanvas.TextState.Transparent;
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.OpenRoof);
+          audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4Ticking);
           break;
         case Acts.LargeArmHoldingArms:
           largeArmHoldingArms.GetComponentInChildren<Animator>().Play("ArmDrop", 0);
           break;
         case Acts.PlaceArmsInHand:
           armPool.SetStairState(ArmPool.StairState.Act4);
+          armPool.SetStairState(ArmPool.StairState.Act4ArmRain);
+          break;
+        case Acts.LargeArmAndArmRain:
           break;
         case Acts.ArmRain:
-          armPool.SetStairState(ArmPool.StairState.Act4ArmRain);
           break;
         case Acts.CloseRoof2:
           worldSceneSelector.ChangeScene(WorldSceneSelector.WorldScene.CloseRoof);
           break;
         case Acts.PlayersArmsAndMovingArms:
-          break;
-        case Acts.Ticking:
-          audioPlayer.gameObject.transform.parent = playerArms.transform;
-          audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4Ticking);
           break;
         case Acts.FloorOpens:
           Physics.gravity = Vector3.down * 0.1F;
@@ -377,7 +419,7 @@ public class Timeline : MonoBehaviour
           textCanvas.act = TextCanvas.Acts.Credits;
           break;
         case Acts.FogFades:
-          lightingController.state = LightingController.LightingState.DarkEnd;
+          // lightingController.state = LightingController.LightingState.DarkEnd;
           break;
 
         default:

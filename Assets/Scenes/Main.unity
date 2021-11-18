@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!108 &75190155 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 468055262, guid: 1c95b496ce7c7b043a4b4ce404763593, type: 3}
+  m_PrefabInstance: {fileID: 3416799771825633285}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &155319721
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -177,6 +182,10 @@ PrefabInstance:
     - target: {fileID: 9060656895544748005, guid: c982df723257a6948802cd07c0f42d94, type: 3}
       propertyPath: m_Name
       value: TextCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060656895544748005, guid: c982df723257a6948802cd07c0f42d94, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c982df723257a6948802cd07c0f42d94, type: 3}
@@ -397,6 +406,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3124159100875462307, guid: db82e790488014a4297e378913ff774c, type: 3}
+      propertyPath: act4Ticking
+      value: 
+      objectReference: {fileID: 8300000, guid: 70b2018d4323c3c49829bac6513b0c61, type: 3}
     - target: {fileID: 3124159100875462308, guid: db82e790488014a4297e378913ff774c, type: 3}
       propertyPath: m_Name
       value: AudioController
@@ -685,5 +698,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8579105744200844670, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}
+      propertyPath: party
+      value: 
+      objectReference: {fileID: 75190155}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86a48252a94cf7047bc58c60182244d0, type: 3}

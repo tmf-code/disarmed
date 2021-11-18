@@ -40,37 +40,6 @@ public static class GrabOperations
     AttachGrabbedIntent,
   }
 
-  public static void LogMethodCall(params object[] callingMethodParamValues)
-  {
-
-    var method = new StackFrame(skipFrames: 1).GetMethod();
-    var methodParams = method.GetParameters();
-    var methodCalledBy = new StackFrame(skipFrames: 2).GetMethod();
-#if UNITY_EDITOR
-    var methodCaller = "";
-    if (methodCalledBy != null)
-    {
-      methodCaller = $"{methodCalledBy.DeclaringType.Name}.{methodCalledBy.Name}()";
-    }
-
-    if (methodParams.Length == callingMethodParamValues.Length)
-    {
-      List<string> paramList = new List<string>();
-      foreach (var param in methodParams)
-      {
-        paramList.Add($"{param.Name}={callingMethodParamValues[param.Position]}");
-      }
-
-      UnityEngine.Debug.Log($"{method.Name}, {string.Join(", ", paramList)}, {methodCaller}");
-
-    }
-    else
-    {
-      UnityEngine.Debug.Log($"{method.Name}, \"/* Please update to pass in all parameters */\", {methodCaller}");
-    }
-#endif
-  }
-
   public static bool CanPerformGrab(GameObject gameObject) => gameObject.HasComponent<AwaitingGrabbing>();
   public static bool CanGebGrabbed(GameObject gameObject) => gameObject.HasComponent<AwaitingGrabbed>();
 
@@ -140,8 +109,6 @@ public static class GrabOperations
     AwaitingGrabbed awaitingGrabbed,
     Func<bool> isColliding)
   {
-    LogMethodCall(awaitingGrabbing, awaitingGrabbed, isColliding);
-
     var grabbingGameObject = awaitingGrabbing.gameObject;
     var grabbedGameObject = awaitingGrabbed.gameObject;
 
@@ -165,7 +132,6 @@ public static class GrabOperations
     GrabbingIntent grabbingIntent,
     GrabbedIntent grabbedIntent)
   {
-    LogMethodCall(grabbingIntent, grabbedIntent);
 
     var grabbingGameObject = grabbingIntent.gameObject;
     var grabbedGameObject = grabbedIntent.gameObject;
@@ -184,7 +150,6 @@ public static class GrabOperations
     GrabbingIntent grabbingIntent,
     GrabbedIntent grabbedIntent)
   {
-    LogMethodCall(grabbingIntent, grabbedIntent);
 
     var grabbingGameObject = grabbingIntent.gameObject;
     var grabbedGameObject = grabbedIntent.gameObject;
@@ -226,7 +191,6 @@ public static class GrabOperations
     Grabbing grabbing,
     Grabbed grabbed)
   {
-    LogMethodCall(grabbing, grabbed);
 
     var grabbingGameObject = grabbing.gameObject;
     var grabbedGameObject = grabbed.gameObject;
@@ -253,7 +217,6 @@ public static class GrabOperations
     ReleaseGrabbingIntent releaseGrabbingIntent,
     ReleaseGrabbedIntent releaseGrabbedIntent)
   {
-    LogMethodCall(releaseGrabbingIntent, releaseGrabbedIntent);
 
     var grabbingGameObject = releaseGrabbingIntent.gameObject;
     var grabbedGameObject = releaseGrabbedIntent.gameObject;
@@ -282,7 +245,6 @@ public static class GrabOperations
     ReleaseGrabbingIntent releaseGrabbingIntent,
     ReleaseGrabbedIntent releaseGrabbedIntent)
   {
-    LogMethodCall(releaseGrabbingIntent, releaseGrabbedIntent);
 
     var grabbingGameObject = releaseGrabbingIntent.gameObject;
     var grabbedGameObject = releaseGrabbedIntent.gameObject;
@@ -307,7 +269,6 @@ public static class GrabOperations
     Grabbed grabbed,
     Func<bool> isColliding)
   {
-    LogMethodCall(grabbing, grabbed, isColliding);
 
     var grabbingGameObject = grabbing.gameObject;
     var grabbedGameObject = grabbed.gameObject;
@@ -359,7 +320,6 @@ public static class GrabOperations
     AttachGrabbingIntent attachGrabbingIntent,
     AttachGrabbedIntent attachGrabbedIntent)
   {
-    LogMethodCall(attachGrabbingIntent, attachGrabbedIntent);
 
     var grabbingGameObject = attachGrabbingIntent.gameObject;
     var grabbedGameObject = attachGrabbedIntent.gameObject;
