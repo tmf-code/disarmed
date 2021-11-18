@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 648541198382110295}
   - component: {fileID: 1596533630}
+  - component: {fileID: 5966935245791322772}
+  - component: {fileID: 4686745262832387235}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -49,6 +51,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   left: {fileID: 8106843230923655364}
   right: {fileID: 5271042528791729696}
+--- !u!54 &5966935245791322772
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8603311366922692306}
+  serializedVersion: 2
+  m_Mass: 0.2
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &4686745262832387235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8603311366922692306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eb7ec9b477100149b59b211c5648ad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicator: {fileID: 596351878000492244, guid: 7090c43e7d4eaf34da7cfd500e6ab033, type: 3}
 --- !u!1001 &416298555968179600
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81,10 +112,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5327207933462970444, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5327207933898399011, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -151,14 +178,6 @@ PrefabInstance:
     - target: {fileID: 5327207933922894736, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
       propertyPath: m_Name
       value: CameraRig
-      objectReference: {fileID: 0}
-    - target: {fileID: 5327207934449785327, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5327207934804294943, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5327207935176720769, guid: 46ed3f3ab2a81a44092916b132148c99, type: 3}
       propertyPath: m_IsActive

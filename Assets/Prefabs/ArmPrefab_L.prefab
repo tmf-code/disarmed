@@ -2108,7 +2108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ccef79a59ad9f4eaec8a5de3f6526d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sendCollisionTo: {fileID: 1673280072435804092}
+  target: {fileID: 1673280072435804092}
 --- !u!1 &5262434827056245656
 GameObject:
   m_ObjectHideFlags: 0

@@ -559,7 +559,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8262593732332237989}
   m_Layer: 0
-  m_Name: SpawnPoint
+  m_Name: RainPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -573,7 +573,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4030560264100700564}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.002, y: 2.42, z: 0.911}
+  m_LocalPosition: {x: 0.002, y: 3.875, z: 0.911}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4150659633665364400}
@@ -685,13 +685,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftArmPrefab: {fileID: 3440817743546311341, guid: eaa1d1be4b2f62b478cfc595094ff118, type: 3}
   rightArmPrefab: {fileID: 8360805956251210890, guid: 17c3502fed3a025409c0e5c062221874, type: 3}
-  act4RainPoint: {fileID: 0}
-  act4HandPoint1: {fileID: 0}
-  act4HandPoint2: {fileID: 0}
-  act4HandPoint3: {fileID: 0}
-  act4HandPoint4: {fileID: 0}
-  act4HandPoint5: {fileID: 0}
-  act4HandPoint6: {fileID: 0}
+  act4RainPoint: {fileID: 8262593732332237989}
+  act4HandPoint1: {fileID: 7828934995550029095}
+  act4HandPoint2: {fileID: 4098945319484018763}
+  act4HandPoint3: {fileID: 535267868283807204}
+  act4HandPoint4: {fileID: 8650055363035476709}
+  act4HandPoint5: {fileID: 6559205055868194208}
+  act4HandPoint6: {fileID: 1520716524993536465}
 --- !u!1 &4150659633729603713
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,7 +763,7 @@ MonoBehaviour:
   playerArms: {fileID: 0}
   tracking: {fileID: 0}
   allObjects: []
-  debugFast: 1
+  debugFast: 0
   act: 0
   state: 1
 --- !u!1 &4150659633736458195

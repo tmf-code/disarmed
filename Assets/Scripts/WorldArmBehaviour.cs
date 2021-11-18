@@ -15,13 +15,9 @@ public class WorldArmBehaviour : MonoBehaviour
     MovementPlayback,
   }
 
-  void OnDestroy()
+  public void UpdateBehaviour(WorldArmBehaviours behaviour)
   {
-    UpdateBehaviour(WorldArmBehaviours.None);
-  }
-
-  private void UpdateBehaviour(WorldArmBehaviours behaviour)
-  {
+    this.behaviour = behaviour;
     _behaviour = behaviour;
 
     switch (_behaviour)
@@ -32,89 +28,68 @@ public class WorldArmBehaviour : MonoBehaviour
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
           gameObject.RemoveComponent<RagDollArm>();
           gameObject.RemoveComponent<CopyArmMovement>();
-
-          // Grabbing state machine
-          gameObject.RemoveComponent<Idle>();
-          gameObject.RemoveComponent<Grabbed>();
-
           break;
         }
+
       case WorldArmBehaviours.Grabbed:
         {
+          // Don't mess with the grabbing
+
           gameObject.RemoveComponent<ApplyRecordedMovement>();
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
           gameObject.RemoveComponent<RagDollArm>();
           gameObject.RemoveComponent<CopyArmMovement>();
 
-          if (!HasAnyGrabbingState())
-          {
-            gameObject.AddIfNotExisting<Idle>();
-            gameObject.RemoveComponent<Grabbed>();
-          }
           break;
         }
 
       case WorldArmBehaviours.Ragdoll:
         {
+          GrabOperations.AddAbilities(gameObject, false, true);
+
           gameObject.AddIfNotExisting<RagDollArm>();
           gameObject.RemoveComponent<ApplyRecordedMovement>();
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
           gameObject.RemoveComponent<CopyArmMovement>();
 
-          // Grabbing state machine
-          if (!HasAnyGrabbingState())
-          {
-            gameObject.AddIfNotExisting<Idle>();
-            gameObject.RemoveComponent<Grabbed>();
-          }
 
           break;
         }
 
       case WorldArmBehaviours.CopyArmMovement:
         {
+          GrabOperations.AddAbilities(gameObject, false, true);
+
           gameObject.AddIfNotExisting<CopyArmMovement>();
           gameObject.RemoveComponent<ApplyRecordedMovement>();
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
           gameObject.RemoveComponent<RagDollArm>();
 
-          // Grabbing state machine
-          gameObject.RemoveComponent<Idle>();
-          gameObject.RemoveComponent<Grabbed>();
 
           break;
         }
 
       case WorldArmBehaviours.MovementPlaybackRagdoll:
         {
+          GrabOperations.AddAbilities(gameObject, false, true);
+
           gameObject.AddIfNotExisting<RagDollArm>();
           gameObject.AddIfNotExisting<ApplyRecordedMovementRagdoll>();
           gameObject.RemoveComponent<ApplyRecordedMovement>();
           gameObject.RemoveComponent<CopyArmMovement>();
 
-          // Grabbing state machine
-          if (!HasAnyGrabbingState())
-          {
-            gameObject.AddIfNotExisting<Idle>();
-            gameObject.RemoveComponent<Grabbed>();
-          }
 
           break;
         }
 
       case WorldArmBehaviours.MovementPlayback:
         {
+          GrabOperations.AddAbilities(gameObject, false, true);
+
           gameObject.AddIfNotExisting<ApplyRecordedMovement>();
           gameObject.RemoveComponent<ApplyRecordedMovementRagdoll>();
           gameObject.RemoveComponent<RagDollArm>();
           gameObject.RemoveComponent<CopyArmMovement>();
-
-          // Grabbing state machine
-          if (!HasAnyGrabbingState())
-          {
-            gameObject.AddIfNotExisting<Idle>();
-            gameObject.RemoveComponent<Grabbed>();
-          }
 
           break;
         }
@@ -123,12 +98,6 @@ public class WorldArmBehaviour : MonoBehaviour
         break;
 
     }
-  }
-
-  private bool HasAnyGrabbingState()
-  {
-    return gameObject.HasComponent<Idle>()
-      || gameObject.HasComponent<Grabbed>();
   }
 
   private void Update()

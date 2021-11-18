@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SendHandToForearmCollisionToTarget : MonoBehaviour
 {
   public GameObject target;
+  public Dictionary<CollisionPair, RemainingCollision> startedGrabs = new Dictionary<CollisionPair, RemainingCollision>();
 
   public enum ArmSpot
   {
@@ -14,18 +16,33 @@ public class SendHandToForearmCollisionToTarget : MonoBehaviour
 
   void OnTriggerEnter(Collider collider)
   {
-    TryGrab(collider.gameObject);
+    TryStartGrab(collider.gameObject);
   }
 
   void OnCollisionEnter(Collision collision)
   {
-    TryGrab(collision.gameObject);
+    TryStartGrab(collision.gameObject);
   }
 
-  private void TryGrab(GameObject collider)
+  void OnTriggerExit(Collider collider)
   {
+    TryCancelGrab(collider.gameObject);
+  }
+
+  void OnCollisionExit(Collision collision)
+  {
+    TryCancelGrab(collision.gameObject);
+  }
+
+  private void TryStartGrab(GameObject otherGameObject)
+  {
+    GrabOperations.LogMethodCall(otherGameObject);
+    // Since I will perform the grab, I should be a User
+    var iAmUser = target.HasComponent<PlayerArmBehaviour>();
+    if (!iAmUser) return;
+
     // Other should also have this component
-    if (!collider.TryGetComponent<SendHandToForearmCollisionToTarget>(out var other)) return;
+    if (!otherGameObject.TryGetComponent<SendHandToForearmCollisionToTarget>(out var other)) return;
 
     // Should not have same target (on same arm)
     if (target == other.target) return;
@@ -36,16 +53,24 @@ public class SendHandToForearmCollisionToTarget : MonoBehaviour
     // This should be the Hand
     if (armSpot != ArmSpot.Hand) return;
 
-    // Both targets should have idle component
-    var iHaveIdle = target.TryGetComponent<Idle>(out var targetIdle);
-    var otherHasIdle = other.target.TryGetComponent<Idle>(out var otherIdle);
-    if (!iHaveIdle || !otherHasIdle) return;
 
-    // Since I will perform the grab, I should be a User
-    var iAmUser = target.HasComponent<PlayerArmBehaviour>();
-    if (!iAmUser) return;
+    // I should be awaiting grabbing, and the other grabbed
+    if (!GrabOperations.TryGetGrabbingPair(target, other.target, out var awaitingGrabbing, out var awaitingGrabbed)) return;
 
-    targetIdle.OnGrabBegin(otherIdle);
+    var collisionPair = new CollisionPair(target, other.target);
+    var remainingCollision = new RemainingCollision();
+    startedGrabs.Add(collisionPair, remainingCollision);
+    awaitingGrabbing.OnGrabBegin(awaitingGrabbed, () => remainingCollision.isColliding);
   }
 
+  private void TryCancelGrab(GameObject otherGameObject)
+  {
+    // Other should also have this component
+    if (!otherGameObject.TryGetComponent<SendHandToForearmCollisionToTarget>(out var other)) return;
+    var pair = new CollisionPair(target, other.target);
+    if (!startedGrabs.TryGetValue(pair, out var remainingCollision)) return;
+
+    remainingCollision.isColliding = false;
+    startedGrabs.Remove(pair);
+  }
 }

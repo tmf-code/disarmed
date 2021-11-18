@@ -1,12 +1,45 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public static class AudioSourceExtensions
+{
+  public static void FadeOut(this AudioSource a, float duration)
+  {
+    a.GetComponent<MonoBehaviour>().StartCoroutine(FadeOutCore(a, duration));
+  }
+  public static void FadeIn(this AudioSource a, float duration)
+  {
+    a.GetComponent<MonoBehaviour>().StartCoroutine(FadeInCore(a, duration));
+  }
+
+  private static IEnumerator FadeOutCore(AudioSource a, float duration)
+  {
+    while (a.volume > 0)
+    {
+      a.volume -= Time.deltaTime / duration;
+      yield return new WaitForEndOfFrame();
+    }
+  }
+
+  private static IEnumerator FadeInCore(AudioSource a, float duration)
+  {
+    while (a.volume < 1)
+    {
+      a.volume += Time.deltaTime / duration;
+      yield return new WaitForEndOfFrame();
+    }
+
+  }
+}
+
 public static class ExtensionMethods
 {
+
   public static Transform FindRecursiveOrThrow(this Transform transform, string childName)
   {
     var maybeChild = transform.FindChildRecursive(childName);
@@ -73,6 +106,20 @@ public static class ExtensionMethods
     return new None<T>();
   }
 
+  public static bool HasComponent<T>(this Component component) where T : Component => component.GetComponent<T>() != null;
+  public static bool HasComponent(this Component component, Type componentType) => component.GetComponent(componentType) != null;
+
+  public static T AddIfNotExisting<T>(this Component component) where T : Component
+  {
+    if (component.HasComponent<T>()) return component.GetComponent<T>();
+    else return component.gameObject.AddComponent<T>();
+  }
+  public static Component AddIfNotExisting(this Component component, Type componentType)
+  {
+    if (component.HasComponent(componentType)) return component.GetComponent(componentType);
+    else return component.gameObject.AddComponent(componentType);
+  }
+
   public static bool HasComponent<T>(this GameObject gameObject) where T : Component => gameObject.GetComponent<T>() != null;
   public static bool HasComponent(this GameObject gameObject, Type componentType) => gameObject.GetComponent(componentType) != null;
 
@@ -93,10 +140,21 @@ public static class ExtensionMethods
     return gameObject.GetComponent<T>();
   }
 
-  public static void RemoveComponent<T>(this GameObject gameObject) where T : Component
+  public static Option<T> RemoveComponent<T>(this GameObject gameObject) where T : Component
   {
-    var maybeComponent = gameObject.GetComponent<T>();
-    GameObject.Destroy(maybeComponent);
+    return Option<T>.of(gameObject.GetComponent<T>()).Chain(UnityEngine.Object.Destroy);
+  }
+
+  public static Option<T> RemoveComponent<T>(this T component) where T : Component
+  {
+    UnityEngine.Object.Destroy(component);
+    return Option<T>.of(component);
+  }
+
+  public static Option<T> Remove<T>(this T component) where T : Component
+  {
+    GameObject.Destroy(component);
+    return Option<T>.of(component);
   }
 
   public static Option<TValue> GetValue<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
