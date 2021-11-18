@@ -12,30 +12,22 @@ public class PlayerArmBehaviour : MonoBehaviour
     TrackUserInput,
     ResponsiveRagdoll,
     MovementPlaybackArmSocket,
+    TrackUserInputGrabSelf,
   }
 
-  void OnDestroy()
+  public void UpdateBehaviour(PlayerArmBehaviours behaviour)
   {
-    UpdateBehaviour(PlayerArmBehaviours.None);
-  }
-
-  private void UpdateBehaviour(PlayerArmBehaviours behaviour)
-  {
+    this.behaviour = behaviour;
     _behaviour = behaviour;
+
     switch (_behaviour)
     {
       case PlayerArmBehaviours.None:
         {
-          // Grabbing state machine
-          gameObject.RemoveComponent<Idle>();
-          gameObject.RemoveComponent<Grabbing>();
-
-          // Mixers for different sources of movement to be applied to model
           gameObject.RemoveComponent<ApplyRecordedShoulder>();
           gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
           gameObject.RemoveComponent<RagDollArm>();
           gameObject.RemoveComponent<ApplyInverseKinematics>();
-          gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
           gameObject.RemoveComponent<ApplyHandTracking>();
 
@@ -44,35 +36,43 @@ public class PlayerArmBehaviour : MonoBehaviour
 
       case PlayerArmBehaviours.TrackUserInputNoGrab:
         {
+          GrabOperations.AddAbilities(gameObject, false, false);
+
+
           gameObject.AddIfNotExisting<ApplyInverseKinematics>();
           gameObject.AddIfNotExisting<ApplyRootTracking>();
           gameObject.AddIfNotExisting<ApplyHandTracking>();
 
-          gameObject.RemoveComponent<Idle>();
-          gameObject.RemoveComponent<Grabbing>();
 
-          // Mixers for different sources of movement to be applied to model
           gameObject.RemoveComponent<ApplyRecordedShoulder>();
           gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
           gameObject.RemoveComponent<RagDollArm>();
-          gameObject.RemoveComponent<ApplyPose>();
 
           break;
         }
 
       case PlayerArmBehaviours.TrackUserInput:
         {
+          GrabOperations.AddAbilities(gameObject, true, false);
+
           gameObject.AddIfNotExisting<ApplyInverseKinematics>();
-          gameObject.AddIfNotExisting<ApplyPose>();
           gameObject.AddIfNotExisting<ApplyRootTracking>();
           gameObject.AddIfNotExisting<ApplyHandTracking>();
 
-          // Grabbing state machine
-          if (!HasAnyGrabbingState())
-          {
-            gameObject.AddIfNotExisting<Idle>();
-            gameObject.RemoveComponent<Grabbing>();
-          }
+          gameObject.RemoveComponent<ApplyRecordedShoulder>();
+          gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
+          gameObject.RemoveComponent<RagDollArm>();
+          break;
+        }
+
+      case PlayerArmBehaviours.TrackUserInputGrabSelf:
+        {
+          GrabOperations.AddAbilities(gameObject, true, true);
+
+
+          gameObject.AddIfNotExisting<ApplyInverseKinematics>();
+          gameObject.AddIfNotExisting<ApplyRootTracking>();
+          gameObject.AddIfNotExisting<ApplyHandTracking>();
 
           gameObject.RemoveComponent<ApplyRecordedShoulder>();
           gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
@@ -82,17 +82,14 @@ public class PlayerArmBehaviour : MonoBehaviour
 
       case PlayerArmBehaviours.ResponsiveRagdoll:
         {
+          GrabOperations.AddAbilities(gameObject, false, false);
+
+
           gameObject.AddIfNotExisting<RagDollArm>();
           gameObject.AddIfNotExisting<ApplyVRTrackingDataToModelRagdoll>();
 
-          // Grabbing state machine
-          gameObject.RemoveComponent<Idle>();
-          gameObject.RemoveComponent<Grabbing>();
-
-
           gameObject.RemoveComponent<ApplyRecordedShoulder>();
           gameObject.RemoveComponent<ApplyInverseKinematics>();
-          gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
           gameObject.RemoveComponent<ApplyHandTracking>();
 
@@ -101,17 +98,13 @@ public class PlayerArmBehaviour : MonoBehaviour
 
       case PlayerArmBehaviours.MovementPlaybackArmSocket:
         {
+          GrabOperations.AddAbilities(gameObject, false, false);
+
           gameObject.AddIfNotExisting<ApplyRecordedShoulder>();
 
-          // Grabbing state machine
-          gameObject.RemoveComponent<Idle>();
-          gameObject.RemoveComponent<Grabbing>();
-
-          // Mixers for different sources of movement to be applied to model
           gameObject.RemoveComponent<ApplyVRTrackingDataToModelRagdoll>();
           gameObject.RemoveComponent<RagDollArm>();
           gameObject.RemoveComponent<ApplyInverseKinematics>();
-          gameObject.RemoveComponent<ApplyPose>();
           gameObject.RemoveComponent<ApplyRootTracking>();
           gameObject.RemoveComponent<ApplyHandTracking>();
           break;
@@ -119,12 +112,6 @@ public class PlayerArmBehaviour : MonoBehaviour
       default:
         break;
     }
-  }
-
-  private bool HasAnyGrabbingState()
-  {
-    return gameObject.HasComponent<Idle>()
-      || gameObject.HasComponent<Grabbing>();
   }
 
   private void Update()

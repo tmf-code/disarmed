@@ -84,7 +84,7 @@ public class GestureState : MonoBehaviour
     gestureData.middleOpen = gestureData.middleStraightness > 0.8;
     gestureData.ringOpen = gestureData.ringStraightness > 0.8;
     gestureData.pinkyOpen = gestureData.pinkyStraightness > 0.8;
-    var handOpen = gestureData.handStraightness > 0.7;
+    var handOpen = gestureData.handStraightness > 0.8;
     if (handOpen != gestureData.handOpen)
     {
       var gesturePosition = handTracking.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;
@@ -97,7 +97,7 @@ public class GestureState : MonoBehaviour
     gestureData.middleClosed = gestureData.middleStraightness < 0.3;
     gestureData.ringClosed = gestureData.ringStraightness < 0.3;
     gestureData.pinkyClosed = gestureData.pinkyStraightness < 0.3;
-    var handClosed = gestureData.handStraightness < 0.3;
+    var handClosed = gestureData.handStraightness < 0.5;
     if (handClosed != gestureData.handClosed)
     {
       var gesturePosition = handTracking.GetBoneFromBoneName(fingers.index.boneNames[2])?.transform;

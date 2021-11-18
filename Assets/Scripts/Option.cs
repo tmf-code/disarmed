@@ -19,6 +19,7 @@ public abstract class Option<T>
 
   public abstract Option<TResult> Map<TResult>(Func<T, TResult> mapper);
   public abstract void End(Action<T> ender);
+  public abstract Option<T> Chain(Action<T> chain);
 }
 
 public class Some<T> : Option<T>
@@ -44,6 +45,12 @@ public class Some<T> : Option<T>
 
   public override TResult Match<TResult>(Func<TResult> none, Func<T, TResult> some) => some(Unwrap());
   public override void Match(Action none, Action<T> some) => some(Unwrap());
+
+  public override Option<T> Chain(Action<T> chain)
+  {
+    chain(value);
+    return this;
+  }
 }
 
 public class None<T> : Option<T>
@@ -60,4 +67,9 @@ public class None<T> : Option<T>
 
   public override TResult Match<TResult>(Func<TResult> none, Func<T, TResult> some) => none();
   public override void Match(Action none, Action<T> some) => none();
+
+  public override Option<T> Chain(Action<T> chain)
+  {
+    return this;
+  }
 }

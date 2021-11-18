@@ -54,7 +54,6 @@ class RagDollArm : MonoBehaviour
     forearm.RemoveComponent<ConfigurableJoint>();
     forearmRigidBody.isKinematic = true;
     forearmRigidBody.useGravity = false;
-    forearmRigidBody.detectCollisions = false;
     forearm.GetComponent<CapsuleCollider>().isTrigger = true;
 
     humerus.RemoveComponent<ConfigurableJoint>();

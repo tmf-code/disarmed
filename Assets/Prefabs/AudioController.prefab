@@ -88,7 +88,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300001, guid: 1dd706bb85d8aef4e83a6229dbd62c36, type: 2}
   m_audioClip: {fileID: 8300000, guid: 4b0a310873fa58a49a00bbe4e0836392, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.01
+  m_Volume: 0.13
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -332,6 +332,7 @@ MonoBehaviour:
   act2: {fileID: 8300000, guid: a1fa12715b35bd24ea99d658bbc30248, type: 3}
   act3: {fileID: 8300000, guid: 3a71f0cda7a4afe43b6927015f846bc2, type: 3}
   act4: {fileID: 8300000, guid: 175438b00834ace419fe2305e2779680, type: 3}
+  act4Ticking: {fileID: 8300000, guid: 0dde73760fcd10d449157f44e0e9fb86, type: 3}
   collision1: {fileID: 8300000, guid: 0713ec41fe76b6e4eaf1c9230237d1d0, type: 3}
   collision2: {fileID: 8300000, guid: b19268bb06d248140ad69913e6a90219, type: 3}
   collision3: {fileID: 8300000, guid: 08361fb5b93abb548a270af1947719bd, type: 3}

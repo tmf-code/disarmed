@@ -1,39 +1,39 @@
+using System;
 using UnityEngine;
 using static PlayerArmBehaviour;
-using static WorldArmBehaviour;
 
 public class PlayerArms : MonoBehaviour
 {
   public PlayerArmBehaviour left;
   public PlayerArmBehaviour right;
 
-  public void RemoveLeft(WorldArmBehaviours nextBehaviour)
+  public void RemoveLeft()
   {
     if (left != null)
     {
       left.transform.parent = null;
       var arm = left.gameObject;
+      left.UpdateBehaviour(PlayerArmBehaviours.None);
       arm.RemoveComponent<PlayerArmBehaviour>();
-      var worldArmBehaviour = arm.AddIfNotExisting<WorldArmBehaviour>();
-      worldArmBehaviour.behaviour = nextBehaviour;
+      arm.AddIfNotExisting<WorldArmBehaviour>();
       left = null;
     }
   }
 
-  public void RemoveRight(WorldArmBehaviours nextBehaviour)
+  public void RemoveRight()
   {
     if (right != null)
     {
       right.transform.parent = null;
       var arm = right.gameObject;
+      right.UpdateBehaviour(PlayerArmBehaviours.None);
       arm.RemoveComponent<PlayerArmBehaviour>();
-      var worldArmBehaviour = arm.AddIfNotExisting<WorldArmBehaviour>();
-      worldArmBehaviour.behaviour = nextBehaviour;
+      arm.AddIfNotExisting<WorldArmBehaviour>();
       right = null;
     }
   }
 
-  public void RemoveArm(PlayerArmBehaviour arm, WorldArmBehaviours nextBehaviour)
+  public void RemoveArm(PlayerArmBehaviour arm)
   {
     if (arm != left && arm != right)
     {
@@ -42,11 +42,11 @@ public class PlayerArms : MonoBehaviour
 
     if (arm.gameObject.GetComponentOrThrow<Handedness>().IsLeft())
     {
-      RemoveLeft(nextBehaviour);
+      RemoveLeft();
     }
     else
     {
-      RemoveRight(nextBehaviour);
+      RemoveRight();
     }
   }
 
@@ -71,29 +71,28 @@ public class PlayerArms : MonoBehaviour
     }
   }
 
-  public void AddArm(WorldArmBehaviour arm, PlayerArmBehaviours nextBehaviour)
+  public void AddArm(WorldArmBehaviour arm)
   {
     if (arm.gameObject.GetComponentOrThrow<Handedness>().IsLeft())
     {
-      AddLeft(arm, nextBehaviour);
+      AddLeft(arm);
     }
     else
     {
-      AddRight(arm, nextBehaviour);
+      AddRight(arm);
     }
   }
 
-  public void AddLeft(WorldArmBehaviour arm, PlayerArmBehaviours nextBehaviour)
+  public void AddLeft(WorldArmBehaviour arm)
   {
-    if (left != null) throw new System.Exception("Could not add arm to left slot. Something already there");
+    if (left != null) throw new Exception("Could not add arm to left slot. Something already there");
     var handType = arm.gameObject.GetComponentOrThrow<Handedness>().handType;
-    if (handType != Handedness.HandTypes.HandLeft) throw new System.Exception("Can not add right arm to left slot");
+    if (handType != Handedness.HandTypes.HandLeft) throw new Exception("Can not add right arm to left slot");
 
     var gameObject = arm.gameObject;
     Destroy(arm);
-
     var playerArmBehaviour = gameObject.AddIfNotExisting<PlayerArmBehaviour>();
-    playerArmBehaviour.behaviour = nextBehaviour;
+    playerArmBehaviour.UpdateBehaviour(PlayerArmBehaviours.TrackUserInputGrabSelf);
 
     var pivot = gameObject.GetComponentOrThrow<PivotPoint>();
     pivot.pivotPointType = PivotPoint.PivotPointType.Wrist;
@@ -102,17 +101,16 @@ public class PlayerArms : MonoBehaviour
     left = playerArmBehaviour;
   }
 
-  public void AddRight(WorldArmBehaviour arm, PlayerArmBehaviours nextBehaviour)
+  public void AddRight(WorldArmBehaviour arm)
   {
-    if (right != null) throw new System.Exception("Could not add arm to right slot. Something already there");
+    if (right != null) throw new Exception("Could not add arm to right slot. Something already there");
     var handType = arm.gameObject.GetComponentOrThrow<Handedness>().handType;
-    if (handType != Handedness.HandTypes.HandRight) throw new System.Exception("Can not add right arm to right slot");
+    if (handType != Handedness.HandTypes.HandRight) throw new Exception("Can not add right arm to right slot");
 
     var gameObject = arm.gameObject;
     Destroy(arm);
-
     var playerArmBehaviour = gameObject.AddIfNotExisting<PlayerArmBehaviour>();
-    playerArmBehaviour.behaviour = nextBehaviour;
+    playerArmBehaviour.UpdateBehaviour(PlayerArmBehaviours.TrackUserInputGrabSelf);
 
     var pivot = gameObject.GetComponentOrThrow<PivotPoint>();
     pivot.pivotPointType = PivotPoint.PivotPointType.Wrist;

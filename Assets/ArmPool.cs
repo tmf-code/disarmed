@@ -144,7 +144,7 @@ public class ArmPool : MonoBehaviour
         var arm = armsPerStair[stairLevel][armIndex];
         if (count > 6) continue;
 
-        var position = (count switch
+        var transform = (count switch
         {
           1 => act4HandPoint1,
           2 => act4HandPoint2,
@@ -153,12 +153,15 @@ public class ArmPool : MonoBehaviour
           5 => act4HandPoint5,
           6 => act4HandPoint6,
           _ => throw new System.NotImplementedException(),
-        }).transform.position;
+        }).transform;
 
-        arm.transform.position = position;
         arm.gameObject.SetActive(true);
+        arm.transform.SetPositionAndRotation(transform.position, transform.rotation);
+        var pivotPoint = arm.GetComponent<PivotPoint>();
+        pivotPoint.pivotPointType = PivotPoint.PivotPointType.Wrist;
+        pivotPoint.LateUpdate();
+
         arm.behaviour = WorldArmBehaviours.MovementPlaybackRagdoll;
-        arm.GetComponent<PivotPoint>().pivotPointType = PivotPoint.PivotPointType.Wrist;
       }
     }
   }

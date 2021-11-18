@@ -233,6 +233,8 @@ public class Timeline : MonoBehaviour
           armPool.SetStairState(ArmPool.StairState.DuoArms);
           break;
         case Acts.CopiesOfPlayersArms:
+          playerArms.left.behaviour = PlayerArmBehaviours.TrackUserInput;
+          playerArms.right.behaviour = PlayerArmBehaviours.TrackUserInput;
           armPool.SetStairState(ArmPool.StairState.TwoCopy);
           break;
 
@@ -327,8 +329,8 @@ public class Timeline : MonoBehaviour
 
         case Acts.Four:
           audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4);
-          playerArms.left.behaviour = PlayerArmBehaviours.TrackUserInput;
-          playerArms.right.behaviour = PlayerArmBehaviours.TrackUserInput;
+          playerArms.left.behaviour = PlayerArmBehaviours.TrackUserInputGrabSelf;
+          playerArms.right.behaviour = PlayerArmBehaviours.TrackUserInputGrabSelf;
           textCanvas.state = TextCanvas.TextState.Opaque;
           textCanvas.act = TextCanvas.Acts.Act4;
           break;
@@ -352,8 +354,6 @@ public class Timeline : MonoBehaviour
         case Acts.PlayersArmsAndMovingArms:
           break;
         case Acts.Ticking:
-          textCanvas.state = TextCanvas.TextState.Opaque;
-          textCanvas.act = TextCanvas.Acts.Intro;
           audioPlayer.gameObject.transform.parent = playerArms.transform;
           audioPlayer.PlayAct(AudioPlayer.ActAudio.Act4Ticking);
           break;
