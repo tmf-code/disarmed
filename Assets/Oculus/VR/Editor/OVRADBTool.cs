@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 
 Copyright   :   Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
@@ -32,261 +32,231 @@ using Debug = UnityEngine.Debug;
 
 public class OVRADBTool
 {
-  public bool isReady;
+	public bool isReady;
 
-  public string androidSdkRoot;
-  public string androidPlatformToolsPath;
-  public string adbPath;
+	public string androidSdkRoot;
+	public string androidPlatformToolsPath;
+	public string adbPath;
 
-  public OVRADBTool(string androidSdkRoot)
-  {
-    if (!String.IsNullOrEmpty(androidSdkRoot))
-    {
-      this.androidSdkRoot = androidSdkRoot;
-    }
-    else
-    {
-      this.androidSdkRoot = String.Empty;
-    }
+	public OVRADBTool(string androidSdkRoot)
+	{
+		if (!String.IsNullOrEmpty(androidSdkRoot))
+		{
+			this.androidSdkRoot = androidSdkRoot;
+		}
+		else
+		{
+			this.androidSdkRoot = String.Empty;
+		}
 
-    if (this.androidSdkRoot.EndsWith("\\") || this.androidSdkRoot.EndsWith("/"))
-    {
-      this.androidSdkRoot = this.androidSdkRoot.Remove(this.androidSdkRoot.Length - 1);
-    }
-    androidPlatformToolsPath = Path.Combine(this.androidSdkRoot, "platform-tools");
-    adbPath = Path.Combine(androidPlatformToolsPath, "adb.exe");
-    isReady = File.Exists(adbPath);
-  }
+		if (this.androidSdkRoot.EndsWith("\\") || this.androidSdkRoot.EndsWith("/"))
+		{
+			this.androidSdkRoot = this.androidSdkRoot.Remove(this.androidSdkRoot.Length - 1);
+		}
+		androidPlatformToolsPath = Path.Combine(this.androidSdkRoot, "platform-tools");
+		adbPath = Path.Combine(androidPlatformToolsPath, "adb.exe");
+		isReady = File.Exists(adbPath);
+	}
 
-  public static bool IsAndroidSdkRootValid(string androidSdkRoot)
-  {
-    OVRADBTool tool = new OVRADBTool(androidSdkRoot);
-    return tool.isReady;
-  }
+	public static bool IsAndroidSdkRootValid(string androidSdkRoot)
+	{
+		OVRADBTool tool = new OVRADBTool(androidSdkRoot);
+		return tool.isReady;
+	}
 
-  public delegate void WaitingProcessToExitCallback();
+	public delegate void WaitingProcessToExitCallback();
 
-  public int StartServer(WaitingProcessToExitCallback waitingProcessToExitCallback)
-  {
-    string outputString;
-    string errorString;
+	public int StartServer(WaitingProcessToExitCallback waitingProcessToExitCallback)
+	{
+		string outputString;
+		string errorString;
 
-    int exitCode = RunCommand(
-        new string[] { "start-server" },
-        waitingProcessToExitCallback,
-        out outputString,
-        out errorString
-    );
-    return exitCode;
-  }
+		int exitCode = RunCommand(new string[] { "start-server" }, waitingProcessToExitCallback, out outputString, out errorString);
+		return exitCode;
+	}
 
-  public int KillServer(WaitingProcessToExitCallback waitingProcessToExitCallback)
-  {
-    string outputString;
-    string errorString;
+	public int KillServer(WaitingProcessToExitCallback waitingProcessToExitCallback)
+	{
+		string outputString;
+		string errorString;
 
-    int exitCode = RunCommand(
-        new string[] { "kill-server" },
-        waitingProcessToExitCallback,
-        out outputString,
-        out errorString
-    );
-    return exitCode;
-  }
+		int exitCode = RunCommand(new string[] { "kill-server" }, waitingProcessToExitCallback, out outputString, out errorString);
+		return exitCode;
+	}
 
-  public int ForwardPort(int port, WaitingProcessToExitCallback waitingProcessToExitCallback)
-  {
-    string outputString;
-    string errorString;
+	public int ForwardPort(int port, WaitingProcessToExitCallback waitingProcessToExitCallback)
+	{
+		string outputString;
+		string errorString;
 
-    string portString = string.Format("tcp:{0}", port);
+		string portString = string.Format("tcp:{0}", port);
 
-    int exitCode = RunCommand(
-        new string[] { "forward", portString, portString },
-        waitingProcessToExitCallback,
-        out outputString,
-        out errorString
-    );
-    return exitCode;
-  }
+		int exitCode = RunCommand(new string[] { "forward", portString, portString }, waitingProcessToExitCallback, out outputString, out errorString);
+		return exitCode;
+	}
 
-  public int ReleasePort(int port, WaitingProcessToExitCallback waitingProcessToExitCallback)
-  {
-    string outputString;
-    string errorString;
+	public int ReleasePort(int port, WaitingProcessToExitCallback waitingProcessToExitCallback)
+	{
+		string outputString;
+		string errorString;
 
-    string portString = string.Format("tcp:{0}", port);
+		string portString = string.Format("tcp:{0}", port);
 
-    int exitCode = RunCommand(
-        new string[] { "forward", "--remove", portString },
-        waitingProcessToExitCallback,
-        out outputString,
-        out errorString
-    );
-    return exitCode;
-  }
+		int exitCode = RunCommand(new string[] { "forward", "--remove", portString }, waitingProcessToExitCallback, out outputString, out errorString);
+		return exitCode;
+	}
 
-  public List<string> GetDevices()
-  {
-    string outputString;
-    string errorString;
+	public List<string> GetDevices()
+	{
+		string outputString;
+		string errorString;
 
-    RunCommand(new string[] { "devices" }, null, out outputString, out errorString);
-    string[] devices = outputString.Split(
-        new string[] { "\r\n" },
-        StringSplitOptions.RemoveEmptyEntries
-    );
+		RunCommand(new string[] { "devices" }, null, out outputString, out errorString);
+		string[] devices = outputString.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-    List<string> deviceList = new List<string>(devices);
-    deviceList.RemoveAt(0);
+		List<string> deviceList = new List<string>(devices);
+		deviceList.RemoveAt(0);
 
-    for (int i = 0; i < deviceList.Count; i++)
-    {
-      string deviceName = deviceList[i];
-      int index = deviceName.IndexOf('\t');
-      if (index >= 0)
-        deviceList[i] = deviceName.Substring(0, index);
-      else
-        deviceList[i] = "";
-    }
+		for(int i = 0; i < deviceList.Count; i++)
+		{
+			string deviceName = deviceList[i];
+			int index = deviceName.IndexOf('\t');
+			if (index >= 0)
+				deviceList[i] = deviceName.Substring(0, index);
+			else
+				deviceList[i] = "";
 
-    return deviceList;
-  }
+		}
 
-  private StringBuilder outputStringBuilder = null;
-  private StringBuilder errorStringBuilder = null;
+		return deviceList;
+	}
 
-  public int RunCommand(
-      string[] arguments,
-      WaitingProcessToExitCallback waitingProcessToExitCallback,
-      out string outputString,
-      out string errorString
-  )
-  {
-    int exitCode = -1;
+	private StringBuilder outputStringBuilder = null;
+	private StringBuilder errorStringBuilder = null;
 
-    if (!isReady)
-    {
-      Debug.LogWarning("OVRADBTool not ready");
-      outputString = string.Empty;
-      errorString = "OVRADBTool not ready";
-      return exitCode;
-    }
+	public int RunCommand(string[] arguments, WaitingProcessToExitCallback waitingProcessToExitCallback, out string outputString, out string errorString)
+	{
+		int exitCode = -1;
 
-    string args = string.Join(" ", arguments);
+		if (!isReady)
+		{
+			Debug.LogWarning("OVRADBTool not ready");
+			outputString = string.Empty;
+			errorString = "OVRADBTool not ready";
+			return exitCode;
+		}
 
-    ProcessStartInfo startInfo = new ProcessStartInfo(adbPath, args);
-    startInfo.WorkingDirectory = androidSdkRoot;
-    startInfo.CreateNoWindow = true;
-    startInfo.UseShellExecute = false;
-    startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-    startInfo.RedirectStandardOutput = true;
-    startInfo.RedirectStandardError = true;
+		string args = string.Join(" ", arguments);
 
-    outputStringBuilder = new StringBuilder("");
-    errorStringBuilder = new StringBuilder("");
+		ProcessStartInfo startInfo = new ProcessStartInfo(adbPath, args);
+		startInfo.WorkingDirectory = androidSdkRoot;
+		startInfo.CreateNoWindow = true;
+		startInfo.UseShellExecute = false;
+		startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+		startInfo.RedirectStandardOutput = true;
+		startInfo.RedirectStandardError = true;
 
-    Process process = Process.Start(startInfo);
-    process.OutputDataReceived += new DataReceivedEventHandler(OutputDataReceivedHandler);
-    process.ErrorDataReceived += new DataReceivedEventHandler(ErrorDataReceivedHandler);
+		outputStringBuilder = new StringBuilder("");
+		errorStringBuilder = new StringBuilder("");
 
-    process.BeginOutputReadLine();
-    process.BeginErrorReadLine();
+		Process process = Process.Start(startInfo);
+		process.OutputDataReceived += new DataReceivedEventHandler(OutputDataReceivedHandler);
+		process.ErrorDataReceived += new DataReceivedEventHandler(ErrorDataReceivedHandler);
 
-    try
-    {
-      do
-      {
-        if (waitingProcessToExitCallback != null)
-        {
-          waitingProcessToExitCallback();
-        }
-      } while (!process.WaitForExit(100));
+		process.BeginOutputReadLine();
+		process.BeginErrorReadLine();
 
-      process.WaitForExit();
-    }
-    catch (Exception e)
-    {
-      Debug.LogWarningFormat("[OVRADBTool.RunCommand] exception {0}", e.Message);
-    }
+		try
+		{
+			do
+			{
+				if (waitingProcessToExitCallback != null)
+				{
+					waitingProcessToExitCallback();
+				}
+			} while (!process.WaitForExit(100));
 
-    exitCode = process.ExitCode;
+			process.WaitForExit();
+		}
+		catch (Exception e)
+		{
+			Debug.LogWarningFormat("[OVRADBTool.RunCommand] exception {0}", e.Message);
+		}
 
-    process.Close();
+		exitCode = process.ExitCode;
 
-    outputString = outputStringBuilder.ToString();
-    errorString = errorStringBuilder.ToString();
+		process.Close();
 
-    outputStringBuilder = null;
-    errorStringBuilder = null;
+		outputString = outputStringBuilder.ToString();
+		errorString = errorStringBuilder.ToString();
 
-    if (!string.IsNullOrEmpty(errorString))
-    {
-      if (errorString.Contains("Warning"))
-      {
-        UnityEngine.Debug.LogWarning("OVRADBTool " + errorString);
-      }
-      else
-      {
-        UnityEngine.Debug.LogError("OVRADBTool " + errorString);
-      }
-    }
+		outputStringBuilder = null;
+		errorStringBuilder = null;
 
-    return exitCode;
-  }
+		if (!string.IsNullOrEmpty(errorString))
+		{
+			if (errorString.Contains("Warning"))
+			{
+				UnityEngine.Debug.LogWarning("OVRADBTool " + errorString);
+			}
+			else
+			{
+				UnityEngine.Debug.LogError("OVRADBTool " + errorString);
+			}
+		}
 
-  public Process RunCommandAsync(
-      string[] arguments,
-      DataReceivedEventHandler outputDataRecievedHandler
-  )
-  {
-    if (!isReady)
-    {
-      Debug.LogWarning("OVRADBTool not ready");
-      return null;
-    }
+		return exitCode;
+	}
 
-    string args = string.Join(" ", arguments);
+	public Process RunCommandAsync(string[] arguments, DataReceivedEventHandler outputDataRecievedHandler)
+	{
+		if (!isReady)
+		{
+			Debug.LogWarning("OVRADBTool not ready");
+			return null;
+		}
 
-    ProcessStartInfo startInfo = new ProcessStartInfo(adbPath, args);
-    startInfo.WorkingDirectory = androidSdkRoot;
-    startInfo.CreateNoWindow = true;
-    startInfo.UseShellExecute = false;
-    startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-    startInfo.RedirectStandardOutput = true;
-    startInfo.RedirectStandardError = true;
+		string args = string.Join(" ", arguments);
 
-    Process process = Process.Start(startInfo);
-    if (outputDataRecievedHandler != null)
-    {
-      process.OutputDataReceived += new DataReceivedEventHandler(outputDataRecievedHandler);
-    }
+		ProcessStartInfo startInfo = new ProcessStartInfo(adbPath, args);
+		startInfo.WorkingDirectory = androidSdkRoot;
+		startInfo.CreateNoWindow = true;
+		startInfo.UseShellExecute = false;
+		startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+		startInfo.RedirectStandardOutput = true;
+		startInfo.RedirectStandardError = true;
 
-    process.BeginOutputReadLine();
-    process.BeginErrorReadLine();
+		Process process = Process.Start(startInfo);
+		if (outputDataRecievedHandler != null)
+		{
+			process.OutputDataReceived += new DataReceivedEventHandler(outputDataRecievedHandler);
+		}
 
-    return process;
-  }
+		process.BeginOutputReadLine();
+		process.BeginErrorReadLine();
 
-  private void OutputDataReceivedHandler(object sendingProcess, DataReceivedEventArgs args)
-  {
-    // Collect the sort command output.
-    if (!string.IsNullOrEmpty(args.Data))
-    {
-      // Add the text to the collected output.
-      outputStringBuilder.Append(args.Data);
-      outputStringBuilder.Append(Environment.NewLine);
-    }
-  }
+		return process;
+	}
 
-  private void ErrorDataReceivedHandler(object sendingProcess, DataReceivedEventArgs args)
-  {
-    // Collect the sort command output.
-    if (!string.IsNullOrEmpty(args.Data))
-    {
-      // Add the text to the collected output.
-      errorStringBuilder.Append(args.Data);
-      errorStringBuilder.Append(Environment.NewLine);
-    }
-  }
+	private void OutputDataReceivedHandler(object sendingProcess, DataReceivedEventArgs args)
+	{
+		// Collect the sort command output.
+		if (!string.IsNullOrEmpty(args.Data))
+		{
+			// Add the text to the collected output.
+			outputStringBuilder.Append(args.Data);
+			outputStringBuilder.Append(Environment.NewLine);
+		}
+	}
+
+	private void ErrorDataReceivedHandler(object sendingProcess, DataReceivedEventArgs args)
+	{
+		// Collect the sort command output.
+		if (!string.IsNullOrEmpty(args.Data))
+		{
+			// Add the text to the collected output.
+			errorStringBuilder.Append(args.Data);
+			errorStringBuilder.Append(Environment.NewLine);
+		}
+	}
 }

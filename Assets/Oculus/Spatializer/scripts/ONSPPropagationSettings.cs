@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 Filename    :   ONSPPropagationSettings.cs
 Content     :   Exposes settings for Propagation
 Copyright   :   Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
@@ -23,13 +23,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ONSPPropagationSettings : MonoBehaviour
+public class ONSPPropagationSettings : MonoBehaviour 
 {
-  // quality as a percentage
-  public float quality = 100.0f;
+    // quality as a percentage
+    public float quality = 100.0f;
 
-  void Update()
-  {
-    ONSPPropagation.Interface.SetPropagationQuality(quality / 100.0f);
-  }
+	void Update () 
+    {
+        ONSPPropagation.Interface.SetPropagationQuality(quality / 100.0f);
+	}
 }

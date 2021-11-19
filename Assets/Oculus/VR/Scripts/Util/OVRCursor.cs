@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
 Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
@@ -11,13 +11,13 @@ permissions and limitations under the License.
 
 ************************************************************************************/
 
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 abstract public class OVRCursor : MonoBehaviour
 {
-  public abstract void SetCursorRay(Transform ray);
-  public abstract void SetCursorStartDest(Vector3 start, Vector3 dest, Vector3 normal);
+    public abstract void SetCursorRay(Transform ray);
+    public abstract void SetCursorStartDest(Vector3 start, Vector3 dest, Vector3 normal);
 }

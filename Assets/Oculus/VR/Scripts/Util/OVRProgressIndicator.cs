@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
 Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
@@ -10,28 +10,31 @@ ANY KIND, either express or implied. See the License for the specific language g
 permissions and limitations under the License.
 ************************************************************************************/
 
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 /// <summary>
 /// Visualizes progress for operations such as loading.
 /// </summary>
 public class OVRProgressIndicator : MonoBehaviour
 {
-  public MeshRenderer progressImage;
+    public MeshRenderer progressImage;
 
-  [Range(0, 1)]
-  public float currentProgress = 0.7f;
+    [Range(0, 1)]
+    public float currentProgress = 0.7f;
 
-  void Awake()
-  {
-    progressImage.sortingOrder = 150;
-  }
+    void Awake()
+    {
+        progressImage.sortingOrder = 150;
+    }
 
-  // Update is called once per frame
-  void Update()
-  {
-    progressImage.sharedMaterial.SetFloat("_AlphaCutoff", 1 - currentProgress);
-  }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        progressImage.sharedMaterial.SetFloat("_AlphaCutoff", 1-currentProgress);
+
+    }
 }

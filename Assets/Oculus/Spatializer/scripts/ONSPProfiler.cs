@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 Filename    :   ONSPProfiler.cs
 Content     :   Use this to attach to the Oculus Audio Profiler tool
 Copyright   :   Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
@@ -24,32 +24,33 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Networking;
 
+
 public class ONSPProfiler : MonoBehaviour
 {
-  public bool profilerEnabled = false;
-  const int DEFAULT_PORT = 2121;
-  public int port = DEFAULT_PORT;
+    public bool profilerEnabled = false;
+    const int DEFAULT_PORT = 2121;
+    public int port = DEFAULT_PORT;
 
-  void Start()
-  {
-    Application.runInBackground = true;
-  }
-
-  void Update()
-  {
-    if (port < 0 || port > 65535)
+    void Start()
     {
-      port = DEFAULT_PORT;
+        Application.runInBackground = true;
     }
-    ONSP_SetProfilerPort(port);
-    ONSP_SetProfilerEnabled(profilerEnabled);
-  }
 
-  // Import functions
-  public const string strONSPS = "AudioPluginOculusSpatializer";
+    void Update()
+    {
+        if (port < 0 || port > 65535)
+        {
+            port = DEFAULT_PORT;
+        }
+        ONSP_SetProfilerPort(port);
+        ONSP_SetProfilerEnabled(profilerEnabled);
+    }
 
-  [DllImport(strONSPS)]
-  private static extern int ONSP_SetProfilerEnabled(bool enabled);
-  [DllImport(strONSPS)]
-  private static extern int ONSP_SetProfilerPort(int port);
+	// Import functions
+    public const string strONSPS = "AudioPluginOculusSpatializer";
+	
+    [DllImport(strONSPS)]
+    private static extern int ONSP_SetProfilerEnabled(bool enabled);
+    [DllImport(strONSPS)]
+    private static extern int ONSP_SetProfilerPort(int port);
 }

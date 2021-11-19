@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
 Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
@@ -10,18 +10,20 @@ ANY KIND, either express or implied. See the License for the specific language g
 permissions and limitations under the License.
 ************************************************************************************/
 
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
 
 public abstract class OVROnCompleteListener : AndroidJavaProxy
 {
-    public OVROnCompleteListener() : base("com.oculus.svclib.OnCompleteListener") { }
+	public OVROnCompleteListener() : base("com.oculus.svclib.OnCompleteListener")
+	{
+	}
 
-    public abstract void onSuccess();
+	public abstract void onSuccess();
 
-    public abstract void onFailure();
+	public abstract void onFailure();
 }
 
 #endif

@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 
 Copyright   :   Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
@@ -19,12 +19,12 @@ limitations under the License.
 
 ************************************************************************************/
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
+using System.IO;
+using System;
 
 [System.Serializable]
 #if UNITY_EDITOR
@@ -32,160 +32,115 @@ using UnityEngine;
 #endif
 public class OVRProjectConfig : ScriptableObject
 {
-  public enum DeviceType
-  {
-    //GearVrOrGo = 0, // DEPRECATED
-    Quest = 1,
-    Quest2 = 2
-  }
+	public enum DeviceType
+	{
+		//GearVrOrGo = 0, // DEPRECATED
+		Quest = 1,
+		Quest2 = 2
+	}
 
-  public enum HandTrackingSupport
-  {
-    ControllersOnly = 0,
-    ControllersAndHands = 1,
-    HandsOnly = 2
-  }
+	public enum HandTrackingSupport
+	{
+		ControllersOnly = 0,
+		ControllersAndHands = 1,
+		HandsOnly = 2
+	}
 
-  public enum HandTrackingFrequency
-  {
-    LOW = 0,
-    HIGH = 1,
-    MAX = 2
-  }
 
-  public List<DeviceType> targetDeviceTypes = new List<DeviceType>
-    {
-        DeviceType.Quest,
-        DeviceType.Quest2
-    };
-  public bool allowOptional3DofHeadTracking = false;
-  public HandTrackingSupport handTrackingSupport = HandTrackingSupport.ControllersOnly;
-  public HandTrackingFrequency handTrackingFrequency = HandTrackingFrequency.LOW;
+	public List<DeviceType> targetDeviceTypes;
+	public HandTrackingSupport handTrackingSupport;
 
-  public bool disableBackups = true;
-  public bool enableNSCConfig = true;
-  public string securityXmlPath;
+	public bool disableBackups;
+	public bool enableNSCConfig;
+	public string securityXmlPath;
 
-  public bool skipUnneededShaders = false;
+	public bool skipUnneededShaders;
+	public bool focusAware;
+	public bool requiresSystemKeyboard;
 
-  [System.Obsolete("Focus awareness is now required. The option will be deprecated.", false)]
-  public bool focusAware = true;
+	//public const string OculusProjectConfigAssetPath = "Assets/Oculus/OculusProjectConfig.asset";
 
-  public bool requiresSystemKeyboard = false;
-  public bool experimentalFeaturesEnabled = false;
-  public bool insightPassthroughEnabled = false;
-  public Texture2D systemSplashScreen;
+	static OVRProjectConfig()
+	{
+		// BuildPipeline.isBuildingPlayer cannot be called in a static constructor
+		// Run Update once to call GetProjectConfig then remove delegate
+		EditorApplication.update += Update;
+	}
 
-  //public const string OculusProjectConfigAssetPath = "Assets/Oculus/OculusProjectConfig.asset";
+	static void Update()
+	{
+		// Initialize the asset if it doesn't exist
+		GetProjectConfig();
+		// Stop running Update
+		EditorApplication.update -= Update;
+	}
 
-  static OVRProjectConfig()
-  {
-    // BuildPipeline.isBuildingPlayer cannot be called in a static constructor
-    // Run Update once to call GetProjectConfig then remove delegate
-    EditorApplication.update += Update;
-  }
+	private static string GetOculusProjectConfigAssetPath()
+	{
+		var so = ScriptableObject.CreateInstance(typeof(OVRPluginUpdaterStub));
+		var script = MonoScript.FromScriptableObject(so);
+		string assetPath = AssetDatabase.GetAssetPath(script);
+		string editorDir = Directory.GetParent(assetPath).FullName;
+		string ovrDir = Directory.GetParent(editorDir).FullName;
+		string oculusDir = Directory.GetParent(ovrDir).FullName;
+		string configAssetPath = Path.GetFullPath(Path.Combine(oculusDir, "OculusProjectConfig.asset"));
+		Uri configUri = new Uri(configAssetPath);
+		Uri projectUri = new Uri(Application.dataPath);
+		Uri relativeUri = projectUri.MakeRelativeUri(configUri);
 
-  static void Update()
-  {
-    // Initialize the asset if it doesn't exist
-    GetProjectConfig();
-    // Stop running Update
-    EditorApplication.update -= Update;
-  }
+		return relativeUri.ToString();
+	}
 
-  private static string GetOculusProjectConfigAssetPath()
-  {
-    var so = ScriptableObject.CreateInstance(typeof(OVRPluginUpdaterStub));
-    var script = MonoScript.FromScriptableObject(so);
-    string assetPath = AssetDatabase.GetAssetPath(script);
-    string editorDir = Directory.GetParent(assetPath).FullName;
-    string ovrDir = Directory.GetParent(editorDir).FullName;
-    string oculusDir = Directory.GetParent(ovrDir).FullName;
+	public static OVRProjectConfig GetProjectConfig()
+	{
+		OVRProjectConfig projectConfig = null;
+		string oculusProjectConfigAssetPath = GetOculusProjectConfigAssetPath();
+		try
+		{
+			projectConfig = AssetDatabase.LoadAssetAtPath(oculusProjectConfigAssetPath, typeof(OVRProjectConfig)) as OVRProjectConfig;
+		}
+		catch (System.Exception e)
+		{
+			Debug.LogWarningFormat("Unable to load ProjectConfig from {0}, error {1}", oculusProjectConfigAssetPath, e.Message);
+		}
+		// Initialize the asset only if a build is not currently running.
+		if (projectConfig == null && !BuildPipeline.isBuildingPlayer)
+		{
+			projectConfig = ScriptableObject.CreateInstance<OVRProjectConfig>();
+			projectConfig.targetDeviceTypes = new List<DeviceType>();
+			projectConfig.targetDeviceTypes.Add(DeviceType.Quest);
+			projectConfig.targetDeviceTypes.Add(DeviceType.Quest2);
+			projectConfig.handTrackingSupport = HandTrackingSupport.ControllersOnly;
+			projectConfig.disableBackups = true;
+			projectConfig.enableNSCConfig = true;
+			projectConfig.skipUnneededShaders = false;
+			projectConfig.focusAware = true;
+			projectConfig.requiresSystemKeyboard = false;
+			AssetDatabase.CreateAsset(projectConfig, oculusProjectConfigAssetPath);
+		}
+		// Force migration to Quest device if still on legacy GearVR/Go device type
+		if (projectConfig.targetDeviceTypes.Contains((DeviceType)0)) // deprecated GearVR/Go device
+		{
+			projectConfig.targetDeviceTypes.Remove((DeviceType)0); // deprecated GearVR/Go device
+			if (!projectConfig.targetDeviceTypes.Contains(DeviceType.Quest))
+			{
+				projectConfig.targetDeviceTypes.Add(DeviceType.Quest);
+			}
+			if (!projectConfig.targetDeviceTypes.Contains(DeviceType.Quest2))
+			{
+				projectConfig.targetDeviceTypes.Add(DeviceType.Quest2);
+			}
+		}
+		return projectConfig;
+	}
 
-    if (OVRPluginUpdaterStub.IsInsidePackageDistribution())
-    {
-      oculusDir = Path.GetFullPath(Path.Combine(Application.dataPath, "Oculus"));
-      if (!Directory.Exists(oculusDir))
-      {
-        Directory.CreateDirectory(oculusDir);
-      }
-    }
-
-    string configAssetPath = Path.GetFullPath(
-        Path.Combine(oculusDir, "OculusProjectConfig.asset")
-    );
-    Uri configUri = new Uri(configAssetPath);
-    Uri projectUri = new Uri(Application.dataPath);
-    Uri relativeUri = projectUri.MakeRelativeUri(configUri);
-
-    return relativeUri.ToString();
-  }
-
-  public static OVRProjectConfig GetProjectConfig()
-  {
-    OVRProjectConfig projectConfig = null;
-    string oculusProjectConfigAssetPath = GetOculusProjectConfigAssetPath();
-    try
-    {
-      projectConfig =
-          AssetDatabase.LoadAssetAtPath(
-              oculusProjectConfigAssetPath,
-              typeof(OVRProjectConfig)
-          ) as OVRProjectConfig;
-    }
-    catch (System.Exception e)
-    {
-      Debug.LogWarningFormat(
-          "Unable to load ProjectConfig from {0}, error {1}",
-          oculusProjectConfigAssetPath,
-          e.Message
-      );
-    }
-    // Initialize the asset only if a build is not currently running.
-    if (projectConfig == null && !BuildPipeline.isBuildingPlayer)
-    {
-      projectConfig = ScriptableObject.CreateInstance<OVRProjectConfig>();
-      projectConfig.targetDeviceTypes = new List<DeviceType>();
-      projectConfig.targetDeviceTypes.Add(DeviceType.Quest);
-      projectConfig.targetDeviceTypes.Add(DeviceType.Quest2);
-      projectConfig.allowOptional3DofHeadTracking = false;
-      projectConfig.handTrackingSupport = HandTrackingSupport.ControllersOnly;
-      projectConfig.handTrackingFrequency = HandTrackingFrequency.LOW;
-      projectConfig.disableBackups = true;
-      projectConfig.enableNSCConfig = true;
-      projectConfig.skipUnneededShaders = false;
-      projectConfig.requiresSystemKeyboard = false;
-      projectConfig.experimentalFeaturesEnabled = false;
-      projectConfig.insightPassthroughEnabled = false;
-      AssetDatabase.CreateAsset(projectConfig, oculusProjectConfigAssetPath);
-    }
-    // Force migration to Quest device if still on legacy GearVR/Go device type
-    if (projectConfig.targetDeviceTypes.Contains((DeviceType)0)) // deprecated GearVR/Go device
-    {
-      projectConfig.targetDeviceTypes.Remove((DeviceType)0); // deprecated GearVR/Go device
-      if (!projectConfig.targetDeviceTypes.Contains(DeviceType.Quest))
-      {
-        projectConfig.targetDeviceTypes.Add(DeviceType.Quest);
-      }
-      if (!projectConfig.targetDeviceTypes.Contains(DeviceType.Quest2))
-      {
-        projectConfig.targetDeviceTypes.Add(DeviceType.Quest2);
-      }
-    }
-    return projectConfig;
-  }
-
-  public static void CommitProjectConfig(OVRProjectConfig projectConfig)
-  {
-    string oculusProjectConfigAssetPath = GetOculusProjectConfigAssetPath();
-    if (AssetDatabase.GetAssetPath(projectConfig) != oculusProjectConfigAssetPath)
-    {
-      Debug.LogWarningFormat(
-          "The asset path of ProjectConfig is wrong. Expect {0}, get {1}",
-          oculusProjectConfigAssetPath,
-          AssetDatabase.GetAssetPath(projectConfig)
-      );
-    }
-    EditorUtility.SetDirty(projectConfig);
-  }
+	public static void CommitProjectConfig(OVRProjectConfig projectConfig)
+	{
+		string oculusProjectConfigAssetPath = GetOculusProjectConfigAssetPath();
+		if (AssetDatabase.GetAssetPath(projectConfig) != oculusProjectConfigAssetPath)
+		{
+			Debug.LogWarningFormat("The asset path of ProjectConfig is wrong. Expect {0}, get {1}", oculusProjectConfigAssetPath, AssetDatabase.GetAssetPath(projectConfig));
+		}
+		EditorUtility.SetDirty(projectConfig);
+	}
 }

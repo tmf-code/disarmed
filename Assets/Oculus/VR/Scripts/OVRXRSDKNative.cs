@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
 Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
@@ -21,10 +21,10 @@ using System.Runtime.InteropServices;
 #if USING_XR_SDK
 public static class OculusXRPlugin
 {
-  [DllImport("OculusXRPlugin")]
-  public static extern void SetColorScale(float x, float y, float z, float w);
+	[DllImport("OculusXRPlugin")]
+	public static extern void SetColorScale(float x, float y, float z, float w);
 
-  [DllImport("OculusXRPlugin")]
-  public static extern void SetColorOffset(float x, float y, float z, float w);
+	[DllImport("OculusXRPlugin")]
+	public static extern void SetColorOffset(float x, float y, float z, float w);
 }
 #endif

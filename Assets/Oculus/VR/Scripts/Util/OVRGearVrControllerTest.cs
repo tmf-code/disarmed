@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
 Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
@@ -14,5 +14,5 @@ using UnityEngine;
 
 public class OVRGearVrControllerTest : MonoBehaviour
 {
-  // Deprecated since SDK 1.51
+	// Deprecated since SDK 1.51
 }

@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
 Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
@@ -17,24 +17,24 @@ using UnityEngine;
 /// </summary>
 public class OVRResetOrientation : MonoBehaviour
 {
-  /// <summary>
-  /// The gamepad button that will reset VR input tracking.
-  /// </summary>
-  public OVRInput.RawButton resetButton = OVRInput.RawButton.Y;
+	/// <summary>
+	/// The gamepad button that will reset VR input tracking.
+	/// </summary>
+	public OVRInput.RawButton resetButton = OVRInput.RawButton.Y;
 
-  /// <summary>
-  /// Check input and reset orientation if necessary
-  /// See the input mapping setup in the Unity Integration guide
-  /// </summary>
-  void Update()
-  {
-    // NOTE: some of the buttons defined in OVRInput.RawButton are not available on the Android game pad controller
-    if (OVRInput.GetDown(resetButton))
-    {
-      //*************************
-      // reset orientation
-      //*************************
-      OVRManager.display.RecenterPose();
-    }
-  }
+	/// <summary>
+	/// Check input and reset orientation if necessary
+	/// See the input mapping setup in the Unity Integration guide
+	/// </summary>
+	void Update()
+	{
+		// NOTE: some of the buttons defined in OVRInput.RawButton are not available on the Android game pad controller
+		if (OVRInput.GetDown(resetButton))
+		{
+			//*************************
+			// reset orientation
+			//*************************
+			OVRManager.display.RecenterPose();
+		}
+	}
 }

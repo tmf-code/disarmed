@@ -1,4 +1,4 @@
-﻿/************************************************************************************
+/************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
 Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
@@ -17,13 +17,13 @@ using UnityEngine;
 /// </summary>
 public class OVRWaitCursor : MonoBehaviour
 {
-  public Vector3 rotateSpeeds = new Vector3(0.0f, 0.0f, -60.0f);
+	public Vector3 rotateSpeeds = new Vector3(0.0f, 0.0f, -60.0f);
 
-  /// <summary>
-  /// Auto rotates the attached cursor.
-  /// </summary>
-  void Update()
-  {
-    transform.Rotate(rotateSpeeds * Time.smoothDeltaTime);
-  }
+	/// <summary>
+	/// Auto rotates the attached cursor.
+	/// </summary>
+	void Update()
+	{
+		transform.Rotate(rotateSpeeds * Time.smoothDeltaTime);
+	}
 }
