@@ -1,3 +1,6 @@
+# Disarmed
+Disarmed is a short (10 minute) experimental documentary about the effects of increased virtual mediation on our bodies.
+
 ## Getting Started
 
 Follow these steps to get up and running:
